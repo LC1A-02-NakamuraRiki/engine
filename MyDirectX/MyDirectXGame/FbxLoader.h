@@ -4,6 +4,7 @@
 #include <d3d12.h>
 #include <d3dx12.h>
 #include <string>
+#include "Model.h"
 
 class FbxLoader
 {
@@ -23,6 +24,8 @@ public:
 	void Finalize();
 
 	void LoadModelFromFile(const string &m0delName);
+
+	void ParseNodeRecursive(Model *model, FbxNode *fbxNode,Node *parent = nullptr);
 private:
 	ID3D12Device *device = nullptr;
 	FbxManager *fbxManager = nullptr;

@@ -5,11 +5,24 @@
 #include <unordered_map>
 #include "Mesh.h"
 
+struct Node
+{
+	std::string name;
+	DirectX::XMVECTOR scaling = { 1,1,1,0 };
+	DirectX::XMVECTOR rotation = { 0,0,0,0 };
+	DirectX::XMVECTOR translation = { 0,0,0,1 };
+	DirectX::XMMATRIX transform;
+	DirectX::XMMATRIX globalTransform;
+
+	Node* parent = nullptr;
+};
 /// <summary>
 /// モデルデータ
 /// </summary>
 class Model
 {
+public:
+	friend class FbxLoader;
 private: // エイリアス
 	// Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
@@ -64,6 +77,8 @@ public: // メンバ関数
 private: // メンバ変数
 	// 名前
 	std::string name;
+
+	std::vector<Node> nodes;
 	// メッシュコンテナ
 	std::vector<Mesh *> meshes;
 	// マテリアルコンテナ
