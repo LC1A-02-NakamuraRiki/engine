@@ -4,6 +4,7 @@
 #include <vector>
 #include <unordered_map>
 #include "Mesh.h"
+#include <DirectXTex.h>
 
 struct Node
 {
@@ -34,8 +35,14 @@ private: // エイリアス
 
 private:
 	static const std::string baseDirectory;
-
-private: // 静的メンバ変数
+public:
+	struct VertexPosNormalUv
+	{
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT3 normal;
+		DirectX::XMFLOAT2 uv;
+	};
+	private: // 静的メンバ変数
 	// デバイス
 	static ID3D12Device *device;
 	// デスクリプタサイズ
@@ -87,6 +94,19 @@ private: // メンバ変数
 	Material *defaultMaterial = nullptr;
 	// デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeap;
+
+	Node* meshNode = nullptr;
+	
+	std::vector<VertexPosNormalUv> vertices;
+	
+	std::vector<unsigned short> indices;
+
+	DirectX::XMFLOAT3 ambient = { 1, 1, 1 };
+	DirectX::XMFLOAT3 diffuse = { 1, 1,1 };
+	DirectX::TexMetadata metadata = {};
+	DirectX::ScratchImage scratchIng = {};
+
+	
 
 private: // メンバ関数
 	/// <summary>
