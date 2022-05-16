@@ -5,6 +5,10 @@
 #include <unordered_map>
 #include "Mesh.h"
 #include <DirectXTex.h>
+#include <windows.h>
+#include <wrl.h>
+#include <d3d12.h>
+#include <d3dx12.h>
 
 struct Node
 {
@@ -27,11 +31,17 @@ public:
 private: // エイリアス
 	// Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
-	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
+
+	using TexMetadata = DirectX::TexMetadata;
+	using ScratchImage = DirectX::ScratchImage;
+
+	using string = std::string;
+	template <class T> using vector = std::vector<T>;
+
 
 private:
 	static const std::string baseDirectory;
@@ -79,8 +89,11 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	/// <param name="cmdList">命令発行先コマンドリスト</param>
-	void Draw(ID3D12GraphicsCommandList *cmdList);
+	void Draw(ID3D12GraphicsCommandList* cmdList);
 
+	void CreateBuffers(ID3D12Device* device);
+
+	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
 private: // メンバ変数
 	// 名前
 	std::string name;
@@ -106,7 +119,14 @@ private: // メンバ変数
 	DirectX::TexMetadata metadata = {};
 	DirectX::ScratchImage scratchIng = {};
 
+	ComPtr<ID3D12Resource> vertBuff;
+	ComPtr<ID3D12Resource> indexBuff;
+	ComPtr<ID3D12Resource> texbuff;
+
+	D3D12_VERTEX_BUFFER_VIEW vbView = {};
+	D3D12_INDEX_BUFFER_VIEW ibView = {};
 	
+	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 
 private: // メンバ関数
 	/// <summary>

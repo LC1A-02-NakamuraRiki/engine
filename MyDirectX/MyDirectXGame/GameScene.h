@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Sprite.h"
 #include "Object3d.h"
+#include "FbxObject3d.h"
 #include "DebugText.h"
 #include "Audio.h"
 #include "Collision.h"
@@ -83,6 +84,8 @@ private: // ÉÅÉìÉoïœêî
 	Object3d *objFighter = nullptr;
 	ParticleManager *particle3d = nullptr;
 
+	Model* model1 = nullptr;
+	FbxObject3d* object1 = nullptr;
 	/*Object3d *playerObj = nullptr;
 	Model *playerModel = nullptr;
 

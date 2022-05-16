@@ -4,6 +4,8 @@
 #include <sstream>
 #include <iomanip>
 #include "FbxLoader.h"
+#include "FbxObject3d.h"
+
 using namespace DirectX;
 
 GameScene::GameScene()
@@ -21,6 +23,9 @@ GameScene::~GameScene()
 	safe_delete(objFighter);
 	safe_delete(modelFighter);
 	safe_delete(light);
+	safe_delete(object1);
+	safe_delete(model1);
+
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio)
@@ -66,14 +71,18 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio)
 	modelFighter = Model::CreateFromObject("largeCarL", true);
 	objFighter = Object3d::Create(modelFighter);
 	
-	//FbxLoader::GetInstance()->LoadModelFromFile(
-	//"cube");
-
+	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	object1 = new FbxObject3d;
+	object1->Initialize();
+	object1->SetModel(model1);
+	
 	light = Light::Create();
 	light->SetLightColor({ 1.0f,0.8f,0.8f});
 	
 	Object3d::SetLight(light);
-
+	FbxObject3d::SetDevice(dxCommon->GetDevice());
+	FbxObject3d::SetCamera(camera);
+	FbxObject3d::CreateGraphicsPipeline();
 	////ƒTƒEƒ“ƒhÄ¶
 	//audio->PlayBGM("Resources/Alarm01.wav", true);
 	//audio->PlaySE("Resources/Alarm01.wav", false);
@@ -157,6 +166,7 @@ void GameScene::Update()
 	objGround->Update();
 	objFighter->Update();
 	light->Update();
+	object1->Update();
 }
 
 void GameScene::Draw()
@@ -186,6 +196,7 @@ void GameScene::Draw()
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
 
+	object1->Draw(cmdList);
 	//playerObj->Draw();
 	objSkydome->Draw();
 	objGround->Draw();

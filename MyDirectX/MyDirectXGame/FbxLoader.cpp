@@ -30,7 +30,7 @@ void FbxLoader::Finalize()
     fbxManager->Destroy();
 }
 
-void FbxLoader::LoadModelFromFile(const string &modelName)
+Model* FbxLoader::LoadModelFromFile(const string &modelName)
 {
     const string directoryPath = baseDirectory + modelName + "/";
     const string fileName = modelName + ".fbx";
@@ -56,7 +56,11 @@ void FbxLoader::LoadModelFromFile(const string &modelName)
 
     ParseNodeRecursive(model, fbxScene->GetRootNode());
 
+    model->CreateBuffers(device);
+
+
     fbxScene->Destroy();
+    return model;
 }
 
 void FbxLoader::ParseNodeRecursive(Model *model, FbxNode *fbxNode, Node *parent)

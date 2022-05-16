@@ -23,7 +23,7 @@ public:
 
 	void Finalize();
 
-	void LoadModelFromFile(const string &m0delName);
+	Model* LoadModelFromFile(const string &m0delName);
 
 	void ParseNodeRecursive(Model *model, FbxNode *fbxNode,Node *parent = nullptr);
 
