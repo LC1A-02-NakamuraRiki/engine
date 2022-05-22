@@ -8,6 +8,7 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <d3dx12.h>
+#include <fbxsdk.h>
 
 // ノード
 struct Node
@@ -48,16 +49,31 @@ private: // エイリアス
 	using string = std::string;
 	template <class T> using vector = std::vector<T>;
 
+public:
+	static const int MAX_BONE_INDICES = 4;
 public: // サブクラス
 	// 頂点データ構造体
-	struct VertexPosNormalUv
+	struct VertexPosNormalUvSkin
 	{
 		DirectX::XMFLOAT3 pos; // xyz座標
 		DirectX::XMFLOAT3 normal; // 法線ベクトル
 		DirectX::XMFLOAT2 uv;  // uv座標
+		UINT boneIndex[MAX_BONE_INDICES];
+		float boneWeight[MAX_BONE_INDICES];
+	};
+
+	struct Bone
+	{
+		std::string name;
+		DirectX::XMMATRIX invInitialPose;
+		FbxCluster* fbxCluster;
+		Bone(const std::string& name) {
+			this->name = name;
+		}
 	};
 
 public:
+	~FbxModel();
 	// バッファ生成
 	void CreateBuffers(ID3D12Device* device);
 	// 描画
@@ -65,7 +81,11 @@ public:
 	// モデルの変形行列取得
 	const XMMATRIX& GetModelTransform() { return meshNode->globalTransform; }
 
+	std::vector<Bone>& GetBones() { return bones; }
+	FbxScene* GetFbxScene() { return fbxScene; }
+
 private:
+	std::vector<Bone> bones;
 	// モデル名
 	std::string name;
 	// ノード配列
@@ -73,7 +93,7 @@ private:
 	// メッシュを持つノード
 	Node* meshNode = nullptr;
 	// 頂点データ配列
-	std::vector<VertexPosNormalUv> vertices;
+	std::vector<VertexPosNormalUvSkin> vertices;
 	// 頂点インデックス配列
 	std::vector<unsigned short> indices;
 	// アンビエント係数
@@ -96,5 +116,7 @@ private:
 	D3D12_INDEX_BUFFER_VIEW ibView = {};
 	// SRV用デスクリプタヒープ
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
+
+	FbxScene* fbxScene = nullptr;
 };
 
