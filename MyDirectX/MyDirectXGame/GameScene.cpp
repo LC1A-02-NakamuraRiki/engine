@@ -5,7 +5,6 @@
 #include <iomanip>
 #include "FbxLoader.h"
 #include "FbxObject3d.h"
-
 using namespace DirectX;
 
 GameScene::GameScene()
@@ -25,7 +24,6 @@ GameScene::~GameScene()
 	safe_delete(light);
 	safe_delete(object1);
 	safe_delete(model1);
-
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio)
@@ -71,18 +69,23 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio)
 	modelFighter = Model::CreateFromObject("largeCarL", true);
 	objFighter = Object3d::Create(modelFighter);
 	
+	// モデル名を指定してファイル読み込み
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
-	object1 = new FbxObject3d;
-	object1->Initialize();
-	object1->SetModel(model1);
-	
+
+	// デバイスをセット
+	FbxObject3d::SetDevice(dxCommon->GetDevice());
+	// カメラをセット
+	FbxObject3d::SetCamera(camera);
+	// グラフィックスパイプライン生成
+	FbxObject3d::CreateGraphicsPipeline();
 	light = Light::Create();
 	light->SetLightColor({ 1.0f,0.8f,0.8f});
 	
 	Object3d::SetLight(light);
-	FbxObject3d::SetDevice(dxCommon->GetDevice());
-	FbxObject3d::SetCamera(camera);
-	FbxObject3d::CreateGraphicsPipeline();
+
+	object1 = new FbxObject3d;
+	object1->Initialize();
+	object1->SetModel(model1);
 	////サウンド再生
 	//audio->PlayBGM("Resources/Alarm01.wav", true);
 	//audio->PlaySE("Resources/Alarm01.wav", false);
@@ -196,12 +199,11 @@ void GameScene::Draw()
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
 
-	object1->Draw(cmdList);
 	//playerObj->Draw();
 	objSkydome->Draw();
 	objGround->Draw();
 	objFighter->Draw();
-	
+	object1->Draw(cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();

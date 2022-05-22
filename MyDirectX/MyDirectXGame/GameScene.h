@@ -13,6 +13,7 @@
 #include "ParticleManager.h"
 #include "DebugCamera.h"
 
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
@@ -83,8 +84,8 @@ private: // メンバ変数
 	Model *modelFighter = nullptr;
 	Object3d *objFighter = nullptr;
 	ParticleManager *particle3d = nullptr;
-
-	Model* model1 = nullptr;
+	
+	FbxModel* model1 = nullptr;
 	FbxObject3d* object1 = nullptr;
 	/*Object3d *playerObj = nullptr;
 	Model *playerModel = nullptr;
