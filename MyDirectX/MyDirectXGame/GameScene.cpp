@@ -70,7 +70,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio)
 	objFighter = Object3d::Create(modelFighter);
 	
 	// モデル名を指定してファイル読み込み
-	model1 = FbxLoader::GetInstance()->LoadModelFromFile("cube");
+	model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	// デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());

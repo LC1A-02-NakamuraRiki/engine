@@ -30,6 +30,12 @@ public: // サブクラス
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
 	};
 
+	static const int MAX_BONES = 32;
+
+	struct ConstBuffeerDataSkin
+	{
+		XMMATRIX bones[MAX_BONES];
+	};
 public: // 静的メンバ関数
 	/// <summary>
 	/// グラフィックパイプラインの生成
@@ -68,6 +74,7 @@ public: // メンバ関数
 	void SetModel(FbxModel* model) { this->model = model; }
 
 protected: // メンバ変数
+	ComPtr<ID3D12Resource> constBuffSkin;
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
 	// ローカルスケール
