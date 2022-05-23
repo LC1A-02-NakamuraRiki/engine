@@ -1,5 +1,10 @@
 static const int MAX_BONES = 32;
 
+cbuffer skinning : register(b3)
+{
+	matrix matSkinning[MAX_BONES];
+};
+
 cbuffer cbuff0 : register(b0)
 {
 	matrix viewproj;
@@ -21,9 +26,4 @@ struct VSOutput
 	float4 svpos : SV_POSITION;
 	float3 normal : NORMAL; 
 	float2 uv :TEXCOORD;
-};
-
-cbuffer skinnning : register(b3)
-{
-	matrix matSkinning[MAX_BONES];
 };

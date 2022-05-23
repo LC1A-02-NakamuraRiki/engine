@@ -86,6 +86,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio)
 	object1 = new FbxObject3d;
 	object1->Initialize();
 	object1->SetModel(model1);
+	object1->PlayAnimation();
 	////サウンド再生
 	//audio->PlayBGM("Resources/Alarm01.wav", true);
 	//audio->PlaySE("Resources/Alarm01.wav", false);
@@ -97,7 +98,7 @@ void GameScene::Update()
 	////マウスの座標
 	///*POINT mousePos;
 	//GetCursorPos(&mousePos);*/
-
+	
 	debugText.Print(20, 20, 1.5f,"ObjectMove:ArrowKey");
 	debugText.Print(20, 50, 1.5f,"EyeMove:W A S D");
 	debugText.Print(20, 80, 1.5f,"EyeTarget:SPACE Q LCONTROL E");
@@ -200,9 +201,9 @@ void GameScene::Draw()
 	//-------------------------------------------------------------//
 
 	//playerObj->Draw();
-	objSkydome->Draw();
-	objGround->Draw();
-	objFighter->Draw();
+	//objSkydome->Draw();
+	//objGround->Draw();
+	//objFighter->Draw();
 	object1->Draw(cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理

@@ -1,5 +1,4 @@
 #include "FbxObject3d.h"
-#include "FbxLoader.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -190,10 +189,11 @@ void FbxObject3d::Initialize()
 	result = device->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
-		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBufferDataTransform) + 0xff) & ~0xff),
+		&CD3DX12_RESOURCE_DESC::Buffer((sizeof(ConstBuffeerDataSkin) + 0xff) & ~0xff),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(&constBuffSkin));
+	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
 }
 
 void FbxObject3d::Update()
@@ -236,14 +236,20 @@ void FbxObject3d::Update()
 	ConstBuffeerDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
 	for (int i = 0; i < bones.size(); i++) {
-
 		XMMATRIX matCurrentPose;
 		FbxAMatrix fbxCurrentPose =
-			bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(0);
+		bones[i].fbxCluster->GetLink()->EvaluateGlobalTransform(currentTime);
 		FbxLoader::ConvertMatrixFromFbx(&matCurrentPose, fbxCurrentPose);
 		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
 	}
-		constBuffSkin->Unmap(0, nullptr);
+	constBuffSkin->Unmap(0, nullptr);
+
+	if (isPlay) {
+		currentTime += frameTime;
+		if (currentTime > endTime) {
+			currentTime = startTime;
+		}
+	}
 }
 
 void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
@@ -265,4 +271,18 @@ void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
 
 	// ƒ‚ƒfƒ‹•`‰æ
 	model->Draw(cmdList);
+}
+
+void FbxObject3d::PlayAnimation()
+{
+	FbxScene* fbxScene = model->GetFbxScene();
+	FbxAnimStack* animstack = fbxScene->GetSrcObject<FbxAnimStack>(0);
+	const char* animstackname = animstack->GetName();
+
+	FbxTakeInfo* takeinfo = fbxScene->GetTakeInfo(animstackname);
+	startTime = takeinfo->mLocalTimeSpan.GetStart();
+	endTime = takeinfo->mLocalTimeSpan.GetStop();
+
+	currentTime = startTime;
+	isPlay = true;
 }

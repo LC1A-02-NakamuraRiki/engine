@@ -344,8 +344,8 @@ std::string FbxLoader::ExtractFileName(const std::string& path)
 void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
 {
     FbxSkin* fbxSkin =
-        static_cast<FbxSkin*>(fbxMesh->GetDeformer(0,
-            FbxDeformer::eSkin));
+    static_cast<FbxSkin*>(fbxMesh->GetDeformer(0,
+    FbxDeformer::eSkin));
     if (fbxSkin == nullptr) {
         return;
     }
@@ -375,7 +375,8 @@ void FbxLoader::ParseSkin(FbxModel* model, FbxMesh* fbxMesh)
     };
 
     std::vector<std::list<WeightSet>>
-        weightLists(model->vertices.size());
+    weightLists(model->vertices.size());
+
     for (int i = 0; i < clusterCount; i++) {
         FbxCluster* fbxCluster = fbxSkin->GetCluster(i);
         int controlPointIndicesCount = fbxCluster->GetControlPointIndicesCount();

@@ -9,6 +9,7 @@
 #include <d3dx12.h>
 #include <DirectXMath.h>
 #include <string>
+#include "FbxLoader.h"
 
 class FbxObject3d
 {
@@ -73,6 +74,8 @@ public: // メンバ関数
 
 	void SetModel(FbxModel* model) { this->model = model; }
 
+	void PlayAnimation();
+
 protected: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffSkin;
 	// 定数バッファ
@@ -87,5 +90,13 @@ protected: // メンバ変数
 	XMMATRIX matWorld;
 	// モデル
 	FbxModel* model = nullptr;
+
+	FbxTime frameTime;
+	FbxTime startTime;
+	FbxTime endTime;
+	FbxTime currentTime;
+	bool isPlay = false;
+
+	
 };
 
