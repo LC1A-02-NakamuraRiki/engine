@@ -1,7 +1,7 @@
 #include "FbxObject3d.h"
 #include <d3dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib")
-
+#include "FbxLoader.h"
 using namespace Microsoft::WRL;
 using namespace DirectX;
 
@@ -86,12 +86,12 @@ void FbxObject3d::CreateGraphicsPipeline()
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
 		{
-			"BONEINDICES", 0, DXGI_FORMAT_R32G32_UINT, 0,
+			"BONEINDICES", 0, DXGI_FORMAT_R32G32B32A32_UINT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
 		{
-			"BONEWEIGHTS", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
+			"BONEWEIGHTS", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
@@ -194,6 +194,14 @@ void FbxObject3d::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&constBuffSkin));
 	frameTime.SetTime(0, 0, 0, 1, 0, FbxTime::EMode::eFrames60);
+
+	ConstBuffeerDataSkin* constMapSkin = nullptr;
+	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
+	for (int i = 0; i < MAX_BONES; i++) {
+		constMapSkin->bones[i] = XMMatrixIdentity();
+	}
+	constBuffSkin->Unmap(0, nullptr);
+
 }
 
 void FbxObject3d::Update()
@@ -231,7 +239,12 @@ void FbxObject3d::Update()
 		constMap->cameraPos = cameraPos;
 		constBuffTransform->Unmap(0, nullptr);
 	}
-
+	if (isPlay) {
+		currentTime += frameTime;
+		if (currentTime > endTime) {
+			currentTime = startTime;
+		}
+	}
 	std::vector<FbxModel::Bone>& bones = model->GetBones();
 	ConstBuffeerDataSkin* constMapSkin = nullptr;
 	result = constBuffSkin->Map(0, nullptr, (void**)&constMapSkin);
@@ -244,12 +257,7 @@ void FbxObject3d::Update()
 	}
 	constBuffSkin->Unmap(0, nullptr);
 
-	if (isPlay) {
-		currentTime += frameTime;
-		if (currentTime > endTime) {
-			currentTime = startTime;
-		}
-	}
+	
 }
 
 void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)

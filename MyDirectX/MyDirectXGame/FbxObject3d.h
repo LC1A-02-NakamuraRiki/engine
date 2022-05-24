@@ -9,7 +9,7 @@
 #include <d3dx12.h>
 #include <DirectXMath.h>
 #include <string>
-#include "FbxLoader.h"
+
 
 class FbxObject3d
 {
@@ -97,6 +97,6 @@ protected: // ƒƒ“ƒo•Ï”
 	FbxTime currentTime;
 	bool isPlay = false;
 
-	
+	bool isLoop = true;
 };
 
