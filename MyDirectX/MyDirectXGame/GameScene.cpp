@@ -104,7 +104,6 @@ void GameScene::Update()
 	debugText.Print(20, 80, 1.5f,"EyeTarget:SPACE Q LCONTROL E");
 	XMFLOAT3 cameraEye = camera->GetEye();
 	XMFLOAT3 cameraTarget = camera->GetTarget();
-
 	// オブジェクト移動
 	if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT) || input->PushKey(DIK_SPACE) || input->PushKey(DIK_LCONTROL))
 	{
@@ -163,7 +162,6 @@ void GameScene::Update()
 	if (input->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
 	else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }
 	light->SetLightDir(lightDir);*/
-	
 	particle3d->Update();
 	camera->Update();
 	objSkydome->Update();
