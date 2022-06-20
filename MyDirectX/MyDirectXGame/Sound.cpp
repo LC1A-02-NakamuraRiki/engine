@@ -1,10 +1,10 @@
-#include "Audio.h"
+#include "Sound.h"
 #include <fstream>
 #include <cassert>
 
 #pragma comment(lib,"xaudio2.lib")
 
-bool Audio::Initialize()
+bool Sound::Initialize()
 {
 	HRESULT result;
 
@@ -15,7 +15,7 @@ bool Audio::Initialize()
     return true;
 }
 
-void Audio::PlayBGM(const char *filename, bool LOOP)
+void Sound::PlayBGM(const char *filename, bool LOOP)
 {
 	HRESULT result;
 
@@ -68,7 +68,7 @@ void Audio::PlayBGM(const char *filename, bool LOOP)
 	result = pBgmSourceVoice->Start();
 }
 
-void Audio::PlaySE(const char *filename, bool LOOP)
+void Sound::PlaySE(const char *filename, bool LOOP)
 {
 	HRESULT result;
 
@@ -121,7 +121,7 @@ void Audio::PlaySE(const char *filename, bool LOOP)
 	result = pSeSourceVoice->Start();
 }
 
-void Audio::StopBGM()
+void Sound::StopBGM()
 {
 	pBgmSourceVoice->Stop();
 }

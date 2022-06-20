@@ -8,7 +8,7 @@
 #include "Object3d.h"
 #include "FbxObject3d.h"
 #include "DebugText.h"
-#include "Audio.h"
+#include "Sound.h"
 #include "Collision.h"
 #include "ParticleManager.h"
 #include "DebugCamera.h"
@@ -46,7 +46,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio);
+	void Initialize(DirectXCommon *dxCommon, Input *input, Sound *audio);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -63,10 +63,11 @@ public: // メンバ関数
 	/// </summary>
 	void ParticlesCreate(XMFLOAT3 Pos);
 
+	void MovePlayer();
 private: // メンバ変数
 	DirectXCommon *dxCommon = nullptr;
 	Input *input = nullptr;
-	Audio *audio = nullptr;
+	Sound *audio = nullptr;
 	DebugText debugText;
 	
 	/// <summary>

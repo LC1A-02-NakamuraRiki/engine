@@ -1,6 +1,6 @@
 ﻿#include "WinApp.h"
 #include "DirectXCommon.h"
-#include "Audio.h"
+#include "Sound.h"
 #include "GameScene.h"
 #include "Light.h"
 #include"FbxLoader.h"
@@ -12,7 +12,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	WinApp *win = nullptr;
 	DirectXCommon *dxCommon = nullptr;
 	Input *input = nullptr;
-	Audio *audio = nullptr;
+	Sound *audio = nullptr;
 	GameScene *gameScene = nullptr;
 	PostEffect* postEffect = nullptr;
 
@@ -33,7 +33,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	}
 	input->MouseInitialize(win);
 	// オーディオの初期化
-	audio = new Audio();
+	audio = new Sound();
 	if (!audio->Initialize()) {
 		assert(0);
 		return 1;
@@ -71,6 +71,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		input->MouseUpdate();
 		// ゲームシーンの毎フレーム処理
 		gameScene->Update();
+		postEffect->PreDrawScene(dxCommon->GetCommandList());
+		gameScene->Draw();
+		postEffect->PostDrawScene(dxCommon->GetCommandList());
 		// 描画開始
 		dxCommon->PreDraw();
 		postEffect->Draw(dxCommon->GetCommandList());

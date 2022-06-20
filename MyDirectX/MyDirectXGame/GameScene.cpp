@@ -26,7 +26,7 @@ GameScene::~GameScene()
 	safe_delete(model1);
 }
 
-void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio)
+void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Sound *audio)
 {
 	// nullptrチェック
 	assert(dxCommon);
@@ -248,7 +248,23 @@ void GameScene::ParticlesCreate(XMFLOAT3 Pos)
 		const float md_acc = 0.001f;
 		acc.y = (float)rand() / RAND_MAX * md_acc;
 
+		int time = 60;
+		float s_scale = 1.0f;
+		float e_scale = 1.0f;
+		XMFLOAT4 color = { 1,1,1,1 };
 		// 追加
-		particle3d->Add(60, pos, vel, acc, 1.0f, 1.0f, {1,1,1,1});
+		particle3d->Add(time, pos, vel, acc, s_scale, e_scale, color);
 	}
+}
+
+void GameScene::MovePlayer()
+{
+	if (!input->PushKey(DIK_SPACE)) { return; }
+	// 現在の座標を取得
+	XMFLOAT3 pos = objFighter->GetPosition();
+	//移動
+	pos.y += 0.1f;
+	ParticlesCreate({ pos.x - 2.0f,pos.y,pos.z });
+	// 座標の変更を反映
+	objFighter->SetPosition(pos);
 }
