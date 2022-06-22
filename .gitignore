@@ -439,5 +439,4 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 *.rej
-*.lib
 MyDirectX/MyDirectXGame/MyDirectXGame.exe
