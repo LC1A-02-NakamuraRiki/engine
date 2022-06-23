@@ -24,7 +24,15 @@ public:
 
 	void PreDrawScene(ID3D12GraphicsCommandList* cmdList);
 	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);
+
+	void CreateGraphicsPipelineState();
 protected:
+	// ルートシグネチャ
+	ComPtr<ID3D12RootSignature> rootSignature;
+
+	// パイプラインステートオブジェクト
+	ComPtr<ID3D12PipelineState> pipelineState;
+
 	ComPtr<ID3D12Resource> texBuff;
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 
