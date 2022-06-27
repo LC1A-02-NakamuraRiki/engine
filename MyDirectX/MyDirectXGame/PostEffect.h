@@ -4,6 +4,7 @@
 #include <wrl.h>
 #include <d3d12.h>
 #include <DirectXMath.h>
+#include"Input.h"
 
 class PostEffect : public Sprite
 {
@@ -15,10 +16,12 @@ private: // エイリアス
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
+
+	Input* input = nullptr;
 public:
 	PostEffect();
 
-	void Initialize();
+	void Initialize(Input* input);
 
 	void Draw(ID3D12GraphicsCommandList*cmdList);
 
@@ -33,7 +36,7 @@ protected:
 	// パイプラインステートオブジェクト
 	ComPtr<ID3D12PipelineState> pipelineState;
 
-	ComPtr<ID3D12Resource> texBuff;
+	ComPtr<ID3D12Resource> texBuff[2];
 	ComPtr<ID3D12DescriptorHeap> descHeapSRV;
 
 	ComPtr<ID3D12Resource> depthBuff;

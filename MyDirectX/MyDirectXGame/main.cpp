@@ -53,7 +53,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//Sprite::LoadTexture(100, L"Resources/white1x1.png");
 	postEffect = new PostEffect();
-	postEffect->Initialize();
+	postEffect->Initialize(input);
 #pragma endregion
 
 	// ゲームシーンの初期化
