@@ -106,7 +106,7 @@ void PostEffect::Initialize(Input* input)
 	D3D12_DESCRIPTOR_HEAP_DESC srvDescHeapDesc = {};
 	srvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	srvDescHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-	srvDescHeapDesc.NumDescriptors = 1;
+	srvDescHeapDesc.NumDescriptors = 2;
 
 	result = device->CreateDescriptorHeap(&srvDescHeapDesc, IID_PPV_ARGS(&descHeapSRV));
 	assert(SUCCEEDED(result));
@@ -117,10 +117,15 @@ void PostEffect::Initialize(Input* input)
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	srvDesc.Texture2D.MipLevels = 1;
 
-	device->CreateShaderResourceView(texBuff[0].Get(),
-	&srvDesc,
-	descHeapSRV->GetCPUDescriptorHandleForHeapStart());
-
+	for (int i = 0; i < 2; i++)
+	{
+		device->CreateShaderResourceView(texBuff[i].Get(),
+			&srvDesc,
+			CD3DX12_CPU_DESCRIPTOR_HANDLE(
+			descHeapSRV->GetCPUDescriptorHandleForHeapStart(),i,
+			device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
+		);
+	}
 	D3D12_DESCRIPTOR_HEAP_DESC rtvDescHeapDesc{};
 	rtvDescHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvDescHeapDesc.NumDescriptors = 2;
@@ -177,22 +182,22 @@ void PostEffect::Initialize(Input* input)
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	if(input->TriggerKey(DIK_0))
-	{
-		static int tex = 0;
-		tex = (tex + 1) % 2;
+	//if(input->TriggerKey(DIK_0))
+	//{
+	//	static int tex = 0;
+	//	tex = (tex + 1) % 2;
 
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // BElHi=14
-		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+	//	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{}; // BElHi=14
+	//	srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D; //2057XF+
-		srvDesc.Texture2D.MipLevels = 1;
-		device->CreateShaderResourceView(texBuff[tex].Get(), //21-<Mil(6/(> >7
-			&srvDesc,
-			descHeapSRV->GetCPUDescriptorHandleForHeapStart()
-		);
-	}
+	//	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D; //2057XF+
+	//	srvDesc.Texture2D.MipLevels = 1;
+	//	device->CreateShaderResourceView(texBuff[tex].Get(), //21-<Mil(6/(> >7
+	//		&srvDesc,
+	//		descHeapSRV->GetCPUDescriptorHandleForHeapStart()
+	//	);
+	//}
 	this->matWorld = XMMatrixIdentity();
 
 	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
@@ -224,7 +229,13 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetGraphicsRootConstantBufferView(0, this->constBuff->GetGPUVirtualAddress());
 
 	//シェーダリソースビューをセット
-	cmdList->SetGraphicsRootDescriptorTable(1,descHeapSRV->GetGPUDescriptorHandleForHeapStart());
+	cmdList->SetGraphicsRootDescriptorTable(1,CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV->GetGPUDescriptorHandleForHeapStart(),0,
+	device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
+	);
+
+	cmdList->SetGraphicsRootDescriptorTable(2, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV->GetGPUDescriptorHandleForHeapStart(), 1,
+		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
+	);
 
 	cmdList->DrawInstanced(4, 1, 0, 0);
 }
@@ -370,13 +381,17 @@ void PostEffect::CreateGraphicsPipelineState()
 	gpipeline.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	//デスクリプタテーブルの設定
-	CD3DX12_DESCRIPTOR_RANGE descTblRangeSRV;
-	descTblRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);  //t0 レジスタ
+	CD3DX12_DESCRIPTOR_RANGE descRangeSRV0;
+	descRangeSRV0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);  //t0 レジスタ
+
+	CD3DX12_DESCRIPTOR_RANGE descRangeSRV1;
+	descRangeSRV1.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);  //t0 レジスタ
 
 	//ルートパラメータの設定
-	CD3DX12_ROOT_PARAMETER rootparams[2];
+	CD3DX12_ROOT_PARAMETER rootparams[3];
 	rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
-	rootparams[1].InitAsDescriptorTable(1, &descTblRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
+	rootparams[1].InitAsDescriptorTable(1, &descRangeSRV0, D3D12_SHADER_VISIBILITY_ALL);
+	rootparams[2].InitAsDescriptorTable(1, &descRangeSRV1, D3D12_SHADER_VISIBILITY_ALL);
 
 	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0, D3D12_FILTER_MIN_MAG_MIP_POINT);
 
