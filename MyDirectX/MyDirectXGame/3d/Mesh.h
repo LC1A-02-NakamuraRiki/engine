@@ -35,7 +35,10 @@ public: // サブクラス
 
 public: // 静的メンバ関数
 
-	// 静的初期化
+	/// <summary>
+	/// 静的初期化
+	/// </summary>
+	/// <param name="device">デバイス</param>
 	static void StaticInitialize(ID3D12Device *device);
 
 private: // 静的メンバ変数
@@ -44,39 +47,69 @@ private: // 静的メンバ変数
 
 public: // メンバ関数
 
+	/// <summary>
 	/// 名前を取得
+	/// </summary>
+	/// <returns>名前</returns>
 	const std::string &GetName() { return name; }
 
+	/// <summary>
 	/// 名前をセット
+	/// </summary>
+	/// <param name="name">名前</param>
 	void SetName(const std::string &name);
 
-	// 頂点データの追加
+	/// <summary>
+	/// 頂点データの追加
+	/// </summary>
+	/// <param name="vertex">頂点データ</param>
 	void AddVertex(const VertexPosNormalUv &vertex);
 
-	// 頂点インデックスの追加
+	/// <summary>
+	/// 頂点インデックスの追加
+	/// </summary>
+	/// <param name="index">インデックス</param>
 	void AddIndex(unsigned short index);
 
-	// 頂点データの数を取得
+	/// <summary>
+	/// 頂点データの数を取得
+	/// </summary>
+	/// <returns>頂点データの数</returns>
 	inline size_t GetVertexCount() { return vertices.size(); }
 
-
-	// マテリアルの取得
+	/// <summary>
+	/// マテリアルの取得
+	/// </summary>
+	/// <returns>マテリアル</returns>
 	Material *GetMaterial() { return material; }
 
-	// マテリアルの割り当て
+	/// <summary>
+	/// マテリアルの割り当て
+	/// </summary>
+	/// <param name="material">マテリアル</param>
 	void SetMaterial(Material *material);
 
-	// バッファの生成
+	/// <summary>
+	/// バッファの生成
+	/// </summary>
 	void CreateBuffers();
 
-	// 頂点バッファ取得
+	/// <summary>
+	/// 頂点バッファ取得
+	/// </summary>
+	/// <returns>頂点バッファ</returns>
 	const D3D12_VERTEX_BUFFER_VIEW &GetVBView() { return vbView; }
 
-	// インデックスバッファ取得
+	/// <summary>
+	/// インデックスバッファ取得
+	/// </summary>
+	/// <returns>インデックスバッファ</returns>
 	const D3D12_INDEX_BUFFER_VIEW &GetIBView() { return ibView; }
 
-
-	// 描画
+	/// <summary>
+	/// 描画
+	/// </summary>
+	/// <param name="cmdList">命令発行先コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList *cmdList);
 
 	void AddSmoothData(unsigned short indexPosition, unsigned short indexVertex);

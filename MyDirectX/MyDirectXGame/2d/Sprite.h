@@ -46,7 +46,7 @@ public: // 静的メンバ関数
 	//スプライト生成
 	static Sprite *Create(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color = { 1, 1, 1, 1 }, XMFLOAT2 anchorpoint = { 0.0f, 0.0f }, bool isFlipX = false, bool isFlipY = false);
 
-private: // 静的メンバ変数
+protected: // 静的メンバ変数
 	// テクスチャの最大枚数
 	static const int srvCount = 512;
 	
@@ -108,50 +108,52 @@ public: // メンバ関数
 	//描画
 	void Draw();
 
-	private: // メンバ変数
+protected: // メンバ変数
 	// 頂点バッファ
-	ComPtr<ID3D12Resource> vertBuff;
+		ComPtr<ID3D12Resource> vertBuff;
 
-	// 定数バッファ
-	ComPtr<ID3D12Resource> constBuff;
+		// 定数バッファ
+		ComPtr<ID3D12Resource> constBuff;
 
-	// 頂点バッファビュー
-	D3D12_VERTEX_BUFFER_VIEW vbView{};
+		// 頂点バッファビュー
+		D3D12_VERTEX_BUFFER_VIEW vbView{};
 
-	// テクスチャ番号
-	UINT texNumber = 0;
+		// テクスチャ番号
+		UINT texNumber = 0;
 
-	// Z軸回りの回転角
-	float rotation = 0.0f;
+		// Z軸回りの回転角
+		float rotation = 0.0f;
 
-	// 座標
-	XMFLOAT2 position{};
+		// 座標
+		XMFLOAT2 position{};
 
-	// スプライト幅、高さ
-	XMFLOAT2 size = { 100.0f, 100.0f };
+		// スプライト幅、高さ
+		XMFLOAT2 size = { 100.0f, 100.0f };
 
-	// アンカーポイント
-	XMFLOAT2 anchorpoint = { 0, 0 };
+		// アンカーポイント
+		XMFLOAT2 anchorpoint = { 0, 0 };
 
-	// ワールド行列
-	XMMATRIX matWorld{};
+		// ワールド行列
+		XMMATRIX matWorld{};
 
-	// 色
-	XMFLOAT4 color = { 1, 1, 1, 1 };
+		// 色
+		XMFLOAT4 color = { 1, 1, 1, 1 };
 
-	// 左右反転
-	bool isFlipX = false;
+		// 左右反転
+		bool isFlipX = false;
 
-	// 上下反転
-	bool isFlipY = false;
+		// 上下反転
+		bool isFlipY = false;
 
-	// テクスチャ始点
-	XMFLOAT2 texBase = { 0, 0 };
+		// テクスチャ始点
+		XMFLOAT2 texBase = { 0, 0 };
 
-	// テクスチャ幅、高さ
-	XMFLOAT2 texSize = { 100.0f, 100.0f };
+		// テクスチャ幅、高さ
+		XMFLOAT2 texSize = { 100.0f, 100.0f };
 
 private: // メンバ関数
-	// 頂点データ転送
+	/// <summary>
+	/// 頂点データ転送
+	/// </summary>
 	void TransferVertices();
 };

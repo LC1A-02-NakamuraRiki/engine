@@ -1,6 +1,4 @@
 #include "Object3d.h"
-#include "../BaseCollider.h"
-#include "../CollisionManager.h"
 #include <d3dcompiler.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
@@ -208,19 +206,9 @@ Object3d *Object3d::Create(Model *model)
 	return object3d;
 }
 
-Object3d::~Object3d()
-{
-	if (collider) {
-		CollisionManager::GetInstance()->RemoveCollider(collider);
-		delete collider;
-	}
-}
-
 bool Object3d::Initialize()
 {
 	HRESULT result;
-
-	name = typeid(*this).name();
 
 	//定数バッファの生成
 	result = device->CreateCommittedResource(
@@ -281,11 +269,6 @@ void Object3d::Update()
 	constMap->world = matWorld;
 	constMap->cameraPos = cameraPos;
 	constBuffB0->Unmap(0, nullptr);
-
-	// 当たり判定更新
-	if (collider) {
-		collider->Update();
-	}
 }
 
 void Object3d::Draw()
@@ -305,13 +288,4 @@ void Object3d::Draw()
 	light->Draw(cmdList, 3);
 	// モデル描画
 	model->Draw(cmdList);
-}
-
-void Object3d::SetCollider(BaseCollider *collider)
-{
-	collider->SetObject(this);
-	this->collider = collider;
-	// コリジョンマネージャに追加
-	CollisionManager::GetInstance()->AddCollider(collider);
-	collider->Update();
 }

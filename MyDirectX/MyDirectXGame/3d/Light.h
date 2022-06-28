@@ -7,7 +7,7 @@
 #include <string>
 
 #include "Model.h"
-#include "../camera/Camera.h"
+#include "Camera.h"
 class Light
 {
 private: // エイリアス

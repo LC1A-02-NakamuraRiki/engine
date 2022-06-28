@@ -11,12 +11,6 @@ DebugText::~DebugText()
 	}
 }
 
-DebugText *DebugText::GetInstance()
-{
-	static DebugText instance;
-	return &instance;
-}
-
 void DebugText::Initialize(UINT texnumber)
 {
 	for (int i = 0; i < _countof(spriteDatas); i++)

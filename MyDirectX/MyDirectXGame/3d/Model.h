@@ -30,20 +30,35 @@ private: // 静的メンバ変数
 
 public: // 静的メンバ関数
 
+	/// <summary>
 	/// 静的初期化
+	/// </summary>
+	/// <param name="device">デバイス</param>
 	static void StaticInitialize(ID3D12Device *device);
 
+	/// <summary>
 	/// OBJファイルからメッシュ生成
+	/// </summary>
+	/// <param name="modelname">モデル名</param>
+	/// <returns>生成されたモデル</returns>
 	static Model *CreateFromObject(const std::string &text, bool smoothing = false);
 
 public: // メンバ関数
+	/// <summary>
 	/// デストラクタ
+	/// </summary>
 	~Model();
 
+	/// <summary>
 	/// 初期化
+	/// </summary>
+	/// <param name="modelname">モデル名</param>
 	void Initialize(const std::string &text, bool smoothing);
 
+	/// <summary>
 	/// 描画
+	/// </summary>
+	/// <param name="cmdList">命令発行先コマンドリスト</param>
 	void Draw(ID3D12GraphicsCommandList *cmdList);
 
 private: // メンバ変数
@@ -59,17 +74,24 @@ private: // メンバ変数
 	ComPtr<ID3D12DescriptorHeap> descHeap;
 
 private: // メンバ関数
-
+	/// <summary>
 	/// マテリアル読み込み
+	/// </summary>
 	void LoadMaterial(const std::string &directoryPath, const std::string &filename);
 
+	/// <summary>
 	/// マテリアル登録
+	/// </summary>
 	void AddMaterial(Material *material);
 
+	/// <summary>
 	/// デスクリプタヒープの生成
+	/// </summary>
 	void InitializeDescriptorHeap();
 
+	/// <summary>
 	/// テクスチャ読み込み
+	/// </summary>
 	void LoadTextures();
 
 };

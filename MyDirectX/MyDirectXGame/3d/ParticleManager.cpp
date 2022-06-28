@@ -34,12 +34,6 @@ const DirectX::XMFLOAT3 operator/(const DirectX::XMFLOAT3 &lhs, const float rhs)
 	return result;
 }
 
-ParticleManager *ParticleManager::GetInstance()
-{
-	static ParticleManager instance;
-	return &instance;
-}
-
 ParticleManager *ParticleManager::Create(ID3D12Device *device, Camera *camera)
 {
 	// 3Dオブジェクトのインスタンスを生成

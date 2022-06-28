@@ -6,14 +6,13 @@
 #include "../input/Input.h"
 #include "../2d/Sprite.h"
 #include "../3d/Object3d.h"
+#include "../3d/FbxObject3d.h"
 #include "../2d/DebugText.h"
-#include "../audio/Audio.h"
-#include "../scene/Collision.h"
+#include "../Sound/Sound.h"
+#include "../collision/Collision.h"
 #include "../3d/ParticleManager.h"
-#include "../camera/DebugCamera.h"
+#include "../3d/DebugCamera.h"
 
-class CollisionManager;
-class Player;
 
 /// <summary>
 /// ゲームシーン
@@ -34,49 +33,61 @@ private: // 静的メンバ変数
 
 public: // メンバ関数
 
+	/// <summary>
 	/// コンストクラタ
+	/// </summary>
 	GameScene();
 
+	/// <summary>
 	/// デストラクタ
+	/// </summary>
 	~GameScene();
 
+	/// <summary>
 	/// 初期化
-	void Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio);
+	/// </summary>
+	void Initialize(DirectXCommon *dxCommon, Input *input, Sound *audio);
 
+	/// <summary>
 	/// 毎フレーム処理
+	/// </summary>
 	void Update();
 
+	/// <summary>
 	/// 描画
+	/// </summary>
 	void Draw();
 
+	/// <summary>
 	/// パーティクル生成
+	/// </summary>
 	void ParticlesCreate(XMFLOAT3 Pos);
 
+	void MovePlayer();
 private: // メンバ変数
 	DirectXCommon *dxCommon = nullptr;
 	Input *input = nullptr;
-	Audio *audio = nullptr;
+	Sound *audio = nullptr;
 	DebugText debugText;
 	
+	/// <summary>
 	/// ゲームシーン用
+	/// </summary>
 	DebugCamera *camera = nullptr;
 	Sprite *spriteBG = nullptr;
 
-	Model *skydomeModel = nullptr;
-	Object3d *skydomeObj = nullptr;
+	Model *modelSkydome = nullptr;
+	Object3d *objSkydome = nullptr;
 
-	Model *groundModel = nullptr;
-	Object3d *groundObj = nullptr;
-
-	Model *carModel = nullptr;
-	Object3d *carObj = nullptr;
-	ParticleManager *particle3d = nullptr;
-	
-	Model *modelSphere = nullptr;
-	Object3d *objSphere = nullptr;
+	Model *modelGround = nullptr;
+	Object3d *objGround = nullptr;
 
 	Model *modelFighter = nullptr;
-	Player *objFighter = nullptr;
+	Object3d *objFighter = nullptr;
+	ParticleManager *particle3d = nullptr;
+	
+	FbxModel* model1 = nullptr;
+	FbxObject3d* object1 = nullptr;
 	/*Object3d *playerObj = nullptr;
 	Model *playerModel = nullptr;
 
@@ -86,5 +97,4 @@ private: // メンバ変数
 	Ray ray;*/
 
 	float collision;
-	CollisionManager *collisionManager = nullptr;
 };

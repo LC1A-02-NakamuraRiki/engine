@@ -34,10 +34,16 @@ public: // サブクラス
 
 public: // 静的メンバ関数
 
-	// 静的初期化
+	/// <summary>
+	/// 静的初期化
+	/// </summary>
+	/// <param name="device">デバイス</param>
 	static void StaticInitialize(ID3D12Device *device);
 
-	// マテリアル生成
+	/// <summary>
+	/// マテリアル生成
+	/// </summary>
+	/// <returns>生成されたマテリアル</returns>
 	static Material *Create();
 
 private: // 静的メンバ変数
@@ -53,15 +59,22 @@ public:
 	std::string filename;	// ファイル名
 
 public:
-
-	// 定数バッファの取得
+	/// <summary>
+	/// 定数バッファの取得
+	/// </summary>
+	/// <returns></returns>
 	ID3D12Resource *GetConstantBuffer() { return constBuff.Get(); }
 
-	// テクスチャ読み込み
+	/// テクスチャ読み込み
+	/// </summary>
+	/// <param name="directoryPath">読み込みディレクトリパス</param>
+	/// <param name="cpuHandle">CPUデスクリプタハンドル</param>
+	/// <param name="gpuHandle">GPUデスクリプタハンドル</param>
 	void LoadTexture(const std::string &directoryPath, CD3DX12_CPU_DESCRIPTOR_HANDLE cpuHandle, CD3DX12_GPU_DESCRIPTOR_HANDLE gpuHandle);
 
-	// 更新
-
+	/// <summary>
+	/// 更新
+	/// </summary>
 	void Update();
 
 	const CD3DX12_CPU_DESCRIPTOR_HANDLE &GetCpuHandle() { return cpuDescHandleSRV; }
@@ -86,10 +99,14 @@ private:
 		alpha = 1.0f;
 	}
 
-	// 初期化
+	/// <summary>
+	/// 初期化
+	/// </summary>
 	void Initialize();
 
-	// 定数バッファの生成
+	/// <summary>
+	/// 定数バッファの生成
+	/// </summary>
 	void CreateConstantBuffer();
 };
 

@@ -1,13 +1,6 @@
 #include "Input.h"
 #pragma comment(lib,"dinput8.lib")
 
-Input *Input::GetInstance()
-{
-	static Input instance;
-
-	return &instance;
-}
-
 bool Input::Initialize(HINSTANCE hInstance, HWND hwnd)
 {
 	HRESULT result = S_FALSE;
@@ -33,7 +26,7 @@ void Input::MouseInitialize(WinApp *winApp)
 	//マウスデバイス生成
 	result = dinput->CreateDevice(GUID_SysMouse, &devMouse, NULL);
 	//入力データ形式のセット
-	result = devMouse->SetDataFormat(&c_dfDIMouse2);
+	result = devMouse->SetDataFormat(&c_dfDIMouse);
 	//排他制御レベルのセット
 	result = devMouse->SetCooperativeLevel(winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 }
@@ -60,7 +53,7 @@ void Input::MouseUpdate()
 	//マウスの情報取得開始
 	result = devMouse->Acquire();
 	//マウスの入力情報を取得
-	result = devMouse->GetDeviceState(sizeof(mouse), &mouse);
+	result = devMouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouse);
 }
 
 bool Input::PushKey(BYTE keyNumber)
@@ -97,13 +90,4 @@ bool Input::TriggerMouse(int MouseNumber)
 		return true;
 	}
 	return false;
-}
-
-Input::MousePoint Input::GetMousePoint()
-{
-	MousePoint point;
-	point.lX = mouse.lX;
-	point.lY = mouse.lY;
-	point.lZ = mouse.lZ;
-	return point;
 }

@@ -1,12 +1,10 @@
-#include "GameScene.h"
-#include "Collision.h"
+#include "../Scene/GameScene.h"
+#include "../collision/Collision.h"
 #include <cassert>
 #include <sstream>
 #include <iomanip>
-#include "../SphereCollider.h"
-#include "../CollisionManager.h"
-#include "../Player.h"
 #include "../3d/FbxLoader.h"
+#include "../3d/FbxObject3d.h"
 using namespace DirectX;
 
 GameScene::GameScene()
@@ -17,20 +15,18 @@ GameScene::~GameScene()
 {
 	safe_delete(spriteBG);
 	safe_delete(particle3d);
-	safe_delete(skydomeObj);
-	safe_delete(skydomeModel);
-	safe_delete(groundObj);
-	safe_delete(groundModel);
-	safe_delete(carObj);
-	safe_delete(carModel);
-	safe_delete(light);
+	safe_delete(objSkydome);
+	safe_delete(modelSkydome);
+	safe_delete(objGround);
+	safe_delete(modelGround);
 	safe_delete(objFighter);
 	safe_delete(modelFighter);
-	safe_delete(objSphere);
-	safe_delete(modelSphere);
+	safe_delete(light);
+	safe_delete(object1);
+	safe_delete(model1);
 }
 
-void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio)
+void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Sound *audio)
 {
 	// nullptrチェック
 	assert(dxCommon);
@@ -40,8 +36,6 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio)
 	this->dxCommon = dxCommon;
 	this->input = input;
 	this->audio = audio;
-
-	collisionManager = CollisionManager::GetInstance();
 
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
 	// 3Dオブジェクトにカメラをセット
@@ -67,65 +61,58 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Audio *audio)
 	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
 	
 	// 3Dオブジェクト生成
-	skydomeModel = Model::CreateFromObject("skydome", false);
-	skydomeObj = Object3d::Create(skydomeModel);
-	groundModel = Model::CreateFromObject("ground", true);
-	groundObj = Object3d::Create(groundModel);
-	modelFighter = Model::CreateFromObject("chr_sword", true);
-	objFighter = Player::Create(modelFighter);
-	objFighter->SetPosition({ +1, 0, 0 });
-	modelSphere = Model::CreateFromObject("sphere", true);
-	objSphere->SetCollider(new SphereCollider);
+	modelSkydome = Model::CreateFromObject("skydome", false);
+	objSkydome = Object3d::Create(modelSkydome);
+	modelGround = Model::CreateFromObject("ground", true);
+	objGround = Object3d::Create(modelGround);
+
+	modelFighter = Model::CreateFromObject("largeCarL", true);
+	objFighter = Object3d::Create(modelFighter);
 	
-	carModel = Model::CreateFromObject("largeCarL", true);
-	carObj = Object3d::Create(carModel);
-	
-	//FbxLoader::GetInstance()->LoadModelFromFile(
-	//"cube");
-	objSphere->SetPosition({ -1, 1, 0 });
+	// モデル名を指定してファイル読み込み
+	model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+
+	// デバイスをセット
+	FbxObject3d::SetDevice(dxCommon->GetDevice());
+	// カメラをセット
+	FbxObject3d::SetCamera(camera);
+	// グラフィックスパイプライン生成
+	FbxObject3d::CreateGraphicsPipeline();
 	light = Light::Create();
 	light->SetLightColor({ 1.0f,0.8f,0.8f});
 	
 	Object3d::SetLight(light);
 
+	object1 = new FbxObject3d;
+	object1->Initialize();
+	object1->SetModel(model1);
+	object1->PlayAnimation();
 	////サウンド再生
-	audio->PlayBGM("Resources/Alarm01.wav", true);
+	//audio->PlayBGM("Resources/Alarm01.wav", true);
 	//audio->PlaySE("Resources/Alarm01.wav", false);
-	
+	//audio->StopBGM();
 }
 
 void GameScene::Update()
 {
-	///マウスの座標
-	//LONG mouseX = input->GetMousePoint().lX;
-	//LONG mouseY = input->GetMousePoint().lY;
-
+	////マウスの座標
+	///*POINT mousePos;
+	//GetCursorPos(&mousePos);*/
+	
+	debugText.Print(20, 20, 1.5f,"ObjectMove:ArrowKey");
+	debugText.Print(20, 50, 1.5f,"EyeMove:W A S D");
+	debugText.Print(20, 80, 1.5f,"EyeTarget:SPACE Q LCONTROL E");
 	XMFLOAT3 cameraEye = camera->GetEye();
 	XMFLOAT3 cameraTarget = camera->GetTarget();
-
-	debugText.Print(20, 20 + 30 * 1, 1.5f, "ObjectMove:ArrowKey");
-	debugText.Print(20, 20 + 30 * 2, 1.5f, "EyeMove:Q E SPACE CTRL");
-	debugText.Print(20, 20 + 30 * 3, 1.5f, "LClick:PlayBGM  RClick:StopBGM");
-	debugText.Print(20, 20 + 30 * 4, 1.5f, "   carPos %f %f %f", carObj->GetPosition().x, carObj->GetPosition().y, carObj->GetPosition().z);
-	debugText.Print(20, 20 + 30 * 5, 1.5f, "cameraPos %f %f %f", cameraEye.x, cameraEye.y, cameraEye.z);
-
-	if (input->TriggerMouse(1))
-	{
-		audio->StopBGM();
-	}
-	if (input->TriggerMouse(0))
-	{
-		audio->PlayBGM("Resources/Alarm01.wav", true);
-	}
 	// オブジェクト移動
-	if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT) /*|| input->PushKey(DIK_SPACE) || input->PushKey(DIK_LCONTROL)*/)
+	if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT) || input->PushKey(DIK_SPACE) || input->PushKey(DIK_LCONTROL))
 	{
 		// 現在の座標を取得
-		XMFLOAT3 pos = carObj->GetPosition();
+		XMFLOAT3 pos = objFighter->GetPosition();
 
 		// 移動後の座標を計算
-		/*if (input->PushKey(DIK_SPACE)) { pos.y += 0.1f;}
-		else if (input->PushKey(DIK_LCONTROL)) { pos.y -= 0.1f;}*/
+		if (input->PushKey(DIK_SPACE)) { pos.y += 0.1f;}
+		else if (input->PushKey(DIK_LCONTROL)) { pos.y -= 0.1f;}
 
 		if (input->PushKey(DIK_RIGHT)) { pos.x += 0.1f;}
 		else if (input->PushKey(DIK_LEFT)) { pos.x -= 0.1f;}
@@ -135,7 +122,7 @@ void GameScene::Update()
 
 		ParticlesCreate({ pos.x - 2.0f,pos.y,pos.z });
 		// 座標の変更を反映
-		carObj->SetPosition(pos);
+		objFighter->SetPosition(pos);
 	}
 
 	// カメラ移動
@@ -175,16 +162,13 @@ void GameScene::Update()
 	if (input->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
 	else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }
 	light->SetLightDir(lightDir);*/
-
 	particle3d->Update();
 	camera->Update();
-	skydomeObj->Update();
-	groundObj->Update();
-	carObj->Update();
-	light->Update();
+	objSkydome->Update();
+	objGround->Update();
 	objFighter->Update();
-	objSphere->Update();
-	collisionManager->CheckAllCollisions();
+	light->Update();
+	object1->Update();
 }
 
 void GameScene::Draw()
@@ -199,7 +183,7 @@ void GameScene::Draw()
 	//-------------------------------------------------------------//
 
 
-	spriteBG->Draw();
+	//spriteBG->Draw();
 
 
 	//-------------------------------------------------------------//
@@ -215,11 +199,10 @@ void GameScene::Draw()
 	//-------------------------------------------------------------//
 
 	//playerObj->Draw();
-	skydomeObj->Draw();
-	groundObj->Draw();
-	carObj->Draw();
-	objFighter->Draw();
-	objSphere->Draw();
+	//objSkydome->Draw();
+	//objGround->Draw();
+	//objFighter->Draw();
+	object1->Draw(cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
@@ -265,10 +248,23 @@ void GameScene::ParticlesCreate(XMFLOAT3 Pos)
 		const float md_acc = 0.001f;
 		acc.y = (float)rand() / RAND_MAX * md_acc;
 
-		const float colorR = 1.0f;
-		const float colorG = 1.0f;
-		const float colorB = 1.0f;
+		int time = 60;
+		float s_scale = 1.0f;
+		float e_scale = 1.0f;
+		XMFLOAT4 color = { 1,1,1,1 };
 		// 追加
-		particle3d->Add(60, pos, vel, acc, 1.0f, 0.0f, { (float)rand() / RAND_MAX * colorR,(float)rand() / RAND_MAX * colorG,(float)rand() / RAND_MAX * colorB,1});
+		particle3d->Add(time, pos, vel, acc, s_scale, e_scale, color);
 	}
+}
+
+void GameScene::MovePlayer()
+{
+	if (!input->PushKey(DIK_SPACE)) { return; }
+	// 現在の座標を取得
+	XMFLOAT3 pos = objFighter->GetPosition();
+	//移動
+	pos.y += 0.1f;
+	ParticlesCreate({ pos.x - 2.0f,pos.y,pos.z });
+	// 座標の変更を反映
+	objFighter->SetPosition(pos);
 }

@@ -7,7 +7,7 @@
 #include <d3dx12.h>
 #include<forward_list>
 
-#include "../camera/Camera.h"
+#include "Camera.h"
 
 class ParticleManager
 {
@@ -67,10 +67,9 @@ private: // 定数
 	static const int vertexCount = 65536;		// 頂点数
 	//static const int indexCount = 3*2;		// 頂点数
 
-public:// 静的メンバ関数
-	static ParticleManager *GetInstance();
-
 public: // 静的メンバ関数
+
+
 	/// 3Dオブジェクト生成
 	static ParticleManager* Create(ID3D12Device *device, Camera *camera);
 
@@ -103,33 +102,53 @@ private: // 静的メンバ変数
 	Camera *camera = nullptr;;
 
 public:// メンバ関数
-
+	/// <summary>
 	/// デスクリプタヒープの初期化
+	/// </summary>
+	/// <returns></returns>
 	void InitializeDescriptorHeap();
 
+	/// <summary>
 	/// グラフィックパイプライン生成
+	/// </summary>
+	/// <returns>成否</returns>
 	void InitializeGraphicsPipeline();
 
+	/// <summary>
 	/// テクスチャ読み込み
+	/// </summary>
+	/// <returns>成否</returns>
 	void LoadTexture();
 
+	/// <summary>
 	/// モデル作成
+	/// </summary>
 	void CreateModel();
 
 public: // メンバ関数
 	void Initialize();
+	/// <summary>
 	/// 毎フレーム処理
+	/// </summary>
 	void Update();
 
+	/// <summary>
 	/// 描画
+	/// </summary>
 	void Draw(ID3D12GraphicsCommandList *cmdList);
 
 	void Add(int life, XMFLOAT3 position, XMFLOAT3 velocity, XMFLOAT3 accel,float start_scale,float end_scale, XMFLOAT4 color);
 
+	/// <summary>
 	/// 座標の取得
+	/// </summary>
+	/// <returns>座標</returns>
 	//const XMFLOAT3& GetPosition() { return position; }
 
+	/// <summary>
 	/// 座標の設定
+	/// </summary>
+	/// <param name="position">座標</param>
 	//void SetPosition(XMFLOAT3 position) { this->position = position; }
 
 private: // メンバ変数
@@ -147,12 +166,5 @@ private: // メンバ変数
 	// 親オブジェクト
 	//ParticleManager* parent = nullptr;
 	ParticleManager(ID3D12Device *device, Camera *camera);
-
-public:
-	ParticleManager() = default;
-	~ParticleManager() = default;
-private:
-	ParticleManager(const ParticleManager &) = delete;
-	ParticleManager &operator=(const ParticleManager &) = delete;
 };
 

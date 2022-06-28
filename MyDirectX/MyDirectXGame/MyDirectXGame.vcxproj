@@ -151,54 +151,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Collision.cpp" />
-    <ClCompile Include="CollisionPrimitive.cpp" />
-    <ClCompile Include="DebugCamera.cpp" />
-    <ClCompile Include="DebugText.cpp" />
-    <ClCompile Include="DirectXCommon.cpp" />
-    <ClCompile Include="FbxLoader.cpp" />
-    <ClCompile Include="FbxModel.cpp" />
-    <ClCompile Include="FbxObject3d.cpp" />
-    <ClCompile Include="GameScene.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="Light.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Object3d.cpp" />
-    <ClCompile Include="ParticleManager.cpp" />
-    <ClCompile Include="PostEffect.cpp" />
-    <ClCompile Include="Sprite.cpp" />
-    <ClCompile Include="WinApp.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Sound.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="Collision.h" />
-    <ClInclude Include="CollisionPrimitive.h" />
-    <ClInclude Include="DebugCamera.h" />
-    <ClInclude Include="DebugText.h" />
-    <ClInclude Include="DirectXCommon.h" />
-    <ClInclude Include="FbxLoader.h" />
-    <ClInclude Include="FbxModel.h" />
-    <ClInclude Include="FbxObject3d.h" />
-    <ClInclude Include="GameScene.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="Object3d.h" />
-    <ClInclude Include="ParticleManager.h" />
-    <ClInclude Include="PostEffect.h" />
-    <ClInclude Include="SafeDelete.h" />
-    <ClInclude Include="Sprite.h" />
-    <ClInclude Include="WinApp.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\shaders\FBX.hlsli" />
     <None Include="Resources\shaders\OBJ.hlsli" />
     <None Include="Resources\shaders\Particle.hlsli" />
@@ -277,6 +229,63 @@
     <ProjectReference Include="DirectXTex\DirectXTex_Desktop_2019_Win10.vcxproj">
       <Project>{371b9fa9-4c90-4ac6-a123-aced756d6c77}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="2d\DebugText.cpp" />
+    <ClCompile Include="2d\PostEffect.cpp" />
+    <ClCompile Include="2d\Sprite.cpp" />
+    <ClCompile Include="3d\Camera.cpp" />
+    <ClCompile Include="3d\DebugCamera.cpp" />
+    <ClCompile Include="3d\FbxLoader.cpp" />
+    <ClCompile Include="3d\FbxModel.cpp" />
+    <ClCompile Include="3d\FbxObject3d.cpp" />
+    <ClCompile Include="3d\Light.cpp" />
+    <ClCompile Include="3d\Material.cpp" />
+    <ClCompile Include="3d\Mesh.cpp" />
+    <ClCompile Include="3d\Model.cpp" />
+    <ClCompile Include="3d\Object3d.cpp" />
+    <ClCompile Include="3d\ParticleManager.cpp" />
+    <ClCompile Include="base\DirectXCommon.cpp" />
+    <ClCompile Include="base\WinApp.cpp" />
+    <ClCompile Include="collision\Collision.cpp" />
+    <ClCompile Include="collision\CollisionManager.cpp" />
+    <ClCompile Include="collision\CollisionPrimitive.cpp" />
+    <ClCompile Include="collision\SphereCollider.cpp" />
+    <ClCompile Include="input\Input.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scene\GameScene.cpp" />
+    <ClCompile Include="Scene\Player.cpp" />
+    <ClCompile Include="Sound\Sound.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="2d\DebugText.h" />
+    <ClInclude Include="2d\PostEffect.h" />
+    <ClInclude Include="2d\Sprite.h" />
+    <ClInclude Include="3d\Camera.h" />
+    <ClInclude Include="3d\DebugCamera.h" />
+    <ClInclude Include="3d\FbxLoader.h" />
+    <ClInclude Include="3d\FbxModel.h" />
+    <ClInclude Include="3d\FbxObject3d.h" />
+    <ClInclude Include="3d\Light.h" />
+    <ClInclude Include="3d\Material.h" />
+    <ClInclude Include="3d\Mesh.h" />
+    <ClInclude Include="3d\Model.h" />
+    <ClInclude Include="3d\Object3d.h" />
+    <ClInclude Include="3d\ParticleManager.h" />
+    <ClInclude Include="base\DirectXCommon.h" />
+    <ClInclude Include="base\SafeDelete.h" />
+    <ClInclude Include="base\WinApp.h" />
+    <ClInclude Include="collision\BaseCollider.h" />
+    <ClInclude Include="collision\Collision.h" />
+    <ClInclude Include="collision\CollisionInfo.h" />
+    <ClInclude Include="collision\CollisionManager.h" />
+    <ClInclude Include="collision\CollisionPrimitive.h" />
+    <ClInclude Include="collision\CollisionType.h" />
+    <ClInclude Include="collision\SphereCollider.h" />
+    <ClInclude Include="input\Input.h" />
+    <ClInclude Include="Scene\GameScene.h" />
+    <ClInclude Include="Scene\Player.h" />
+    <ClInclude Include="Sound\Sound.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
