@@ -10,9 +10,16 @@ private:
 	template <class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
 	//WindowAPI
 	WinApp *winApp = nullptr;
+
 public:
+	Input() = default;
+	Input(const Input&) = delete;
+	~Input() = default;
+	Input& operator=(const Input&) = delete;
+
 	bool Initialize(HINSTANCE hInstance, HWND hwnd);
 	void MouseInitialize(WinApp *winApp);
+	static Input* GetInstance();
 
 	void Update();
 	void MouseUpdate();

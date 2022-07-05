@@ -19,9 +19,8 @@ PostEffect::PostEffect()
 {
 }
 
-void PostEffect::Initialize(Input* input)
+void PostEffect::Initialize()
 {
-	this->input = input;
 	HRESULT result;
 
 	// 頂点バッファの生成

@@ -46,7 +46,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon *dxCommon, Input *input, Sound *audio);
+	void Initialize(DirectXCommon *dxCommon, Sound *audio);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -66,7 +66,7 @@ public: // メンバ関数
 	void MovePlayer();
 private: // メンバ変数
 	DirectXCommon *dxCommon = nullptr;
-	Input *input = nullptr;
+	//Input *input = nullptr;
 	Sound *audio = nullptr;
 	DebugText debugText;
 	

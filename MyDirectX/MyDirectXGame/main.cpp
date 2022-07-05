@@ -1,17 +1,18 @@
-﻿#include "WinApp.h"
-#include "DirectXCommon.h"
-#include "Sound.h"
-#include "GameScene.h"
-#include "Light.h"
-#include"FbxLoader.h"
-#include "PostEffect.h"
+﻿#include "../base/WinApp.h"
+#include "../base/DirectXCommon.h"
+#include "../Sound/Sound.h"
+#include "../Scene/GameScene.h"
+#include "../3d/Light.h"
+#include "../3d/FbxLoader.h"
+#include "../2d/PostEffect.h"
+#include"../input/Input.h"
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	// 汎用機能
 	WinApp *win = nullptr;
 	DirectXCommon *dxCommon = nullptr;
-	Input *input = nullptr;
+	//Input *input = nullptr;
 	Sound *audio = nullptr;
 	GameScene *gameScene = nullptr;
 	PostEffect* postEffect = nullptr;
@@ -26,12 +27,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region 汎用機能初期化
 	// 入力の初期化
-	input = new Input();
-	if (!input->Initialize(win->GetHInstance(), win->GetHwnd())) {
-		assert(0);
-		return 1;
-	}
-	input->MouseInitialize(win);
+	Input::GetInstance()->Initialize(win->GetHInstance(), win->GetHwnd());
+	Input::GetInstance()->MouseInitialize(win);
 	// オーディオの初期化
 	audio = new Sound();
 	if (!audio->Initialize()) {
@@ -53,12 +50,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	//Sprite::LoadTexture(100, L"Resources/white1x1.png");
 	postEffect = new PostEffect();
-	postEffect->Initialize(input);
+	postEffect->Initialize();
 #pragma endregion
 
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
-	gameScene->Initialize(dxCommon, input, audio);
+	gameScene->Initialize(dxCommon, audio);
 
 	// メインループ
 	while (true)
@@ -67,8 +64,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		if (win->ProcessMessage()) { break; }
 
 		// 入力関連の毎フレーム処理
-		input->Update();
-		input->MouseUpdate();
+		Input::GetInstance()->Update();
+		Input::GetInstance()->MouseUpdate();
 		// ゲームシーンの毎フレーム処理
 		gameScene->Update();
 		postEffect->PreDrawScene(dxCommon->GetCommandList());
@@ -86,7 +83,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete postEffect;
 	safe_delete(gameScene);
 	safe_delete(audio);
-	safe_delete(input);
+	//safe_delete(input);
 	FbxLoader::GetInstance()->Finalize();
 	safe_delete(dxCommon);
 

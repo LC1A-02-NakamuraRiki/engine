@@ -5,6 +5,7 @@
 #include <iomanip>
 #include "../3d/FbxLoader.h"
 #include "../3d/FbxObject3d.h"
+#include "../input/Input.h"
 using namespace DirectX;
 
 GameScene::GameScene()
@@ -26,18 +27,18 @@ GameScene::~GameScene()
 	safe_delete(model1);
 }
 
-void GameScene::Initialize(DirectXCommon *dxCommon, Input *input, Sound *audio)
+void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 {
 	// nullptrチェック
 	assert(dxCommon);
-	assert(input);
+	//assert(input);
 	assert(audio);
 
 	this->dxCommon = dxCommon;
-	this->input = input;
+	//this->input = input;
 	this->audio = audio;
 
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height, input);
+	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(camera);
 
@@ -105,26 +106,30 @@ void GameScene::Update()
 	XMFLOAT3 cameraEye = camera->GetEye();
 	XMFLOAT3 cameraTarget = camera->GetTarget();
 	// オブジェクト移動
-	if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT) || input->PushKey(DIK_SPACE) || input->PushKey(DIK_LCONTROL))
+	//if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT) || input->PushKey(DIK_SPACE) || input->PushKey(DIK_LCONTROL))
+	//{
+	//	// 現在の座標を取得
+	//	XMFLOAT3 pos = objFighter->GetPosition();
+
+	//	// 移動後の座標を計算
+	//	if (input->PushKey(DIK_SPACE)) { pos.y += 0.1f;}
+	//	else if (input->PushKey(DIK_LCONTROL)) { pos.y -= 0.1f;}
+
+	//	if (input->PushKey(DIK_RIGHT)) { pos.x += 0.1f;}
+	//	else if (input->PushKey(DIK_LEFT)) { pos.x -= 0.1f;}
+	//	
+	//	if (input->PushKey(DIK_UP)) { pos.z += 0.1f; }
+	//	else if (input->PushKey(DIK_DOWN)) { pos.z -= 0.1f; }
+
+	//	ParticlesCreate({ pos.x - 2.0f,pos.y,pos.z });
+	//	// 座標の変更を反映
+	//	objFighter->SetPosition(pos);
+	//}
+	if (Input::GetInstance()->PushKey(DIK_SPACE))
 	{
-		// 現在の座標を取得
-		XMFLOAT3 pos = objFighter->GetPosition();
-
-		// 移動後の座標を計算
-		if (input->PushKey(DIK_SPACE)) { pos.y += 0.1f;}
-		else if (input->PushKey(DIK_LCONTROL)) { pos.y -= 0.1f;}
-
-		if (input->PushKey(DIK_RIGHT)) { pos.x += 0.1f;}
-		else if (input->PushKey(DIK_LEFT)) { pos.x -= 0.1f;}
-		
-		if (input->PushKey(DIK_UP)) { pos.z += 0.1f; }
-		else if (input->PushKey(DIK_DOWN)) { pos.z -= 0.1f; }
-
-		ParticlesCreate({ pos.x - 2.0f,pos.y,pos.z });
-		// 座標の変更を反映
-		objFighter->SetPosition(pos);
+		cameraEye.y += 1.0f;
 	}
-
+	camera->SetEye(cameraEye);
 	// カメラ移動
 	/*if (input->PushKey(DIK_W) || input->PushKey(DIK_A) || input->PushKey(DIK_S) || input->PushKey(DIK_D))
 	{
@@ -137,13 +142,13 @@ void GameScene::Update()
 	}*/
 
 	//// カメラ移動
-	if (input->PushKey(DIK_Q) || input->PushKey(DIK_E) || input->PushKey(DIK_LCONTROL) || input->PushKey(DIK_SPACE))
+	/*if (input->PushKey(DIK_Q) || input->PushKey(DIK_E) || input->PushKey(DIK_LCONTROL) || input->PushKey(DIK_SPACE))
 	{
 		if (input->PushKey(DIK_SPACE)) { camera->CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
 		else if (input->PushKey(DIK_LCONTROL)) { camera->CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
 		if (input->PushKey(DIK_E)) { camera->CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
 		else if (input->PushKey(DIK_Q)) { camera->CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
-	}
+	}*/
 
 	//カメラ角度変更
 	/*if (input->PushKey(DIK_W) || input->PushKey(DIK_A) || input->PushKey(DIK_S) || input->PushKey(DIK_D))
@@ -259,12 +264,12 @@ void GameScene::ParticlesCreate(XMFLOAT3 Pos)
 
 void GameScene::MovePlayer()
 {
-	if (!input->PushKey(DIK_SPACE)) { return; }
-	// 現在の座標を取得
-	XMFLOAT3 pos = objFighter->GetPosition();
-	//移動
-	pos.y += 0.1f;
-	ParticlesCreate({ pos.x - 2.0f,pos.y,pos.z });
-	// 座標の変更を反映
-	objFighter->SetPosition(pos);
+	//if (!input->PushKey(DIK_SPACE)) { return; }
+	//// 現在の座標を取得
+	//XMFLOAT3 pos = objFighter->GetPosition();
+	////移動
+	//pos.y += 0.1f;
+	//ParticlesCreate({ pos.x - 2.0f,pos.y,pos.z });
+	//// 座標の変更を反映
+	//objFighter->SetPosition(pos);
 }

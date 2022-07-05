@@ -31,6 +31,12 @@ void Input::MouseInitialize(WinApp *winApp)
 	result = devMouse->SetCooperativeLevel(winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 }
 
+Input* Input::GetInstance()
+{
+	static Input input;
+	return &input;
+}
+
 void Input::Update()
 {
 	HRESULT result;

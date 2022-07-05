@@ -17,11 +17,10 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-	Input* input = nullptr;
 public:
 	PostEffect();
 
-	void Initialize(Input* input);
+	void Initialize();
 
 	void Draw(ID3D12GraphicsCommandList*cmdList);
 
