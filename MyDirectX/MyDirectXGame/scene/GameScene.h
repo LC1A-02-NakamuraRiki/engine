@@ -63,7 +63,6 @@ public: // ƒƒ“ƒoŠÖ”
 	/// </summary>
 	void ParticlesCreate(XMFLOAT3 Pos);
 
-	void MovePlayer();
 private: // ƒƒ“ƒo•Ï”
 	DirectXCommon *dxCommon = nullptr;
 	//Input *input = nullptr;

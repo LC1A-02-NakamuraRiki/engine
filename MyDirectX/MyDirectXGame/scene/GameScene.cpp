@@ -186,11 +186,7 @@ void GameScene::Draw()
 	Sprite::PreDraw(cmdList);
 	// 背景スプライト描画
 	//-------------------------------------------------------------//
-
-
 	//spriteBG->Draw();
-
-
 	//-------------------------------------------------------------//
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -220,9 +216,6 @@ void GameScene::Draw()
 	//// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-
-
-
 
 	//-------------------------------------------------------------//
 	// デバッグテキストの描画
@@ -260,16 +253,4 @@ void GameScene::ParticlesCreate(XMFLOAT3 Pos)
 		// 追加
 		particle3d->Add(time, pos, vel, acc, s_scale, e_scale, color);
 	}
-}
-
-void GameScene::MovePlayer()
-{
-	//if (!input->PushKey(DIK_SPACE)) { return; }
-	//// 現在の座標を取得
-	//XMFLOAT3 pos = objFighter->GetPosition();
-	////移動
-	//pos.y += 0.1f;
-	//ParticlesCreate({ pos.x - 2.0f,pos.y,pos.z });
-	//// 座標の変更を反映
-	//objFighter->SetPosition(pos);
 }
