@@ -6,6 +6,7 @@
 #include "../3d/FbxLoader.h"
 #include "../2d/PostEffect.h"
 #include"../input/Input.h"
+#include"../input/GamePad.h"
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -13,6 +14,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	WinApp *win = nullptr;
 	DirectXCommon *dxCommon = nullptr;
 	//Input *input = nullptr;
+	gamePad * gamepad = nullptr;
 	Sound *audio = nullptr;
 	GameScene *gameScene = nullptr;
 	PostEffect* postEffect = nullptr;
@@ -29,6 +31,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 入力の初期化
 	Input::GetInstance()->Initialize(win->GetHInstance(), win->GetHwnd());
 	Input::GetInstance()->MouseInitialize(win);
+	gamepad = new gamePad();
+	gamepad->InitialiizeInput();
 	// オーディオの初期化
 	audio = new Sound();
 	if (!audio->Initialize()) {
@@ -66,6 +70,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 入力関連の毎フレーム処理
 		Input::GetInstance()->Update();
 		Input::GetInstance()->MouseUpdate();
+		gamepad->UpdateInput();
+		if (gamepad->IsButtonDown(Button01))
+		{
+			int a = 0;
+		}
 		// ゲームシーンの毎フレーム処理
 		gameScene->Update();
 		postEffect->PreDrawScene(dxCommon->GetCommandList());

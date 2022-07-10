@@ -153,6 +153,15 @@
       <Filter>Scene</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="input\GamePad.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="input\KeyBoard.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="input\Mouse.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -238,6 +247,15 @@
     </ClInclude>
     <ClInclude Include="Scene\Player.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="input\GamePad.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\KeyBoard.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\Mouse.h">
+      <Filter>input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
