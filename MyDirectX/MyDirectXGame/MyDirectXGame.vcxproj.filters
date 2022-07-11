@@ -251,10 +251,10 @@
     <ClInclude Include="input\GamePad.h">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="input\KeyBoard.h">
+    <ClInclude Include="input\Mouse.h">
       <Filter>input</Filter>
     </ClInclude>
-    <ClInclude Include="input\Mouse.h">
+    <ClInclude Include="input\KeyBoard.h">
       <Filter>input</Filter>
     </ClInclude>
   </ItemGroup>

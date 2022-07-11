@@ -14,7 +14,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	WinApp *win = nullptr;
 	DirectXCommon *dxCommon = nullptr;
 	//Input *input = nullptr;
-	gamePad * gamepad = nullptr;
 	Sound *audio = nullptr;
 	GameScene *gameScene = nullptr;
 	PostEffect* postEffect = nullptr;
@@ -29,10 +28,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 #pragma region 汎用機能初期化
 	// 入力の初期化
-	Input::GetInstance()->Initialize(win->GetHInstance(), win->GetHwnd());
-	Input::GetInstance()->MouseInitialize(win);
-	gamepad = new gamePad();
-	gamepad->InitialiizeInput();
+	Input::GetInstance()->Initialize(win);
 	// オーディオの初期化
 	audio = new Sound();
 	if (!audio->Initialize()) {
@@ -69,9 +65,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// 入力関連の毎フレーム処理
 		Input::GetInstance()->Update();
-		Input::GetInstance()->MouseUpdate();
-		gamepad->UpdateInput();
-		if (gamepad->IsButtonDown(Button01))
+		if (Input::GetInstance()->ControllerPush(Button01))
 		{
 			int a = 0;
 		}

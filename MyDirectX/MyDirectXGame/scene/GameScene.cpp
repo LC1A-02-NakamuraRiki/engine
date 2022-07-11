@@ -125,10 +125,10 @@ void GameScene::Update()
 	//	// À•W‚Ì•ÏX‚ð”½‰f
 	//	objFighter->SetPosition(pos);
 	//}
-	if (Input::GetInstance()->PushKey(DIK_SPACE))
+	/*if (Input::GetInstance()->PushKey(DIK_SPACE))
 	{
 		cameraEye.y += 1.0f;
-	}
+	}*/
 	camera->SetEye(cameraEye);
 	// ƒJƒƒ‰ˆÚ“®
 	/*if (input->PushKey(DIK_W) || input->PushKey(DIK_A) || input->PushKey(DIK_S) || input->PushKey(DIK_D))

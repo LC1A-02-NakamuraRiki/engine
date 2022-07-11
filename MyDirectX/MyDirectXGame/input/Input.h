@@ -1,39 +1,54 @@
 #pragma once
-#include<windows.h>
-#include<wrl.h>
-#define DIRECTINPUT_VERSION 0x0800
-#include<dinput.h>
+#include"GamePad.h"
+#include"Keyboard.h"
+#include"Mouse.h"
 #include"../base/WinApp.h"
 class Input
 {
 private:
 	template <class T>using ComPtr = Microsoft::WRL::ComPtr<T>;
-	//WindowAPI
-	WinApp *winApp = nullptr;
+	//コントローラー
+	gamePad gamepad;
+	//キーボード
+	KeyBoard keybord;
+	//マウス
+	Mouse mouse;
 
+	WinApp* winApp = nullptr;
 public:
 	Input() = default;
 	Input(const Input&) = delete;
 	~Input() = default;
 	Input& operator=(const Input&) = delete;
 
-	bool Initialize(HINSTANCE hInstance, HWND hwnd);
-	void MouseInitialize(WinApp *winApp);
 	static Input* GetInstance();
 
+	//初期化
+	void Initialize(WinApp* winApp);
+	//更新
 	void Update();
-	void MouseUpdate();
-	bool PushKey(BYTE keyNumber);
-	bool PushMouse(int MouseNumber);
-	bool TriggerKey(BYTE keyNumber);
-	bool TriggerMouse(int MouseNumber);
-private:
-	ComPtr<IDirectInput8> dinput;
-	ComPtr<IDirectInputDevice8> devkeyboard;
-	BYTE keyPre[256] = {};
-	BYTE key[256] = {};
 
-	ComPtr<IDirectInputDevice8> devMouse;
-	DIMOUSESTATE mouse = { 0 };
-	DIMOUSESTATE oldMouse = { 0 };
+	bool KeybordPush(BYTE keyNumber);
+
+	bool KeybordTrigger(BYTE keyNumber);
+
+	bool ControllerPush(ButtonKind button);
+
+	bool ControllerUp(ButtonKind button);
+
+	bool ControllerDown(ButtonKind button);
+
+	float GetLeftAngle();
+
+	float GetRightAngle();
+
+	bool ConRightInput();
+
+	bool ConLeftInput();
+
+	bool MousePush(int number);
+
+	bool MouseTrigger(int number);
+
+	Mouse::MouseCursor GetMouseMove();
 };

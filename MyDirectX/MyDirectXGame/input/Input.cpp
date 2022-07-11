@@ -1,34 +1,15 @@
 #include "Input.h"
-#pragma comment(lib,"dinput8.lib")
 
-bool Input::Initialize(HINSTANCE hInstance, HWND hwnd)
+void Input::Initialize(WinApp* winApp)
 {
-	HRESULT result = S_FALSE;
+	//キーボード初期化
+	keybord.Initialize(winApp->GetHInstance(), winApp->GetHwnd());
 
-	// DirectInputオブジェクトの生成	
-	result = DirectInput8Create(hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void **)&dinput, nullptr);
+	//コントローラー初期化
+	gamepad.InitialiizeInput();
 
-	// キーボードデバイスの生成	
-	result = dinput->CreateDevice(GUID_SysKeyboard, &devkeyboard, NULL);
-
-	// 入力データ形式のセット
-	result = devkeyboard->SetDataFormat(&c_dfDIKeyboard); // 標準形式
-
-	// 排他制御レベルのセット
-	result = devkeyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
-
-	return true;
-}
-
-void Input::MouseInitialize(WinApp *winApp)
-{
-	HRESULT result;
-	//マウスデバイス生成
-	result = dinput->CreateDevice(GUID_SysMouse, &devMouse, NULL);
-	//入力データ形式のセット
-	result = devMouse->SetDataFormat(&c_dfDIMouse);
-	//排他制御レベルのセット
-	result = devMouse->SetCooperativeLevel(winApp->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	//マウス初期化
+	mouse.MouseInitialize(winApp);
 }
 
 Input* Input::GetInstance()
@@ -39,61 +20,86 @@ Input* Input::GetInstance()
 
 void Input::Update()
 {
-	HRESULT result;
-
-	//キーボード情報の取得開始
-	result = devkeyboard->Acquire();
-
-	memcpy(keyPre, key, sizeof(key));
-
-	//全キーの入力状態を取得する
-	result = devkeyboard->GetDeviceState(sizeof(key), key);
+	//キーボード更新	
+	keybord.Update();
+	//コントローラー更新
+	gamepad.UpdateInput();
+	//マウス更新
+	mouse.MouseUpdate();
 }
 
-void Input::MouseUpdate()
+bool Input::KeybordPush(BYTE keyNumber)
 {
-	HRESULT result;
-
-	//前回のキー入力を保存
-	oldMouse = mouse;
-	//マウスの情報取得開始
-	result = devMouse->Acquire();
-	//マウスの入力情報を取得
-	result = devMouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouse);
+	return keybord.PushKey(keyNumber);
 }
 
-bool Input::PushKey(BYTE keyNumber)
+bool Input::KeybordTrigger(BYTE keyNumber)
 {
-	if (key[keyNumber])
+	return keybord.TriggerKey(keyNumber);
+}
+
+bool Input::ControllerPush(ButtonKind button)
+{
+	return gamepad.IsButtonPush(button);
+}
+
+bool Input::ControllerUp(ButtonKind button)
+{
+	return gamepad.IsButtonUp(button);
+}
+
+bool Input::ControllerDown(ButtonKind button)
+{
+	return gamepad.IsButtonDown(button);
+}
+
+float Input::GetLeftAngle()
+{
+	return gamepad.GetLeftAngle();
+}
+
+float Input::GetRightAngle()
+{
+	return gamepad.GetRightAngle();
+}
+
+bool Input::ConRightInput()
+{
+	bool isHit = false;
+	if (ControllerPush(RUpButton) == true ||
+		ControllerPush(RDownButton) == true ||
+		ControllerPush(RLeftButton) == true ||
+		ControllerPush(RRightButton) == true)
 	{
-		return true;
+		isHit = true;
 	}
-	return false;
+	return isHit;
 }
 
-bool Input::PushMouse(int MouseNumber)
+bool Input::ConLeftInput()
 {
-	if (mouse.rgbButtons[MouseNumber])
+	bool isHit = false;
+	if (ControllerPush(LUpButton) == true ||
+		ControllerPush(LDownButton) == true ||
+		ControllerPush(LLeftButton) == true ||
+		ControllerPush(LRightButton) == true)
 	{
-		return true;
+		isHit = true;
 	}
-	return false;
+	return isHit;
 }
 
-bool Input::TriggerKey(BYTE keyNumber)
+bool Input::MousePush(int number)
 {
-	if (!keyPre[keyNumber] && key[keyNumber])
-	{
-		return true;
-	}
-	return false;
+	return mouse.PushMouse(number);
 }
 
-bool Input::TriggerMouse(int MouseNumber)
+bool Input::MouseTrigger(int number)
 {
-	if (mouse.rgbButtons[MouseNumber] && !oldMouse.rgbButtons[MouseNumber])
-	{
-		return true;
-	}
-	return false;
+	return mouse.TriggerMouse(number);
+}
+
+Mouse::MouseCursor Input::GetMouseMove()
+{
+	return mouse.GetMouseMove();
 }
