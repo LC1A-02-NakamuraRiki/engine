@@ -13,7 +13,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 汎用機能
 	WinApp *win = nullptr;
 	DirectXCommon *dxCommon = nullptr;
-	//Input *input = nullptr;
 	Sound *audio = nullptr;
 	GameScene *gameScene = nullptr;
 	PostEffect* postEffect = nullptr;
@@ -43,12 +42,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	// 3Dオブジェクト静的初期化
 	Object3d::StaticInitialize(dxCommon->GetDevice());
-	
-	
+		
 	Light::StaticInitialize(dxCommon->GetDevice());
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 
-	//Sprite::LoadTexture(100, L"Resources/white1x1.png");
 	postEffect = new PostEffect();
 	postEffect->Initialize();
 #pragma endregion
@@ -65,10 +62,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// 入力関連の毎フレーム処理
 		Input::GetInstance()->Update();
-		if (Input::GetInstance()->ControllerPush(Button01))
-		{
-			int a = 0;
-		}
 		// ゲームシーンの毎フレーム処理
 		gameScene->Update();
 		postEffect->PreDrawScene(dxCommon->GetCommandList());

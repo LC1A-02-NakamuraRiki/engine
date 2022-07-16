@@ -25,6 +25,7 @@ GameScene::~GameScene()
 	safe_delete(light);
 	safe_delete(object1);
 	safe_delete(model1);
+	safe_delete(player);
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
@@ -92,6 +93,8 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	//audio->PlayBGM("Resources/Alarm01.wav", true);
 	//audio->PlaySE("Resources/Alarm01.wav", false);
 	//audio->StopBGM();
+	player = new Player;
+	
 }
 
 void GameScene::Update()
@@ -102,9 +105,18 @@ void GameScene::Update()
 	
 	debugText.Print(20, 20, 1.5f,"ObjectMove:ArrowKey");
 	debugText.Print(20, 50, 1.5f,"EyeMove:W A S D");
-	debugText.Print(20, 80, 1.5f,"EyeTarget:SPACE Q LCONTROL E");
+	
 	XMFLOAT3 cameraEye = camera->GetEye();
 	XMFLOAT3 cameraTarget = camera->GetTarget();
+	if (Input::GetInstance()->ControllerPush(Button01))
+	{
+		
+	}
+	//プレイヤー系
+	player->Update();
+	camera->SetEye(player->GetPos());
+	camera->SetTarget(player->GetTarget());
+	debugText.Print(20, 80, 1.5f, "%f %f", cameraTarget.x, cameraTarget.z);
 	// オブジェクト移動
 	//if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT) || input->PushKey(DIK_SPACE) || input->PushKey(DIK_LCONTROL))
 	//{
@@ -129,7 +141,8 @@ void GameScene::Update()
 	{
 		cameraEye.y += 1.0f;
 	}*/
-	camera->SetEye(cameraEye);
+
+	
 	// カメラ移動
 	/*if (input->PushKey(DIK_W) || input->PushKey(DIK_A) || input->PushKey(DIK_S) || input->PushKey(DIK_D))
 	{
@@ -142,12 +155,12 @@ void GameScene::Update()
 	}*/
 
 	//// カメラ移動
-	/*if (input->PushKey(DIK_Q) || input->PushKey(DIK_E) || input->PushKey(DIK_LCONTROL) || input->PushKey(DIK_SPACE))
+	/*if (Input::GetInstance()->KeybordPush(DIK_Q) || Input::GetInstance()->KeybordPush(DIK_E) || Input::GetInstance()->KeybordPush(DIK_LCONTROL) || Input::GetInstance()->KeybordPush(DIK_SPACE))
 	{
-		if (input->PushKey(DIK_SPACE)) { camera->CameraMoveEyeVector({ 0.0f,+1.0f,0.0f }); }
-		else if (input->PushKey(DIK_LCONTROL)) { camera->CameraMoveEyeVector({ 0.0f,-1.0f,0.0f }); }
-		if (input->PushKey(DIK_E)) { camera->CameraMoveEyeVector({ +1.0f,0.0f,0.0f }); }
-		else if (input->PushKey(DIK_Q)) { camera->CameraMoveEyeVector({ -1.0f,0.0f,0.0f }); }
+		if (Input::GetInstance()->KeybordPush(DIK_SPACE)) { camera->CameraMoveVector({ 0.0f,+1.0f,0.0f }); }
+		else if (Input::GetInstance()->KeybordPush(DIK_LCONTROL)) { camera->CameraMoveVector({ 0.0f,-1.0f,0.0f }); }
+		if (Input::GetInstance()->KeybordPush(DIK_E)) { camera->CameraMoveVector({ +1.0f,0.0f,0.0f }); }
+		else if (Input::GetInstance()->KeybordPush(DIK_Q)) { camera->CameraMoveVector({ -1.0f,0.0f,0.0f }); }
 	}*/
 
 	//カメラ角度変更
@@ -200,8 +213,8 @@ void GameScene::Draw()
 	//-------------------------------------------------------------//
 
 	//playerObj->Draw();
-	//objSkydome->Draw();
-	//objGround->Draw();
+	objSkydome->Draw();
+	objGround->Draw();
 	//objFighter->Draw();
 	object1->Draw(cmdList);
 	//-------------------------------------------------------------//

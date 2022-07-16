@@ -11,7 +11,7 @@ float4 main(VSOutput input) :SV_TARGET
 	float4 color = texcolor0;
 	if(fmod(input.uv.y,0.1f) < 0.05f)
 	{
-		color = texcolor1;
+		//color = texcolor1;
 	}
 	return float4(color.rgb,1);
 }

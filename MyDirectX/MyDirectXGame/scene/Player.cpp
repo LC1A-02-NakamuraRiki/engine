@@ -1,3 +1,4 @@
+#include "Player.h"
 //#include "Player.h"
 //#include "../input/Input.h"
 //#include "../2d/DebugText.h"
@@ -89,3 +90,7 @@
 //		ParticleManager::GetInstance()->Add(10, XMFLOAT3(info.inter.m128_f32), vel, XMFLOAT3(), 0.0f, 1.0f, XMFLOAT4{1,1,1,1});
 //	}
 //}
+
+void player::update()
+{
+}

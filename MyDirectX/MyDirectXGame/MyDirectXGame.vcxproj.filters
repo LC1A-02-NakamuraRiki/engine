@@ -5,26 +5,32 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="2d">
-      <UniqueIdentifier>{ada77ab1-f771-476f-8ac1-3dca97effcad}</UniqueIdentifier>
+    <Filter Include="engine">
+      <UniqueIdentifier>{2c3d56dd-9ff0-4298-a929-9a231e792821}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3d">
-      <UniqueIdentifier>{4b3f1c0a-c4af-4dcf-b2ff-da35bc031fda}</UniqueIdentifier>
+    <Filter Include="engine\Sound">
+      <UniqueIdentifier>{a48833fd-3d2a-4f11-ba5d-4613573f9c89}</UniqueIdentifier>
     </Filter>
-    <Filter Include="base">
-      <UniqueIdentifier>{0a87b4b4-7305-419b-b5dc-76a35dbcdc95}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="collision">
-      <UniqueIdentifier>{36dc6c99-03a2-48e3-bdd8-9385244f8c77}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="input">
-      <UniqueIdentifier>{ac6c3e0e-d8ca-4591-ac18-396d5d9b9eb6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Scene">
+    <Filter Include="engine\Scene">
       <UniqueIdentifier>{7ce5153d-1824-463d-bfce-aa78a16b17ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{a48833fd-3d2a-4f11-ba5d-4613573f9c89}</UniqueIdentifier>
+    <Filter Include="engine\input">
+      <UniqueIdentifier>{ac6c3e0e-d8ca-4591-ac18-396d5d9b9eb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\collision">
+      <UniqueIdentifier>{36dc6c99-03a2-48e3-bdd8-9385244f8c77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\base">
+      <UniqueIdentifier>{0a87b4b4-7305-419b-b5dc-76a35dbcdc95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\3d">
+      <UniqueIdentifier>{4b3f1c0a-c4af-4dcf-b2ff-da35bc031fda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\2d">
+      <UniqueIdentifier>{ada77ab1-f771-476f-8ac1-3dca97effcad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library">
+      <UniqueIdentifier>{3d1c2fc0-8714-4b08-a210-d3d71157fe47}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -81,181 +87,181 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2d\DebugText.cpp">
-      <Filter>2d</Filter>
+      <Filter>engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="2d\PostEffect.cpp">
-      <Filter>2d</Filter>
+      <Filter>engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="2d\Sprite.cpp">
-      <Filter>2d</Filter>
+      <Filter>engine\2d</Filter>
     </ClCompile>
     <ClCompile Include="3d\Camera.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\DebugCamera.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\FbxLoader.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\FbxModel.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\FbxObject3d.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\Light.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\Material.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\Mesh.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\Model.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\Object3d.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="3d\ParticleManager.cpp">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClCompile>
     <ClCompile Include="base\DirectXCommon.cpp">
-      <Filter>base</Filter>
+      <Filter>engine\base</Filter>
     </ClCompile>
     <ClCompile Include="base\WinApp.cpp">
-      <Filter>base</Filter>
+      <Filter>engine\base</Filter>
     </ClCompile>
     <ClCompile Include="collision\Collision.cpp">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClCompile>
     <ClCompile Include="collision\CollisionManager.cpp">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClCompile>
     <ClCompile Include="collision\CollisionPrimitive.cpp">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClCompile>
     <ClCompile Include="collision\SphereCollider.cpp">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClCompile>
     <ClCompile Include="input\Input.cpp">
-      <Filter>input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="Sound\Sound.cpp">
-      <Filter>Sound</Filter>
+      <Filter>engine\Sound</Filter>
     </ClCompile>
     <ClCompile Include="Scene\GameScene.cpp">
-      <Filter>Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\Player.cpp">
-      <Filter>Scene</Filter>
+      <Filter>engine\Scene</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input\GamePad.cpp">
-      <Filter>input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="input\KeyBoard.cpp">
-      <Filter>input</Filter>
+      <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="input\Mouse.cpp">
-      <Filter>input</Filter>
+      <Filter>engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Player.cpp">
+      <Filter>Library</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
-      <Filter>2d</Filter>
+      <Filter>engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="2d\PostEffect.h">
-      <Filter>2d</Filter>
+      <Filter>engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="2d\Sprite.h">
-      <Filter>2d</Filter>
+      <Filter>engine\2d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Camera.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\DebugCamera.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\FbxLoader.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\FbxModel.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\FbxObject3d.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Light.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Material.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Mesh.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Model.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Object3d.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\ParticleManager.h">
-      <Filter>3d</Filter>
+      <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="base\DirectXCommon.h">
-      <Filter>base</Filter>
+      <Filter>engine\base</Filter>
     </ClInclude>
     <ClInclude Include="base\SafeDelete.h">
-      <Filter>base</Filter>
+      <Filter>engine\base</Filter>
     </ClInclude>
     <ClInclude Include="base\WinApp.h">
-      <Filter>base</Filter>
+      <Filter>engine\base</Filter>
     </ClInclude>
     <ClInclude Include="collision\BaseCollider.h">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClInclude>
     <ClInclude Include="collision\Collision.h">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClInclude>
     <ClInclude Include="collision\CollisionInfo.h">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClInclude>
     <ClInclude Include="collision\CollisionManager.h">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClInclude>
     <ClInclude Include="collision\CollisionPrimitive.h">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClInclude>
     <ClInclude Include="collision\CollisionType.h">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClInclude>
     <ClInclude Include="collision\SphereCollider.h">
-      <Filter>collision</Filter>
+      <Filter>engine\collision</Filter>
     </ClInclude>
     <ClInclude Include="input\Input.h">
-      <Filter>input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="Sound\Sound.h">
-      <Filter>Sound</Filter>
+      <Filter>engine\Sound</Filter>
     </ClInclude>
     <ClInclude Include="Scene\GameScene.h">
-      <Filter>Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\Player.h">
-      <Filter>Scene</Filter>
+      <Filter>engine\Scene</Filter>
     </ClInclude>
     <ClInclude Include="input\GamePad.h">
-      <Filter>input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="input\Mouse.h">
-      <Filter>input</Filter>
+      <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="input\KeyBoard.h">
-      <Filter>input</Filter>
+      <Filter>engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Player.h">
+      <Filter>Library</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

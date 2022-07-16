@@ -256,8 +256,8 @@
     <ClCompile Include="input\KeyBoard.cpp" />
     <ClCompile Include="input\Mouse.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
-    <ClCompile Include="Scene\Player.cpp" />
     <ClCompile Include="Sound\Sound.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -289,8 +289,8 @@
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="input\KeyBoard.h" />
     <ClInclude Include="input\Mouse.h" />
+    <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Scene\GameScene.h" />
-    <ClInclude Include="Scene\Player.h" />
     <ClInclude Include="Sound\Sound.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

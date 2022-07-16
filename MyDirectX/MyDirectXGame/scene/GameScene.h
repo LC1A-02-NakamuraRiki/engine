@@ -12,6 +12,8 @@
 #include "../collision/Collision.h"
 #include "../3d/ParticleManager.h"
 #include "../3d/DebugCamera.h"
+#include "../3d/DebugCamera.h"
+#include "../Player/Player.h"
 
 
 /// <summary>
@@ -19,7 +21,7 @@
 /// </summary>
 class GameScene
 {
-private: // エイリアス
+protected: // エイリアス
 	// Microsoft::WRL::を省略
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 	// DirectX::を省略
@@ -87,6 +89,8 @@ private: // メンバ変数
 	
 	FbxModel* model1 = nullptr;
 	FbxObject3d* object1 = nullptr;
+
+	Player* player = nullptr;
 	/*Object3d *playerObj = nullptr;
 	Model *playerModel = nullptr;
 
