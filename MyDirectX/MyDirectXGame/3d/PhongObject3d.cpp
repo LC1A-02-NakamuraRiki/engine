@@ -1,4 +1,4 @@
-#include "Object3d.h"
+#include "PhongObject3d.h"
 #include <d3dcompiler.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
@@ -15,22 +15,22 @@ using namespace std;
 /// 静的メンバ変数の実体
 /// </summary>
 
-ID3D12Device *Object3d::device = nullptr;
-ID3D12GraphicsCommandList *Object3d::cmdList = nullptr;
+ID3D12Device* PhongObject3d::device = nullptr;
+ID3D12GraphicsCommandList* PhongObject3d::cmdList = nullptr;
 //ComPtr<ID3D12RootSignature> Object3d::rootsignature;
-Object3d::PipelineSet Object3d::pipelineSet;
+PhongObject3d::PipelineSet PhongObject3d::pipelineSet;
 //XMMATRIX Object3d::matView{};
 //XMMATRIX Object3d::matProjection{};
 //XMFLOAT3 Object3d::eye = { 0, 0, -40.0f };
 //XMFLOAT3 Object3d::target = { 0, 0, 0 };
 //XMFLOAT3 Object3d::up = { 0, 1, 0 };
-Camera *Object3d::camera = nullptr;
-Light *Object3d::light = nullptr;
+Camera* PhongObject3d::camera = nullptr;
+Light* PhongObject3d::light = nullptr;
 
-void Object3d::StaticInitialize(ID3D12Device *device,Camera *camera)
+void PhongObject3d::StaticInitialize(ID3D12Device* device, Camera* camera)
 {
-	Object3d::device = device;
-	Object3d::camera = camera;
+	PhongObject3d::device = device;
+	PhongObject3d::camera = camera;
 
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
@@ -38,7 +38,7 @@ void Object3d::StaticInitialize(ID3D12Device *device,Camera *camera)
 	Model::StaticInitialize(device);
 }
 
-void Object3d::InitializeGraphicsPipeline()
+void PhongObject3d::InitializeGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -47,7 +47,7 @@ void Object3d::InitializeGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/shaders/OBJVS.hlsl",  // シェーダファイル名
+		L"Resources/shaders/OBJVS3.hlsl",  // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -57,7 +57,7 @@ void Object3d::InitializeGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/shaders/OBJPS.hlsl",   // シェーダファイル名
+		L"Resources/shaders/OBJPS3.hlsl",   // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -70,7 +70,7 @@ void Object3d::InitializeGraphicsPipeline()
 		std::string errstr;
 		errstr.resize(errorBlob->GetBufferSize());
 
-		std::copy_n((char *)errorBlob->GetBufferPointer(),
+		std::copy_n((char*)errorBlob->GetBufferPointer(),
 			errorBlob->GetBufferSize(),
 			errstr.begin());
 		errstr += "\n";
@@ -153,7 +153,7 @@ void Object3d::InitializeGraphicsPipeline()
 	rootparams[1].InitAsConstantBufferView(1, 0, D3D12_SHADER_VISIBILITY_ALL);
 	rootparams[2].InitAsDescriptorTable(1, &descTblRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
 	rootparams[3].InitAsConstantBufferView(2, 0, D3D12_SHADER_VISIBILITY_ALL);
-	
+
 	// スタティックサンプラー
 	CD3DX12_STATIC_SAMPLER_DESC samplerDesc = CD3DX12_STATIC_SAMPLER_DESC(0);
 
@@ -174,21 +174,21 @@ void Object3d::InitializeGraphicsPipeline()
 
 }
 
-void Object3d::PreDraw(ID3D12GraphicsCommandList *cmdList)
+void PhongObject3d::PreDraw(ID3D12GraphicsCommandList* cmdList)
 {
 	// コマンドリストをセット
-	Object3d::cmdList = cmdList;
+	PhongObject3d::cmdList = cmdList;
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
-void Object3d::PostDraw()
+void PhongObject3d::PostDraw()
 {
-	Object3d::cmdList = nullptr;
+	PhongObject3d::cmdList = nullptr;
 }
 
-Object3d *Object3d::Create(Model *model)
+PhongObject3d* PhongObject3d::Create(Model* model)
 {
-	Object3d *object3d = new Object3d();
+	PhongObject3d* object3d = new PhongObject3d();
 	if (object3d == nullptr) {
 		return nullptr;
 	}
@@ -196,17 +196,17 @@ Object3d *Object3d::Create(Model *model)
 	float scale_val = 1;
 	object3d->scale = { scale_val, scale_val, scale_val };
 	// 初期化
-		if (!object3d->Initialize()) {
-			delete object3d;
-			assert(0);
-		}
-		if (model) {
-			object3d->LinkModel(model);
-		}
+	if (!object3d->Initialize()) {
+		delete object3d;
+		assert(0);
+	}
+	if (model) {
+		object3d->LinkModel(model);
+	}
 	return object3d;
 }
 
-bool Object3d::Initialize()
+bool PhongObject3d::Initialize()
 {
 	HRESULT result;
 
@@ -222,7 +222,7 @@ bool Object3d::Initialize()
 	return true;
 }
 
-void Object3d::Update()
+void PhongObject3d::Update()
 {
 	assert(camera);
 
@@ -244,7 +244,7 @@ void Object3d::Update()
 	matWorld *= matTrans; // ワールド行列に平行移動を反映
 
 	if (isBillboard) {
-		const XMMATRIX &matBillboard = camera->GetBillboardMatrix();
+		const XMMATRIX& matBillboard = camera->GetBillboardMatrix();
 
 		matWorld = XMMatrixIdentity();
 		matWorld *= matScale; // ワールド行列にスケーリングを反映
@@ -259,12 +259,12 @@ void Object3d::Update()
 		matWorld *= parent->matWorld;
 	}
 
-	const XMMATRIX &matViewProjection = camera->GetViewProjectionMatrix();
-	const XMFLOAT3 &cameraPos = camera->GetEye();
+	const XMMATRIX& matViewProjection = camera->GetViewProjectionMatrix();
+	const XMFLOAT3& cameraPos = camera->GetEye();
 	const XMFLOAT4 color = XMFLOAT4(1, 1, 0, 0);
 	// 定数バッファへデータ転送
-	ConstBufferDataB0 *constMap2 = nullptr;
-	result = constBuffB0->Map(0, nullptr, (void **)&constMap2);
+	ConstBufferDataB0* constMap2 = nullptr;
+	result = constBuffB0->Map(0, nullptr, (void**)&constMap2);
 	//constMap->mat = matWorld * matViewProjection;	// 行列の合成
 	constMap2->viewproj = matViewProjection;
 	constMap2->world = matWorld;
@@ -273,7 +273,7 @@ void Object3d::Update()
 	constBuffB0->Unmap(0, nullptr);
 }
 
-void Object3d::Draw()
+void PhongObject3d::Draw()
 {
 	// モデルの割り当てがなければ描画しない
 	if (model == nullptr) {

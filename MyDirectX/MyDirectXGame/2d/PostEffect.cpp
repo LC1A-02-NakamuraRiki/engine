@@ -6,7 +6,7 @@
 #pragma comment(lib,"d3dcompiler.lib")
 using namespace DirectX;
 
-const float PostEffect::clearColor[4] = {0.0f,0.5f,0.0f,0.0f};
+const float PostEffect::clearColor[4] = {0.0f,0.5f,0.5f,0.0f};
 
 PostEffect::PostEffect() 
 	: Sprite(

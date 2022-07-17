@@ -12,7 +12,7 @@ ID3D12Device *Mesh::device = nullptr;
 void Mesh::StaticInitialize(ID3D12Device *device)
 {
 	// nullptrチェック
-	assert(!Mesh::device);
+	//assert(!Mesh::device);
 
 	Mesh::device = device;
 

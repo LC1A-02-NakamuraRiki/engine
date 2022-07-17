@@ -10,7 +10,7 @@
 #include "Model.h"
 #include "Camera.h"
 #include "Light.h"
-class Object3d
+class ToonObject3d
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
@@ -72,14 +72,14 @@ public: // 静的メンバ関数
 
 	/// カメラのセット
 	static void SetCamera(Camera *camera) {
-		Object3d::camera = camera;
+		ToonObject3d::camera = camera;
 	}
 
 	//3Dオブジェクト生成
-	static Object3d *Create(Model *model = nullptr);
+	static ToonObject3d *Create(Model *model = nullptr);
 
 	//ライトの位置設定
-	static void SetLight(Light *light) { Object3d::light = light; }
+	static void SetLight(Light *light) { ToonObject3d::light = light; }
 	
 private: // 静的メンバ変数
 // デバイス
@@ -173,7 +173,7 @@ public:
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// 親オブジェクト
-	Object3d *parent = nullptr;
+	ToonObject3d *parent = nullptr;
 	// モデル
 	Model *model = nullptr;
 	// ビルボード

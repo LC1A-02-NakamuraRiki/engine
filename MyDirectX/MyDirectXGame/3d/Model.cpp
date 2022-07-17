@@ -15,7 +15,7 @@ UINT Model::descriptorHandleIncrementSize = 0;
 void Model::StaticInitialize(ID3D12Device *device)
 {
 	// 再初期化チェック
-	assert(!Model::device);
+	//assert(!Model::device);
 
 	Model::device = device;
 

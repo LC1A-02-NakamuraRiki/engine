@@ -13,7 +13,7 @@ ID3D12Device *Material::device = nullptr;
 void Material::StaticInitialize(ID3D12Device *device)
 {
 	//初期化チェック
-	assert(!Material::device);
+	//assert(!Material::device);
 
 	Material::device = device;
 }

@@ -1,4 +1,4 @@
-#include "Object3d.h"
+#include "ToonObject3d.h"
 #include <d3dcompiler.h>
 
 #pragma comment(lib, "d3dcompiler.lib")
@@ -15,22 +15,22 @@ using namespace std;
 /// 静的メンバ変数の実体
 /// </summary>
 
-ID3D12Device *Object3d::device = nullptr;
-ID3D12GraphicsCommandList *Object3d::cmdList = nullptr;
+ID3D12Device * ToonObject3d::device = nullptr;
+ID3D12GraphicsCommandList * ToonObject3d::cmdList = nullptr;
 //ComPtr<ID3D12RootSignature> Object3d::rootsignature;
-Object3d::PipelineSet Object3d::pipelineSet;
+ToonObject3d::PipelineSet ToonObject3d::pipelineSet;
 //XMMATRIX Object3d::matView{};
 //XMMATRIX Object3d::matProjection{};
 //XMFLOAT3 Object3d::eye = { 0, 0, -40.0f };
 //XMFLOAT3 Object3d::target = { 0, 0, 0 };
 //XMFLOAT3 Object3d::up = { 0, 1, 0 };
-Camera *Object3d::camera = nullptr;
-Light *Object3d::light = nullptr;
+Camera * ToonObject3d::camera = nullptr;
+Light * ToonObject3d::light = nullptr;
 
-void Object3d::StaticInitialize(ID3D12Device *device,Camera *camera)
+void ToonObject3d::StaticInitialize(ID3D12Device *device,Camera *camera)
 {
-	Object3d::device = device;
-	Object3d::camera = camera;
+	ToonObject3d::device = device;
+	ToonObject3d::camera = camera;
 
 	// パイプライン初期化
 	InitializeGraphicsPipeline();
@@ -38,7 +38,7 @@ void Object3d::StaticInitialize(ID3D12Device *device,Camera *camera)
 	Model::StaticInitialize(device);
 }
 
-void Object3d::InitializeGraphicsPipeline()
+void ToonObject3d::InitializeGraphicsPipeline()
 {
 	HRESULT result = S_FALSE;
 	ComPtr<ID3DBlob> vsBlob; // 頂点シェーダオブジェクト
@@ -47,7 +47,7 @@ void Object3d::InitializeGraphicsPipeline()
 
 	// 頂点シェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/shaders/OBJVS.hlsl",  // シェーダファイル名
+		L"Resources/shaders/OBJVS2.hlsl",  // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "vs_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -57,7 +57,7 @@ void Object3d::InitializeGraphicsPipeline()
 
 	// ピクセルシェーダの読み込みとコンパイル
 	result = D3DCompileFromFile(
-		L"Resources/shaders/OBJPS.hlsl",   // シェーダファイル名
+		L"Resources/shaders/OBJPS2.hlsl",   // シェーダファイル名
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
 		"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
@@ -174,21 +174,21 @@ void Object3d::InitializeGraphicsPipeline()
 
 }
 
-void Object3d::PreDraw(ID3D12GraphicsCommandList *cmdList)
+void ToonObject3d::PreDraw(ID3D12GraphicsCommandList *cmdList)
 {
 	// コマンドリストをセット
-	Object3d::cmdList = cmdList;
+	ToonObject3d::cmdList = cmdList;
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
-void Object3d::PostDraw()
+void ToonObject3d::PostDraw()
 {
-	Object3d::cmdList = nullptr;
+	ToonObject3d::cmdList = nullptr;
 }
 
-Object3d *Object3d::Create(Model *model)
+ToonObject3d * ToonObject3d::Create(Model *model)
 {
-	Object3d *object3d = new Object3d();
+	ToonObject3d *object3d = new ToonObject3d();
 	if (object3d == nullptr) {
 		return nullptr;
 	}
@@ -206,7 +206,7 @@ Object3d *Object3d::Create(Model *model)
 	return object3d;
 }
 
-bool Object3d::Initialize()
+bool ToonObject3d::Initialize()
 {
 	HRESULT result;
 
@@ -222,7 +222,7 @@ bool Object3d::Initialize()
 	return true;
 }
 
-void Object3d::Update()
+void ToonObject3d::Update()
 {
 	assert(camera);
 
@@ -273,7 +273,7 @@ void Object3d::Update()
 	constBuffB0->Unmap(0, nullptr);
 }
 
-void Object3d::Draw()
+void ToonObject3d::Draw()
 {
 	// モデルの割り当てがなければ描画しない
 	if (model == nullptr) {

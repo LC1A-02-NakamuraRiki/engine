@@ -52,6 +52,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(camera);
+	ToonObject3d::SetCamera(camera);
+	PhongObject3d::SetCamera(camera);
 
 	// デバッグテキスト用テクスチャ読み込み
 	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/debugfont.png")) {
@@ -81,17 +83,17 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	modelSphere1 = Model::CreateFromObject("sphere", true);
 	objSphere1 = Object3d::Create(modelSphere1);
 	objSphere1->SetScale({ 1, 1, 1 });
-	objSphere1->SetPosition({ -5, 2, 0 });
+	objSphere1->SetPosition({ -10, 2, 0 });
 
-	modelSphere2 = Model::CreateFromObject("sphere", false);
-	objSphere2 = Object3d::Create(modelSphere2);
+	modelSphere2 = Model::CreateFromObject("sphere", true);
+	objSphere2 = ToonObject3d::Create(modelSphere2);
 	objSphere2->SetScale({ 1, 1, 1 });
-	objSphere2->SetPosition({ 5, 2, 0 });
+	objSphere2->SetPosition({ 10, 2, 0 });
 
-	modelSphere3 = Model::CreateFromObject("sphere", false);
-	objSphere3 = Object3d::Create(modelSphere2);
+	modelSphere3 = Model::CreateFromObject("sphere", true);
+	objSphere3 = PhongObject3d::Create(modelSphere2);
 	objSphere3->SetScale({ 1, 1, 1 });
-	objSphere3->SetPosition({ 10, 2, 0 });
+	objSphere3->SetPosition({ 0, 2, 0 });
 
 	modelGround = Model::CreateFromObject("ground", true);
 	objGround = Object3d::Create(modelGround);
@@ -111,7 +113,8 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	light->SetLightColor({ 1.0f,1.0f,1.0f });
 
 	Object3d::SetLight(light);
-
+	ToonObject3d::SetLight(light);
+	PhongObject3d::SetLight(light);
 	object1 = new FbxObject3d;
 	object1->Initialize();
 	object1->SetModel(model1);
@@ -244,16 +247,26 @@ void GameScene::Draw()
 	//-------------------------------------------------------------//
 
 	objSphere1->Draw();
-	objSphere2->Draw();
+	//objSphere2->Draw();
 	//objSphere3->Draw();
 	//playerObj->Draw();
-	objSkydome->Draw();
+	//objSkydome->Draw();
 	//objGround->Draw();
 	//objFighter->Draw();
 	//object1->Draw(cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
+
+	ToonObject3d::PreDraw(cmdList);
+	//-------------------------------------------------------------//
+	objSphere2->Draw();
+	ToonObject3d::PostDraw();
+
+	PhongObject3d::PreDraw(cmdList);
+	//-------------------------------------------------------------//
+	objSphere3->Draw();
+	PhongObject3d::PostDraw();
 
 	particle3d->Draw(cmdList);
 #pragma endregion

@@ -10,7 +10,7 @@
 #include "Model.h"
 #include "Camera.h"
 #include "Light.h"
-class Object3d
+class PhongObject3d
 {
 private: // エイリアス
 	// Microsoft::WRL::を省略
@@ -20,7 +20,7 @@ private: // エイリアス
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
-	static Light *light;
+	static Light* light;
 public: // サブクラス
 // 頂点データ構造体
 	//struct VertexPosNormalUv
@@ -59,35 +59,35 @@ private: // 定数
 public: // 静的メンバ関数
 
 	//静的初期化
-	static void StaticInitialize(ID3D12Device *device,Camera *camera = nullptr);
+	static void StaticInitialize(ID3D12Device* device, Camera* camera = nullptr);
 
 	//グラフィックパイプラインの生成
 	static void InitializeGraphicsPipeline();
 
 	//描画前処理
-	static void PreDraw(ID3D12GraphicsCommandList *cmdList);
+	static void PreDraw(ID3D12GraphicsCommandList* cmdList);
 
 	//描画後処理
 	static void PostDraw();
 
 	/// カメラのセット
-	static void SetCamera(Camera *camera) {
-		Object3d::camera = camera;
+	static void SetCamera(Camera* camera) {
+		PhongObject3d::camera = camera;
 	}
 
 	//3Dオブジェクト生成
-	static Object3d *Create(Model *model = nullptr);
+	static PhongObject3d* Create(Model* model = nullptr);
 
 	//ライトの位置設定
-	static void SetLight(Light *light) { Object3d::light = light; }
-	
+	static void SetLight(Light* light) { PhongObject3d::light = light; }
+
 private: // 静的メンバ変数
 // デバイス
-	static ID3D12Device *device;
+	static ID3D12Device* device;
 	// デスクリプタサイズ
 	//static UINT descriptorHandleIncrementSize;
 	// コマンドリスト
-	static ID3D12GraphicsCommandList *cmdList;
+	static ID3D12GraphicsCommandList* cmdList;
 	// ルートシグネチャ
 	//static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプライン
@@ -123,16 +123,16 @@ private: // 静的メンバ変数
 	// 頂点インデックス配列
 	//static unsigned short indices[indexCount];
 	// カメラ
-	static Camera *camera;
+	static Camera* camera;
 private:// 静的メンバ関数
-	
+
 	//デスクリプタヒープの初期化
 	//static bool InitializeDescriptorHeap();
 
-public: 
+public:
 	//メンバ関数
 	bool Initialize();
-	
+
 	//毎フレーム処理
 	void Update();
 
@@ -140,27 +140,27 @@ public:
 	void Draw();
 
 	//座標の取得
-	const XMFLOAT3 &GetPosition() { return position; }
+	const XMFLOAT3& GetPosition() { return position; }
 	//座標の設定
 	void SetPosition(XMFLOAT3 position) { this->position = position; }
 
 	// 回転角の取得
-	const XMFLOAT3 &GetRotation() { return rotation; }
+	const XMFLOAT3& GetRotation() { return rotation; }
 	// 回転角の設定
 	void SetRotation(XMFLOAT3 rotation) { this->rotation = rotation; }
 
 	// モデルスケールの取得
-	const XMFLOAT3 &GetScale() { return scale; }
+	const XMFLOAT3& GetScale() { return scale; }
 	// モデルスケールの設定
 	void SetScale(XMFLOAT3 scale) { this->scale = scale; }
 
 	// モデルとの連携
-	void LinkModel(Model *model) { this->model = model; };
+	void LinkModel(Model* model) { this->model = model; };
 
 	/// ビルボードフラグのセット
 	void SetBillboard(bool isBillboard) { this->isBillboard = isBillboard; }
 
-	private: // メンバ変数
+private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
 		// 色
 	XMFLOAT4 color = { 1,1,1,1 };
@@ -173,9 +173,9 @@ public:
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// 親オブジェクト
-	Object3d *parent = nullptr;
+	PhongObject3d* parent = nullptr;
 	// モデル
-	Model *model = nullptr;
+	Model* model = nullptr;
 	// ビルボード
 	bool isBillboard = false;
 };

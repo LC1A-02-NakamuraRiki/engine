@@ -5,22 +5,40 @@ SamplerState smp : register(s0);      // 0番スロットに設定されたサンプラー
 
 float4 main(VSOutput input) : SV_TARGET
 {
-float4 texcolor = tex.Sample(smp, input.uv);
 float4 shadecolor;
-const float shininess = 4.0f;
+float3 basicColor = colors.xyz;
+float3 t = float3(0.2f,0.2f,0.2f);
+float3 eyedir = normalize(cameraPos.xyz - input.worldpos.xyz);
+float3 intensity = saturate(dot(normalize(input.normal),normalize(lightv + eyedir)));
 
-float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
-float3 dotlightnormal = dot(lightv, input.normal);
-float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
-float3 ambient = m_ambient;
-float3 diffuse = dotlightnormal * m_diffuse;
-float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
-
-shadecolor.rgb = (ambient + diffuse + specular) * lightcolor;
+float3 lightColor = colors.xyz;
+float3 darkColor = colors.xyz * float3(0.5f,0.5f,0.5f);
+float3 a = float3(0.2f, 0.2f, 0.2f);
+if (intensity.x < t.x)
+{
+	a.x = 0;
+}
+else if (intensity.x > t.x + 0.1)
+{
+	a.x = 1;
+}
+if (intensity.y < t.y)
+{
+	a.y = 0;
+}
+else if (intensity.y > t.y + 0.1)
+{
+	a.y = 1;
+}
+if (intensity.z < t.z)
+{
+	a.z = 0;
+}
+else if (intensity.z > t.z + 0.1)
+{
+	a.z = 1;
+}
+shadecolor.rgb = (a * lightColor) + ((1- a) * darkColor);
 shadecolor.a = m_alpha;
-float R = 0;
-float G = 0;
-float B = 0;
-//return float4(0.5,0.5,B,1);
-return shadecolor * texcolor;
+return shadecolor;
 }
