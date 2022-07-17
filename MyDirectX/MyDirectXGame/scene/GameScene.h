@@ -91,6 +91,18 @@ private: // ÉÅÉìÉoïœêî
 	FbxObject3d* object1 = nullptr;
 
 	Player* player = nullptr;
+
+	Model* modelMapWall = nullptr;
+	Object3d* objMapWall[9][9];
+	int mapWall[9][9] = { { 1,1,1,1,1,1,1,1,1 },
+						  { 1,0,0,0,0,0,0,0,1 },
+						  { 1,0,1,0,1,0,1,0,1 },
+						  { 1,0,0,0,0,0,0,0,1 },
+						  { 1,0,1,0,0,0,1,0,1 },
+						  { 1,0,0,0,0,0,0,0,1 },
+						  { 1,0,1,0,1,0,1,0,1 },
+						  { 1,0,0,0,0,0,0,0,1 },
+						  { 1,1,1,1,1,1,1,1,1 } };
 	/*Object3d *playerObj = nullptr;
 	Model *playerModel = nullptr;
 

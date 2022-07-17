@@ -26,6 +26,14 @@ GameScene::~GameScene()
 	safe_delete(object1);
 	safe_delete(model1);
 	safe_delete(player);
+	safe_delete(modelMapWall);
+	for (int x = 0; x < 9; x++)
+	{
+		for (int y = 0; y < 9; y++)
+		{
+			safe_delete(objMapWall[y][x]);
+		}
+	}
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
@@ -71,6 +79,17 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	modelFighter = Model::CreateFromObject("largeCarL", true);
 	objFighter = Object3d::Create(modelFighter);
 	
+	modelMapWall = Model::CreateFromObject("untitled", false);
+	for (int x = 0; x < 9; x++)
+	{
+		for (int y = 0; y < 9; y++)
+		{
+			objMapWall[y][x] = Object3d::Create(modelMapWall);
+			objMapWall[y][x]->SetScale(XMFLOAT3 ({ 2, 2, 2 }));
+			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 8.0f - ((8 * 9)/2)+4, 0.0f, y * 8.0f - ((8 * 9) / 2) }));
+
+		}
+	}
 	// モデル名を指定してファイル読み込み
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
@@ -187,6 +206,13 @@ void GameScene::Update()
 	objFighter->Update();
 	light->Update();
 	object1->Update();
+	for (int x = 0; x < 9; x++)
+	{
+		for (int y = 0; y < 9; y++)
+		{
+			objMapWall[y][x]->Update();
+		}
+	}
 }
 
 void GameScene::Draw()
@@ -211,7 +237,16 @@ void GameScene::Draw()
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-
+	for (int x = 0; x < 9; x++)
+	{
+		for (int y = 0; y < 9; y++)
+		{
+			if (mapWall[y][x] == 1)
+			{
+				objMapWall[y][x]->Draw();
+			}
+		}
+	}
 	//playerObj->Draw();
 	objSkydome->Draw();
 	objGround->Draw();
