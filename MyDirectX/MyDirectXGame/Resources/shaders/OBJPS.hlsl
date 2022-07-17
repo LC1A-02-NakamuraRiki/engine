@@ -7,14 +7,13 @@ float4 main(VSOutput input) : SV_TARGET
 {
 float4 texcolor = tex.Sample(smp, input.uv);
 float4 shadecolor;
-const float shininess = 4.0f;
 
-float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
-float3 dotlightnormal = dot(lightv, input.normal);
-float3 reflect = normalize(-lightv + 2 * dotlightnormal * input.normal);
+float3 eyedir = normalize(cameraPos.xyz - input.worldpos.xyz);
+float3 intensity = saturate(dot(normalize(input.normal),normalize(lightv + eyedir)));
+float3 reflect = pow(intensity,30);
 float3 ambient = m_ambient;
-float3 diffuse = dotlightnormal * m_diffuse;
-float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
+float3 diffuse = intensity * m_diffuse;
+float3 specular = reflect * m_specular;
 
 shadecolor.rgb = (ambient + diffuse + specular) * lightcolor;
 shadecolor.a = m_alpha;

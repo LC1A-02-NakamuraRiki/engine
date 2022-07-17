@@ -38,5 +38,5 @@ private:
 	bool isWalkShaking = false;//歩きの揺れのフラグ
 	int walkShakingTime = 0;//歩きの揺れのタイム
 	float angleX = 0; //カメラX軸
-	float angleY = 0; //カメラY軸
+	float angleY = 180; //カメラY軸
 };

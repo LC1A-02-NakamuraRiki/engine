@@ -90,6 +90,15 @@ private: // ÉÅÉìÉoïœêî
 	FbxModel* model1 = nullptr;
 	FbxObject3d* object1 = nullptr;
 
+	Model* modelSphere1 = nullptr;
+	Object3d* objSphere1 = nullptr;
+	
+	Model* modelSphere2 = nullptr;
+	Object3d* objSphere2 = nullptr;
+
+	Model* modelSphere3 = nullptr;
+	Object3d* objSphere3 = nullptr;
+
 	Player* player = nullptr;
 	/*Object3d *playerObj = nullptr;
 	Model *playerModel = nullptr;

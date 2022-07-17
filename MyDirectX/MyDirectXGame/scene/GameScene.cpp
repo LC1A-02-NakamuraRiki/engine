@@ -25,10 +25,20 @@ GameScene::~GameScene()
 	safe_delete(light);
 	safe_delete(object1);
 	safe_delete(model1);
+	safe_delete(objSphere1);
+	safe_delete(modelSphere1);
+	safe_delete(objSphere2);
+	safe_delete(modelSphere2);
+	safe_delete(objSphere3);
+	safe_delete(modelSphere3);
+	safe_delete(objGround);
+	safe_delete(modelGround);
+	safe_delete(objGround);
+	safe_delete(modelGround);
 	safe_delete(player);
 }
 
-void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
+void GameScene::Initialize(DirectXCommon* dxCommon, Sound* audio)
 {
 	// nullptrチェック
 	assert(dxCommon);
@@ -52,7 +62,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	debugText.Initialize(debugTextTexNumber);
 
 	particle3d = ParticleManager::Create(dxCommon->GetDevice(), camera);
-	
+
 	//スプライト
 	// テクスチャ読み込み
 	if (!Sprite::LoadTexture(1, L"Resources/background.png")) {
@@ -61,19 +71,36 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	}
 	//// 背景スプライト生成
 	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
-	
+
 	// 3Dオブジェクト生成
 	modelSkydome = Model::CreateFromObject("skydome", false);
 	objSkydome = Object3d::Create(modelSkydome);
+	objSkydome->SetScale({ 1, 1, 1 });
+	objSkydome->SetPosition({ 0, 2, -40 });
+
+	modelSphere1 = Model::CreateFromObject("sphere", true);
+	objSphere1 = Object3d::Create(modelSphere1);
+	objSphere1->SetScale({ 1, 1, 1 });
+	objSphere1->SetPosition({ -5, 2, 0 });
+
+	modelSphere2 = Model::CreateFromObject("sphere", false);
+	objSphere2 = Object3d::Create(modelSphere2);
+	objSphere2->SetScale({ 1, 1, 1 });
+	objSphere2->SetPosition({ 5, 2, 0 });
+
+	modelSphere3 = Model::CreateFromObject("sphere", false);
+	objSphere3 = Object3d::Create(modelSphere2);
+	objSphere3->SetScale({ 1, 1, 1 });
+	objSphere3->SetPosition({ 10, 2, 0 });
+
 	modelGround = Model::CreateFromObject("ground", true);
 	objGround = Object3d::Create(modelGround);
 
 	modelFighter = Model::CreateFromObject("largeCarL", true);
 	objFighter = Object3d::Create(modelFighter);
-	
+
 	// モデル名を指定してファイル読み込み
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
-
 	// デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
 	// カメラをセット
@@ -81,8 +108,8 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	// グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 	light = Light::Create();
-	light->SetLightColor({ 1.0f,0.8f,0.8f});
-	
+	light->SetLightColor({ 1.0f,1.0f,1.0f });
+
 	Object3d::SetLight(light);
 
 	object1 = new FbxObject3d;
@@ -94,7 +121,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	//audio->PlaySE("Resources/Alarm01.wav", false);
 	//audio->StopBGM();
 	player = new Player;
-	
+
 }
 
 void GameScene::Update()
@@ -102,15 +129,15 @@ void GameScene::Update()
 	////マウスの座標
 	///*POINT mousePos;
 	//GetCursorPos(&mousePos);*/
-	
-	debugText.Print(20, 20, 1.5f,"ObjectMove:ArrowKey");
-	debugText.Print(20, 50, 1.5f,"EyeMove:W A S D");
-	
+
+	debugText.Print(20, 20, 1.5f, "ObjectMove:ArrowKey");
+	debugText.Print(20, 50, 1.5f, "EyeMove:W A S D");
+
 	XMFLOAT3 cameraEye = camera->GetEye();
 	XMFLOAT3 cameraTarget = camera->GetTarget();
 	if (Input::GetInstance()->ControllerPush(Button01))
 	{
-		
+
 	}
 	//プレイヤー系
 	player->Update();
@@ -142,7 +169,7 @@ void GameScene::Update()
 		cameraEye.y += 1.0f;
 	}*/
 
-	
+
 	// カメラ移動
 	/*if (input->PushKey(DIK_W) || input->PushKey(DIK_A) || input->PushKey(DIK_S) || input->PushKey(DIK_D))
 	{
@@ -172,14 +199,14 @@ void GameScene::Update()
 		else if (input->PushKey(DIK_A)) { cameraTarget.x -= 1.0f; }
 		camera->SetTarget(cameraTarget);
 	}*/
-	
+
 	//ライト
-	/*static XMVECTOR lightDir = { 0, 1, 5, 0 };
-	if (input->PushKey(DIK_W)) { lightDir.m128_f32[1] += 1.0f; }
+	static XMVECTOR lightDir = { 3, -3, 0, 0 };
+	/*if (input->PushKey(DIK_W)) { lightDir.m128_f32[1] += 1.0f; }
 	else if (input->PushKey(DIK_S)) { lightDir.m128_f32[1] -= 1.0f; }
 	if (input->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
-	else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }
-	light->SetLightDir(lightDir);*/
+	else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }*/
+	light->SetLightDir(lightDir);
 	particle3d->Update();
 	camera->Update();
 	objSkydome->Update();
@@ -187,12 +214,16 @@ void GameScene::Update()
 	objFighter->Update();
 	light->Update();
 	object1->Update();
+	objSphere1->Update();
+	objSphere2->Update();
+	objSphere3->Update();
+
 }
 
 void GameScene::Draw()
 {
 	// コマンドリストの取得
-	ID3D12GraphicsCommandList *cmdList = dxCommon->GetCommandList();
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 #pragma region 背景スプライト描画
 	// 背景スプライト描画前処理
@@ -206,17 +237,20 @@ void GameScene::Draw()
 	// 深度バッファクリア
 	dxCommon->ClearDepthBuffer();
 #pragma endregion
-	
+
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
 
+	objSphere1->Draw();
+	objSphere2->Draw();
+	//objSphere3->Draw();
 	//playerObj->Draw();
 	objSkydome->Draw();
-	objGround->Draw();
+	//objGround->Draw();
 	//objFighter->Draw();
-	object1->Draw(cmdList);
+	//object1->Draw(cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
@@ -224,7 +258,7 @@ void GameScene::Draw()
 	particle3d->Draw(cmdList);
 #pragma endregion
 
-	
+
 #pragma region 前景スプライト描画
 	//// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);

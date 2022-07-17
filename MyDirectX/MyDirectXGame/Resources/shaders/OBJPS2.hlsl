@@ -1,7 +1,7 @@
-#include "OBJShaderHeader.hlsli"
+#include "OBJ2.hlsli"
 
-Texture2D<float4> tex : register(t0);  // 0番スロットに設定されたテクスチャ
-SamplerState smp : register(s0);      // 0番スロットに設定されたサンプラー
+Texture2D<float4> tex : register(t0);  // 0�ԃX���b�g�ɐݒ肳�ꂽ�e�N�X�`��
+SamplerState smp : register(s0);      // 0�ԃX���b�g�ɐݒ肳�ꂽ�T���v���[
 
 float4 main(VSOutput input) : SV_TARGET
 {
@@ -18,5 +18,9 @@ float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
 shadecolor.rgb = (ambient + diffuse + specular) * lightcolor;
 shadecolor.a = m_alpha;
+float R = 0;
+float G = 0;
+float B = 0;
+//return float4(0.5,0.5,B,1);
 return shadecolor * texcolor;
 }
