@@ -92,7 +92,7 @@ void Player::View()
 	pos = { cameraPos.m128_f32[0], cameraPos.m128_f32[1], cameraPos.m128_f32[2] };
 	target = f;
 
-	if (angleX > 80)
+	if (angleX >= 85)
 	{
 		angleX = 85;
 	}
@@ -100,7 +100,7 @@ void Player::View()
 	{
 		angleX += viewSpeed;
 	}
-	if (angleX < -80)
+	if (angleX <= -85)
 	{
 		angleX = -85;
 	}
