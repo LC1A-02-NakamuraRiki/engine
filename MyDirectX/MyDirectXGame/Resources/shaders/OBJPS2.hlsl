@@ -18,7 +18,7 @@ if (intensity.x < t.x)
 {
 	a.x = 0;
 }
-else if (intensity.x > t.x + 0.1)
+else if (intensity.x > t.x)
 {
 	a.x = 1;
 }
@@ -26,7 +26,7 @@ if (intensity.y < t.y)
 {
 	a.y = 0;
 }
-else if (intensity.y > t.y + 0.1)
+else if (intensity.y > t.y)
 {
 	a.y = 1;
 }
@@ -34,7 +34,7 @@ if (intensity.z < t.z)
 {
 	a.z = 0;
 }
-else if (intensity.z > t.z + 0.1)
+else if (intensity.z > t.z)
 {
 	a.z = 1;
 }

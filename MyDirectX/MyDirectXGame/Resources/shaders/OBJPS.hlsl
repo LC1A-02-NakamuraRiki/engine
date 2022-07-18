@@ -20,5 +20,5 @@ float4 shadecolor;
 //return shadecolor * texcolor;
 shadecolor.rgb = colors.xyz;
 shadecolor.a = 1;
-return shadecolor;
+return colors;
 }

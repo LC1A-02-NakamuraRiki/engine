@@ -271,8 +271,6 @@
     <ClCompile Include="3d\Model.cpp" />
     <ClCompile Include="3d\Object3d.cpp" />
     <ClCompile Include="3d\ParticleManager.cpp" />
-    <ClCompile Include="3d\PhongObject3d.cpp" />
-    <ClCompile Include="3d\ToonObject3d.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="collision\Collision.cpp" />
@@ -303,8 +301,6 @@
     <ClInclude Include="3d\Model.h" />
     <ClInclude Include="3d\Object3d.h" />
     <ClInclude Include="3d\ParticleManager.h" />
-    <ClInclude Include="3d\PhongObject3d.h" />
-    <ClInclude Include="3d\ToonObject3d.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\SafeDelete.h" />
     <ClInclude Include="base\WinApp.h" />

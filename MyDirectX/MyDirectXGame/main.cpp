@@ -42,10 +42,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	// 3Dオブジェクト静的初期化
 	Object3d::StaticInitialize(dxCommon->GetDevice());
-	// 3Dオブジェクト静的初期化
-	ToonObject3d::StaticInitialize(dxCommon->GetDevice());
-	// 3Dオブジェクト静的初期化
-	PhongObject3d::StaticInitialize(dxCommon->GetDevice());
 
 	Light::StaticInitialize(dxCommon->GetDevice());
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());

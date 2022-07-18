@@ -186,8 +186,6 @@
     <ClCompile Include="Player\Player.cpp">
       <Filter>Library</Filter>
     </ClCompile>
-    <ClCompile Include="3d\ToonObject3d.cpp" />
-    <ClCompile Include="3d\PhongObject3d.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -283,7 +281,5 @@
     <ClInclude Include="Player\Player.h">
       <Filter>Library</Filter>
     </ClInclude>
-    <ClInclude Include="3d\ToonObject3d.h" />
-    <ClInclude Include="3d\PhongObject3d.h" />
   </ItemGroup>
 </Project>

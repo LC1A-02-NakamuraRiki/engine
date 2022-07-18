@@ -52,8 +52,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(camera);
-	ToonObject3d::SetCamera(camera);
-	PhongObject3d::SetCamera(camera);
 
 	// デバッグテキスト用テクスチャ読み込み
 	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/debugfont.png")) {
@@ -86,12 +84,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	objSphere1->SetPosition({ -10, 2, 0 });
 
 	modelSphere2 = Model::CreateFromObject("sphere", true);
-	objSphere2 = ToonObject3d::Create(modelSphere2);
+	objSphere2 = Object3d::Create(modelSphere2);
 	objSphere2->SetScale({ 1, 1, 1 });
 	objSphere2->SetPosition({ 0, 2, 0 });
 
 	modelSphere3 = Model::CreateFromObject("sphere", true);
-	objSphere3 = PhongObject3d::Create(modelSphere3);
+	objSphere3 = Object3d::Create(modelSphere3);
 	objSphere3->SetScale({ 1, 1, 1 });
 	objSphere3->SetPosition({ 10, 2, 0 });
 
@@ -113,8 +111,6 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	light->SetLightColor({ 1.0f,1.0f,1.0f });
 
 	Object3d::SetLight(light);
-	ToonObject3d::SetLight(light);
-	PhongObject3d::SetLight(light);
 	object1 = new FbxObject3d;
 	object1->Initialize();
 	object1->SetModel(model1);
@@ -246,7 +242,9 @@ void GameScene::Draw()
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
 
-	objSphere1->Draw();
+	objSphere1->Draw(0);
+	objSphere2->Draw(1);
+	objSphere3->Draw(2);
 	//objSphere2->Draw();
 	//objSphere3->Draw();
 	//playerObj->Draw();
@@ -258,15 +256,6 @@ void GameScene::Draw()
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
 
-	ToonObject3d::PreDraw(cmdList);
-	//-------------------------------------------------------------//
-	objSphere2->Draw();
-	ToonObject3d::PostDraw();
-
-	PhongObject3d::PreDraw(cmdList);
-	//-------------------------------------------------------------//
-	objSphere3->Draw();
-	PhongObject3d::PostDraw();
 
 	particle3d->Draw(cmdList);
 #pragma endregion

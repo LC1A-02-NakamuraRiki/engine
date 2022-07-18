@@ -5,20 +5,51 @@ SamplerState smp : register(s0);      // 0番スロットに設定されたサンプラー
 
 float4 main(VSOutput input) : SV_TARGET
 {
-float2 scroll = time.xy;
-float4 texcolor = tex.Sample(smp, input.uv + scroll);
 float4 shadecolor;
 float4 phongcolor;
+float3 t = float3(0.2f, 0.2f, 0.2f);
 float3 eyedir = normalize(cameraPos.xyz - input.worldpos.xyz);
 float3 intensity = saturate(dot(normalize(input.normal),normalize(lightv + eyedir)));
 float3 reflect = pow(intensity,50);
 float3 ambient = m_ambient;
 float3 diffuse = intensity * m_diffuse;
-float3 specular = reflect * m_specular;
-
+//float3 specular = reflect * m_specular;
+float3 specular = reflect * float3(1,1,1);
+float3 lightColor = colors.xyz;
+float3 darkColor = colors.xyz * float3(0.5f, 0.5f, 0.5f);
+float3 a = float3(0.2f, 0.2f, 0.2f);
+if (intensity.x < t.x)
+{
+	a.x = 0;
+}
+else if (intensity.x > t.x)
+{
+	a.x = 1;
+}
+if (intensity.y < t.y)
+{
+	a.y = 0;
+}
+else if (intensity.y > t.y)
+{
+	a.y = 1;
+}
+if (intensity.z < t.z)
+{
+	a.z = 0;
+}
+else if (intensity.z > t.z)
+{
+	a.z = 1;
+}
 phongcolor.rgb = (ambient + diffuse + specular) * lightcolor;
 phongcolor.a = m_alpha;
 shadecolor.rgb = colors.xyz;
 shadecolor.a = 1;
-return texcolor * phongcolor;
+
+
+
+shadecolor.rgb = (a*specular) + ((a * diffuse) * lightColor) + ((1 - (a * diffuse)) * darkColor+ambient);
+shadecolor.a = m_alpha;
+return shadecolor;
 }

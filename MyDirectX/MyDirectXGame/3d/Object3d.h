@@ -37,6 +37,7 @@ public: // サブクラス
 		XMMATRIX viewproj;
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
+		float pad;
 		XMFLOAT4 colors;
 	};
 
@@ -62,7 +63,9 @@ public: // 静的メンバ関数
 	static void StaticInitialize(ID3D12Device *device,Camera *camera = nullptr);
 
 	//グラフィックパイプラインの生成
-	static void InitializeGraphicsPipeline();
+	static void InitializeGraphicsPipeline1();
+	static void InitializeGraphicsPipeline2();
+	static void InitializeGraphicsPipeline3();
 
 	//描画前処理
 	static void PreDraw(ID3D12GraphicsCommandList *cmdList);
@@ -91,7 +94,9 @@ private: // 静的メンバ変数
 	// ルートシグネチャ
 	//static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプライン
-	static PipelineSet pipelineSet;
+	static PipelineSet pipelineSet1;
+	static PipelineSet pipelineSet2;
+	static PipelineSet pipelineSet3;
 	// デスクリプタヒープ
 	//static ComPtr<ID3D12DescriptorHeap> descHeap;
 	// 頂点バッファ
@@ -137,7 +142,7 @@ public:
 	void Update();
 
 	//描画
-	void Draw();
+	void Draw(int No);
 
 	//座標の取得
 	const XMFLOAT3 &GetPosition() { return position; }

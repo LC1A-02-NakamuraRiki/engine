@@ -6,8 +6,6 @@
 #include "../input/Input.h"
 #include "../2d/Sprite.h"
 #include "../3d/Object3d.h"
-#include "../3d/ToonObject3d.h"
-#include "../3d/PhongObject3d.h"
 #include "../3d/FbxObject3d.h"
 #include "../2d/DebugText.h"
 #include "../Sound/Sound.h"
@@ -96,10 +94,10 @@ private: // ÉÅÉìÉoïœêî
 	Object3d* objSphere1 = nullptr;
 	
 	Model* modelSphere2 = nullptr;
-	ToonObject3d* objSphere2 = nullptr;
+	Object3d* objSphere2 = nullptr;
 
 	Model* modelSphere3 = nullptr;
-	PhongObject3d* objSphere3 = nullptr;
+	Object3d* objSphere3 = nullptr;
 
 	Player* player = nullptr;
 	/*Object3d *playerObj = nullptr;
