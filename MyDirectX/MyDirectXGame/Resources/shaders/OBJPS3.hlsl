@@ -13,43 +13,40 @@ float3 intensity = saturate(dot(normalize(input.normal),normalize(lightv + eyedi
 float3 reflect = pow(intensity,50);
 float3 ambient = m_ambient;
 float3 diffuse = intensity * m_diffuse;
-//float3 specular = reflect * m_specular;
 float3 specular = reflect * float3(1,1,1);
 float3 lightColor = colors.xyz;
 float3 darkColor = colors.xyz * float3(0.5f, 0.5f, 0.5f);
-float3 a = float3(0.2f, 0.2f, 0.2f);
+float3 value = float3(0.2f, 0.2f, 0.2f);
 if (intensity.x < t.x)
 {
-	a.x = 0;
+	value.x = 0;
 }
 else if (intensity.x > t.x)
 {
-	a.x = 1;
+	value.x = 1;
 }
 if (intensity.y < t.y)
 {
-	a.y = 0;
+	value.y = 0;
 }
 else if (intensity.y > t.y)
 {
-	a.y = 1;
+	value.y = 1;
 }
 if (intensity.z < t.z)
 {
-	a.z = 0;
+	value.z = 0;
 }
 else if (intensity.z > t.z)
 {
-	a.z = 1;
+	value.z = 1;
 }
 phongcolor.rgb = (ambient + diffuse + specular) * lightcolor;
 phongcolor.a = m_alpha;
 shadecolor.rgb = colors.xyz;
 shadecolor.a = 1;
 
-
-
-shadecolor.rgb = (a*specular) + ((a * diffuse) * lightColor) + ((1 - (a * diffuse)) * darkColor+ambient);
+shadecolor.rgb = (value *specular) + ((value * diffuse) * lightColor) + ((1 - (value * diffuse)) * darkColor+ambient);
 shadecolor.a = m_alpha;
 return shadecolor;
 }

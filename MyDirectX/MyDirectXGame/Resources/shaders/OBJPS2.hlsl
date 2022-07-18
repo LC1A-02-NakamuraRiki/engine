@@ -13,32 +13,32 @@ float3 intensity = saturate(dot(normalize(input.normal),normalize(lightv + eyedi
 
 float3 lightColor = colors.xyz;
 float3 darkColor = colors.xyz * float3(0.5f,0.5f,0.5f);
-float3 a = float3(0.2f, 0.2f, 0.2f);
+float3 value = float3(0.2f, 0.2f, 0.2f);
 if (intensity.x < t.x)
 {
-	a.x = 0;
+	value.x = 0;
 }
 else if (intensity.x > t.x)
 {
-	a.x = 1;
+	value.x = 1;
 }
 if (intensity.y < t.y)
 {
-	a.y = 0;
+	value.y = 0;
 }
 else if (intensity.y > t.y)
 {
-	a.y = 1;
+	value.y = 1;
 }
 if (intensity.z < t.z)
 {
-	a.z = 0;
+	value.z = 0;
 }
 else if (intensity.z > t.z)
 {
-	a.z = 1;
+	value.z = 1;
 }
-shadecolor.rgb = (a * lightColor) + ((1- a) * darkColor);
+shadecolor.rgb = (value * lightColor) + ((1- value) * darkColor);
 shadecolor.a = m_alpha;
 return shadecolor;
 }
