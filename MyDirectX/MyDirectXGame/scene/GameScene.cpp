@@ -27,9 +27,9 @@ GameScene::~GameScene()
 	safe_delete(model1);
 	safe_delete(player);
 	safe_delete(modelMapWall);
-	for (int x = 0; x < 9; x++)
+	for (int x = 0; x < 20; x++)
 	{
-		for (int y = 0; y < 9; y++)
+		for (int y = 0; y < 20; y++)
 		{
 			safe_delete(objMapWall[y][x]);
 		}
@@ -73,6 +73,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	// 3Dオブジェクト生成
 	modelSkydome = Model::CreateFromObject("skydome", false);
 	objSkydome = Object3d::Create(modelSkydome);
+	objSkydome->SetScale({5.0f,5.0f,5.0f});
 	modelGround = Model::CreateFromObject("ground", true);
 	objGround = Object3d::Create(modelGround);
 
@@ -80,13 +81,13 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	objFighter = Object3d::Create(modelFighter);
 	
 	modelMapWall = Model::CreateFromObject("untitled", false);
-	for (int x = 0; x < 9; x++)
+	for (int x = 0; x < 20; x++)
 	{
-		for (int y = 0; y < 9; y++)
+		for (int y = 0; y < 20; y++)
 		{
 			objMapWall[y][x] = Object3d::Create(modelMapWall);
 			objMapWall[y][x]->SetScale(XMFLOAT3 ({ 2, 2, 2 }));
-			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 8.0f - ((8 * 9)/2)+4, 0.0f, y * 8.0f - ((8 * 9) / 2) }));
+			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 8.0f - ((8 * 20)/2)+4, 0.0f, y * 8.0f - ((8 * 20) / 2) }));
 
 		}
 	}
@@ -206,9 +207,9 @@ void GameScene::Update()
 	objFighter->Update();
 	light->Update();
 	object1->Update();
-	for (int x = 0; x < 9; x++)
+	for (int x = 0; x < 20; x++)
 	{
-		for (int y = 0; y < 9; y++)
+		for (int y = 0; y < 20; y++)
 		{
 			objMapWall[y][x]->Update();
 		}
@@ -237,9 +238,9 @@ void GameScene::Draw()
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-	for (int x = 0; x < 9; x++)
+	for (int x = 0; x < 20; x++)
 	{
-		for (int y = 0; y < 9; y++)
+		for (int y = 0; y < 20; y++)
 		{
 			if (mapWall[y][x] == 1)
 			{
@@ -251,7 +252,7 @@ void GameScene::Draw()
 	objSkydome->Draw();
 	objGround->Draw();
 	//objFighter->Draw();
-	object1->Draw(cmdList);
+	//object1->Draw(cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
