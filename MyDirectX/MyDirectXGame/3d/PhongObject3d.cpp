@@ -270,6 +270,8 @@ void PhongObject3d::Update()
 	constMap2->world = matWorld;
 	constMap2->cameraPos = cameraPos;
 	constMap2->colors = color;
+	constMap2->time = time;
+	time.y++;
 	constBuffB0->Unmap(0, nullptr);
 }
 

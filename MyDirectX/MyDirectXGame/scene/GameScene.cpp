@@ -88,12 +88,12 @@ void GameScene::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	modelSphere2 = Model::CreateFromObject("sphere", true);
 	objSphere2 = ToonObject3d::Create(modelSphere2);
 	objSphere2->SetScale({ 1, 1, 1 });
-	objSphere2->SetPosition({ 10, 2, 0 });
+	objSphere2->SetPosition({ 0, 2, 0 });
 
 	modelSphere3 = Model::CreateFromObject("sphere", true);
-	objSphere3 = PhongObject3d::Create(modelSphere2);
+	objSphere3 = PhongObject3d::Create(modelSphere3);
 	objSphere3->SetScale({ 1, 1, 1 });
-	objSphere3->SetPosition({ 0, 2, 0 });
+	objSphere3->SetPosition({ 10, 2, 0 });
 
 	modelGround = Model::CreateFromObject("ground", true);
 	objGround = Object3d::Create(modelGround);

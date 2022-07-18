@@ -38,6 +38,7 @@ public: // サブクラス
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
 		XMFLOAT4 colors;
+		XMFLOAT2 time;
 	};
 
 	// パイプラインセット
@@ -178,4 +179,7 @@ private: // メンバ変数
 	Model* model = nullptr;
 	// ビルボード
 	bool isBillboard = false;
+
+
+	XMFLOAT2 time = { 0,0 };
 };
