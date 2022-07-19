@@ -256,6 +256,7 @@
     <ClCompile Include="input\KeyBoard.cpp" />
     <ClCompile Include="input\Mouse.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map\MapChip.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Sound\Sound.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="input\KeyBoard.h" />
     <ClInclude Include="input\Mouse.h" />
+    <ClInclude Include="Map\MapChip.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Sound\Sound.h" />

@@ -32,6 +32,12 @@
     <Filter Include="Library">
       <UniqueIdentifier>{3d1c2fc0-8714-4b08-a210-d3d71157fe47}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\player">
+      <UniqueIdentifier>{a011002a-5675-482a-8769-42521e2a2e26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Map">
+      <UniqueIdentifier>{2f430b50-2460-4e11-945e-92baefea4617}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -166,7 +172,10 @@
       <Filter>engine\input</Filter>
     </ClCompile>
     <ClCompile Include="Player\Player.cpp">
-      <Filter>Library</Filter>
+      <Filter>Library\player</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\MapChip.cpp">
+      <Filter>Library\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -261,7 +270,10 @@
       <Filter>engine\input</Filter>
     </ClInclude>
     <ClInclude Include="Player\Player.h">
-      <Filter>Library</Filter>
+      <Filter>Library\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\MapChip.h">
+      <Filter>Library\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

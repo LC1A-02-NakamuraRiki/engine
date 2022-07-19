@@ -6,6 +6,7 @@
 #include "../3d/FbxLoader.h"
 #include "../3d/FbxObject3d.h"
 #include "../input/Input.h"
+
 using namespace DirectX;
 
 GameScene::GameScene()
@@ -26,14 +27,14 @@ GameScene::~GameScene()
 	safe_delete(object1);
 	safe_delete(model1);
 	safe_delete(player);
-	safe_delete(modelMapWall);
-	for (int x = 0; x < 20; x++)
+	//safe_delete(modelMapWall);
+	/*for (int x = 0; x < 20; x++)
 	{
 		for (int y = 0; y < 20; y++)
 		{
 			safe_delete(objMapWall[y][x]);
 		}
-	}
+	}*/
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
@@ -79,18 +80,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 
 	modelFighter = Model::CreateFromObject("largeCarL", true);
 	objFighter = Object3d::Create(modelFighter);
-	
-	modelMapWall = Model::CreateFromObject("untitled", false);
-	for (int x = 0; x < 20; x++)
-	{
-		for (int y = 0; y < 20; y++)
-		{
-			objMapWall[y][x] = Object3d::Create(modelMapWall);
-			objMapWall[y][x]->SetScale(XMFLOAT3 ({ 2, 2, 2 }));
-			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 8.0f - ((8 * 20)/2)+4, 0.0f, y * 8.0f - ((8 * 20) / 2) }));
 
-		}
-	}
 	// モデル名を指定してファイル読み込み
 	model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
@@ -114,6 +104,9 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	//audio->PlaySE("Resources/Alarm01.wav", false);
 	//audio->StopBGM();
 	player = new Player;
+
+	map = new MapChip;
+	map->Initialize();
 	
 }
 
@@ -133,10 +126,11 @@ void GameScene::Update()
 		
 	}
 	//プレイヤー系
-	player->Update();
+	player->Update(map);
 	camera->SetEye(player->GetPos());
 	camera->SetTarget(player->GetTarget());
-	debugText.Print(20, 80, 1.5f, "%f %f", cameraTarget.x, cameraTarget.z);
+	
+	debugText.Print(20, 80, 1.5f, "%f %f", cameraEye.x, cameraEye.z);
 	// オブジェクト移動
 	//if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT) || input->PushKey(DIK_SPACE) || input->PushKey(DIK_LCONTROL))
 	//{
@@ -207,13 +201,7 @@ void GameScene::Update()
 	objFighter->Update();
 	light->Update();
 	object1->Update();
-	for (int x = 0; x < 20; x++)
-	{
-		for (int y = 0; y < 20; y++)
-		{
-			objMapWall[y][x]->Update();
-		}
-	}
+	map->Update();
 }
 
 void GameScene::Draw()
@@ -238,19 +226,10 @@ void GameScene::Draw()
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-	for (int x = 0; x < 20; x++)
-	{
-		for (int y = 0; y < 20; y++)
-		{
-			if (mapWall[y][x] == 1)
-			{
-				objMapWall[y][x]->Draw();
-			}
-		}
-	}
 	//playerObj->Draw();
 	objSkydome->Draw();
 	objGround->Draw();
+	map->Draw();
 	//objFighter->Draw();
 	//object1->Draw(cmdList);
 	//-------------------------------------------------------------//

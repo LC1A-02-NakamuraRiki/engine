@@ -1,5 +1,6 @@
 #pragma once
 #include <DirectXMath.h>
+#include "../Map/MapChip.h"
 
 class Player
 {
@@ -13,11 +14,13 @@ protected: // エイリアス
 public:
 	void Initialize();
 	
-	void Update();
+	void Update(MapChip* mapChip);
 	
 	void Draw();
 
-	void Move();//歩き
+	void Move(MapChip* mapChip);//歩き
+
+	void PushBack();
 
 	void WalkShaking();//揺れ
 
@@ -28,7 +31,7 @@ public:
 	XMFLOAT3 GetPos() { return pos; }
 	XMFLOAT3 GetTarget() { return target; }
 private:
-	XMFLOAT3 pos = { 0,0.0f,-20 };//プレイヤーの位置
+	XMFLOAT3 pos = { -4.0f,0.0f,-24.0f };//プレイヤーの位置
 	float moveSpeed = 0.5f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ
 	XMFLOAT3 target = { 0,0.0f,0 };//注視点
