@@ -20,7 +20,7 @@ public:
 
 	void Move(MapChip* mapChip);//歩き
 
-	void PushBack();
+	void PushBack(MapChip* mapChip);
 
 	void WalkShaking();//揺れ
 
@@ -28,10 +28,16 @@ public:
 
 	void AngleSearch();//歩く方向の算出
 	
+	void collisionPosChange();
 	XMFLOAT3 GetPos() { return pos; }
 	XMFLOAT3 GetTarget() { return target; }
 private:
 	XMFLOAT3 pos = { -4.0f,0.0f,-24.0f };//プレイヤーの位置
+	XMFLOAT3 collisionW = { 0,0,0 };//プレイヤーの位置
+	XMFLOAT3 collisionA = { 0,0,0 };//プレイヤーの位置
+	XMFLOAT3 collisionS = { 0,0,0 };//プレイヤーの位置
+	XMFLOAT3 collisionD = { 0,0,0 };//プレイヤーの位置
+	float r = 0.5;//プレイヤーの半径
 	float moveSpeed = 0.5f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ
 	XMFLOAT3 target = { 0,0.0f,0 };//注視点
