@@ -130,7 +130,7 @@ void GameScene::Update()
 	camera->SetEye(player->GetPos());
 	camera->SetTarget(player->GetTarget());
 	
-	debugText.Print(20, 80, 1.5f, "%f %f", cameraEye.x, cameraEye.z);
+	debugText.Print(20, 80, 1.5f, "%f", player->GetAngle());
 	// オブジェクト移動
 	//if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT) || input->PushKey(DIK_SPACE) || input->PushKey(DIK_LCONTROL))
 	//{

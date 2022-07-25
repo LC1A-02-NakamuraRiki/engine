@@ -20,8 +20,6 @@ public:
 
 	void Move(MapChip* mapChip);//歩き
 
-	void PushBack(MapChip* mapChip);
-
 	void WalkShaking();//揺れ
 
 	void View();//視点の動き
@@ -31,6 +29,7 @@ public:
 	void collisionPosChange();
 	XMFLOAT3 GetPos() { return pos; }
 	XMFLOAT3 GetTarget() { return target; }
+	float GetAngle() { return angle.y; }
 private:
 	XMFLOAT3 pos = { -4.0f,0.0f,-24.0f };//プレイヤーの位置
 	XMFLOAT3 collisionW = { 0,0,0 };//プレイヤーの位置
@@ -40,6 +39,7 @@ private:
 	float r = 0.5;//プレイヤーの半径
 	float moveSpeed = 0.5f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ
+	float mouseViewSpeed = 0.25f;//視点の速さ
 	XMFLOAT3 target = { 0,0.0f,0 };//注視点
 	float targetY = 0;//揺れの調整
 	XMFLOAT3 angle = { 0,0,0 };//歩く方向

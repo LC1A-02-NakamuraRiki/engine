@@ -20,13 +20,33 @@ void Player::Draw()
 
 void Player::Move(MapChip *mapChip)
 {
-	float r = 1;
+	float r = 0.5f;
 	if (Input::GetInstance()->KeybordPush(DIK_W))
 	{
 		pos.x += cos((angle.y * 3.14) / -180) * moveSpeed;      // x座標を更新
 		pos.z += sin((angle.y * 3.14) / -180) * moveSpeed;      // z座標を更新
 		target.x += cos((angle.y * 3.14) / -180) * moveSpeed;      // x座標を更新
 		target.z += sin((angle.y * 3.14) / -180) * moveSpeed;      // z座標を更新
+		//上
+		if (mapChip->ArrayValue(pos.x, pos.z + r) == 1)
+		{
+			pos.z += sin(((angle.y + 180) * 3.14) / -180) * moveSpeed;      // z座標を更新
+		}
+		//左
+		if (mapChip->ArrayValue(pos.x - r, pos.z) == 1)
+		{
+			pos.x += cos(((angle.y + 180) * 3.14) / -180) * moveSpeed;      // x座標を更新
+		}
+		//下
+		if (mapChip->ArrayValue(pos.x, pos.z - r) == 1)
+		{
+			pos.z += sin(((angle.y + 180) * 3.14) / -180) * moveSpeed;      // z座標を更新
+		}
+		//右
+		if (mapChip->ArrayValue(pos.x + r, pos.z) == 1)
+		{
+			pos.x += cos(((angle.y + 180) * 3.14) / -180) * moveSpeed;      // x座標を更新
+		}
 		isWalkShaking = true;
 	}
 	if (Input::GetInstance()->KeybordPush(DIK_A))
@@ -35,6 +55,26 @@ void Player::Move(MapChip *mapChip)
 		pos.z += sin(((angle.y - 90) * 3.14) / -180) * moveSpeed;      // z座標を更新
 		target.x += cos(((angle.y - 90) * 3.14) / -180) * moveSpeed;      // x座標を更新
 		target.z += sin(((angle.y - 90) * 3.14) / -180) * moveSpeed;      // z座標を更新
+		//上
+		if (mapChip->ArrayValue(pos.x, pos.z + r) == 1)
+		{
+			pos.z += sin(((angle.y - 90 + 180) * 3.14) / -180) * moveSpeed;      // z座標を更新
+		}
+		//左
+		if (mapChip->ArrayValue(pos.x - r, pos.z) == 1)
+		{
+			pos.x += cos(((angle.y - 90 + 180) * 3.14) / -180) * moveSpeed;      // x座標を更新
+		}
+		//下
+		if (mapChip->ArrayValue(pos.x, pos.z - r) == 1)
+		{
+			pos.z += sin(((angle.y - 90 + 180) * 3.14) / -180) * moveSpeed;      // z座標を更新
+		}
+		//右
+		if (mapChip->ArrayValue(pos.x + r, pos.z) == 1)
+		{
+			pos.x += cos(((angle.y - 90 + 180) * 3.14) / -180) * moveSpeed;      // x座標を更新
+		}
 		isWalkShaking = true;
 	}
 	if (Input::GetInstance()->KeybordPush(DIK_S))
@@ -43,6 +83,26 @@ void Player::Move(MapChip *mapChip)
 		pos.z += sin(((angle.y + 180) * 3.14) / -180) * moveSpeed;      // z座標を更新
 		target.x -= cos((angle.y * 3.14) / -180) * moveSpeed;      // x座標を更新
 		target.z -= sin((angle.y * 3.14) / -180) * moveSpeed;      // z座標を更新
+		//上
+		if (mapChip->ArrayValue(pos.x, pos.z + r) == 1)
+		{
+			pos.z += sin(((angle.y) * 3.14) / -180) * moveSpeed;      // z座標を更新
+		}
+		//左
+		if (mapChip->ArrayValue(pos.x - r, pos.z) == 1)
+		{
+			pos.x += cos(((angle.y) * 3.14) / -180) * moveSpeed;      // x座標を更新
+		}
+		//下
+		if (mapChip->ArrayValue(pos.x, pos.z - r) == 1)
+		{
+			pos.z += sin(((angle.y) * 3.14) / -180) * moveSpeed;      // z座標を更新
+		}
+		//右
+		if (mapChip->ArrayValue(pos.x + r, pos.z) == 1)
+		{
+			pos.x += cos(((angle.y) * 3.14) / -180) * moveSpeed;      // x座標を更新
+		}
 		isWalkShaking = true;
 	}
 	if (Input::GetInstance()->KeybordPush(DIK_D))
@@ -51,52 +111,28 @@ void Player::Move(MapChip *mapChip)
 		pos.z += sin(((angle.y + 90) * 3.14) / -180) * moveSpeed;      // z座標を更新
 		target.x += cos(((angle.y + 90) * 3.14) / -180) * moveSpeed;      // x座標を更新
 		target.z += sin(((angle.y + 90) * 3.14) / -180) * moveSpeed;      // z座標を更新
+		//上
+		if (mapChip->ArrayValue(pos.x, pos.z + r) == 1)
+		{
+			pos.z += sin(((angle.y + 90 + 180) * 3.14) / -180) * moveSpeed;      // z座標を更新
+		}
+		//左
+		if (mapChip->ArrayValue(pos.x - r, pos.z) == 1)
+		{
+			pos.x += cos(((angle.y + 90 + 180) * 3.14) / -180) * moveSpeed;      // x座標を更新
+		}
+		//下
+		if (mapChip->ArrayValue(pos.x, pos.z - r) == 1)
+		{
+			pos.z += sin(((angle.y + 90 + 180) * 3.14) / -180) * moveSpeed;      // z座標を更新
+		}
+		//右
+		if (mapChip->ArrayValue(pos.x + r, pos.z) == 1)
+		{
+			pos.x += cos(((angle.y + 90 + 180) * 3.14) / -180) * moveSpeed;      // x座標を更新
+		}
 		isWalkShaking = true;
 	}
-	//上
-	if (mapChip->ArrayValue(pos.x, pos.z + r) == 1)
-	{
-		pos.z += sin(((180 + 180) * 3.14) / -180) * moveSpeed;
-	}
-	//左
-	if (mapChip->ArrayValue(pos.x - r, pos.z) == 1)
-	{
-		pos.x += cos(((180 + 90) * 3.14) / -180) * moveSpeed;
-	}
-	//下
-	if (mapChip->ArrayValue(pos.x, pos.z - r) == 1)
-	{
-		pos.z += sin(((180 + 90) * 3.14) / -180) * moveSpeed;
-	}
-	//右
-	if (mapChip->ArrayValue(pos.x + r, pos.z) == 1)
-	{
-		pos.x += cos(((180 - 90) * 3.14) / -180) * moveSpeed;
-	}
-}
-
-void Player::PushBack(MapChip* mapChip)
-{
-	////左
-	//if (mapChip->ArrayValue(pos.x - r, pos.z) == 1)
-	//{
-
-	//}
-	////上
-	//if (mapChip->ArrayValue(pos.x, pos.z + r) == 1)
-	//{
-
-	//}
-	////右
-	//if (mapChip->ArrayValue(pos.x + r, pos.z) == 1)
-	//{
-
-	//}
-	////下
-	//if (mapChip->ArrayValue(pos.x, pos.z - r) == 1)
-	//{
-
-	//}
 }
 
 void Player::WalkShaking()
@@ -161,7 +197,8 @@ void Player::View()
 	{
 		angleY += viewSpeed;
 	}
-
+	angleY += Input::GetInstance()->GetMouseMove().lX * mouseViewSpeed;
+	angleX -= Input::GetInstance()->GetMouseMove().lY * mouseViewSpeed;
 }
 
 void Player::AngleSearch()
