@@ -182,7 +182,7 @@ void PostEffect::Initialize()
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 {
-	if(Input::GetInstance()->KeybordTrigger(DIK_0))
+	/*if(Input::GetInstance()->KeybordTrigger(DIK_0))
 	{
 		static int tex = 0;
 		tex = (tex + 1) % 2;
@@ -197,7 +197,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 			&srvDesc,
 			descHeapSRV->GetCPUDescriptorHandleForHeapStart()
 		);
-	}
+	}*/
 	this->matWorld = XMMatrixIdentity();
 
 	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));

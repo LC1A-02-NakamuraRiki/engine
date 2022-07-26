@@ -311,6 +311,15 @@ bool Sprite::Initialize()
 		constMap->mat = matProjection;
 		constBuff->Unmap(0, nullptr);
 	}
+#ifdef _Debug
+	ComPtr<ID3D12InfoQueue> infoQueue;
+	if (SUCCEEDED(device->QueryInterface(IID_PPV_ARGS(&infoQueue))))
+	{
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+}
+#endif
 	return true;
 }
 

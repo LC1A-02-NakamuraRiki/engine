@@ -173,6 +173,15 @@ void Player::View()
 	pos = { cameraPos.m128_f32[0], cameraPos.m128_f32[1], cameraPos.m128_f32[2] };
 	target = f;
 
+	if (Input::GetInstance()->KeybordTrigger(DIK_9))
+	{
+		mouseViewSpeed -= 0.01;
+	}
+	if (Input::GetInstance()->KeybordTrigger(DIK_0))
+	{
+		mouseViewSpeed += 0.01;
+	}
+
 	if (angleX >= 85)
 	{
 		angleX = 85;

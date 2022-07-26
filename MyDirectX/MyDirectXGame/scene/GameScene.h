@@ -15,6 +15,7 @@
 #include "../3d/DebugCamera.h"
 #include "../Player/Player.h"
 #include "../Map/MapChip.h"
+#include "../enemy/enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -100,6 +101,8 @@ private: // メンバ変数
 	Triangle triangle;
 	Ray ray;*/
 	MapChip* map = nullptr;
+
+	Enemy* enemy = nullptr;
 
 	float collision;
 };

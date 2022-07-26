@@ -8,6 +8,9 @@ LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	case WM_DESTROY:
 			PostQuitMessage(0);
 			return 0;
+	case WM_LBUTTONDOWN:
+		ShowCursor(FALSE);
+		return 0;
 	}
 	return DefWindowProc( hwnd, msg, wparam, lparam);
 }

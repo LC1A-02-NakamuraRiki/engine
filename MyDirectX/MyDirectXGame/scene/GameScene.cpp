@@ -77,7 +77,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	objSkydome->SetScale({5.0f,5.0f,5.0f});
 	modelGround = Model::CreateFromObject("ground", true);
 	objGround = Object3d::Create(modelGround);
-
+	objGround->SetScale({ 2.0f,2.0f ,2.0f });
 	modelFighter = Model::CreateFromObject("largeCarL", true);
 	objFighter = Object3d::Create(modelFighter);
 
@@ -108,6 +108,8 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	map = new MapChip;
 	map->Initialize();
 	
+	enemy = new Enemy;
+	enemy->Initialize();
 }
 
 void GameScene::Update()
@@ -202,6 +204,7 @@ void GameScene::Update()
 	light->Update();
 	object1->Update();
 	map->Update();
+	enemy->Update(map);
 }
 
 void GameScene::Draw()
@@ -230,6 +233,7 @@ void GameScene::Draw()
 	objSkydome->Draw();
 	objGround->Draw();
 	map->Draw();
+	enemy->Draw();
 	//objFighter->Draw();
 	//object1->Draw(cmdList);
 	//-------------------------------------------------------------//

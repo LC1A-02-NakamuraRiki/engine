@@ -251,6 +251,7 @@
     <ClCompile Include="collision\CollisionManager.cpp" />
     <ClCompile Include="collision\CollisionPrimitive.cpp" />
     <ClCompile Include="collision\SphereCollider.cpp" />
+    <ClCompile Include="enemy\enemy.cpp" />
     <ClCompile Include="input\GamePad.cpp" />
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="input\KeyBoard.cpp" />
@@ -286,6 +287,7 @@
     <ClInclude Include="collision\CollisionPrimitive.h" />
     <ClInclude Include="collision\CollisionType.h" />
     <ClInclude Include="collision\SphereCollider.h" />
+    <ClInclude Include="enemy\enemy.h" />
     <ClInclude Include="input\GamePad.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="input\KeyBoard.h" />

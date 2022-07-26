@@ -38,6 +38,9 @@
     <Filter Include="Library\Map">
       <UniqueIdentifier>{2f430b50-2460-4e11-945e-92baefea4617}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Library\enemy">
+      <UniqueIdentifier>{90a97e40-8a7d-4628-8998-a4dac2efcd1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -177,6 +180,9 @@
     <ClCompile Include="Map\MapChip.cpp">
       <Filter>Library\Map</Filter>
     </ClCompile>
+    <ClCompile Include="enemy\enemy.cpp">
+      <Filter>Library\enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -274,6 +280,9 @@
     </ClInclude>
     <ClInclude Include="Map\MapChip.h">
       <Filter>Library\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="enemy\enemy.h">
+      <Filter>Library\enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
