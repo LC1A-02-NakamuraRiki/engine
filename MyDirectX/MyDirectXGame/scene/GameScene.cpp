@@ -132,7 +132,7 @@ void GameScene::Update()
 	camera->SetEye(player->GetPos());
 	camera->SetTarget(player->GetTarget());
 	
-	debugText.Print(20, 80, 1.5f, "%f", player->GetAngle());
+	debugText.Print(20, 80, 1.5f, "%d", map->ArrayValue(enemy->GetPos().x, enemy->GetPos().z - 8));
 	// オブジェクト移動
 	//if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT) || input->PushKey(DIK_SPACE) || input->PushKey(DIK_LCONTROL))
 	//{
@@ -190,12 +190,13 @@ void GameScene::Update()
 	}*/
 	
 	//ライト
-	/*static XMVECTOR lightDir = { 0, 1, 5, 0 };
-	if (input->PushKey(DIK_W)) { lightDir.m128_f32[1] += 1.0f; }
+	static XMVECTOR lightDir = { 0.5f, -1, 0, 0 };
+	/*if (input->PushKey(DIK_W)) { lightDir.m128_f32[1] += 1.0f; }
 	else if (input->PushKey(DIK_S)) { lightDir.m128_f32[1] -= 1.0f; }
 	if (input->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
-	else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }
-	light->SetLightDir(lightDir);*/
+	else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }*/
+	light->SetLightDir(lightDir);
+
 	particle3d->Update();
 	camera->Update();
 	objSkydome->Update();

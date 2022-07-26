@@ -5,6 +5,13 @@
 
 class Enemy
 {
+	enum MoveVector
+	{
+		UP,
+		DOWN,
+		RIGHT,
+		LEFT
+	};
 protected: // エイリアス
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
@@ -19,9 +26,15 @@ public:
 
 	void Draw();
 
-	void Move(MapChip* mapChip);//歩き
+	void AI(MapChip* mapChip);//歩き
+
+	void Move();//歩き
+	
+	XMFLOAT3 GetPos() { return pos; };
 private:
 	Model* modelEnemy = nullptr;
 	Object3d* objEnemy;
+	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//プレイヤーの位置
+	int nowMove = UP;
 };
 
