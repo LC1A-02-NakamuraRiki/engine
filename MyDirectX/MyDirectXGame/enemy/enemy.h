@@ -2,6 +2,7 @@
 #include <DirectXMath.h>
 #include "../Map/MapChip.h"
 #include "../3d/Object3d.h"
+#include "../Player/Player.h"
 
 class Enemy
 {
@@ -22,19 +23,24 @@ protected: // エイリアス
 public:
 	void Initialize();
 
-	void Update(MapChip* mapChip);
+	void Update(Player* player,MapChip* mapChip);
 
 	void Draw();
 
-	void AI(MapChip* mapChip);//歩き
+	void AI(Player* player,MapChip* mapChip);//歩き
 
 	void Move();//歩き
 	
+	bool catchCollision(Player* player);
+
 	XMFLOAT3 GetPos() { return pos; };
 private:
 	Model* modelEnemy = nullptr;
 	Object3d* objEnemy;
 	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//プレイヤーの位置
 	int nowMove = UP;
+	float adjustValueX = 0;
+	float adjustValueZ = 0;
+	bool vReserveFlag = false;
 };
 

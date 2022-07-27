@@ -1,4 +1,5 @@
 #include "enemy.h"
+#include "../collision/Collision.h"
 
 void Enemy::Initialize()
 {
@@ -7,10 +8,10 @@ void Enemy::Initialize()
 	objEnemy->SetPosition(pos);
 }
 
-void Enemy::Update(MapChip* mapChip)
+void Enemy::Update(Player* player,MapChip* mapChip)
 {
 	objEnemy->Update();
-	AI(mapChip);
+	AI(player,mapChip);
 	Move();
 }
 
@@ -19,43 +20,147 @@ void Enemy::Draw()
 	objEnemy->Draw();
 }
 
-void Enemy::AI(MapChip* mapChip)
+void Enemy::AI(Player* player,MapChip* mapChip)
 {
-	if (mapChip->ArrayValue(pos.x, pos.z) == 2)
+	XMFLOAT3 playerPos = player->GetPos();
+
+	float vectorX  = playerPos.x - pos.x;
+	float vectorZ = playerPos.z - pos.z;
+
+	if ((vectorX * vectorX) < (vectorZ * vectorZ))
 	{
-		nowMove = RIGHT;
+		vReserveFlag = true;
 	}
-	else if (mapChip->ArrayValue(pos.x, pos.z) == 3)
+	else if ((vectorX * vectorX) >= (vectorZ * vectorZ))
 	{
-		nowMove = RIGHT;
+		vReserveFlag = false;
 	}
-	else if (mapChip->ArrayValue(pos.x, pos.z) == 4)
+
+	if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 2)
 	{
-		nowMove = DOWN;
+		if (nowMove == UP)
+		{
+			nowMove = RIGHT;
+		}
+		if (nowMove == LEFT)
+		{
+			nowMove = DOWN;
+		}
 	}
-	else if (mapChip->ArrayValue(pos.x, pos.z) == 5)
+	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 3)
 	{
-		nowMove = UP;
+		if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
+		{
+			nowMove = RIGHT;
+		}
+		
+		else if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
+		{
+			nowMove = LEFT;
+		}
+
+		else if (nowMove != UP && vReserveFlag == true)
+		{
+			nowMove = DOWN;
+		}
 	}
-	else if (mapChip->ArrayValue(pos.x, pos.z) == 6)
+	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 4)
 	{
-		nowMove = UP;
+		if (nowMove == RIGHT)
+		{
+			nowMove = DOWN;
+		}
+		if (nowMove == UP)
+		{
+			nowMove = LEFT;
+		}
 	}
-	else if (mapChip->ArrayValue(pos.x, pos.z) == 7)
+	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 5)
 	{
-		nowMove = DOWN;
+		if (nowMove != DOWN && vReserveFlag == true && 0 < vectorZ)
+		{
+			nowMove = UP;
+		}
+		else if (nowMove != UP && vReserveFlag == true && vectorZ < 0)
+		{
+			nowMove = DOWN;
+		}
+		else if (nowMove != LEFT && vReserveFlag == false)
+		{
+			nowMove = RIGHT;
+		}
 	}
-	else if (mapChip->ArrayValue(pos.x, pos.z) == 8)
+	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 6)
 	{
-		nowMove = UP;
+		if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
+		{
+			nowMove = UP;
+		}
+		if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
+		{
+			nowMove = DOWN;
+		}
+		if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
+		{
+			nowMove = RIGHT;
+		}
+		if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
+		{
+			nowMove = LEFT;
+		}
+
 	}
-	else if (mapChip->ArrayValue(pos.x, pos.z) == 9)
+	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 7)
 	{
-		nowMove = LEFT;
+		if (nowMove != UP && vReserveFlag == true && vectorZ < 0)
+		{
+			nowMove = DOWN;
+		}
+		else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
+		{
+			nowMove = DOWN;
+		}
+		else if (nowMove != RIGHT && vReserveFlag == false)
+		{
+			nowMove = LEFT;
+		}
 	}
-	else if (mapChip->ArrayValue(pos.x, pos.z) == 10)
+	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 8)
 	{
-		nowMove = LEFT;
+		if (nowMove == LEFT)
+		{
+			nowMove = UP;
+		}
+		if (nowMove == DOWN)
+		{
+			nowMove = RIGHT;
+		}
+	}
+	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 9)
+	{
+		if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
+		{
+			nowMove = LEFT;
+		}
+		else if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
+		{
+			nowMove = RIGHT;
+		}
+		else if (nowMove != DOWN && vReserveFlag == true)
+		{
+			nowMove = UP;
+		}
+	}
+	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 10)
+	{
+		if (nowMove == DOWN)
+		{
+			nowMove = LEFT;
+		}
+		if (nowMove == RIGHT)
+		{
+			nowMove = UP;
+		}
 	}
 }
 
@@ -64,18 +169,28 @@ void Enemy::Move()
 	if (nowMove == DOWN)
 	{
 		pos.z += 0.4f;
+		adjustValueZ = -8.0f;
 	}
 	else if (nowMove == UP)
 	{
 		pos.z -= 0.4f;
+		adjustValueZ = 8.0f;
 	}
 	else if (nowMove == RIGHT)
 	{
 		pos.x += 0.4f;
+		adjustValueX = -8.0f;
 	}
 	else if (nowMove == LEFT)
 	{
 		pos.x -= 0.4f;
+		adjustValueX = 8.0;
 	}
 	objEnemy->SetPosition(pos);
+}
+
+bool Enemy::catchCollision(Player* player)
+{
+	XMFLOAT3 playerPos = player->GetPos();
+	return Collision::ChenkSphere2Sphere(playerPos, pos, 3.0f, 6.0f);
 }

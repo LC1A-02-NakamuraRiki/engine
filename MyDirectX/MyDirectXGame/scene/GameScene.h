@@ -20,6 +20,14 @@
 /// <summary>
 /// ゲームシーン
 /// </summary>
+enum Mode
+{
+	TITLE,
+	PLAY,
+	CLEAR,
+	GAMEOVER,
+};
+
 class GameScene
 {
 protected: // エイリアス
@@ -84,14 +92,11 @@ private: // メンバ変数
 	Model *modelGround = nullptr;
 	Object3d *objGround = nullptr;
 
-	Model *modelFighter = nullptr;
-	Object3d *objFighter = nullptr;
 	ParticleManager *particle3d = nullptr;
 	
-	FbxModel* model1 = nullptr;
-	FbxObject3d* object1 = nullptr;
+	//FbxModel* model1 = nullptr;
+	//FbxObject3d* object1 = nullptr;
 
-	Player* player = nullptr;
 
 	/*Object3d *playerObj = nullptr;
 	Model *playerModel = nullptr;
@@ -100,9 +105,9 @@ private: // メンバ変数
 	Plane plane;
 	Triangle triangle;
 	Ray ray;*/
-	MapChip* map = nullptr;
-
+	Player* player = nullptr;
 	Enemy* enemy = nullptr;
-
+	MapChip* map = nullptr;
+	int scene = 0;
 	float collision;
 };

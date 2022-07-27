@@ -21,12 +21,12 @@ GameScene::~GameScene()
 	safe_delete(modelSkydome);
 	safe_delete(objGround);
 	safe_delete(modelGround);
-	safe_delete(objFighter);
-	safe_delete(modelFighter);
 	safe_delete(light);
-	safe_delete(object1);
-	safe_delete(model1);
+	//safe_delete(object1);
+	//safe_delete(model1);
 	safe_delete(player);
+	safe_delete(enemy);
+	safe_delete(map);
 	//safe_delete(modelMapWall);
 	/*for (int x = 0; x < 20; x++)
 	{
@@ -78,11 +78,9 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	modelGround = Model::CreateFromObject("ground", true);
 	objGround = Object3d::Create(modelGround);
 	objGround->SetScale({ 2.0f,2.0f ,2.0f });
-	modelFighter = Model::CreateFromObject("largeCarL", true);
-	objFighter = Object3d::Create(modelFighter);
 
 	// モデル名を指定してファイル読み込み
-	model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
+	//model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
 
 	// デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
@@ -95,10 +93,10 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	
 	Object3d::SetLight(light);
 
-	object1 = new FbxObject3d;
+	/*object1 = new FbxObject3d;
 	object1->Initialize();
 	object1->SetModel(model1);
-	object1->PlayAnimation();
+	object1->PlayAnimation();*/
 	////サウンド再生
 	//audio->PlayBGM("Resources/Alarm01.wav", true);
 	//audio->PlaySE("Resources/Alarm01.wav", false);
@@ -118,94 +116,59 @@ void GameScene::Update()
 	///*POINT mousePos;
 	//GetCursorPos(&mousePos);*/
 	
-	debugText.Print(20, 20, 1.5f,"ObjectMove:ArrowKey");
-	debugText.Print(20, 50, 1.5f,"EyeMove:W A S D");
-	
-	XMFLOAT3 cameraEye = camera->GetEye();
-	XMFLOAT3 cameraTarget = camera->GetTarget();
-	if (Input::GetInstance()->ControllerPush(Button01))
+
+
+	debugText.Print(20, 20, 2.0f, "END : ESC");
+	if (scene == TITLE)
 	{
-		
+		debugText.Print(680, 300, 5.0f, "ESCAPE fom BOM");
+		debugText.Print(700, 800, 5.0f, "START : SPACE");
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
+		{
+			scene = PLAY;
+		}
 	}
-	//プレイヤー系
-	player->Update(map);
-	camera->SetEye(player->GetPos());
-	camera->SetTarget(player->GetTarget());
-	
-	debugText.Print(20, 80, 1.5f, "%d", map->ArrayValue(enemy->GetPos().x, enemy->GetPos().z - 8));
-	// オブジェクト移動
-	//if (input->PushKey(DIK_UP) || input->PushKey(DIK_DOWN) || input->PushKey(DIK_RIGHT) || input->PushKey(DIK_LEFT) || input->PushKey(DIK_SPACE) || input->PushKey(DIK_LCONTROL))
-	//{
-	//	// 現在の座標を取得
-	//	XMFLOAT3 pos = objFighter->GetPosition();
-
-	//	// 移動後の座標を計算
-	//	if (input->PushKey(DIK_SPACE)) { pos.y += 0.1f;}
-	//	else if (input->PushKey(DIK_LCONTROL)) { pos.y -= 0.1f;}
-
-	//	if (input->PushKey(DIK_RIGHT)) { pos.x += 0.1f;}
-	//	else if (input->PushKey(DIK_LEFT)) { pos.x -= 0.1f;}
-	//	
-	//	if (input->PushKey(DIK_UP)) { pos.z += 0.1f; }
-	//	else if (input->PushKey(DIK_DOWN)) { pos.z -= 0.1f; }
-
-	//	ParticlesCreate({ pos.x - 2.0f,pos.y,pos.z });
-	//	// 座標の変更を反映
-	//	objFighter->SetPosition(pos);
-	//}
-	/*if (Input::GetInstance()->PushKey(DIK_SPACE))
+	else if (scene == PLAY)
 	{
-		cameraEye.y += 1.0f;
-	}*/
+		debugText.Print(20, 50, 2.0f, "MOVE : W A S D");
+		debugText.Print(20, 80, 2.0f, "VIEW : MOUSE or ArrowKey ");
+		debugText.Print(20, 110, 2.0f, "SENSI CHANGE -/+  :  9/0 ");
+		debugText.Print(20, 140, 2.0f, "NowSENSI :  %f", player->GetViewSpeed());
 
-	
-	// カメラ移動
-	/*if (input->PushKey(DIK_W) || input->PushKey(DIK_A) || input->PushKey(DIK_S) || input->PushKey(DIK_D))
+		//プレイヤー系
+		camera->SetEye(player->GetPos());
+		camera->SetTarget(player->GetTarget());
+		//ライト
+		static XMVECTOR lightDir = { 0.5f, -1, 0, 0 };
+		/*if (input->PushKey(DIK_W)) { lightDir.m128_f32[1] += 1.0f; }
+		else if (input->PushKey(DIK_S)) { lightDir.m128_f32[1] -= 1.0f; }
+		if (input->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
+		else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }*/
+
+		light->SetLightDir(lightDir);
+		player->Update(map);
+		particle3d->Update();
+		camera->Update();
+		objSkydome->Update();
+		objGround->Update();
+		light->Update();
+		//object1->Update();
+		map->Update();
+		enemy->Update(player, map);
+		if (enemy->catchCollision(player))
+		{
+			scene = GAMEOVER;
+		}
+	}
+	else if (scene == GAMEOVER)
 	{
-		if (input->PushKey(DIK_W)) { cameraEye.y += 1.0f; }
-		else if (input->PushKey(DIK_S)) { cameraEye.y -= 1.0f; }
-		if (input->PushKey(DIK_D)) { cameraEye.x += 1.0f; }
-		else if (input->PushKey(DIK_A)) { cameraEye.x -= 1.0f; }
-
-		camera->SetEye(cameraEye);
-	}*/
-
-	//// カメラ移動
-	/*if (Input::GetInstance()->KeybordPush(DIK_Q) || Input::GetInstance()->KeybordPush(DIK_E) || Input::GetInstance()->KeybordPush(DIK_LCONTROL) || Input::GetInstance()->KeybordPush(DIK_SPACE))
-	{
-		if (Input::GetInstance()->KeybordPush(DIK_SPACE)) { camera->CameraMoveVector({ 0.0f,+1.0f,0.0f }); }
-		else if (Input::GetInstance()->KeybordPush(DIK_LCONTROL)) { camera->CameraMoveVector({ 0.0f,-1.0f,0.0f }); }
-		if (Input::GetInstance()->KeybordPush(DIK_E)) { camera->CameraMoveVector({ +1.0f,0.0f,0.0f }); }
-		else if (Input::GetInstance()->KeybordPush(DIK_Q)) { camera->CameraMoveVector({ -1.0f,0.0f,0.0f }); }
-	}*/
-
-	//カメラ角度変更
-	/*if (input->PushKey(DIK_W) || input->PushKey(DIK_A) || input->PushKey(DIK_S) || input->PushKey(DIK_D))
-	{
-		if (input->PushKey(DIK_W)) { cameraTarget.y += 1.0f; }
-		else if (input->PushKey(DIK_S)) { cameraTarget.y -= 1.0f; }
-		if (input->PushKey(DIK_D)) { cameraTarget.x += 1.0f; }
-		else if (input->PushKey(DIK_A)) { cameraTarget.x -= 1.0f; }
-		camera->SetTarget(cameraTarget);
-	}*/
-	
-	//ライト
-	static XMVECTOR lightDir = { 0.5f, -1, 0, 0 };
-	/*if (input->PushKey(DIK_W)) { lightDir.m128_f32[1] += 1.0f; }
-	else if (input->PushKey(DIK_S)) { lightDir.m128_f32[1] -= 1.0f; }
-	if (input->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
-	else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }*/
-	light->SetLightDir(lightDir);
-
-	particle3d->Update();
-	camera->Update();
-	objSkydome->Update();
-	objGround->Update();
-	objFighter->Update();
-	light->Update();
-	object1->Update();
-	map->Update();
-	enemy->Update(map);
+		debugText.Print(680, 300, 5.0f, "   GAMEOVER");
+		debugText.Print(700, 800, 5.0f, "TITLE : SPACE");
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
+		{
+			scene = TITLE;
+		}
+	}
 }
 
 void GameScene::Draw()
