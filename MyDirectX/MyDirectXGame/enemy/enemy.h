@@ -23,6 +23,8 @@ protected: // エイリアス
 public:
 	void Initialize();
 
+	void InitializeValue();
+
 	void Update(Player* player,MapChip* mapChip);
 
 	void Draw();

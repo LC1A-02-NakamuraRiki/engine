@@ -14,6 +14,8 @@ protected: // エイリアス
 public:
 	void Initialize();
 	
+	void InitializeValue();
+
 	void Update(MapChip* mapChip);
 	
 	void Draw();
@@ -26,17 +28,12 @@ public:
 
 	void AngleSearch();//歩く方向の算出
 	
-	void collisionPosChange();
 	XMFLOAT3 GetPos() { return pos; }
 	XMFLOAT3 GetTarget() { return target; }
 	float GetAngle() { return angle.y; }
 	float GetViewSpeed() { return mouseViewSpeed; }
 private:
 	XMFLOAT3 pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
-	XMFLOAT3 collisionW = { 0,0,0 };//プレイヤーの位置
-	XMFLOAT3 collisionA = { 0,0,0 };//プレイヤーの位置
-	XMFLOAT3 collisionS = { 0,0,0 };//プレイヤーの位置
-	XMFLOAT3 collisionD = { 0,0,0 };//プレイヤーの位置
 	float r = 0.5;//プレイヤーの半径
 	float moveSpeed = 0.4f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ
@@ -49,4 +46,6 @@ private:
 	int walkShakingTime = 0;//歩きの揺れのタイム
 	float angleX = 0; //カメラX軸
 	float angleY = 180; //カメラY軸
+
+
 };

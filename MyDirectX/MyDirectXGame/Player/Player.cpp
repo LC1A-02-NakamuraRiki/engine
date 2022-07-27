@@ -6,6 +6,23 @@ void Player::Initialize()
 {
 }
 
+void Player::InitializeValue()
+{
+	pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
+	r = 0.5;//プレイヤーの半径
+	moveSpeed = 0.4f;//歩きの速度
+	viewSpeed = 4.0f;//視点の速さ
+	mouseViewSpeed = 0.3f;//視点の速さ
+	target = { 0,0.0f,0 };//注視点
+	targetY = 0;//揺れの調整
+	angle = { 0,0,0 };//歩く方向
+	walkShaking = 2.5;//歩きの揺れる値
+	isWalkShaking = false;//歩きの揺れのフラグ
+	walkShakingTime = 0;//歩きの揺れのタイム
+	angleX = 0; //カメラX軸
+	angleY = 180; //カメラY軸
+}
+
 void Player::Update(MapChip *mapChip)
 {
 	AngleSearch();
@@ -237,43 +254,4 @@ void Player::View()
 void Player::AngleSearch()
 {
 	angle.y = XMConvertToDegrees(atan2(pos.x - target.x, pos.z - target.z)) + 90;
-}
-
-void Player::collisionPosChange()
-{
-	XMVECTOR v0 = { 0,0,-2.5f, 0 };
-	XMMATRIX  rotM = XMMatrixIdentity();
-	rotM *= XMMatrixRotationY(XMConvertToRadians(angleY));
-	XMVECTOR v = XMVector3TransformNormal(v0, rotM);
-	XMVECTOR cameraPos = { pos.x,pos.y,pos.z };
-	XMVECTOR v3 = cameraPos + v;
-	XMFLOAT3 f = { v3.m128_f32[0], v3.m128_f32[1], v3.m128_f32[2] };
-	collisionW = f;
-
-	XMVECTOR v02 = { 0,0,-2.5f, 0 };
-	XMMATRIX  rotM2 = XMMatrixIdentity();
-	rotM2 *= XMMatrixRotationY(XMConvertToRadians(angleY + 90));
-	XMVECTOR v2 = XMVector3TransformNormal(v02, rotM2);
-	XMVECTOR cameraPos2 = { pos.x,pos.y,pos.z };
-	XMVECTOR v32 = cameraPos2 + v2;
-	XMFLOAT3 f2 = { v32.m128_f32[0], v32.m128_f32[1], v32.m128_f32[2] };
-	collisionD = f2;
-
-	XMVECTOR v05 = { 0,0,-2.5f, 0 };
-	XMMATRIX  rotM5 = XMMatrixIdentity();
-	rotM5 *= XMMatrixRotationY(XMConvertToRadians(angleY + 180));
-	XMVECTOR v5 = XMVector3TransformNormal(v05, rotM5);
-	XMVECTOR cameraPos5 = { pos.x,pos.y,pos.z };
-	XMVECTOR v35 = cameraPos5 + v5;
-	XMFLOAT3 f5 = { v35.m128_f32[0], v35.m128_f32[1], v35.m128_f32[2] };
-	collisionS = f5;
-
-	XMVECTOR v04 = { 0,0,-2.5f, 0 };
-	XMMATRIX  rotM4 = XMMatrixIdentity();
-	rotM4 *= XMMatrixRotationY(XMConvertToRadians(angleY + 270));
-	XMVECTOR v4 = XMVector3TransformNormal(v04, rotM4);
-	XMVECTOR cameraPos4 = { pos.x,pos.y,pos.z };
-	XMVECTOR v34 = cameraPos4 + v4;
-	XMFLOAT3 f4 = { v34.m128_f32[0], v34.m128_f32[1], v34.m128_f32[2] };
-	collisionA = f4;
 }

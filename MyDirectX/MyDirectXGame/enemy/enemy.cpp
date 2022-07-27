@@ -8,6 +8,16 @@ void Enemy::Initialize()
 	objEnemy->SetPosition(pos);
 }
 
+void Enemy::InitializeValue()
+{
+	pos = { -8.0f,0.0f,+56.0f };//プレイヤーの位置
+	objEnemy->SetPosition(pos);
+	nowMove = UP;
+	adjustValueX = 0;
+	adjustValueZ = 0;
+	vReserveFlag = false;
+}
+
 void Enemy::Update(Player* player,MapChip* mapChip)
 {
 	objEnemy->Update();
@@ -77,11 +87,11 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 	}
 	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 5)
 	{
-		if (nowMove != DOWN && vReserveFlag == true && 0 < vectorZ)
+		if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
 		{
 			nowMove = UP;
 		}
-		else if (nowMove != UP && vReserveFlag == true && vectorZ < 0)
+		else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
 		{
 			nowMove = DOWN;
 		}
@@ -112,9 +122,9 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 	}
 	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 7)
 	{
-		if (nowMove != UP && vReserveFlag == true && vectorZ < 0)
+		if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
 		{
-			nowMove = DOWN;
+			nowMove = UP;
 		}
 		else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
 		{

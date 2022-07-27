@@ -121,8 +121,11 @@ void GameScene::Update()
 	debugText.Print(20, 20, 2.0f, "END : ESC");
 	if (scene == TITLE)
 	{
-		debugText.Print(680, 300, 5.0f, "ESCAPE fom BOM");
+		debugText.Print(680, 300, 5.0f, "ESCAPE from BOM");
 		debugText.Print(700, 800, 5.0f, "START : SPACE");
+		player->InitializeValue();
+		enemy->InitializeValue();
+		map->InitializeValue();
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
 			scene = PLAY;
@@ -134,7 +137,6 @@ void GameScene::Update()
 		debugText.Print(20, 80, 2.0f, "VIEW : MOUSE or ArrowKey ");
 		debugText.Print(20, 110, 2.0f, "SENSI CHANGE -/+  :  9/0 ");
 		debugText.Print(20, 140, 2.0f, "NowSENSI :  %f", player->GetViewSpeed());
-
 		//ƒvƒŒƒCƒ„[Œn
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());
@@ -144,7 +146,6 @@ void GameScene::Update()
 		else if (input->PushKey(DIK_S)) { lightDir.m128_f32[1] -= 1.0f; }
 		if (input->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
 		else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }*/
-
 		light->SetLightDir(lightDir);
 		player->Update(map);
 		particle3d->Update();
@@ -153,11 +154,24 @@ void GameScene::Update()
 		objGround->Update();
 		light->Update();
 		//object1->Update();
-		map->Update();
+		map->Update(player->GetPos());
 		enemy->Update(player, map);
 		if (enemy->catchCollision(player))
 		{
 			scene = GAMEOVER;
+		}
+		if (map->GetAllGetFlag())
+		{
+			scene = CLEAR;
+		}
+	}
+	else if (scene == CLEAR)
+	{
+		debugText.Print(680, 300, 5.0f, "    CLEAR");
+		debugText.Print(700, 800, 5.0f, "TITLE : SPACE");
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
+		{
+			scene = TITLE;
 		}
 	}
 	else if (scene == GAMEOVER)
@@ -194,10 +208,13 @@ void GameScene::Draw()
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
 	//playerObj->Draw();
+	if (scene == PLAY)
+	{
 	objSkydome->Draw();
 	objGround->Draw();
 	map->Draw();
 	enemy->Draw();
+	}
 	//objFighter->Draw();
 	//object1->Draw(cmdList);
 	//-------------------------------------------------------------//
