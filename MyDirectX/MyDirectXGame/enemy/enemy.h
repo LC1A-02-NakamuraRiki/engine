@@ -21,11 +21,11 @@ protected: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
-	void Initialize();
+	void Initialize();//最初の初期化
 
-	void InitializeValue();
+	void InitializeValue();//タイトル時の初期化
 
-	void Update(Player* player,MapChip* mapChip);
+	void Update(Player* player,MapChip* mapChip);//アップデート
 
 	void Draw();
 
@@ -33,16 +33,16 @@ public:
 
 	void Move();//歩き
 	
-	bool catchCollision(Player* player);
+	bool catchCollision(Player* player);//プレイヤーと敵当たり判定
 
 	XMFLOAT3 GetPos() { return pos; };
 private:
 	Model* modelEnemy = nullptr;
 	Object3d* objEnemy;
 	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//プレイヤーの位置
-	int nowMove = UP;
-	float adjustValueX = 0;
-	float adjustValueZ = 0;
-	bool vReserveFlag = false;
+	int nowMove = UP;//どの動きをしているか
+	float adjustValueX = 0;//位置調整用変数X
+	float adjustValueZ = 0;//位置調整用変数Z
+	bool vReserveFlag = false;//縦優先
 };
 

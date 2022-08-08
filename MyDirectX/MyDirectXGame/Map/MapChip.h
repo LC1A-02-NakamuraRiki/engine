@@ -13,10 +13,10 @@ protected: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
-	void Initialize();
-	void InitializeValue();
-	void Update(XMFLOAT3 pos);
-	int ArrayValue(float x, float y);
+	void Initialize();//最初の初期化
+	void InitializeValue();//タイトル時の初期化
+	void Update(XMFLOAT3 pos);//アップデート
+	int ArrayValue(float x, float y);//座標からマップチップ配列の算出
 	void Draw();
 
 	bool GetAllGetFlag() { return allGetFlag; }
@@ -37,7 +37,7 @@ private:
 							 XMFLOAT3({ 13 * 16.0f - (15 * 16.0f / 2), 0.0f, 13 * 16.0f - (15 * 16.0f / 2) }),
 	};
 	;
-	bool crystalGetFlag[9] = { false,false,false,false,false,false,false,false,false };
+	bool crystalGetFlag[9] = { false,false,false,false,false,false,false,false,false };//クリスタル取ったか
 	int mapWall[15][15] = { { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 },
 							{ 1,2,0,0,0,0,0,3,0,0,0,0,0,4,1 },
 							{ 1,0,1,1,1,1,1,0,1,1,1,1,1,0,1 },
@@ -54,5 +54,5 @@ private:
 							{ 1,8,0,0,0,0,0,9,0,0,0,0,0,10,1 },
 							{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 	};
-	bool allGetFlag = false;
+	bool allGetFlag = false;//クリスタル全部とれたか
 };

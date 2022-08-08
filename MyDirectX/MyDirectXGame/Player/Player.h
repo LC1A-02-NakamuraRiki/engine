@@ -12,11 +12,12 @@ protected: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
-	void Initialize();
 	
-	void InitializeValue();
+	void Initialize();//最初の初期化
+	
+	void InitializeValue();//タイトル時の初期化
 
-	void Update(MapChip* mapChip);
+	void Update(MapChip* mapChip);//アップデート
 	
 	void Draw();
 

@@ -25,10 +25,10 @@ void Player::InitializeValue()
 
 void Player::Update(MapChip *mapChip)
 {
-	AngleSearch();
-	Move(mapChip);
-	WalkShaking();
-	View();
+	AngleSearch();//プレイヤーの向きの算出
+	Move(mapChip);//移動
+	WalkShaking();//歩きの揺れ
+	View();//視点制御
 }
 
 void Player::Draw()
