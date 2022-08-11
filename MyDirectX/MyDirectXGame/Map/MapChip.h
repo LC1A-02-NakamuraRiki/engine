@@ -18,13 +18,17 @@ public:
 	void Update(XMFLOAT3 pos);//アップデート
 	int ArrayValue(float x, float y);//座標からマップチップ配列の算出
 	void Draw();
-
+	void TimeStop();
 	bool GetAllGetFlag() { return allGetFlag; }
+	bool GetStopFlag() { return stopFlag; }
 private:
 
 	Model* modelMapWall = nullptr;
 	Object3d* objMapWall[15][15];
+	Model*  modelCeiling = nullptr;
+	Object3d* objCeiling[15][15];
 	Model* modelCrystal = nullptr;
+	Model* modelItemCrystal = nullptr;
 	Object3d* objCrystal[9];
 	XMFLOAT3 crystalPos[9] = { XMFLOAT3({ 1 * 16.0f - (15 * 16.0f / 2), 0.0f, 1 * 16.0f - (15 * 16.0f / 2)   }),
 							 XMFLOAT3({ 7 * 16.0f - (15 * 16.0f / 2), 0.0f, 1 * 16.0f - (15 * 16.0f / 2)   }),
@@ -55,4 +59,8 @@ private:
 							{ 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
 	};
 	bool allGetFlag = false;//クリスタル全部とれたか
+
+	int stopTime = 0;
+	bool stopFlag = false;
+
 };

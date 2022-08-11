@@ -22,7 +22,7 @@ void Enemy::Update(Player* player,MapChip* mapChip)
 {
 	objEnemy->Update();
 	AI(player,mapChip);
-	Move();
+	Move(mapChip);
 }
 
 void Enemy::Draw()
@@ -174,27 +174,30 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 	}
 }
 
-void Enemy::Move()
+void Enemy::Move(MapChip* mapChip)
 {
-	if (nowMove == DOWN)
+	if (mapChip->GetStopFlag() == false)
 	{
-		pos.z += 0.4f;
-		adjustValueZ = -8.0f;
-	}
-	else if (nowMove == UP)
-	{
-		pos.z -= 0.4f;
-		adjustValueZ = 8.0f;
-	}
-	else if (nowMove == RIGHT)
-	{
-		pos.x += 0.4f;
-		adjustValueX = -8.0f;
-	}
-	else if (nowMove == LEFT)
-	{
-		pos.x -= 0.4f;
-		adjustValueX = 8.0;
+		if (nowMove == DOWN)
+		{
+			pos.z += 0.4f;
+			adjustValueZ = -8.0f;
+		}
+		else if (nowMove == UP)
+		{
+			pos.z -= 0.4f;
+			adjustValueZ = 8.0f;
+		}
+		else if (nowMove == RIGHT)
+		{
+			pos.x += 0.4f;
+			adjustValueX = -8.0f;
+		}
+		else if (nowMove == LEFT)
+		{
+			pos.x -= 0.4f;
+			adjustValueX = 8.0;
+		}
 	}
 	objEnemy->SetPosition(pos);
 }

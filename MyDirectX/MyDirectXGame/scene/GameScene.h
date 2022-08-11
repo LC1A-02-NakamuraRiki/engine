@@ -74,6 +74,7 @@ public: // ƒƒ“ƒoŠÖ”
 	/// </summary>
 	void ParticlesCreate(XMFLOAT3 Pos);
 
+	bool GetStopFlag() { return stopFlag; }
 private: // ƒƒ“ƒo•Ï”
 	DirectXCommon *dxCommon = nullptr;
 	//Input *input = nullptr;
@@ -110,4 +111,6 @@ private: // ƒƒ“ƒo•Ï”
 	MapChip* map = nullptr;
 	int scene = 0;
 	float collision;
+
+	bool stopFlag;
 };

@@ -180,9 +180,9 @@ void PostEffect::Initialize()
 	CreateGraphicsPipelineState();
 }
 
-void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
+void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, bool stopFlag)
 {
-	/*if(Input::GetInstance()->KeybordTrigger(DIK_0))
+	if(Input::GetInstance()->KeybordTrigger(DIK_0))
 	{
 		static int tex = 0;
 		tex = (tex + 1) % 2;
@@ -197,7 +197,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 			&srvDesc,
 			descHeapSRV->GetCPUDescriptorHandleForHeapStart()
 		);
-	}*/
+	}
 	this->matWorld = XMMatrixIdentity();
 
 	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
@@ -208,6 +208,7 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList)
 	HRESULT result = constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result))
 	{
+		constMap->flag = stopFlag;
 		constMap->color = this->color;
 		constMap->mat = XMMatrixIdentity();
 		constBuff->Unmap(0, nullptr);

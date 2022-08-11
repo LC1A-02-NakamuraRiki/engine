@@ -155,6 +155,7 @@ void GameScene::Update()
 		light->Update();
 		//object1->Update();
 		map->Update(player->GetPos());
+		stopFlag = map->GetStopFlag();
 		enemy->Update(player, map);
 		if (enemy->catchCollision(player))
 		{

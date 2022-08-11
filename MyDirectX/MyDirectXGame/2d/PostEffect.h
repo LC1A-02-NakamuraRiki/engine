@@ -5,6 +5,7 @@
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include "../input/Input.h"
+#include "../Map/MapChip.h"
 
 class PostEffect : public Sprite
 {
@@ -22,7 +23,7 @@ public:
 
 	void Initialize();
 
-	void Draw(ID3D12GraphicsCommandList*cmdList);
+	void Draw(ID3D12GraphicsCommandList*cmdList, bool stopFlag);
 
 	void PreDrawScene(ID3D12GraphicsCommandList* cmdList);
 	void PostDrawScene(ID3D12GraphicsCommandList* cmdList);

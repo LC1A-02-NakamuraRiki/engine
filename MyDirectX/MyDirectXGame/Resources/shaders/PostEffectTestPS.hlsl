@@ -9,11 +9,11 @@ float4 main(VSOutput input) :SV_TARGET
 	float4 texcolor0 = tex0.Sample(smp,input.uv);
 	float4 texcolor1 = tex1.Sample(smp, input.uv);
 	float4 color = texcolor0;
-	//if(fmod(input.uv.y,0.1f) < 0.05f)
-	//{
-	//	//color = texcolor1;
-	//}
-	float l = (color.r + color.g + color.b) / 3;
-	return float4(l, l, l, 1);
+	if(flag)
+	{
+		float l = (color.r + color.g + color.b) / 3;
+		return float4(l, l, l, 1);
+	}
+	
 	return float4(color.rgb,1);
 }

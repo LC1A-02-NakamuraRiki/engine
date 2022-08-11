@@ -31,7 +31,7 @@ public:
 
 	void AI(Player* player,MapChip* mapChip);//•à‚«
 
-	void Move();//•à‚«
+	void Move(MapChip* mapChip);//•à‚«
 	
 	bool catchCollision(Player* player);//ƒvƒŒƒCƒ„[‚Æ“G“–‚½‚è”»’è
 
