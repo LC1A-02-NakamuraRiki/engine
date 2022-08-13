@@ -3,14 +3,14 @@
 
 void Enemy::Initialize()
 {
-	modelEnemy = Model::CreateFromObject("bom", false);
+	modelEnemy = Model::CreateFromObject("Human", false);
 	objEnemy = Object3d::Create(modelEnemy);
 	objEnemy->SetPosition(pos);
 }
 
 void Enemy::InitializeValue()
 {
-	pos = { -8.0f,0.0f,+56.0f };//プレイヤーの位置
+	pos = { -8.0f,3.0f,+56.0f };//プレイヤーの位置
 	objEnemy->SetPosition(pos);
 	nowMove = UP;
 	adjustValueX = 0;
@@ -45,131 +45,166 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 	{
 		vReserveFlag = false;
 	}
+	if (adjustmentFlag)
+	{
+		adjustmentTime++;
+		if (adjustmentTime > 40)
+		{
+			adjustmentTime = 0;
+			adjustmentFlag = false;
+		}
+	}
+	else if (!adjustmentFlag)
+	{
+		if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 2)
+		{
+			if (nowMove == UP)
+			{
+				nowMove = RIGHT;
+				adjustmentFlag = true;
+			}
+			if (nowMove == LEFT)
+			{
+				nowMove = DOWN;
+				adjustmentFlag = true;
+			}
+		}
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 3)
+		{
+			if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
+			{
+				nowMove = RIGHT;
+				adjustmentFlag = true;
+			}
 
-	if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 2)
-	{
-		if (nowMove == UP)
-		{
-			nowMove = RIGHT;
-		}
-		if (nowMove == LEFT)
-		{
-			nowMove = DOWN;
-		}
-	}
-	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 3)
-	{
-		if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
-		{
-			nowMove = RIGHT;
-		}
-		
-		else if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
-		{
-			nowMove = LEFT;
-		}
+			else if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
+			{
+				nowMove = LEFT;
+				adjustmentFlag = true;
+			}
 
-		else if (nowMove != UP && vReserveFlag == true)
-		{
-			nowMove = DOWN;
+			else if (nowMove != UP && vReserveFlag == true)
+			{
+				nowMove = DOWN;
+				adjustmentFlag = true;
+			}
 		}
-	}
-	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 4)
-	{
-		if (nowMove == RIGHT)
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 4)
 		{
-			nowMove = DOWN;
+			if (nowMove == RIGHT)
+			{
+				nowMove = DOWN;
+				adjustmentFlag = true;
+			}
+			if (nowMove == UP)
+			{
+				nowMove = LEFT;
+				adjustmentFlag = true;
+			}
 		}
-		if (nowMove == UP)
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 5)
 		{
-			nowMove = LEFT;
+			if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
+			{
+				nowMove = UP;
+				adjustmentFlag = true;
+			}
+			else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
+			{
+				nowMove = DOWN;
+				adjustmentFlag = true;
+			}
+			else if (nowMove != LEFT && vReserveFlag == false)
+			{
+				nowMove = RIGHT;
+				adjustmentFlag = true;
+			}
 		}
-	}
-	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 5)
-	{
-		if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 6)
 		{
-			nowMove = UP;
-		}
-		else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
-		{
-			nowMove = DOWN;
-		}
-		else if (nowMove != LEFT && vReserveFlag == false)
-		{
-			nowMove = RIGHT;
-		}
-	}
-	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 6)
-	{
-		if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
-		{
-			nowMove = UP;
-		}
-		if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
-		{
-			nowMove = DOWN;
-		}
-		if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
-		{
-			nowMove = RIGHT;
-		}
-		if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
-		{
-			nowMove = LEFT;
-		}
+			if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
+			{
+				nowMove = UP;
+				adjustmentFlag = true;
+			}
+			if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
+			{
+				nowMove = DOWN;
+				adjustmentFlag = true;
+			}
+			if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
+			{
+				nowMove = RIGHT;
+				adjustmentFlag = true;
+			}
+			if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
+			{
+				nowMove = LEFT;
+				adjustmentFlag = true;
+			}
 
-	}
-	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 7)
-	{
-		if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
-		{
-			nowMove = UP;
 		}
-		else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 7)
 		{
-			nowMove = DOWN;
+			if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
+			{
+				nowMove = UP;
+				adjustmentFlag = true;
+			}
+			else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
+			{
+				nowMove = DOWN;
+				adjustmentFlag = true;
+			}
+			else if (nowMove != RIGHT && vReserveFlag == false)
+			{
+				nowMove = LEFT;
+				adjustmentFlag = true;
+			}
 		}
-		else if (nowMove != RIGHT && vReserveFlag == false)
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 8)
 		{
-			nowMove = LEFT;
+			if (nowMove == LEFT)
+			{
+				nowMove = UP;
+				adjustmentFlag = true;
+			}
+			if (nowMove == DOWN)
+			{
+				nowMove = RIGHT;
+				adjustmentFlag = true;
+			}
 		}
-	}
-	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 8)
-	{
-		if (nowMove == LEFT)
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 9)
 		{
-			nowMove = UP;
+			if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
+			{
+				nowMove = LEFT;
+				adjustmentFlag = true;
+			}
+			else if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
+			{
+				nowMove = RIGHT;
+				adjustmentFlag = true;
+			}
+			else if (nowMove != DOWN && vReserveFlag == true)
+			{
+				nowMove = UP;
+				adjustmentFlag = true;
+			}
 		}
-		if (nowMove == DOWN)
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 10)
 		{
-			nowMove = RIGHT;
-		}
-	}
-	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 9)
-	{
-		if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
-		{
-			nowMove = LEFT;
-		}
-		else if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
-		{
-			nowMove = RIGHT;
-		}
-		else if (nowMove != DOWN && vReserveFlag == true)
-		{
-			nowMove = UP;
-		}
-	}
-	else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 10)
-	{
-		if (nowMove == DOWN)
-		{
-			nowMove = LEFT;
-		}
-		if (nowMove == RIGHT)
-		{
-			nowMove = UP;
+			if (nowMove == DOWN)
+			{
+				nowMove = LEFT;
+				adjustmentFlag = true;
+			}
+			if (nowMove == RIGHT)
+			{
+				nowMove = UP;
+				adjustmentFlag = true;
+			}
 		}
 	}
 }

@@ -1,28 +1,30 @@
 #include "MapChip.h"
 #include "../collision/Collision.h"
+#include<time.h>
+#include<random>
 
 void MapChip::Initialize()
 {
 	modelMapWall = Model::CreateFromObject("wall", false);
-	for (int x = 0; x < 15; x++)
+	for (int x = 0; x < MapValue; x++)
 	{
-		for (int y = 0; y < 15; y++)
+		for (int y = 0; y < MapValue; y++)
 		{
 			objMapWall[y][x] = Object3d::Create(modelMapWall);
 			objMapWall[y][x]->SetScale(XMFLOAT3({ 8, 8, 8 }));
-			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (15 * 16.0f / 2), 0.0f, y * 16.0f - (15 * 16.0f / 2) }));
+			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), 0.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
 
 		}
 	}
 
 	modelCeiling = Model::CreateFromObject("ceiling", false);
-	for (int x = 0; x < 15; x++)
+	for (int x = 0; x < MapValue; x++)
 	{
-		for (int y = 0; y < 15; y++)
+		for (int y = 0; y < MapValue; y++)
 		{
 			objCeiling[y][x] = Object3d::Create(modelCeiling);
 			objCeiling[y][x]->SetScale(XMFLOAT3({ 8, 8, 8 }));
-			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (15 * 16.0f / 2), 2.0f, y * 16.0f - (15 * 16.0f / 2) }));
+			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), 2.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
 
 		}
 	}
@@ -47,16 +49,17 @@ void MapChip::Initialize()
 	objCrystal[8]->SetPosition(crystalPos[8]);
 	
 	allGetFlag = false;
+	
 }
 
 void MapChip::InitializeValue()
 {
-	for (int x = 0; x < 15; x++)
+	for (int x = 0; x < MapValue; x++)
 	{
-		for (int y = 0; y < 15; y++)
+		for (int y = 0; y < MapValue; y++)
 		{
 			objMapWall[y][x]->SetScale(XMFLOAT3({ 8, 4, 8 }));
-			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (15 * 16.0f / 2), 0.0f, y * 16.0f - (15 * 16.0f / 2) }));
+			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), 0.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
 		}
 	}
 	for (int i = 0; i < 9; i++)
@@ -75,21 +78,203 @@ void MapChip::InitializeValue()
 	objCrystal[8]->SetPosition(crystalPos[8]);
 
 	allGetFlag = false;
+	MapCreate();
+}
+
+void MapChip::MapCreate()
+{
+	std::random_device rnd;
+	std::mt19937 mt(rnd());
+	std::uniform_int_distribution<>rand3(0, 1);//0~3‚Ì”ÍˆÍ
+	int num = rand3(mt);
+
+	for (int z = 0; z < MapValue / 3; z++)
+	{
+		for (int x = 0; x < MapValue / 3; x++)
+		{
+			if (num == 0)
+			{
+				mapWall[z][x] = mapWallLeftUp[z][x];
+			}
+			else if (num == 1)
+			{
+				mapWall[z][x] = mapWallLeftUp1[z][x];
+			}
+			else if (num == 2)
+			{
+				mapWall[z][x] = mapWallLeftUp[z][x];
+			}
+		}
+	}
+	num = rand3(mt);
+	for (int z = 0; z < MapValue / 3; z++)
+	{
+		for (int x = 0; x < MapValue / 3; x++)
+		{
+			if (num == 0)
+			{
+				mapWall[z + MapValue / 3][x] = mapWallLeftCenter[z][x];
+			}
+			else if (num == 1)
+			{
+				mapWall[z + MapValue / 3][x] = mapWallLeftCenter1[z][x];
+			}
+			else if (num == 2)
+			{
+				mapWall[z + MapValue / 3][x] = mapWallLeftCenter[z][x];
+			}
+		}
+	}
+	num = rand3(mt);
+	for (int z = 0; z < MapValue / 3; z++)
+	{
+		for (int x = 0; x < MapValue / 3; x++)
+		{
+			if (num == 0)
+			{
+				mapWall[z + (MapValue / 3) * 2][x] = mapWallLeftDown[z][x];
+			}
+			else if (num == 1)
+			{
+				mapWall[z + (MapValue / 3) * 2][x] = mapWallLeftDown1[z][x];
+			}
+			else if (num == 2)
+			{
+				mapWall[z + (MapValue / 3) * 2][x] = mapWallLeftDown[z][x];
+			}
+		}
+	}
+
+	num = rand3(mt);
+	for (int z = 0; z < MapValue / 3; z++)
+	{
+		for (int x = 0; x < MapValue / 3; x++)
+		{
+			if (num == 0)
+			{
+				mapWall[z][x + MapValue / 3] = mapWallCenterUp[z][x];
+			}
+			else if (num == 1)
+			{
+				mapWall[z][x + MapValue / 3] = mapWallCenterUp1[z][x];
+			}
+			else if (num == 2)
+			{
+				mapWall[z][x + MapValue / 3] = mapWallCenterUp[z][x];
+			}
+		}
+	}
+	num = rand3(mt);
+	for (int z = 0; z < MapValue / 3; z++)
+	{
+		for (int x = 0; x < MapValue / 3; x++)
+		{
+			if (num == 0)
+			{
+				mapWall[z + MapValue / 3][x + MapValue / 3] = mapWallCenterCenter[z][x];
+			}
+			else if (num == 1)
+			{
+				mapWall[z + MapValue / 3][x + MapValue / 3] = mapWallCenterCenter1[z][x];
+			}
+			else if (num == 2)
+			{
+				mapWall[z + MapValue / 3][x + MapValue / 3] = mapWallCenterCenter[z][x];
+			}
+		}
+	}
+	num = rand3(mt);
+	for (int z = 0; z < MapValue / 3; z++)
+	{
+		for (int x = 0; x < MapValue / 3; x++)
+		{
+			if (num == 0)
+			{
+				mapWall[z + (MapValue / 3) * 2][x + MapValue / 3] = mapWallCenterDown[z][x];
+			}
+			else if (num == 1)
+			{
+				mapWall[z + (MapValue / 3) * 2][x + MapValue / 3] = mapWallCenterDown1[z][x];
+			}
+			else if (num == 2)
+			{
+				mapWall[z + (MapValue / 3) * 2][x + MapValue / 3] = mapWallCenterDown[z][x];
+			}
+		}
+	}
+
+	num = rand3(mt);
+	for (int z = 0; z < MapValue / 3; z++)
+	{
+		for (int x = 0; x < MapValue / 3; x++)
+		{
+			if (num == 0)
+			{
+				mapWall[z][x + (MapValue / 3) * 2] = mapWallRightUp[z][x];
+			}
+			else if (num == 1)
+			{
+				mapWall[z][x + (MapValue / 3) * 2] = mapWallRightUp1[z][x];
+			}
+			else if (num == 2)
+			{
+				mapWall[z][x + (MapValue / 3) * 2] = mapWallRightUp[z][x];
+			}
+		}
+	}
+	num = rand3(mt);
+	for (int z = 0; z < MapValue / 3; z++)
+	{
+		for (int x = 0; x < MapValue / 3; x++)
+		{
+			if (num == 0)
+			{
+				mapWall[z + MapValue / 3][x + (MapValue / 3) * 2] = mapWallRightCenter[z][x];
+			}
+			else if (num == 1)
+			{
+				mapWall[z + MapValue / 3][x + (MapValue / 3) * 2] = mapWallRightCenter1[z][x];
+			}
+			else if (num == 2)
+			{
+				mapWall[z + MapValue / 3][x + (MapValue / 3) * 2] = mapWallRightCenter[z][x];
+			}
+		}
+	}
+	num = rand3(mt);
+	for (int z = 0; z < MapValue / 3; z++)
+	{
+		for (int x = 0; x < MapValue / 3; x++)
+		{
+			if (num == 0)
+			{
+				mapWall[z + (MapValue / 3) * 2][x + (MapValue / 3) * 2] = mapWallRightDown[z][x];
+			}
+			else if (num == 1)
+			{
+				mapWall[z + (MapValue / 3) * 2][x + (MapValue / 3) * 2] = mapWallRightDown1[z][x];
+			}
+			else if (num == 2)
+			{
+				mapWall[z + (MapValue / 3) * 2][x + (MapValue / 3) * 2] = mapWallRightDown[z][x];
+			}
+		}
+	}
 }
 
 void MapChip::Update(XMFLOAT3 pos)
 {
 	
-	for (int x = 0; x < 15; x++)
+	for (int x = 0; x < MapValue; x++)
 	{
-		for (int y = 0; y < 15; y++)
+		for (int y = 0; y < MapValue; y++)
 		{
 			objMapWall[y][x]->Update();
 		}
 	}
-	for (int x = 0; x < 15; x++)
+	for (int x = 0; x < MapValue; x++)
 	{
-		for (int y = 0; y < 15; y++)
+		for (int y = 0; y < MapValue; y++)
 		{
 			objCeiling[y][x]->Update();
 		}
@@ -113,17 +298,17 @@ void MapChip::Update(XMFLOAT3 pos)
 
 int MapChip::ArrayValue(float x, float y)
 {
-	int mapY = (y / 16) + 8;
-	int mapX = (x / 16) + 8;
+	int mapY = (y / 16) + ((MapValue+1) / 2);
+	int mapX = (x / 16) + ((MapValue+1) / 2);
 	
 	return mapWall[mapY][mapX];
 }
 
 void MapChip::Draw()
 {
-	for (int x = 0; x < 15; x++)
+	for (int x = 0; x < MapValue; x++)
 	{
-		for (int y = 0; y < 15; y++)
+		for (int y = 0; y < MapValue; y++)
 		{
 			if (mapWall[y][x] == 1)
 			{
@@ -131,9 +316,9 @@ void MapChip::Draw()
 			}
 		}
 	}
-	for (int x = 0; x < 15; x++)
+	for (int x = 0; x < MapValue; x++)
 	{
-		for (int y = 0; y < 15; y++)
+		for (int y = 0; y < MapValue; y++)
 		{
 			if (mapWall[y][x] != 1)
 			{
@@ -160,7 +345,7 @@ void MapChip::TimeStop()
 	{
 		stopTime++;
 	}
-	if (stopTime > 80)
+	if (stopTime > 180)
 	{
 		stopFlag = false;
 	}

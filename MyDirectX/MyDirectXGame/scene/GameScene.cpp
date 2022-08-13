@@ -77,7 +77,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	objSkydome->SetScale({5.0f,5.0f,5.0f});
 	modelGround = Model::CreateFromObject("ground", true);
 	objGround = Object3d::Create(modelGround);
-	objGround->SetScale({ 2.0f,2.0f ,2.0f });
+	objGround->SetScale({ 5.0f,2.0f ,5.0f });
 
 	// モデル名を指定してファイル読み込み
 	//model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
