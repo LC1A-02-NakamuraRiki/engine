@@ -17,6 +17,14 @@ void MapChip::Initialize()
 		}
 	}
 
+	for (int x = 0; x < MapValue; x++)
+	{
+		for (int y = 0; y < MapValue; y++)
+		{
+			spriteMapWall[y][x] = nullptr;
+		}
+	}
+
 	modelCeiling = Model::CreateFromObject("ceiling", false);
 	for (int x = 0; x < MapValue; x++)
 	{
@@ -25,7 +33,7 @@ void MapChip::Initialize()
 			objCeiling[y][x] = Object3d::Create(modelCeiling);
 			objCeiling[y][x]->SetScale(XMFLOAT3({ 8, 8, 8 }));
 			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), 2.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
-
+			
 		}
 	}
 
@@ -49,6 +57,18 @@ void MapChip::Initialize()
 	objCrystal[8]->SetPosition(crystalPos[8]);
 	
 	allGetFlag = false;
+	if (!Sprite::LoadTexture(2, L"Resources/mapWall.png")) {
+		assert(0);
+		return;
+	}
+	
+	for (int x = 0; x < MapValue; x++)
+	{
+		for (int y = 0; y < MapValue; y++)
+		{
+			spriteMapWall[y][x] = Sprite::Create(2, {-16 + 40 + (16.0f * (MapValue - x)),500 + (16.0f * y )});
+		}
+	}
 	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");
 	LoadCSV(mapWallLeftCenter, "Resources/map/a2.csv");
 	LoadCSV(mapWallLeftDown, "Resources/map/a3.csv");
@@ -353,6 +373,22 @@ void MapChip::Draw()
 		}
 	}
 }
+
+void MapChip::DrawSprite()
+{
+	for (int x = 0; x < MapValue; x++)
+	{
+		for (int y = 0; y < MapValue; y++)
+		{
+			if (mapWall[y][x] == 1)
+			{
+				spriteMapWall[y][x]->Draw();
+			}
+		}
+	}
+}
+
+
 
 void MapChip::TimeStop()
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
 #include "../Map/MapChip.h"
-
+#include "../2d/Sprite.h"
 class Player
 {
 protected: // エイリアス
@@ -20,6 +20,8 @@ public:
 	void Update(MapChip* mapChip);//アップデート
 	
 	void Draw();
+	
+	void DrawSprite();
 
 	void Move(MapChip* mapChip);//歩き
 
@@ -34,7 +36,11 @@ public:
 	float GetAngle() { return angle.y; }
 	float GetViewSpeed() { return mouseViewSpeed; }
 private:
+
+	Sprite* spritePlayerDot = nullptr;
+
 	XMFLOAT3 pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
+	XMFLOAT2 miniMapPos = { 40 + (16.0f * 10),500 + (16.0f * 8) };
 	float r = 0.5;//プレイヤーの半径
 	float moveSpeed = 0.4f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ
@@ -46,7 +52,7 @@ private:
 	bool isWalkShaking = false;//歩きの揺れのフラグ
 	int walkShakingTime = 0;//歩きの揺れのタイム
 	float angleX = 0; //カメラX軸
-	float angleY = 180; //カメラY軸
+	float angleY = 0; //カメラY軸
 
 
 };

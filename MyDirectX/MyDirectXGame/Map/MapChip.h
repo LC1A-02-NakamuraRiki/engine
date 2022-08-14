@@ -1,7 +1,9 @@
 #pragma once
 #include <DirectXMath.h>
 #include "../3d/Object3d.h"
+#include "../2d/Sprite.h"
 #include"../LoadCSV.h"
+
 class MapChip
 {
 protected: // エイリアス
@@ -19,6 +21,7 @@ public:
 	void Update(XMFLOAT3 pos);//アップデート
 	int ArrayValue(float x, float y);//座標からマップチップ配列の算出
 	void Draw();
+	void DrawSprite();
 	void TimeStop();
 	bool GetAllGetFlag() { return allGetFlag; }
 	bool GetStopFlag() { return stopFlag; }
@@ -268,4 +271,5 @@ private:
 	int stopTime = 0;
 	bool stopFlag = false;
 
+	Sprite* spriteMapWall[21][21];
 };

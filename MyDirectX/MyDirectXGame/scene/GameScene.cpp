@@ -102,7 +102,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	//audio->PlaySE("Resources/Alarm01.wav", false);
 	//audio->StopBGM();
 	player = new Player;
-
+	player->Initialize();
 	map = new MapChip;
 	map->Initialize();
 	
@@ -230,7 +230,8 @@ void GameScene::Draw()
 	//// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-
+	map->DrawSprite();
+	player->DrawSprite();
 	//-------------------------------------------------------------//
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
