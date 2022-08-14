@@ -76,17 +76,28 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 				nowMove = RIGHT;
 				adjustmentFlag = true;
 			}
-
 			else if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
 			{
 				nowMove = LEFT;
 				adjustmentFlag = true;
 			}
-
-			else if (nowMove != UP && vReserveFlag == true)
+			else if (nowMove != UP && vReserveFlag == true && vectorZ >= 0)
 			{
 				nowMove = DOWN;
 				adjustmentFlag = true;
+			}
+			else if (nowMove == UP)
+			{
+				if (vectorX <= 0)
+				{
+					nowMove = LEFT;
+					adjustmentFlag = true;
+				}
+				if (vectorX > 0)
+				{
+					nowMove = RIGHT;
+					adjustmentFlag = true;
+				}
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 4)
@@ -114,35 +125,79 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 				nowMove = DOWN;
 				adjustmentFlag = true;
 			}
-			else if (nowMove != LEFT && vReserveFlag == false)
+			else if (nowMove != LEFT && vReserveFlag == false && vectorX >= 0)
 			{
 				nowMove = RIGHT;
 				adjustmentFlag = true;
+			}
+			else if(nowMove == LEFT)
+			{
+				if (vectorZ <= 0)
+				{
+					nowMove = UP;
+					adjustmentFlag = true;
+				}
+				else if (vectorZ > 0)
+				{
+					nowMove = DOWN;
+					adjustmentFlag = true;
+				}
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 6)
 		{
-			if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
+			if (nowMove == UP && vectorZ > 0)
 			{
-				nowMove = UP;
-				adjustmentFlag = true;
+				if (vectorX <= 0)
+				{
+					nowMove = LEFT;
+					adjustmentFlag = true;
+				}
+				if (vectorX > 0)
+				{
+					nowMove = RIGHT;
+					adjustmentFlag = true;
+				}
 			}
-			if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
+			else if (nowMove == DOWN && vectorZ < 0)
 			{
-				nowMove = DOWN;
-				adjustmentFlag = true;
+				if (vectorX <= 0)
+				{
+					nowMove = LEFT;
+					adjustmentFlag = true;
+				}
+				if (vectorX > 0)
+				{
+					nowMove = RIGHT;
+					adjustmentFlag = true;
+				}
 			}
-			if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
+			else if (nowMove == RIGHT && vectorX < 0)
 			{
-				nowMove = RIGHT;
-				adjustmentFlag = true;
+				if (vectorZ <= 0)
+				{
+					nowMove = UP;
+					adjustmentFlag = true;
+				}
+				if (vectorZ > 0)
+				{
+					nowMove = DOWN;
+					adjustmentFlag = true;
+				}
 			}
-			if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
+			else if (nowMove == LEFT && vectorX> 0)
 			{
-				nowMove = LEFT;
-				adjustmentFlag = true;
+				if (vectorZ <= 0)
+				{
+					nowMove = UP;
+					adjustmentFlag = true;
+				}
+				if (vectorZ > 0)
+				{
+					nowMove = DOWN;
+					adjustmentFlag = true;
+				}
 			}
-
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 7)
 		{
@@ -156,10 +211,23 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 				nowMove = DOWN;
 				adjustmentFlag = true;
 			}
-			else if (nowMove != RIGHT && vReserveFlag == false)
+			else if (nowMove != RIGHT && vReserveFlag == false && vectorX <= 0)
 			{
 				nowMove = LEFT;
 				adjustmentFlag = true;
+			}
+			else if (nowMove == RIGHT)
+			{
+				if (vectorZ <= 0)
+				{
+					nowMove = UP;
+					adjustmentFlag = true;
+				}
+				if (vectorZ > 0)
+				{
+					nowMove = DOWN;
+					adjustmentFlag = true;
+				}
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 8)
@@ -187,10 +255,23 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 				nowMove = RIGHT;
 				adjustmentFlag = true;
 			}
-			else if (nowMove != DOWN && vReserveFlag == true)
+			else if (nowMove != DOWN && vReserveFlag == true && vectorZ <= 0)
 			{
 				nowMove = UP;
 				adjustmentFlag = true;
+			}
+			else if (nowMove == DOWN)
+			{
+				if (vectorX <= 0)
+				{
+					nowMove = LEFT;
+					adjustmentFlag = true;
+				}
+				if (vectorX > 0)
+				{
+					nowMove = RIGHT;
+					adjustmentFlag = true;
+				}
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 10)

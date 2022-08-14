@@ -49,7 +49,26 @@ void MapChip::Initialize()
 	objCrystal[8]->SetPosition(crystalPos[8]);
 	
 	allGetFlag = false;
-	
+	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");
+	LoadCSV(mapWallLeftCenter, "Resources/map/a2.csv");
+	LoadCSV(mapWallLeftDown, "Resources/map/a3.csv");
+	LoadCSV(mapWallCenterUp, "Resources/map/a4.csv");
+	LoadCSV(mapWallCenterCenter, "Resources/map/a5.csv");
+	LoadCSV(mapWallCenterDown, "Resources/map/a6.csv");
+	LoadCSV(mapWallRightUp, "Resources/map/a7.csv");
+	LoadCSV(mapWallRightCenter, "Resources/map/a8.csv");
+	LoadCSV(mapWallRightDown, "Resources/map/a9.csv");
+
+	LoadCSV(      mapWallLeftUp1,"Resources/map/b1.csv");
+	LoadCSV(  mapWallLeftCenter1,"Resources/map/b2.csv");
+	LoadCSV(    mapWallLeftDown1,"Resources/map/b3.csv");
+	LoadCSV(    mapWallCenterUp1,"Resources/map/b4.csv");
+	LoadCSV(mapWallCenterCenter1,"Resources/map/b5.csv");
+	LoadCSV(  mapWallCenterDown1,"Resources/map/b6.csv");
+	LoadCSV(     mapWallRightUp1,"Resources/map/b7.csv");
+	LoadCSV( mapWallRightCenter1,"Resources/map/b8.csv");
+	LoadCSV(   mapWallRightDown1,"Resources/map/b9.csv");
+
 }
 
 void MapChip::InitializeValue()

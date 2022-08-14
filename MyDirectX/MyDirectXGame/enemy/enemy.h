@@ -44,7 +44,7 @@ private:
 	float adjustValueX = 0;//位置調整用変数X
 	float adjustValueZ = 0;//位置調整用変数Z
 	bool vReserveFlag = false;//縦優先
-
+	bool wallHitFlag = false;
 	int adjustmentTime = 0;
 	bool adjustmentFlag = false;
 };
