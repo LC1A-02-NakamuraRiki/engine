@@ -3,6 +3,7 @@
 #include "../Map/MapChip.h"
 #include "../3d/Object3d.h"
 #include "../Player/Player.h"
+#include "../2d/Sprite.h"
 
 class Enemy
 {
@@ -29,6 +30,8 @@ public:
 
 	void Draw();
 
+	void DrawSprite(MapChip* mapChip);
+
 	void AI(Player* player,MapChip* mapChip);//歩き
 
 	void Move(MapChip* mapChip);//歩き
@@ -37,6 +40,10 @@ public:
 
 	XMFLOAT3 GetPos() { return pos; };
 private:
+	Sprite* spriteEnemyDot = nullptr;
+	Sprite* spriteEnemyAngle = nullptr;
+	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 14) };
+
 	Model* modelEnemy = nullptr;
 	Object3d* objEnemy;
 	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//プレイヤーの位置

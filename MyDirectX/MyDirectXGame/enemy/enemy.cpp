@@ -6,6 +6,13 @@ void Enemy::Initialize()
 	modelEnemy = Model::CreateFromObject("Human", false);
 	objEnemy = Object3d::Create(modelEnemy);
 	objEnemy->SetPosition(pos);
+
+	if (!Sprite::LoadTexture(4, L"Resources/enemyDot.png")) {
+		assert(0);
+		return;
+	}
+	spriteEnemyDot = Sprite::Create(4, miniMapPos);
+	spriteEnemyAngle = Sprite::Create(6, miniMapPos);
 }
 
 void Enemy::InitializeValue()
@@ -16,6 +23,7 @@ void Enemy::InitializeValue()
 	adjustValueX = 0;
 	adjustValueZ = 0;
 	vReserveFlag = false;
+	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 14) };
 }
 
 void Enemy::Update(Player* player,MapChip* mapChip)
@@ -28,6 +36,15 @@ void Enemy::Update(Player* player,MapChip* mapChip)
 void Enemy::Draw()
 {
 	objEnemy->Draw();
+}
+
+void Enemy::DrawSprite(MapChip* mapChip)
+{
+	if (mapChip->GetDisplayFlag())
+	{
+		spriteEnemyAngle->Draw();
+		spriteEnemyDot->Draw();
+	}
 }
 
 void Enemy::AI(Player* player,MapChip* mapChip)
@@ -296,25 +313,35 @@ void Enemy::Move(MapChip* mapChip)
 	{
 		if (nowMove == DOWN)
 		{
+			spriteEnemyAngle->SetRotation(45);
 			pos.z += 0.4f;
+			miniMapPos.y += 0.4f;
 			adjustValueZ = -8.0f;
 		}
 		else if (nowMove == UP)
 		{
+			spriteEnemyAngle->SetRotation(-135);
 			pos.z -= 0.4f;
+			miniMapPos.y -= 0.4f;
 			adjustValueZ = 8.0f;
 		}
 		else if (nowMove == RIGHT)
 		{
+			spriteEnemyAngle->SetRotation(135);
 			pos.x += 0.4f;
+			miniMapPos.x -= 0.4f;
 			adjustValueX = -8.0f;
 		}
 		else if (nowMove == LEFT)
 		{
+			spriteEnemyAngle->SetRotation(-45);
 			pos.x -= 0.4f;
+			miniMapPos.x += 0.4f;
 			adjustValueX = 8.0;
 		}
 	}
+	spriteEnemyDot->SetPosition(miniMapPos);
+	spriteEnemyAngle->SetPosition({ miniMapPos.x + 8, miniMapPos.y + 8 });
 	objEnemy->SetPosition(pos);
 }
 

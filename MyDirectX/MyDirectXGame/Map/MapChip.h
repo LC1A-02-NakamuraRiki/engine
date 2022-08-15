@@ -23,8 +23,10 @@ public:
 	void Draw();
 	void DrawSprite();
 	void TimeStop();
+	void EnemyDisplay();
 	bool GetAllGetFlag() { return allGetFlag; }
 	bool GetStopFlag() { return stopFlag; }
+	bool GetDisplayFlag() { return displayFlag; }
 private:
 
 	Model* modelMapWall = nullptr;
@@ -34,17 +36,27 @@ private:
 	Model* modelCrystal = nullptr;
 	Model* modelItemCrystal = nullptr;
 	Object3d* objCrystal[9];
-	XMFLOAT3 crystalPos[9] = {XMFLOAT3({ 1 * 16.0f -  (17 * 16.0f / 2), 0.0f, 1 * 16.0f -  (17 * 16.0f / 2)   }),
-							  XMFLOAT3({ 8 * 16.0f -  (17 * 16.0f / 2), 0.0f, 1 * 16.0f -  (17 * 16.0f / 2)   }),
-							  XMFLOAT3({ 15 * 16.0f - (17 * 16.0f / 2), 0.0f, 1 * 16.0f -  (17 * 16.0f / 2)  }),
-							  XMFLOAT3({ 1 * 16.0f -  (17 * 16.0f / 2), 0.0f, 8 * 16.0f -  (17 * 16.0f / 2)   }),
-							  XMFLOAT3({ 8 * 16.0f -  (17 * 16.0f / 2), 0.0f, 8 * 16.0f -  (17 * 16.0f / 2)   }),
-							  XMFLOAT3({ 15 * 16.0f - (17 * 16.0f / 2), 0.0f, 8 * 16.0f -  (17 * 16.0f / 2)  }),
-							  XMFLOAT3({ 1 * 16.0f -  (17 * 16.0f / 2), 0.0f, 15 * 16.0f - (17 * 16.0f / 2)  }),
-							  XMFLOAT3({ 8 * 16.0f -  (17 * 16.0f / 2), 0.0f, 15 * 16.0f - (17 * 16.0f / 2)  }),
-							  XMFLOAT3({ 15 * 16.0f - (17 * 16.0f / 2), 0.0f, 15 * 16.0f - (17 * 16.0f / 2) }),
+	XMFLOAT3 crystalPos[9] = {XMFLOAT3({ 1 * 16.0f -  (21 * 16.0f / 2), 0.0f, 1 * 16.0f -  (21 * 16.0f / 2)   }),
+							  XMFLOAT3({ 10 * 16.0f -  (21 * 16.0f / 2), 0.0f, 1 * 16.0f -  (21 * 16.0f / 2)   }),
+							  XMFLOAT3({ 19 * 16.0f - (21 * 16.0f / 2), 0.0f, 1 * 16.0f -  (21 * 16.0f / 2)  }),
+							  XMFLOAT3({ 1 * 16.0f -  (21 * 16.0f / 2), 0.0f, 10 * 16.0f -  (21 * 16.0f / 2)   }),
+							  XMFLOAT3({ 10 * 16.0f -  (21 * 16.0f / 2), 0.0f, 16 * 16.0f -  (21 * 16.0f / 2)   }),
+							  XMFLOAT3({ 19 * 16.0f - (21 * 16.0f / 2), 0.0f, 10 * 16.0f -  (21 * 16.0f / 2)  }),
+							  XMFLOAT3({ 1 * 16.0f -  (21 * 16.0f / 2), 0.0f, 19 * 16.0f - (21 * 16.0f / 2)  }),
+							  XMFLOAT3({ 10 * 16.0f -  (21 * 16.0f / 2), 0.0f, 19 * 16.0f - (21 * 16.0f / 2)  }),
+							  XMFLOAT3({ 19 * 16.0f - (21 * 16.0f / 2), 0.0f, 19 * 16.0f - (21 * 16.0f / 2) }),
 	};
 	;
+	XMFLOAT2 mapCrystalPos[9] = { {100 + (16.0f * 19),650 + (16.0f * 1)},
+								  {100 + (16.0f * 10),650 + (16.0f * 1)},
+								  {100 + (16.0f * 1),650 + (16.0f * 1)},
+								  {100 + (16.0f * 19),650 + (16.0f * 10)},
+								  {100 + (16.0f * 10),650 + (16.0f * 16)},
+								  {100 + (16.0f * 1),650 + (16.0f * 10)},
+								  {100 + (16.0f * 19),650 + (16.0f * 19)},
+								  {100 + (16.0f * 10),650 + (16.0f * 19)},
+								  {100 + (16.0f * 1),650 + (16.0f * 19)} };
+
 	bool crystalGetFlag[9] = { false,false,false,false,false,false,false,false,false };//ƒNƒŠƒXƒ^ƒ‹Žæ‚Á‚½‚©
 	int MapValue = 21;
 	int MapValueX = 15;
@@ -271,5 +283,13 @@ private:
 	int stopTime = 0;
 	bool stopFlag = false;
 
+	int displayTime = 0;
+	bool displayFlag = false;
+
 	Sprite* spriteMapWall[21][21];
+	Sprite* spriteMapBack = nullptr;
+
+	Sprite* spriteCrystal[9] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
+	Sprite* spriteNumber[9] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
+	int number = 9;
 };

@@ -9,11 +9,17 @@ void Player::Initialize()
 		return;
 	}
 	spritePlayerDot = Sprite::Create(3, miniMapPos);
+
+	if (!Sprite::LoadTexture(6, L"Resources/angle.png")) {
+		assert(0);
+		return;
+	}
+	spritePlayerAngle = Sprite::Create(6, miniMapPos);
 }
 
 void Player::InitializeValue()
 {
-	miniMapPos = { 40 + (16.0f * 10),500 + (16.0f * 8) };
+	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };
 	pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
 	r = 0.5;//プレイヤーの半径
 	moveSpeed = 0.4f;//歩きの速度
@@ -43,6 +49,7 @@ void Player::Draw()
 
 void Player::DrawSprite()
 {
+	spritePlayerAngle->Draw();
 	spritePlayerDot->Draw();
 }
 
@@ -223,6 +230,8 @@ void Player::Move(MapChip *mapChip)
 		isWalkShaking = true;
 	}
 	spritePlayerDot->SetPosition(miniMapPos);
+	spritePlayerAngle->SetPosition({ miniMapPos.x + 8, miniMapPos.y + 8 });
+	spritePlayerAngle->SetRotation(angle.y + 135);
 }
 
 void Player::WalkShaking()

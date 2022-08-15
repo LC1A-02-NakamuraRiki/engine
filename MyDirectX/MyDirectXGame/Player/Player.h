@@ -38,9 +38,10 @@ public:
 private:
 
 	Sprite* spritePlayerDot = nullptr;
+	Sprite* spritePlayerAngle = nullptr;
 
 	XMFLOAT3 pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
-	XMFLOAT2 miniMapPos = { 40 + (16.0f * 10),500 + (16.0f * 8) };
+	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };
 	float r = 0.5;//プレイヤーの半径
 	float moveSpeed = 0.4f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ

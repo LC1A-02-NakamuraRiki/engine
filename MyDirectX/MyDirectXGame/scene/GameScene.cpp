@@ -137,6 +137,7 @@ void GameScene::Update()
 		debugText.Print(20, 80, 2.0f, "VIEW : MOUSE or ArrowKey ");
 		debugText.Print(20, 110, 2.0f, "SENSI CHANGE -/+  :  9/0 ");
 		debugText.Print(20, 140, 2.0f, "NowSENSI :  %f", player->GetViewSpeed());
+		//debugText.Print(20, 170, 2.0f, "basyoooooo :  %d", map->ArrayValue(player->GetPos().x, player->GetPos().z));
 		//プレイヤー系
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());
@@ -232,6 +233,7 @@ void GameScene::Draw()
 	//-------------------------------------------------------------//
 	map->DrawSprite();
 	player->DrawSprite();
+	enemy->DrawSprite(map);
 	//-------------------------------------------------------------//
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);

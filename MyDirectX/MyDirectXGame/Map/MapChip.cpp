@@ -61,14 +61,74 @@ void MapChip::Initialize()
 		assert(0);
 		return;
 	}
-	
+	if (!Sprite::LoadTexture(5, L"Resources/miniMapBack.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(7, L"Resources/crystal.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(8, L"Resources/number/1.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(9, L"Resources/number/2.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(10, L"Resources/number/3.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(11, L"Resources/number/4.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(12, L"Resources/number/5.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(13, L"Resources/number/6.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(14, L"Resources/number/7.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(15, L"Resources/number/8.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(16, L"Resources/number/9.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(17, L"Resources/crystal2.png")) {
+		assert(0);
+		return;
+	}
+	spriteNumber[0] = Sprite::Create(8,  {260 - 34, 656 -16 - 96});
+	spriteNumber[1] = Sprite::Create(9,  {260 - 34, 656 -16 - 96});
+	spriteNumber[2] = Sprite::Create(10, {260 - 34, 656 -16 - 96});
+	spriteNumber[3] = Sprite::Create(11, {260 - 34, 656 -16 - 96});
+	spriteNumber[4] = Sprite::Create(12, {260 - 34, 656 -16 - 96});
+	spriteNumber[5] = Sprite::Create(13, {260 - 34, 656 -16 - 96});
+	spriteNumber[6] = Sprite::Create(14, {260 - 34, 656 -16 - 96});
+	spriteNumber[7] = Sprite::Create(15, {260 - 34, 656 -16 - 96});
+	spriteNumber[8] = Sprite::Create(16, {260 - 34, 656 -16 - 96});
+
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			spriteMapWall[y][x] = Sprite::Create(2, {-16 + 40 + (16.0f * (MapValue - x)),500 + (16.0f * y )});
+			spriteMapWall[y][x] = Sprite::Create(2, {-16 + 100 + (16.0f * (MapValue - x)),650 + (16.0f * y )});
 		}
 	}
+	spriteMapBack = Sprite::Create(5, {-16 + 100,650 -16 - 96});
+	
+	for (int i = 0; i < 9; i++)
+	{
+		spriteCrystal[i] = Sprite::Create(7, mapCrystalPos[i]);
+	}
+
+	spriteCrystal[4] = Sprite::Create(17, mapCrystalPos[4]);
+
 	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");
 	LoadCSV(mapWallLeftCenter, "Resources/map/a2.csv");
 	LoadCSV(mapWallLeftDown, "Resources/map/a3.csv");
@@ -118,6 +178,8 @@ void MapChip::InitializeValue()
 
 	allGetFlag = false;
 	MapCreate();
+	number = 9;
+	stopTime = 0;
 }
 
 void MapChip::MapCreate()
@@ -323,7 +385,10 @@ void MapChip::Update(XMFLOAT3 pos)
 	{
 		if (crystalGetFlag[i] == false)
 		{
-			crystalGetFlag[i] = Collision::ChenkSphere2Sphere(playerPos, crystalPos[i], 3.0f, 6.0f);
+			if (crystalGetFlag[i] = Collision::ChenkSphere2Sphere(playerPos, crystalPos[i], 3.0f, 6.0f))
+			{
+				number--;
+			}
 		}
 		objCrystal[i]->Update();
 	}
@@ -333,6 +398,7 @@ void MapChip::Update(XMFLOAT3 pos)
 		allGetFlag = true;
 	}
 	TimeStop();
+	EnemyDisplay();
 }
 
 int MapChip::ArrayValue(float x, float y)
@@ -376,6 +442,7 @@ void MapChip::Draw()
 
 void MapChip::DrawSprite()
 {
+	spriteMapBack->Draw();
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
@@ -386,9 +453,22 @@ void MapChip::DrawSprite()
 			}
 		}
 	}
+
+	for (int i = 0; i < 9; i++)
+	{
+		if (crystalGetFlag[i] == false)
+		{
+			spriteCrystal[i]->Draw();
+		}
+	}
+	for (int i = 0; i < 9; i++)
+	{
+		if (number == i + 1)
+		{
+			spriteNumber[i]->Draw();
+		}
+	}
 }
-
-
 
 void MapChip::TimeStop()
 {
@@ -403,5 +483,21 @@ void MapChip::TimeStop()
 	if (stopTime > 180)
 	{
 		stopFlag = false;
+	}
+}
+
+void MapChip::EnemyDisplay()
+{
+	if (crystalGetFlag[4] && displayTime == 0)
+	{
+		displayFlag = true;
+	}
+	if (displayFlag)
+	{
+		displayTime++;
+	}
+	if (displayTime > 600)
+	{
+		displayFlag = false;
 	}
 }
