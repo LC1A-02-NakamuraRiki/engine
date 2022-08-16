@@ -480,7 +480,7 @@ void MapChip::TimeStop()
 	{
 		stopTime++;
 	}
-	if (stopTime > 180)
+	if (stopTime > 300)
 	{
 		stopFlag = false;
 	}
