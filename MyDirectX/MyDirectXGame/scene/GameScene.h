@@ -85,8 +85,9 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 	DebugCamera *camera = nullptr;
-	Sprite *spriteBG = nullptr;
-
+	Sprite *spriteTitle = nullptr;
+	Sprite* spriteClear = nullptr;
+	Sprite* spriteGAMEOVER = nullptr;
 	Model *modelSkydome = nullptr;
 	Object3d *objSkydome = nullptr;
 

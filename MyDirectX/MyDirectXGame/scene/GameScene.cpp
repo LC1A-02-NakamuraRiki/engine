@@ -15,7 +15,9 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
-	safe_delete(spriteBG);
+	safe_delete(spriteTitle);
+	safe_delete(spriteClear);
+	safe_delete(spriteGAMEOVER);
 	safe_delete(particle3d);
 	safe_delete(objSkydome);
 	safe_delete(modelSkydome);
@@ -64,13 +66,23 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	
 	//スプライト
 	// テクスチャ読み込み
-	if (!Sprite::LoadTexture(1, L"Resources/background.png")) {
+	if (!Sprite::LoadTexture(18, L"Resources/Title.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(19, L"Resources/Clear.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(20, L"Resources/GAMEOVER.png")) {
 		assert(0);
 		return;
 	}
 	//// 背景スプライト生成
-	spriteBG = Sprite::Create(1, { 0.0f,0.0f });
-	
+	spriteTitle = Sprite::Create(18, { 0.0f,0.0f });
+	spriteClear = Sprite::Create(19, { 0.0f,0.0f });
+	spriteGAMEOVER = Sprite::Create(20, { 0.0f,0.0f });
+
 	// 3Dオブジェクト生成
 	modelSkydome = Model::CreateFromObject("skydome", false);
 	objSkydome = Object3d::Create(modelSkydome);
@@ -120,14 +132,12 @@ void GameScene::Update()
 
 	debugText.Print(20, 20, 2.0f, "END : ESC");
 	if (scene == TITLE)
-	{
-		debugText.Print(680, 300, 5.0f, "ESCAPE from BOM");
-		debugText.Print(700, 800, 5.0f, "START : SPACE");
-		player->InitializeValue();
-		enemy->InitializeValue();
-		map->InitializeValue();
+	{	
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
+			player->InitializeValue();
+			enemy->InitializeValue();
+			map->InitializeValue();
 			scene = PLAY;
 		}
 	}
@@ -169,8 +179,6 @@ void GameScene::Update()
 	}
 	else if (scene == CLEAR)
 	{
-		debugText.Print(680, 300, 5.0f, "    CLEAR");
-		debugText.Print(700, 800, 5.0f, "TITLE : SPACE");
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
 			scene = TITLE;
@@ -178,8 +186,6 @@ void GameScene::Update()
 	}
 	else if (scene == GAMEOVER)
 	{
-		debugText.Print(680, 300, 5.0f, "   GAMEOVER");
-		debugText.Print(700, 800, 5.0f, "TITLE : SPACE");
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
 			scene = TITLE;
@@ -210,12 +216,12 @@ void GameScene::Draw()
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
 	//playerObj->Draw();
-	if (scene == PLAY)
+	if (scene == TITLE || scene == PLAY)
 	{
-	objSkydome->Draw();
-	objGround->Draw();
-	map->Draw();
-	enemy->Draw();
+		objSkydome->Draw();
+		objGround->Draw();
+		map->Draw();
+		enemy->Draw();
 	}
 	//objFighter->Draw();
 	//object1->Draw(cmdList);
@@ -231,9 +237,25 @@ void GameScene::Draw()
 	//// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-	map->DrawSprite();
-	player->DrawSprite();
-	enemy->DrawSprite(map);
+	if (scene == TITLE)
+	{
+		spriteTitle->Draw();
+	}
+	if (scene == CLEAR)
+	{
+		spriteClear->Draw();
+	}
+	if (scene == GAMEOVER)
+	{
+		spriteGAMEOVER->Draw();
+	}
+	if (scene == PLAY)
+	{
+		map->DrawSprite();
+		player->DrawSprite();
+		enemy->DrawSprite(map);
+	}
+
 	//-------------------------------------------------------------//
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
