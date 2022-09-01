@@ -25,7 +25,7 @@ Object3d::PipelineSet Object3d::pipelineSet;
 //XMFLOAT3 Object3d::target = { 0, 0, 0 };
 //XMFLOAT3 Object3d::up = { 0, 1, 0 };
 Camera *Object3d::camera = nullptr;
-Light *Object3d::light = nullptr;
+LightGroop *Object3d::lightGroup = nullptr;
 
 void Object3d::StaticInitialize(ID3D12Device *device,Camera *camera)
 {
@@ -285,7 +285,7 @@ void Object3d::Draw()
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffB0->GetGPUVirtualAddress());
 
-	light->Draw(cmdList, 3);
+	lightGroup->Draw(cmdList, 3);
 	// モデル描画
 	model->Draw(cmdList);
 }

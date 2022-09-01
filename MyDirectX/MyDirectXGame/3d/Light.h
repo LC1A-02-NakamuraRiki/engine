@@ -1,13 +1,7 @@
 #pragma once
-#include <Windows.h>
-#include <wrl.h>
-#include <d3d12.h>
-#include <DirectXMath.h>
-#include <d3dx12.h>
-#include <string>
 
 #include "Model.h"
-#include "Camera.h"
+
 class Light
 {
 private: // エイリアス
@@ -24,21 +18,50 @@ public:
 	{
 		XMVECTOR lightv;
 		XMFLOAT3 lightcolor;
+		unsigned int active;
 	};
-private:
-	static ID3D12Device * device;
-public:
-	static void StaticInitialize(ID3D12Device * device);
-	void Initialize();
-	void TransferConstBuffer();
-	void SetLightDir(const XMVECTOR &lightdir);
-	void SetLightColor(const XMFLOAT3 &lightcolor);
-	void Update();
-	void Draw(ID3D12GraphicsCommandList *cmdList, UINT rootParameterindex);
-	static Light *Create();
+
+public: // メンバ関数
+	/// <summary>
+	/// ライト方向をセット
+	/// </summary>
+	/// <param name="lightdir">ライト方向</param>
+	inline void SetLightDir(const XMVECTOR& lightdir) { this->lightdir = DirectX::XMVector3Normalize(lightdir); }
+
+	/// <summary>
+	/// ライト方向を取得
+	/// </summary>
+	/// <returns>ライト方向</returns>
+	inline const XMVECTOR& GetLightDir() { return lightdir; }
+
+	/// <summary>
+	/// ライト色をセット
+	/// </summary>
+	/// <param name="lightcolor">ライト色</param>
+	inline void SetLightColor(const XMFLOAT3& lightcolor) { this->lightcolor = lightcolor; }
+
+	/// <summary>
+	/// ライト色を取得
+	/// </summary>
+	/// <returns>ライト色</returns>
+	inline const XMFLOAT3& GetLightColor() { return lightcolor; }
+
+	/// <summary>
+	/// 有効フラグをセット
+	/// </summary>
+	/// <param name="active">有効フラグ</param>
+	inline void SetActive(bool active) { this->active = active; }
+
+	/// <summary>
+	/// 有効チェック
+	/// </summary>
+	/// <returns>有効フラグ</returns>
+	inline bool IsActive() { return active; }
+
 private:
 	ComPtr<ID3D12Resource> constBuff;
 	XMVECTOR lightdir = { 1,0,0,0 };
 	XMFLOAT3 lightcolor = { 1,1,1 };
 	bool dirty = false;
+	bool active = false;
 };

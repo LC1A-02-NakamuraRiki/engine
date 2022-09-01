@@ -9,7 +9,7 @@
 
 #include "Model.h"
 #include "Camera.h"
-#include "Light.h"
+#include "../LightGroop.h"
 class Object3d
 {
 private: // エイリアス
@@ -78,7 +78,9 @@ public: // 静的メンバ関数
 	static Object3d *Create(Model *model = nullptr);
 
 	//ライトの位置設定
-	static void SetLight(Light *light) { Object3d::light = light; }
+	static void SetLightGroup(LightGroop* light) {
+		Object3d::lightGroup = light;
+	}
 	
 private: // 静的メンバ変数
 // デバイス
@@ -123,6 +125,9 @@ private: // 静的メンバ変数
 	//static unsigned short indices[indexCount];
 	// カメラ
 	static Camera *camera;
+
+	static LightGroop* lightGroup;
+
 private:// 静的メンバ関数
 	
 	//デスクリプタヒープの初期化

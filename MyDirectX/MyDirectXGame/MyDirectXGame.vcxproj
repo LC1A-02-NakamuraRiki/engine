@@ -256,6 +256,7 @@
     <ClCompile Include="input\Input.cpp" />
     <ClCompile Include="input\KeyBoard.cpp" />
     <ClCompile Include="input\Mouse.cpp" />
+    <ClCompile Include="LightGroop.cpp" />
     <ClCompile Include="LoadCSV.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map\MapChip.cpp" />
@@ -293,6 +294,7 @@
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="input\KeyBoard.h" />
     <ClInclude Include="input\Mouse.h" />
+    <ClInclude Include="LightGroop.h" />
     <ClInclude Include="LoadCSV.h" />
     <ClInclude Include="Map\MapChip.h" />
     <ClInclude Include="Player\Player.h" />

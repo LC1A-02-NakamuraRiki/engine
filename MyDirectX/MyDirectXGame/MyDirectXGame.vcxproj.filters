@@ -184,6 +184,7 @@
       <Filter>Library\enemy</Filter>
     </ClCompile>
     <ClCompile Include="LoadCSV.cpp" />
+    <ClCompile Include="LightGroop.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -286,5 +287,6 @@
       <Filter>Library\enemy</Filter>
     </ClInclude>
     <ClInclude Include="LoadCSV.h" />
+    <ClInclude Include="LightGroop.h" />
   </ItemGroup>
 </Project>

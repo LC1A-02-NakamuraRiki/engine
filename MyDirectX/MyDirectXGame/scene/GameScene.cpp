@@ -37,6 +37,7 @@ GameScene::~GameScene()
 			safe_delete(objMapWall[y][x]);
 		}
 	}*/
+	safe_delete(light);
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
@@ -100,10 +101,10 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	FbxObject3d::SetCamera(camera);
 	// グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
-	light = Light::Create();
-	light->SetLightColor({ 1.0f,0.8f,0.8f});
+	light = LightGroop::Create();
+	//light->SetLightColor({ 1.0f,0.8f,0.8f});
 	
-	Object3d::SetLight(light);
+	Object3d::SetLightGroup(light);
 
 	/*object1 = new FbxObject3d;
 	object1->Initialize();
@@ -152,12 +153,21 @@ void GameScene::Update()
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());
 		//ライト
-		static XMVECTOR lightDir = { 0.5f, -1, 0, 0 };
+		//static XMVECTOR lightDir = { 0.5f, -1, 0, 0 };
 		/*if (input->PushKey(DIK_W)) { lightDir.m128_f32[1] += 1.0f; }
 		else if (input->PushKey(DIK_S)) { lightDir.m128_f32[1] -= 1.0f; }
 		if (input->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
 		else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }*/
-		light->SetLightDir(lightDir);
+		//light->SetLightDir(lightDir);
+		light->SetAmbientColor(XMFLOAT3(ambientColor0));
+		light->SetDirLightDir(0, XMVECTOR({ lightDir0[0], lightDir0[1], lightDir0[2], 0 }));
+		light->SetDirLightColor(0, XMFLOAT3(lightColor0));
+		light->SetDirLightDir(1, XMVECTOR({ lightDir1[0], lightDir1[1], lightDir1[2], 0 }));
+		light->SetDirLightColor(1, XMFLOAT3(lightColor1));
+		light->SetDirLightDir(2, XMVECTOR({ lightDir2[0], lightDir2[1], lightDir2[2], 0 }));
+		light->SetDirLightColor(2, XMFLOAT3(lightColor2));
+		
+		
 		player->Update(map);
 		particle3d->Update();
 		camera->Update();

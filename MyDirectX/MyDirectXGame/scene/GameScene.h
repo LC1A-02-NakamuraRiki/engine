@@ -16,6 +16,7 @@
 #include "../Player/Player.h"
 #include "../Map/MapChip.h"
 #include "../enemy/enemy.h"
+#include "../LightGroop.h"
 
 /// <summary>
 /// ゲームシーン
@@ -38,7 +39,7 @@ protected: // エイリアス
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
-	Light *light = nullptr;
+	LightGroop *light = nullptr;
 private: // 静的メンバ変数
 	static const int debugTextTexNumber = 0;
 
@@ -114,4 +115,15 @@ private: // メンバ変数
 	float collision;
 
 	bool stopFlag;
+
+	float ambientColor0[3] = { 1,1,1 };
+	// 光線方向初期値
+	float lightDir0[3] = { 0,0,1 };
+	float lightColor0[3] = { 1,0,0 };
+
+	float lightDir1[3] = { 0,1,0 };
+	float lightColor1[3] = { 0,1,0 };
+
+	float lightDir2[3] = { 1,0,0 };
+	float lightColor2[3] = { 0,0,1 };
 };

@@ -2,7 +2,7 @@
 #include "../base/DirectXCommon.h"
 #include "../Sound/Sound.h"
 #include "../Scene/GameScene.h"
-#include "../3d/Light.h"
+#include "../LightGroop.h"
 #include "../3d/FbxLoader.h"
 #include "../2d/PostEffect.h"
 #include"../input/Input.h"
@@ -43,7 +43,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 3Dオブジェクト静的初期化
 	Object3d::StaticInitialize(dxCommon->GetDevice());
 		
-	Light::StaticInitialize(dxCommon->GetDevice());
+	LightGroop::StaticInitialize(dxCommon->GetDevice());
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 
 	postEffect = new PostEffect();
