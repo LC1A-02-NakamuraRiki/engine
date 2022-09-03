@@ -14,7 +14,7 @@ cbuffer cbuff1 : register(b1)
 	float m_alpha : packoffset(c2.w);	// ƒAƒ‹ƒtƒ@
 }
 
-static const int DIRLIGHT_NUM = 3;
+static const int DIRLIGHT_NUM = 6;
 
 struct DirLight
 {

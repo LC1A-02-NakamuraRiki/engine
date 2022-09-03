@@ -116,14 +116,20 @@ private: // ƒƒ“ƒo•Ï”
 
 	bool stopFlag;
 
-	float ambientColor0[3] = { 1,1,1 };
+	float ambientColor0[3] = { 0.1,0.1,0.1 };
 	// Œõü•ûŒü‰Šú’l
-	float lightDir0[3] = { 0,0,1 };
-	float lightColor0[3] = { 1,0,0 };
 
-	float lightDir1[3] = { 0,1,0 };
-	float lightColor1[3] = { 0,1,0 };
-
-	float lightDir2[3] = { 1,0,0 };
-	float lightColor2[3] = { 0,0,1 };
+	float lightDir0[3] = { 0,1,0 };
+	float lightDir1[3] = { 0,0,1 };
+	float lightDir2[3] = { 0,0,-1 };
+	float lightDir3[3] = { 1,0,0 };
+	float lightDir4[3] = {-1,0,0 };
+	float lightDir5[3] = { 0,-1,0 };
+	
+	float lightColor0[3] = { 1.5,1.5,1.2 };
+	float lightColor1[3] = { 1.2,1.2,0.96 };
+	float lightColor2[3] = { 1.2,1.2,0.96 };
+	float lightColor3[3] = { 1.2,1.2,0.96 };
+	float lightColor4[3] = { 1.2,1.2,0.96 };
+	float lightColor5[3] = { 1.5,1.5,1.2 };
 };

@@ -93,6 +93,18 @@ void LightGroop::DefaultLightSetting()
 	dirLights[2].SetActive(true);
 	dirLights[2].SetLightColor({ 1.0f, 1.0f, 1.0f });
 	dirLights[2].SetLightDir({ -0.5f, +0.1f, -0.2f, 0 });
+
+	dirLights[3].SetActive(true);
+	dirLights[3].SetLightColor({ 1.0f, 1.0f, 1.0f });
+	dirLights[3].SetLightDir({ +0.5f, +0.1f, +0.2f, 0 });
+
+	dirLights[4].SetActive(true);
+	dirLights[4].SetLightColor({ 1.0f, 1.0f, 1.0f });
+	dirLights[4].SetLightDir({ -0.5f, +0.1f, -0.2f, 0 });
+
+	dirLights[5].SetActive(true);
+	dirLights[5].SetLightColor({ 1.0f, 1.0f, 1.0f });
+	dirLights[5].SetLightDir({ -0.5f, +0.1f, -0.2f, 0 });
 }
 
 void LightGroop::SetAmbientColor(const XMFLOAT3& color)

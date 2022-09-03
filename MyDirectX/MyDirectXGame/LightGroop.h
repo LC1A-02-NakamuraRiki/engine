@@ -19,7 +19,7 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: // 定数
-	static const int DirLightNum = 3;
+	static const int DirLightNum = 6;
 
 public: // サブクラス
 
