@@ -42,6 +42,7 @@ SkinOutput ComputeSkin(VSInput input)
 
 VSOutput main(VSInput input)
 {
+	SkinOutput skinned = ComputeSkin(input);
 	float4 wnormal = normalize(mul(world, float4(skinned.normal,0)));
 	VSOutput output;
 	output.svpos = mul(mul(viewproj, world), skinned.pos);

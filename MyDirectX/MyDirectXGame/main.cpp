@@ -72,7 +72,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		dxCommon->PreDraw();
 		postEffect->Draw(dxCommon->GetCommandList(),gameScene->GetStopFlag());
 		// ゲームシーンの描画
-		//gameScene->Draw();
 		// 描画終了
 		dxCommon->PostDraw();
 	}
