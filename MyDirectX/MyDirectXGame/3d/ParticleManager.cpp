@@ -147,11 +147,6 @@ void ParticleManager::InitializeGraphicsPipeline()
 			D3D12_APPEND_ALIGNED_ELEMENT,
 			D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
 		},
-		//{ // 法線ベクトル(1行で書いたほうが見やすい)
-		//	"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,
-		//	D3D12_APPEND_ALIGNED_ELEMENT,
-		//	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0
-		//},
 		{ // uv座標(1行で書いたほうが見やすい)
 			"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0,
 			D3D12_APPEND_ALIGNED_ELEMENT,
@@ -174,8 +169,6 @@ void ParticleManager::InitializeGraphicsPipeline()
 	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 	// ラスタライザステート
 	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	//gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
-	//gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 	gpipeline.DepthStencilState.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
@@ -193,11 +186,6 @@ void ParticleManager::InitializeGraphicsPipeline()
 	blenddesc.SrcBlend = D3D12_BLEND_ONE;
 	blenddesc.DestBlend = D3D12_BLEND_ONE;
 
-	//減算
-	/*blenddesc.BlendOp = D3D12_BLEND_OP_REV_SUBTRACT;
-	blenddesc.SrcBlend = D3D12_BLEND_ONE;
-	blenddesc.DestBlend = D3D12_BLEND_ONE;*/
-
 	blenddesc.BlendOpAlpha = D3D12_BLEND_OP_ADD;
 	blenddesc.SrcBlendAlpha = D3D12_BLEND_ONE;
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
@@ -214,7 +202,6 @@ void ParticleManager::InitializeGraphicsPipeline()
 	gpipeline.InputLayout.NumElements = _countof(inputLayout);
 
 	// 図形の形状設定（三角形）
-	//gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
 
 	gpipeline.NumRenderTargets = 1;	// 描画対象は1つ
@@ -416,8 +403,6 @@ void ParticleManager::Update()
 	// 定数バッファへデータ転送
 	ConstBufferData* constMap = nullptr;
 	result = constBuff->Map(0, nullptr, (void**)&constMap);
-	//constMap->color = color;
-	//constMap->mat = matWorld * matView * matProjection;	// 行列の合成
 	constMap->mat = camera->GetViewProjectionMatrix();	// 行列の合成
 	constMap->matBillboard = camera->GetBillboardMatrix();	// 行列の合成
 	constBuff->Unmap(0, nullptr);

@@ -80,7 +80,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	delete postEffect;
 	safe_delete(gameScene);
 	safe_delete(audio);
-	//safe_delete(input);
 	FbxLoader::GetInstance()->Finalize();
 	safe_delete(dxCommon);
 

@@ -17,8 +17,6 @@ LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
 void WinApp::Initialize()
 {
-	//WindowsAPI初期化
-
 	 // ウィンドウクラスの設定
 	w.cbSize = sizeof(WNDCLASSEX);
 	w.lpfnWndProc = (WNDPROC)WindowProc; // ウィンドウプロシージャを設定

@@ -61,15 +61,6 @@ void PostEffect::Initialize()
 		D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
 		IID_PPV_ARGS(&constBuff));
 
-	/*ConstBufferData* constMap = nullptr;
-	result = constBuff->Map(0, nullptr, (void**)&constMap);
-	if (SUCCEEDED(result))
-	{
-		constMap->color = color;
-		constMap->mat = matProjection;
-		constBuff->Unmap(0, nullptr);
-	}*/
-
 	CD3DX12_RESOURCE_DESC texresDesc = CD3DX12_RESOURCE_DESC::Tex2D(
 		DXGI_FORMAT_R8G8B8A8_UNORM,
 		WinApp::window_width,
@@ -349,11 +340,7 @@ void PostEffect::CreateGraphicsPipelineState()
 	//標準設定(深度テストを行う、書き込み許可、小さければ合格)
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
-	//gpipeline.DepthStencilState.DepthEnable = false;
-	//gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;  //深度値フォーマット
-
-	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;  // RBGA全てのチャンネルを描画
-
+	
 	//レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL; //標準設定

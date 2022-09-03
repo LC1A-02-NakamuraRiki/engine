@@ -55,8 +55,6 @@ void Player::DrawSprite()
 
 void Player::Move(MapChip *mapChip)
 {
-	//pos.x += cos((angle.y * 3.14) / -180) * moveSpeed;      // x座標を更新
-	//pos.z += sin((angle.y * 3.14) / -180) * moveSpeed;      // z座標を更新
 	float r = 0.5f;
 	float cornerR = 0.35;
 	if (mapChip->ArrayValue(pos.x - cornerR, pos.z + cornerR) == 1)

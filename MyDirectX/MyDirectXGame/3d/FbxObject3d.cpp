@@ -106,8 +106,6 @@ void FbxObject3d::CreateGraphicsPipeline()
 	gpipeline.SampleMask = D3D12_DEFAULT_SAMPLE_MASK; // 標準設定
 	// ラスタライザステート
 	gpipeline.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
-	//gpipeline.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
-	//gpipeline.RasterizerState.FillMode = D3D12_FILL_MODE_WIREFRAME;
 	// デプスステンシルステート
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 
@@ -256,8 +254,6 @@ void FbxObject3d::Update()
 		constMapSkin->bones[i] = bones[i].invInitialPose * matCurrentPose;
 	}
 	constBuffSkin->Unmap(0, nullptr);
-
-	
 }
 
 void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)

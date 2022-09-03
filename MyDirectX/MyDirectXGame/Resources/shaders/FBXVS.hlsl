@@ -37,22 +37,11 @@ SkinOutput ComputeSkin(VSInput input)
 	output.pos += weight * mul(m, input.pos);
 	output.normal += weight * mul((float3x3)m, input.normal);
 
-
-	/*SkinOutput output = (SkinOutput)0;
-	uint iBone;
-	matrix m;
-
-	iBone = input.boneIndices.x;
-	m = matSkinning[iBone];
-	output.pos += mul(m, input.pos);
-	output.normal += mul((float3x3)m, input.normal);*/
-
 	return output;
 }
 
 VSOutput main(VSInput input)
 {
-	SkinOutput skinned = ComputeSkin(input);
 	float4 wnormal = normalize(mul(world, float4(skinned.normal,0)));
 	VSOutput output;
 	output.svpos = mul(mul(viewproj, world), skinned.pos);

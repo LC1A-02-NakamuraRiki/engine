@@ -24,30 +24,18 @@ GameScene::~GameScene()
 	safe_delete(objGround);
 	safe_delete(modelGround);
 	safe_delete(light);
-	//safe_delete(object1);
-	//safe_delete(model1);
 	safe_delete(player);
 	safe_delete(enemy);
 	safe_delete(map);
-	//safe_delete(modelMapWall);
-	/*for (int x = 0; x < 20; x++)
-	{
-		for (int y = 0; y < 20; y++)
-		{
-			safe_delete(objMapWall[y][x]);
-		}
-	}*/
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 {
 	// nullptrチェック
 	assert(dxCommon);
-	//assert(input);
 	assert(audio);
 
 	this->dxCommon = dxCommon;
-	//this->input = input;
 	this->audio = audio;
 
 	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
@@ -91,9 +79,6 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	objGround = Object3d::Create(modelGround);
 	objGround->SetScale({ 5.0f,2.0f ,5.0f });
 
-	// モデル名を指定してファイル読み込み
-	//model1 = FbxLoader::GetInstance()->LoadModelFromFile("boneTest");
-
 	// デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
 	// カメラをセット
@@ -101,18 +86,9 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	// グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 	light = LightGroop::Create();
-	//light->SetLightColor({ 1.0f,0.8f,0.8f});
 	
 	Object3d::SetLightGroup(light);
 
-	/*object1 = new FbxObject3d;
-	object1->Initialize();
-	object1->SetModel(model1);
-	object1->PlayAnimation();*/
-	////サウンド再生
-	//audio->PlayBGM("Resources/Alarm01.wav", true);
-	//audio->PlaySE("Resources/Alarm01.wav", false);
-	//audio->StopBGM();
 	player = new Player;
 	player->Initialize();
 	map = new MapChip;
@@ -124,12 +100,6 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 
 void GameScene::Update()
 {
-	////マウスの座標
-	///*POINT mousePos;
-	//GetCursorPos(&mousePos);*/
-	
-
-
 	debugText.Print(20, 20, 2.0f, "END : ESC");
 	if (scene == TITLE)
 	{	
@@ -147,17 +117,12 @@ void GameScene::Update()
 		debugText.Print(20, 80, 2.0f, "VIEW : MOUSE or ArrowKey ");
 		debugText.Print(20, 110, 2.0f, "SENSI CHANGE -/+  :  9/0 ");
 		debugText.Print(20, 140, 2.0f, "NowSENSI :  %f", player->GetViewSpeed());
-		//debugText.Print(20, 170, 2.0f, "basyoooooo :  %d", map->ArrayValue(player->GetPos().x, player->GetPos().z));
+		
 		//プレイヤー系
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());
+
 		//ライト
-		//static XMVECTOR lightDir = { 0.5f, -1, 0, 0 };
-		/*if (input->PushKey(DIK_W)) { lightDir.m128_f32[1] += 1.0f; }
-		else if (input->PushKey(DIK_S)) { lightDir.m128_f32[1] -= 1.0f; }
-		if (input->PushKey(DIK_D)) { lightDir.m128_f32[0] += 1.0f; }
-		else if (input->PushKey(DIK_A)) { lightDir.m128_f32[0] -= 1.0f; }*/
-		//light->SetLightDir(lightDir);
 		light->SetAmbientColor(XMFLOAT3(ambientColor0));
 
 		light->SetDirLightDir(0, XMVECTOR({ lightDir0[0], lightDir0[1], lightDir0[2], 0 }));
@@ -184,7 +149,6 @@ void GameScene::Update()
 		objSkydome->Update();
 		objGround->Update();
 		light->Update();
-		//object1->Update();
 		map->Update(player->GetPos());
 		stopFlag = map->GetStopFlag();
 		enemy->Update(player, map);
@@ -223,7 +187,7 @@ void GameScene::Draw()
 	Sprite::PreDraw(cmdList);
 	// 背景スプライト描画
 	//-------------------------------------------------------------//
-	//spriteBG->Draw();
+
 	//-------------------------------------------------------------//
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -235,7 +199,6 @@ void GameScene::Draw()
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-	//playerObj->Draw();
 	if (scene == TITLE || scene == PLAY)
 	{
 		objSkydome->Draw();
@@ -243,8 +206,6 @@ void GameScene::Draw()
 		map->Draw();
 		enemy->Draw();
 	}
-	//objFighter->Draw();
-	//object1->Draw(cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();

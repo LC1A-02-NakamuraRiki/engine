@@ -78,7 +78,6 @@ public: // ƒƒ“ƒoŠÖ”
 	bool GetStopFlag() { return stopFlag; }
 private: // ƒƒ“ƒo•Ï”
 	DirectXCommon *dxCommon = nullptr;
-	//Input *input = nullptr;
 	Sound *audio = nullptr;
 	DebugText debugText;
 	
@@ -96,18 +95,6 @@ private: // ƒƒ“ƒo•Ï”
 	Object3d *objGround = nullptr;
 
 	ParticleManager *particle3d = nullptr;
-	
-	//FbxModel* model1 = nullptr;
-	//FbxObject3d* object1 = nullptr;
-
-
-	/*Object3d *playerObj = nullptr;
-	Model *playerModel = nullptr;
-
-	Sphere sphere;
-	Plane plane;
-	Triangle triangle;
-	Ray ray;*/
 	Player* player = nullptr;
 	Enemy* enemy = nullptr;
 	MapChip* map = nullptr;

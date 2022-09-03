@@ -22,13 +22,6 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 	static Light *light;
 public: // サブクラス
-// 頂点データ構造体
-	//struct VertexPosNormalUv
-	//{
-	//	XMFLOAT3 pos; // xyz座標
-	//	XMFLOAT3 normal; // 法線ベクトル
-	//	XMFLOAT2 uv;  // uv座標
-	//};
 
 	// 定数バッファ用データ構造体
 	struct ConstBufferDataB0
@@ -48,12 +41,6 @@ public: // サブクラス
 		ComPtr<ID3D12PipelineState> pipelinestate;
 	};
 private: // 定数
-	//static const int division = 50;					// 分割数
-	//static const float radius;				// 底面の半径
-	//static const float prizmHeight;			// 柱の高さ
-	//static const int planeCount = division * 2 + division * 2;		// 面の数
-	//static const int vertexCount = 8 * 6;		// 頂点数
-	//static const int indexCount = (3 * 2) * 6;
 
 public: // 静的メンバ関数
 
@@ -85,44 +72,10 @@ public: // 静的メンバ関数
 private: // 静的メンバ変数
 // デバイス
 	static ID3D12Device *device;
-	// デスクリプタサイズ
-	//static UINT descriptorHandleIncrementSize;
 	// コマンドリスト
 	static ID3D12GraphicsCommandList *cmdList;
-	// ルートシグネチャ
-	//static ComPtr<ID3D12RootSignature> rootsignature;
 	// パイプライン
 	static PipelineSet pipelineSet;
-	// デスクリプタヒープ
-	//static ComPtr<ID3D12DescriptorHeap> descHeap;
-	// 頂点バッファ
-	//static ComPtr<ID3D12Resource> vertBuff;
-	// インデックスバッファ
-	//static ComPtr<ID3D12Resource> indexBuff;
-	// テクスチャバッファ
-	//static ComPtr<ID3D12Resource> texbuff;
-	// シェーダリソースビューのハンドル(CPU)
-	//static CD3DX12_CPU_DESCRIPTOR_HANDLE cpuDescHandleSRV;
-	// シェーダリソースビューのハンドル(CPU)
-	//static CD3DX12_GPU_DESCRIPTOR_HANDLE gpuDescHandleSRV;
-	// ビュー行列
-	//static XMMATRIX matView;
-	//// 射影行列
-	//static XMMATRIX matProjection;
-	//// 視点座標
-	//static XMFLOAT3 eye;
-	//// 注視点座標
-	//static XMFLOAT3 target;
-	//// 上方向ベクトル
-	//static XMFLOAT3 up;
-	// 頂点バッファビュー
-	//static D3D12_VERTEX_BUFFER_VIEW vbView;
-	// インデックスバッファビュー
-	//static D3D12_INDEX_BUFFER_VIEW ibView;
-	// 頂点データ配列
-	//static VertexPosNormalUv vertices[vertexCount];
-	// 頂点インデックス配列
-	//static unsigned short indices[indexCount];
 	// カメラ
 	static Camera *camera;
 
@@ -130,8 +83,6 @@ private: // 静的メンバ変数
 
 private:// 静的メンバ関数
 	
-	//デスクリプタヒープの初期化
-	//static bool InitializeDescriptorHeap();
 
 public: 
 	//メンバ関数

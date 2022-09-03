@@ -11,7 +11,6 @@ class XAudio2VoiceCallback : public IXAudio2VoiceCallback
 {
 public:
 	// ボイス処理パスの開始時
-	//STDMETHOD_(void, OnVoiceProcessingPassStart) (THIS_ UINT32 BytesRequired) {};
 	void OnVoiceProcessingPassStart(UINT32 BytesRequired) {};
 	// ボイス処理パスの終了時
 	STDMETHOD_(void, OnVoiceProcessingPassEnd) (THIS) {};

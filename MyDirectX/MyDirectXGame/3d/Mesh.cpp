@@ -48,7 +48,6 @@ void Mesh::CreateBuffers()
 	result = device->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
-		//&CD3DX12_RESOURCE_DESC::Buffer(sizeof(vertices)),
 		&CD3DX12_RESOURCE_DESC::Buffer(sizeVB),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
@@ -58,14 +57,12 @@ void Mesh::CreateBuffers()
 	VertexPosNormalUv *vertMap = nullptr;
 	result = vertBuff->Map(0, nullptr, (void **)&vertMap);
 	if (SUCCEEDED(result)) {
-		//memcpy(vertMap, vertices, sizeof(vertices));
 		std::copy(vertices.begin(), vertices.end(), vertMap);
 		vertBuff->Unmap(0, nullptr);
 	}
 
 	// 頂点バッファビューの作成
 	vbView.BufferLocation = vertBuff->GetGPUVirtualAddress();
-	//vbView.SizeInBytes = sizeof(vertices);
 	vbView.SizeInBytes = sizeVB;
 	vbView.StrideInBytes = sizeof(vertices[0]);
 
@@ -79,7 +76,6 @@ void Mesh::CreateBuffers()
 	result = device->CreateCommittedResource(
 		&CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD),
 		D3D12_HEAP_FLAG_NONE,
-		//&CD3DX12_RESOURCE_DESC::Buffer(sizeof(indices)),
 		&CD3DX12_RESOURCE_DESC::Buffer(sizeIB),
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
@@ -93,11 +89,6 @@ void Mesh::CreateBuffers()
 	unsigned short *indexMap = nullptr;
 	result = indexBuff->Map(0, nullptr, (void **)&indexMap);
 	if (SUCCEEDED(result)) {
-		//// 全インデックスに対して
-		//for (int i = 0; i < _countof(indices); i++)
-		//{
-		//	indexMap[i] = indices[i];	// インデックスをコピー
-		//}
 		std::copy(indices.begin(), indices.end(), indexMap);
 		indexBuff->Unmap(0, nullptr);
 	}
@@ -105,7 +96,6 @@ void Mesh::CreateBuffers()
 	// インデックスバッファビューの作成
 	ibView.BufferLocation = indexBuff->GetGPUVirtualAddress();
 	ibView.Format = DXGI_FORMAT_R16_UINT;
-	//ibView.SizeInBytes = sizeof(indices);
 	ibView.SizeInBytes = sizeIB;
 }
 

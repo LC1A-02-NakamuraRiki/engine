@@ -21,18 +21,6 @@ void Camera::CameraMoveEyeVector(const XMFLOAT3 &move)
 	SetEye(eye_moved);
 }
 
-//void Camera::CameraMoveEyeVector(const XMVECTOR &move)
-//{
-//	// 視点座標を移動し、反映
-//	XMFLOAT3 eye_moved = GetEye();
-//
-//	eye_moved.x += move.m128_f32[0];
-//	eye_moved.y += move.m128_f32[1];
-//	eye_moved.z += move.m128_f32[2];
-//
-//	SetEye(eye_moved);
-//}
-
 void Camera::CameraMoveVector(const XMFLOAT3 &move)
 {
 	// 視点と注視点座標を移動し、反映
@@ -50,24 +38,6 @@ void Camera::CameraMoveVector(const XMFLOAT3 &move)
 	SetEye(eye_moved);
 	SetTarget(target_moved);
 }
-
-//void Camera::CameraMoveVector(const XMVECTOR &move)
-//{
-//	// 視点と注視点座標を移動し、反映
-//	XMFLOAT3 eye_moved = GetEye();
-//	XMFLOAT3 target_moved = GetTarget();
-//
-//	eye_moved.x += move.m128_f32[0];
-//	eye_moved.y += move.m128_f32[1];
-//	eye_moved.z += move.m128_f32[2];
-//
-//	target_moved.x += move.m128_f32[0];
-//	target_moved.y += move.m128_f32[1];
-//	target_moved.z += move.m128_f32[2];
-//
-//	SetEye(eye_moved);
-//	SetTarget(target_moved);
-//}
 
 Camera::Camera(int window_width, int window_height)
 {
@@ -102,11 +72,6 @@ void Camera::Update()
 		// ビュープロジェクションの合成
 		matViewProjection = matView * matProjection;
 	}
-	/*object3d->SetEye(eye);
-	particleMan->SetEye(eye);
-
-	object3d->SetTarget(target);
-	particleMan->SetTarget(target);*/
 }
 
 void Camera::UpdateViewMatrix()

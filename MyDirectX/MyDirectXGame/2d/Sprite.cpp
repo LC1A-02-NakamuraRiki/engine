@@ -80,11 +80,7 @@ bool Sprite::StaticInitialize(ID3D12Device *device, int window_width, int window
 	//標準設定(深度テストを行う、書き込み許可、小さければ合格)
 	gpipeline.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 	gpipeline.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_ALWAYS;
-	//gpipeline.DepthStencilState.DepthEnable = false;
-	//gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;  //深度値フォーマット
-
-	//gpipeline.BlendState.RenderTarget[0].RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;  // RBGA全てのチャンネルを描画
-
+	
 	//レンダーターゲットのブレンド設定
 	D3D12_RENDER_TARGET_BLEND_DESC blenddesc{};
 	blenddesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL; //標準設定
@@ -171,7 +167,6 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t *filename)
 	);
 
 	//テスクチャ用バッファの生成
-	//spriteCommon.texBuff[texnumber] = nullptr;
 	result = device->CreateCommittedResource
 	(  //GPUリソースの生成
 		&CD3DX12_HEAP_PROPERTIES(D3D12_CPU_PAGE_PROPERTY_WRITE_BACK, D3D12_MEMORY_POOL_L0),
@@ -195,7 +190,6 @@ bool Sprite::LoadTexture(UINT texnumber, const wchar_t *filename)
 	//シェーダリソースビュー設定
 	D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};  //設定構造体
 	D3D12_RESOURCE_DESC resDesc = texBuff[texnumber]->GetDesc();
-	//srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;  //RGBA
 	srvDesc.Format = metadata.format;
 	srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
 	srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;  //2Dテクスチャ

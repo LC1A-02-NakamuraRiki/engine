@@ -78,17 +78,11 @@ void Material::LoadTexture(const std::string &directoryPath, CD3DX12_CPU_DESCRIP
 		_countof(wfilepath)
 	);
 
-	/*result = LoadFromWICFile(
-		L"Resources/texture.png", WIC_FLAGS_NONE,
-		&metadata, scratchImg);*/
 	result = LoadFromWICFile
 	(
 		wfilepath, WIC_FLAGS_NONE,
 		&metadata, scratchImg
 	);
-	/*if (FAILED(result)) {
-		return result;
-	}*/
 
 	const Image *img = scratchImg.GetImage(0, 0, 0); // 生データ抽出
 
@@ -109,9 +103,6 @@ void Material::LoadTexture(const std::string &directoryPath, CD3DX12_CPU_DESCRIP
 		D3D12_RESOURCE_STATE_GENERIC_READ, // テクスチャ用指定
 		nullptr,
 		IID_PPV_ARGS(&texbuff));
-	//if (FAILED(result)) {
-	//	return result;
-	//}
 
 	// テクスチャバッファにデータ転送
 	result = texbuff->WriteToSubresource(
@@ -121,10 +112,7 @@ void Material::LoadTexture(const std::string &directoryPath, CD3DX12_CPU_DESCRIP
 		(UINT)img->rowPitch,  // 1ラインサイズ
 		(UINT)img->slicePitch // 1枚サイズ
 	);
-	/*if (FAILED(result)) {
-		return result;
-	}*/
-
+	
 	// シェーダリソースビュー作成
 	cpuDescHandleSRV = cpuHandle;
 	gpuDescHandleSRV = gpuHandle;

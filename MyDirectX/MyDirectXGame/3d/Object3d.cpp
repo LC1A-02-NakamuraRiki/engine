@@ -14,16 +14,9 @@ using namespace std;
 /// <summary>
 /// 静的メンバ変数の実体
 /// </summary>
-
 ID3D12Device *Object3d::device = nullptr;
 ID3D12GraphicsCommandList *Object3d::cmdList = nullptr;
-//ComPtr<ID3D12RootSignature> Object3d::rootsignature;
 Object3d::PipelineSet Object3d::pipelineSet;
-//XMMATRIX Object3d::matView{};
-//XMMATRIX Object3d::matProjection{};
-//XMFLOAT3 Object3d::eye = { 0, 0, -40.0f };
-//XMFLOAT3 Object3d::target = { 0, 0, 0 };
-//XMFLOAT3 Object3d::up = { 0, 1, 0 };
 Camera *Object3d::camera = nullptr;
 LightGroop *Object3d::lightGroup = nullptr;
 
@@ -141,11 +134,6 @@ void Object3d::InitializeGraphicsPipeline()
 	//デスクリプタテーブルの設定
 	CD3DX12_DESCRIPTOR_RANGE descTblRangeSRV;
 	descTblRangeSRV.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);  //t0 レジスタ
-
-	////ルートパラメータの設定
-	//CD3DX12_ROOT_PARAMETER rootparams[2];
-	//rootparams[0].InitAsConstantBufferView(0, 0, D3D12_SHADER_VISIBILITY_ALL);
-	//rootparams[1].InitAsDescriptorTable(1, &descTblRangeSRV, D3D12_SHADER_VISIBILITY_ALL);
 
 	// ルートパラメータ	
 	CD3DX12_ROOT_PARAMETER rootparams[4];
