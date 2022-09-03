@@ -2,7 +2,7 @@
 #include <DirectXMath.h>
 #include "../3d/Object3d.h"
 #include "../2d/Sprite.h"
-#include"../LoadCSV.h"
+#include"../helper/LoadCSV.h"
 
 class MapChip
 {

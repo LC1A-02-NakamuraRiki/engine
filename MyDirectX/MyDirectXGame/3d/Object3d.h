@@ -9,7 +9,7 @@
 
 #include "Model.h"
 #include "Camera.h"
-#include "../LightGroop.h"
+#include "../3d/LightGroop.h"
 class Object3d
 {
 private: // エイリアス

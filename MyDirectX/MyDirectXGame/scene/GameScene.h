@@ -16,7 +16,7 @@
 #include "../Player/Player.h"
 #include "../Map/MapChip.h"
 #include "../enemy/enemy.h"
-#include "../LightGroop.h"
+#include "../3d/LightGroop.h"
 
 /// <summary>
 /// ゲームシーン
@@ -126,7 +126,7 @@ private: // メンバ変数
 	float lightDir4[3] = {-1,0,0 };
 	float lightDir5[3] = { 0,-1,0 };
 	
-	float lightColor0[3] = { 1.5,1.5,1.2 };
+	float lightColor0[3] = { 1.75,1.75,1.4 };
 	float lightColor1[3] = { 1.2,1.2,0.96 };
 	float lightColor2[3] = { 1.2,1.2,0.96 };
 	float lightColor3[3] = { 1.2,1.2,0.96 };

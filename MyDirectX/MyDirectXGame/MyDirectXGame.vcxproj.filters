@@ -41,6 +41,9 @@
     <Filter Include="Library\enemy">
       <UniqueIdentifier>{90a97e40-8a7d-4628-8998-a4dac2efcd1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\helper">
+      <UniqueIdentifier>{67f6a998-edf7-4099-b6b3-fddc8cec64ea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\shaders\Sprite.hlsli">
@@ -119,9 +122,6 @@
     <ClCompile Include="3d\FbxObject3d.cpp">
       <Filter>engine\3d</Filter>
     </ClCompile>
-    <ClCompile Include="3d\Light.cpp">
-      <Filter>engine\3d</Filter>
-    </ClCompile>
     <ClCompile Include="3d\Material.cpp">
       <Filter>engine\3d</Filter>
     </ClCompile>
@@ -183,8 +183,12 @@
     <ClCompile Include="enemy\enemy.cpp">
       <Filter>Library\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="LoadCSV.cpp" />
-    <ClCompile Include="LightGroop.cpp" />
+    <ClCompile Include="helper\LoadCSV.cpp">
+      <Filter>engine\helper</Filter>
+    </ClCompile>
+    <ClCompile Include="3d\LightGroop.cpp">
+      <Filter>engine\3d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -286,7 +290,11 @@
     <ClInclude Include="enemy\enemy.h">
       <Filter>Library\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="LoadCSV.h" />
-    <ClInclude Include="LightGroop.h" />
+    <ClInclude Include="helper\LoadCSV.h">
+      <Filter>engine\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="3d\LightGroop.h">
+      <Filter>engine\3d</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

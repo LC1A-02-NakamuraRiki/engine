@@ -2,7 +2,7 @@
 #include "../base/DirectXCommon.h"
 #include "../Sound/Sound.h"
 #include "../Scene/GameScene.h"
-#include "../LightGroop.h"
+#include "../3d/LightGroop.h"
 #include "../3d/FbxLoader.h"
 #include "../2d/PostEffect.h"
 #include"../input/Input.h"
