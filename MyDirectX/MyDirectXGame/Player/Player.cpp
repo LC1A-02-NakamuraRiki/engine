@@ -19,12 +19,11 @@ void Player::Initialize()
 
 void Player::InitializeValue()
 {
-	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };
-	pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
+	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 7) };
+	pos = { -8.0f,0.0f,-56.0f };//プレイヤーの位置
 	r = 0.5;//プレイヤーの半径
 	moveSpeed = 0.4f;//歩きの速度
 	viewSpeed = 4.0f;//視点の速さ
-	mouseViewSpeed = 0.3f;//視点の速さ
 	target = { 0,0.0f,0 };//注視点
 	targetY = 0;//揺れの調整
 	angle = { 0,0,0 };//歩く方向
@@ -234,26 +233,33 @@ void Player::Move(MapChip *mapChip)
 
 void Player::WalkShaking()
 {
-	if (isWalkShaking == true)
+	if (!shakeFlag)
 	{
-		walkShakingTime++;
-		if (walkShakingTime <= 10)
-		{
-			walkShaking += 0.1;
-		}
-		else if(walkShakingTime >= 10 && walkShakingTime <= 20)
-		{
-			walkShaking -= 0.1;
-		}
-		else if (walkShakingTime > 20)
-		{
-			walkShaking = 2.5;
-			walkShakingTime = 0;
-			isWalkShaking = false;
-		}
+		pos.y = 2.5;
 	}
-	pos.y = walkShaking;
-	target.y = targetY + walkShaking;
+	else if (shakeFlag) 
+	{
+		if (isWalkShaking == true)
+		{
+			walkShakingTime++;
+			if (walkShakingTime <= 10)
+			{
+				walkShaking += 0.1;
+			}
+			else if (walkShakingTime >= 10 && walkShakingTime <= 20)
+			{
+				walkShaking -= 0.1;
+			}
+			else if (walkShakingTime > 20)
+			{
+				walkShaking = 2.5;
+				walkShakingTime = 0;
+				isWalkShaking = false;
+			}
+		}
+		pos.y = walkShaking;
+		target.y = targetY + walkShaking;
+	}
 }
 
 void Player::View()

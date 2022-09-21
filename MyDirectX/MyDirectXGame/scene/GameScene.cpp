@@ -16,6 +16,11 @@ GameScene::GameScene()
 GameScene::~GameScene()
 {
 	safe_delete(spriteTitle);
+	safe_delete(spriteTitle2);
+	safe_delete(spriteTitle3);
+	safe_delete(spriteOption);
+	safe_delete(spriteOption2);
+	safe_delete(spriteOption3);
 	safe_delete(spriteClear);
 	safe_delete(spriteGAMEOVER);
 	safe_delete(particle3d);
@@ -58,6 +63,14 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		assert(0);
 		return;
 	}
+	if (!Sprite::LoadTexture(21, L"Resources/Title2.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(22, L"Resources/Title3.png")) {
+		assert(0);
+		return;
+	}
 	if (!Sprite::LoadTexture(19, L"Resources/Clear.png")) {
 		assert(0);
 		return;
@@ -66,8 +79,25 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		assert(0);
 		return;
 	}
+	if (!Sprite::LoadTexture(23, L"Resources/Option.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(24, L"Resources/Option2.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(25, L"Resources/Option3.png")) {
+		assert(0);
+		return;
+	}
 	//// 背景スプライト生成
 	spriteTitle = Sprite::Create(18, { 0.0f,0.0f });
+	spriteTitle2 = Sprite::Create(21, { 0.0f,0.0f });
+	spriteTitle3 = Sprite::Create(22, { 0.0f,0.0f });
+	spriteOption = Sprite::Create(23, { 0.0f,0.0f });
+	spriteOption2 = Sprite::Create(24, { 0.0f,0.0f });
+	spriteOption3 = Sprite::Create(25, { 0.0f,0.0f });
 	spriteClear = Sprite::Create(19, { 0.0f,0.0f });
 	spriteGAMEOVER = Sprite::Create(20, { 0.0f,0.0f });
 
@@ -100,24 +130,74 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 
 void GameScene::Update()
 {
-	debugText.Print(20, 20, 2.0f, "END : ESC");
+	//debugText.Print(20, 20, 2.0f, "END : ESC");
 	if (scene == TITLE)
 	{	
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
+		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)
+		{
+			buttonNo--;
+		}
+
+		else if (Input::GetInstance()->KeybordTrigger(DIK_S) && buttonNo != 2 || Input::GetInstance()->KeybordTrigger(DIK_DOWN) && buttonNo != 2)
+		{
+			buttonNo++;
+		}
+
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE)&& buttonNo == 0)
 		{
 			player->InitializeValue();
 			enemy->InitializeValue();
 			map->InitializeValue();
 			scene = PLAY;
 		}
+		else if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && buttonNo == 1)
+		{
+			scene = OPTION;
+		}
+	}
+	else if (scene == OPTION)
+	{
+		if (Input::GetInstance()->KeybordTrigger(DIK_W) && optionButtonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && optionButtonNo != 0)
+		{
+			optionButtonNo--;
+		}
+
+		else if (Input::GetInstance()->KeybordTrigger(DIK_S) && optionButtonNo != 2 || Input::GetInstance()->KeybordTrigger(DIK_DOWN) && optionButtonNo != 2)
+		{
+			optionButtonNo++;
+		}
+
+		if (Input::GetInstance()->KeybordTrigger(DIK_D) && optionButtonNo == 0)
+		{
+			player->SetViewSpeedPlus();
+		}
+		else if (Input::GetInstance()->KeybordTrigger(DIK_A) && optionButtonNo == 0)
+		{
+			player->SetViewSpeedMinus();
+		}
+
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 1 && player->GetShakeFlag())
+		{
+			player->SetShakeFlag(false);
+		}
+		else if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 1 && !player->GetShakeFlag())
+		{
+			player->SetShakeFlag(true);
+		}
+
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 2)
+		{
+			scene = TITLE;
+		}
 	}
 	else if (scene == PLAY)
 	{
-		debugText.Print(20, 50, 2.0f, "MOVE : W A S D");
-		debugText.Print(20, 80, 2.0f, "VIEW : MOUSE or ArrowKey ");
-		debugText.Print(20, 110, 2.0f, "SENSI CHANGE -/+  :  9/0 ");
-		debugText.Print(20, 140, 2.0f, "NowSENSI :  %f", player->GetViewSpeed());
-		
+		//debugText.Print(20, 50, 2.0f, "MOVE : W A S D");
+		//debugText.Print(20, 80, 2.0f, "VIEW : MOUSE or ArrowKey ");
+		//debugText.Print(20, 110, 2.0f, "SENSI CHANGE -/+  :  9/0 ");
+		//debugText.Print(20, 140, 2.0f, "NowSENSI :  %f", player->GetViewSpeed());
+		//debugText.Print(20, 140, 2.0f, "NowSENSI :  %f %f", player->GetPos().x, player->GetPos().z);
+
 		//プレイヤー系
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());
@@ -165,6 +245,7 @@ void GameScene::Update()
 	{
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
+			buttonNo = 0;
 			scene = TITLE;
 		}
 	}
@@ -172,6 +253,7 @@ void GameScene::Update()
 	{
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
+			buttonNo = 0;
 			scene = TITLE;
 		}
 	}
@@ -220,7 +302,42 @@ void GameScene::Draw()
 	//-------------------------------------------------------------//
 	if (scene == TITLE)
 	{
-		spriteTitle->Draw();
+		if (buttonNo == 0)
+		{
+			spriteTitle->Draw();
+		}
+		else if (buttonNo == 1)
+		{
+			spriteTitle2->Draw();
+		}
+		else if (buttonNo == 2)
+		{
+			spriteTitle3->Draw();
+		}
+	}
+	if (scene == OPTION)
+	{
+		debugText.Print(1300, 390, 2.0f, "%f", player->GetViewSpeed());
+		if (player->GetShakeFlag())
+		{
+			debugText.Print(1335, 490, 2.0f, "ON");
+		}
+		else if (!player->GetShakeFlag())
+		{
+			debugText.Print(1325, 490, 2.0f, "OFF");
+		}
+		if (optionButtonNo == 0)
+		{
+			spriteOption->Draw();
+		}
+		else if (optionButtonNo == 1)
+		{
+			spriteOption2->Draw();
+		}
+		else if (optionButtonNo == 2)
+		{
+			spriteOption3->Draw();
+		}
 	}
 	if (scene == CLEAR)
 	{

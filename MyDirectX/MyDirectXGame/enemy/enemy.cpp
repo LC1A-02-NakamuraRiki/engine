@@ -17,13 +17,13 @@ void Enemy::Initialize()
 
 void Enemy::InitializeValue()
 {
-	pos = { -8.0f,3.0f,+56.0f };//プレイヤーの位置
+	pos = { -8.0f,3.0f,-136.0f };//プレイヤーの位置
 	objEnemy->SetPosition(pos);
-	nowMove = UP;
+	nowMove = DOWN;
 	adjustValueX = 0;
 	adjustValueZ = 0;
 	vReserveFlag = false;
-	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 14) };
+	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 2) };
 }
 
 void Enemy::Update(Player* player,MapChip* mapChip)
@@ -314,6 +314,7 @@ void Enemy::Move(MapChip* mapChip)
 		if (nowMove == DOWN)
 		{
 			spriteEnemyAngle->SetRotation(45);
+			objEnemy->SetRotation({0, 90, 0});
 			pos.z += 0.4f;
 			miniMapPos.y += 0.4f;
 			adjustValueZ = -8.0f;
@@ -321,6 +322,7 @@ void Enemy::Move(MapChip* mapChip)
 		else if (nowMove == UP)
 		{
 			spriteEnemyAngle->SetRotation(-135);
+			objEnemy->SetRotation({ 0, 270, 0 });
 			pos.z -= 0.4f;
 			miniMapPos.y -= 0.4f;
 			adjustValueZ = 8.0f;
@@ -328,6 +330,7 @@ void Enemy::Move(MapChip* mapChip)
 		else if (nowMove == RIGHT)
 		{
 			spriteEnemyAngle->SetRotation(135);
+			objEnemy->SetRotation({ 0, 0, 0 });
 			pos.x += 0.4f;
 			miniMapPos.x -= 0.4f;
 			adjustValueX = -8.0f;
@@ -335,6 +338,7 @@ void Enemy::Move(MapChip* mapChip)
 		else if (nowMove == LEFT)
 		{
 			spriteEnemyAngle->SetRotation(-45);
+			objEnemy->SetRotation({ 0, 180, 0 });
 			pos.x -= 0.4f;
 			miniMapPos.x += 0.4f;
 			adjustValueX = 8.0;
@@ -348,5 +352,5 @@ void Enemy::Move(MapChip* mapChip)
 bool Enemy::catchCollision(Player* player)
 {
 	XMFLOAT3 playerPos = player->GetPos();
-	return Collision::ChenkSphere2Sphere(playerPos, pos, 3.0f, 6.0f);
+	return Collision::ChenkSphere2Sphere(playerPos, pos, 4.25f, 6.0f);
 }

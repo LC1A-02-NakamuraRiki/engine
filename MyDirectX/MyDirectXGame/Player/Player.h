@@ -35,6 +35,10 @@ public:
 	XMFLOAT3 GetTarget() { return target; }
 	float GetAngle() { return angle.y; }
 	float GetViewSpeed() { return mouseViewSpeed; }
+	float SetViewSpeedPlus() { return mouseViewSpeed += 0.05; }
+	float SetViewSpeedMinus() { return mouseViewSpeed -= 0.05; }
+	bool GetShakeFlag() { return shakeFlag; }
+	bool SetShakeFlag(bool ShakeFlag) { return shakeFlag = ShakeFlag; }
 private:
 
 	Sprite* spritePlayerDot = nullptr;
@@ -45,7 +49,7 @@ private:
 	float r = 0.5;//プレイヤーの半径
 	float moveSpeed = 0.4f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ
-	float mouseViewSpeed = 0.3f;//視点の速さ
+	float mouseViewSpeed = 0.5f;//視点の速さ
 	XMFLOAT3 target = { 0,0.0f,0 };//注視点
 	float targetY = 0;//揺れの調整
 	XMFLOAT3 angle = { 0,0,0 };//歩く方向
@@ -55,5 +59,5 @@ private:
 	float angleX = 0; //カメラX軸
 	float angleY = 0; //カメラY軸
 
-
+	bool shakeFlag = true;
 };

@@ -45,7 +45,9 @@ void MapChip::Initialize()
 		objCrystal[i]->SetScale(XMFLOAT3({ 0.75f, 0.75f, 0.75f }));
 		crystalGetFlag[i] = false;
 	}
-	objCrystal[4] = Object3d::Create(modelItemCrystal);
+	objCrystal[3] = Object3d::Create(modelItemCrystal);
+	objCrystal[5] = Object3d::Create(modelItemCrystal);
+
 	objCrystal[0]->SetPosition(crystalPos[0]);
 	objCrystal[1]->SetPosition(crystalPos[1]);
 	objCrystal[2]->SetPosition(crystalPos[2]);
@@ -127,7 +129,8 @@ void MapChip::Initialize()
 		spriteCrystal[i] = Sprite::Create(7, mapCrystalPos[i]);
 	}
 
-	spriteCrystal[4] = Sprite::Create(17, mapCrystalPos[4]);
+	spriteCrystal[3] = Sprite::Create(17, mapCrystalPos[3]);
+	spriteCrystal[5] = Sprite::Create(17, mapCrystalPos[5]);
 
 	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");
 	LoadCSV(mapWallLeftCenter, "Resources/map/a2.csv");
@@ -472,7 +475,7 @@ void MapChip::DrawSprite()
 
 void MapChip::TimeStop()
 {
-	if (crystalGetFlag[4] && stopTime == 0)
+	if (crystalGetFlag[5] && stopTime == 0)
 	{
 		stopFlag = true;
 	}
@@ -488,7 +491,7 @@ void MapChip::TimeStop()
 
 void MapChip::EnemyDisplay()
 {
-	if (crystalGetFlag[4] && displayTime == 0)
+	if (crystalGetFlag[3] && displayTime == 0)
 	{
 		displayFlag = true;
 	}

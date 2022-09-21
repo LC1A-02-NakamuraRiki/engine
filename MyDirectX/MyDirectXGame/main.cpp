@@ -60,7 +60,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// メッセージ処理
 		if (win->ProcessMessage()) { break; }
 		//ESCでの終了
-		if (Input::GetInstance()->KeybordTrigger(DIK_ESCAPE)) { break; };
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && gameScene->GetTitleButtonFlag()==2) { break; };
 		// 入力関連の毎フレーム処理
 		Input::GetInstance()->Update();
 		// ゲームシーンの毎フレーム処理
