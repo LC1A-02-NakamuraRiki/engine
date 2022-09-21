@@ -130,7 +130,6 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 
 void GameScene::Update()
 {
-	//debugText.Print(20, 20, 2.0f, "END : ESC");
 	if (scene == TITLE)
 	{	
 		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)
@@ -171,16 +170,20 @@ void GameScene::Update()
 		{
 			player->SetViewSpeedPlus();
 		}
-		else if (Input::GetInstance()->KeybordTrigger(DIK_A) && optionButtonNo == 0)
+		else if (Input::GetInstance()->KeybordTrigger(DIK_A) && optionButtonNo == 0&& player->GetViewSpeed() >= 0.05)
 		{
 			player->SetViewSpeedMinus();
 		}
 
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 1 && player->GetShakeFlag())
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 1 && player->GetShakeFlag()||
+			Input::GetInstance()->KeybordTrigger(DIK_A) && optionButtonNo == 1 && player->GetShakeFlag()||
+			Input::GetInstance()->KeybordTrigger(DIK_D) && optionButtonNo == 1 && player->GetShakeFlag())
 		{
 			player->SetShakeFlag(false);
 		}
-		else if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 1 && !player->GetShakeFlag())
+		else if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 1 && !player->GetShakeFlag() ||
+			Input::GetInstance()->KeybordTrigger(DIK_A) && optionButtonNo == 1 && !player->GetShakeFlag() ||
+			Input::GetInstance()->KeybordTrigger(DIK_D) && optionButtonNo == 1 && !player->GetShakeFlag())
 		{
 			player->SetShakeFlag(true);
 		}
@@ -192,12 +195,6 @@ void GameScene::Update()
 	}
 	else if (scene == PLAY)
 	{
-		//debugText.Print(20, 50, 2.0f, "MOVE : W A S D");
-		//debugText.Print(20, 80, 2.0f, "VIEW : MOUSE or ArrowKey ");
-		//debugText.Print(20, 110, 2.0f, "SENSI CHANGE -/+  :  9/0 ");
-		//debugText.Print(20, 140, 2.0f, "NowSENSI :  %f", player->GetViewSpeed());
-		//debugText.Print(20, 140, 2.0f, "NowSENSI :  %f %f", player->GetPos().x, player->GetPos().z);
-
 		//ƒvƒŒƒCƒ„[Œn
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());

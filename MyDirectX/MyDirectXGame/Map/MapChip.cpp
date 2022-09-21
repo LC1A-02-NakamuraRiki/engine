@@ -388,7 +388,7 @@ void MapChip::Update(XMFLOAT3 pos)
 	{
 		if (crystalGetFlag[i] == false)
 		{
-			if (crystalGetFlag[i] = Collision::ChenkSphere2Sphere(playerPos, crystalPos[i], 3.0f, 6.0f))
+			if (crystalGetFlag[i] = Collision::ChenkSphere2Sphere(playerPos, crystalPos[i], 6.5f, 6.0f))
 			{
 				number--;
 			}
