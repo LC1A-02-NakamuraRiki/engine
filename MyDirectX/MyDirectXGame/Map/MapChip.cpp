@@ -12,7 +12,7 @@ void MapChip::Initialize()
 		{
 			objMapWall[y][x] = Object3d::Create(modelMapWall);
 			objMapWall[y][x]->SetScale(XMFLOAT3({ 8, 8, 8 }));
-			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), 0.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
+			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), -2.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
 
 		}
 	}
