@@ -26,7 +26,7 @@ public:
 
 	void InitializeValue();//タイトル時の初期化
 
-	void Update(Player* player,MapChip* mapChip);//アップデート
+	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos);//アップデート
 
 	void Draw();
 
@@ -34,7 +34,7 @@ public:
 
 	void AI(Player* player,MapChip* mapChip);//歩き
 
-	void Move(MapChip* mapChip);//歩き
+	void Move(MapChip* mapChip, XMFLOAT2 mapPos);//歩き
 	
 	bool catchCollision(Player* player);//プレイヤーと敵当たり判定
 

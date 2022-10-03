@@ -90,6 +90,7 @@ public: // メンバ関数
 
 	//座標の設定
 	void SetPosition(XMFLOAT2 position);
+	XMFLOAT2 GetPosition() { return position; };
 
 	//サイズの設定
 	void SetSize(XMFLOAT2 size);

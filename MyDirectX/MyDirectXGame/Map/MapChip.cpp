@@ -183,6 +183,9 @@ void MapChip::InitializeValue()
 	MapCreate();
 	number = 9;
 	stopTime = 0;
+	displayTime = 0;
+	displayFlag = false;
+
 }
 
 void MapChip::MapCreate()
@@ -366,9 +369,28 @@ void MapChip::MapCreate()
 	}
 }
 
-void MapChip::Update(XMFLOAT3 pos)
+void MapChip::MapMove(XMFLOAT2 mapPos)
 {
-	
+	for (int x = 0; x < MapValue; x++)
+	{
+		for (int y = 0; y < MapValue; y++)
+		{
+			spriteMapWall[y][x]->SetPosition({ mapPos.x - 16 + 100 + (16.0f * (MapValue - x)), mapPos.y + 650 + (16.0f * y) });
+		}
+	}
+
+	for (int i = 0; i < 9; i++)
+	{
+		spriteCrystal[i]->SetPosition({ mapPos.x + mapCrystalPos[i].x, mapPos.y + mapCrystalPos[i].y });
+	}
+
+	spriteCrystal[3]->SetPosition({ mapPos.x + mapCrystalPos[3].x, mapPos.y + mapCrystalPos[3].y });
+	spriteCrystal[5]->SetPosition({ mapPos.x + mapCrystalPos[5].x, mapPos.y + mapCrystalPos[5].y });
+}
+
+void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos)
+{
+	MapMove(mapPos);
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
@@ -450,7 +472,8 @@ void MapChip::DrawSprite()
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			if (mapWall[y][x] == 1)
+			if (mapWall[y][x] == 1 && spriteMapWall[y][x]->GetPosition().x < 420 && spriteMapWall[y][x]->GetPosition().x > 100
+				&& spriteMapWall[y][x]->GetPosition().y > 650 && spriteMapWall[y][x]->GetPosition().y < 970)
 			{
 				spriteMapWall[y][x]->Draw();
 			}
@@ -459,7 +482,8 @@ void MapChip::DrawSprite()
 
 	for (int i = 0; i < 9; i++)
 	{
-		if (crystalGetFlag[i] == false)
+		if (crystalGetFlag[i] == false && spriteCrystal[i]->GetPosition().x < 420 && spriteCrystal[i]->GetPosition().x > 100
+			&& spriteCrystal[i]->GetPosition().y > 650 && spriteCrystal[i]->GetPosition().y < 970)
 		{
 			spriteCrystal[i]->Draw();
 		}

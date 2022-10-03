@@ -18,7 +18,8 @@ public:
 	void Initialize();//最初の初期化
 	void InitializeValue();//タイトル時の初期化
 	void MapCreate();
-	void Update(XMFLOAT3 pos);//アップデート
+	void MapMove(XMFLOAT2 mapPos);
+	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos);//アップデート
 	int ArrayValue(float x, float y);//座標からマップチップ配列の算出
 	void Draw();
 	void DrawSprite();

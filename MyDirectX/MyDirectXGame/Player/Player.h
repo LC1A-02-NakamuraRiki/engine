@@ -32,6 +32,7 @@ public:
 	void AngleSearch();//歩く方向の算出
 	
 	XMFLOAT3 GetPos() { return pos; }
+	XMFLOAT2 GetMapPos() { return mapPosValue; }
 	XMFLOAT3 GetTarget() { return target; }
 	float GetAngle() { return angle.y; }
 	float GetViewSpeed() { return mouseViewSpeed; }
@@ -46,6 +47,7 @@ private:
 
 	XMFLOAT3 pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };
+	XMFLOAT2 mapPosValue = { 0,0 };
 	float r = 0.5;//プレイヤーの半径
 	float moveSpeed = 0.4f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ

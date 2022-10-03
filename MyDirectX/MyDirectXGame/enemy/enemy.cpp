@@ -26,11 +26,11 @@ void Enemy::InitializeValue()
 	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 2) };
 }
 
-void Enemy::Update(Player* player,MapChip* mapChip)
+void Enemy::Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos)
 {
 	objEnemy->Update();
 	AI(player,mapChip);
-	Move(mapChip);
+	Move(mapChip,mapPos);
 }
 
 void Enemy::Draw()
@@ -307,7 +307,7 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 	}
 }
 
-void Enemy::Move(MapChip* mapChip)
+void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 {
 	if (mapChip->GetStopFlag() == false)
 	{
@@ -344,8 +344,8 @@ void Enemy::Move(MapChip* mapChip)
 			adjustValueX = 8.0;
 		}
 	}
-	spriteEnemyDot->SetPosition(miniMapPos);
-	spriteEnemyAngle->SetPosition({ miniMapPos.x + 8, miniMapPos.y + 8 });
+	spriteEnemyDot->SetPosition({ miniMapPos.x + mapPos.x , miniMapPos.y + mapPos.y });
+	spriteEnemyAngle->SetPosition({ miniMapPos.x + mapPos.x + 8, miniMapPos.y + mapPos.y + 8 });
 	objEnemy->SetPosition(pos);
 }
 

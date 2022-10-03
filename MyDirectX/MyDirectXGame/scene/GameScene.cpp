@@ -226,9 +226,9 @@ void GameScene::Update()
 		objSkydome->Update();
 		objGround->Update();
 		light->Update();
-		map->Update(player->GetPos());
+		map->Update(player->GetPos(),player->GetMapPos());
 		stopFlag = map->GetStopFlag();
-		enemy->Update(player, map);
+		enemy->Update(player, map,player->GetMapPos());
 		if (enemy->catchCollision(player))
 		{
 			scene = GAMEOVER;
