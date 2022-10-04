@@ -105,6 +105,10 @@ void MapChip::Initialize()
 		assert(0);
 		return;
 	}
+	if (!Sprite::LoadTexture(24, L"Resources/miniMapFrame.png")) {
+		assert(0);
+		return;
+	}
 	spriteNumber[0] = Sprite::Create(8,  {260 - 34, 656 -16 - 96});
 	spriteNumber[1] = Sprite::Create(9,  {260 - 34, 656 -16 - 96});
 	spriteNumber[2] = Sprite::Create(10, {260 - 34, 656 -16 - 96});
@@ -123,6 +127,7 @@ void MapChip::Initialize()
 		}
 	}
 	spriteMapBack = Sprite::Create(5, {-16 + 100,650 -16 - 96});
+	spriteMapFrame = Sprite::Create(24, { -16 + 100,650 - 16 - 96 });
 	
 	for (int i = 0; i < 9; i++)
 	{
@@ -495,6 +500,7 @@ void MapChip::DrawSprite()
 			spriteNumber[i]->Draw();
 		}
 	}
+	spriteMapFrame->Draw();
 }
 
 void MapChip::TimeStop()

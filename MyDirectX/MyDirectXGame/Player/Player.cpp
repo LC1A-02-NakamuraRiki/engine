@@ -21,6 +21,7 @@ void Player::InitializeValue()
 {
 	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 7) };
 	pos = { -8.0f,0.0f,-56.0f };//プレイヤーの位置
+	mapPosValue = {0,0};
 	r = 0.5;//プレイヤーの半径
 	moveSpeed = 0.4f;//歩きの速度
 	viewSpeed = 4.0f;//視点の速さ

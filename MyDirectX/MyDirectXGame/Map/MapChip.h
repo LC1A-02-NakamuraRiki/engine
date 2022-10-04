@@ -278,6 +278,7 @@ private:
 
 	Sprite* spriteMapWall[21][21];
 	Sprite* spriteMapBack = nullptr;
+	Sprite* spriteMapFrame = nullptr;
 
 	Sprite* spriteCrystal[9] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
 	Sprite* spriteNumber[9] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
