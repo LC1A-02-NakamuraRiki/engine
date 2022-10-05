@@ -3,9 +3,10 @@
 
 void Enemy::Initialize()
 {
-	modelEnemy = Model::CreateFromObject("Human", false);
+	modelEnemy = Model::CreateFromObject("obake", false);
 	objEnemy = Object3d::Create(modelEnemy);
 	objEnemy->SetPosition(pos);
+	objEnemy->SetScale({ 1.25,1.25,1.25 });
 
 	if (!Sprite::LoadTexture(4, L"Resources/enemyDot.png")) {
 		assert(0);
@@ -17,7 +18,7 @@ void Enemy::Initialize()
 
 void Enemy::InitializeValue()
 {
-	pos = { -8.0f,3.0f,-136.0f };//プレイヤーの位置
+	pos = { -8.0f,3.5f,-136.0f };//プレイヤーの位置
 	objEnemy->SetPosition(pos);
 	nowMove = DOWN;
 	adjustValueX = 0;
@@ -40,7 +41,8 @@ void Enemy::Draw()
 
 void Enemy::DrawSprite(MapChip* mapChip)
 {
-	if (mapChip->GetDisplayFlag())
+	if (mapChip->GetDisplayFlag() && miniMapPos.x < 420 && miniMapPos.x > 100
+		&& miniMapPos.y > 650 && miniMapPos.y < 970)
 	{
 		spriteEnemyAngle->Draw();
 		spriteEnemyDot->Draw();
@@ -330,7 +332,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == RIGHT)
 		{
 			spriteEnemyAngle->SetRotation(135);
-			objEnemy->SetRotation({ 0, 0, 0 });
+			objEnemy->SetRotation({ 0, 180, 0 });
 			pos.x += 0.4f;
 			miniMapPos.x -= 0.4f;
 			adjustValueX = -8.0f;
@@ -338,7 +340,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == LEFT)
 		{
 			spriteEnemyAngle->SetRotation(-45);
-			objEnemy->SetRotation({ 0, 180, 0 });
+			objEnemy->SetRotation({ 0, 0, 0 });
 			pos.x -= 0.4f;
 			miniMapPos.x += 0.4f;
 			adjustValueX = 8.0;
