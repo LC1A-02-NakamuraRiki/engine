@@ -210,7 +210,7 @@ bool Object3d::Initialize()
 	return true;
 }
 
-void Object3d::Update()
+void Object3d::Update(XMFLOAT3 lightPos)
 {
 	assert(camera);
 
@@ -249,6 +249,7 @@ void Object3d::Update()
 
 	const XMMATRIX &matViewProjection = camera->GetViewProjectionMatrix();
 	const XMFLOAT3 &cameraPos = camera->GetEye();
+	const XMFLOAT3& lightPoss = XMFLOAT3{ -8,0,-40 };
 	// 定数バッファへデータ転送
 	ConstBufferDataB0 *constMap = nullptr;
 	result = constBuffB0->Map(0, nullptr, (void **)&constMap);
@@ -256,6 +257,7 @@ void Object3d::Update()
 	constMap->viewproj = matViewProjection;
 	constMap->world = matWorld;
 	constMap->cameraPos = cameraPos;
+	constMap->lightPos = cameraPos;
 	constBuffB0->Unmap(0, nullptr);
 }
 

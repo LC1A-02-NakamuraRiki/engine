@@ -29,9 +29,9 @@ void Enemy::InitializeValue()
 
 void Enemy::Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos)
 {
-	objEnemy->Update();
+	objEnemy->Update(XMFLOAT3{-8,0,-40});
 	AI(player,mapChip);
-	Move(mapChip,mapPos);
+	//Move(mapChip,mapPos);
 }
 
 void Enemy::Draw()

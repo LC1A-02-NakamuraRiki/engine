@@ -130,6 +130,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 
 void GameScene::Update()
 {
+	debugText.Print(20, 20, 2.0f, "x:%f  z:%f",player->GetPos().x, player->GetPos().z);
 	if (scene == TITLE)
 	{	
 		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)
@@ -223,8 +224,8 @@ void GameScene::Update()
 		player->Update(map);
 		particle3d->Update();
 		camera->Update();
-		objSkydome->Update();
-		objGround->Update();
+		//objSkydome->Update();
+		objGround->Update(XMFLOAT3{ -8,0,-40 });
 		light->Update();
 		map->Update(player->GetPos(),player->GetMapPos());
 		stopFlag = map->GetStopFlag();
