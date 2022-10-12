@@ -225,7 +225,7 @@ void GameScene::Update()
 		particle3d->Update();
 		camera->Update();
 		//objSkydome->Update();
-		objGround->Update(XMFLOAT3{ -8,0,-40 });
+		objGround->Update(XMFLOAT2{ -8,-40 });
 		light->Update();
 		map->Update(player->GetPos(),player->GetMapPos());
 		stopFlag = map->GetStopFlag();

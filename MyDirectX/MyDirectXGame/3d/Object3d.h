@@ -30,7 +30,8 @@ public: // サブクラス
 		XMMATRIX viewproj;
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
-		XMFLOAT3 lightPos;
+		float pad;
+		XMFLOAT2 lightPos;
 	};
 
 	// パイプラインセット
@@ -90,7 +91,7 @@ public:
 	bool Initialize();
 	
 	//毎フレーム処理
-	void Update(XMFLOAT3 lightPos);
+	void Update(XMFLOAT2 lightPos);
 
 	//描画
 	void Draw();
