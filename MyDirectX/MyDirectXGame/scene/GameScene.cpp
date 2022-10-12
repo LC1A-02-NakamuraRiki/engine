@@ -200,6 +200,30 @@ void GameScene::Update()
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());
 
+		/*if (enemy->FlashingLight(player) == false)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				lightColor0[i] = 2.5;
+				lightColor1[i] = 9.0;
+				lightColor2[i] = 9.0;
+				lightColor3[i] = 9.0;
+				lightColor4[i] = 9.0;
+				lightColor5[i] = 2.5;
+			}
+		}
+		else if (enemy->FlashingLight(player))
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				lightColor0[i] = 1.5;
+				lightColor1[i] = 5.0;
+				lightColor2[i] = 5.0;
+				lightColor3[i] = 5.0;
+				lightColor4[i] = 5.0;
+				lightColor5[i] = 1.5;
+			}
+		}*/
 		//ƒ‰ƒCƒg
 		light->SetAmbientColor(XMFLOAT3(ambientColor0));
 
@@ -220,7 +244,7 @@ void GameScene::Update()
 		
 		light->SetDirLightDir(5, XMVECTOR({ lightDir5[0], lightDir5[1], lightDir5[2], 0 }));
 		light->SetDirLightColor(5, XMFLOAT3(lightColor5));
-
+		
 		player->Update(map);
 		particle3d->Update();
 		camera->Update();
@@ -230,7 +254,7 @@ void GameScene::Update()
 		map->Update(player->GetPos(),player->GetMapPos());
 		stopFlag = map->GetStopFlag();
 		enemy->Update(player, map,player->GetMapPos());
-		if (enemy->catchCollision(player))
+		if (enemy->CatchCollision(player))
 		{
 			scene = GAMEOVER;
 		}
@@ -281,8 +305,8 @@ void GameScene::Draw()
 	//-------------------------------------------------------------//
 	if (scene == TITLE || scene == PLAY)
 	{
-		objSkydome->Draw();
-		objGround->Draw();
+		//objSkydome->Draw();
+		//objGround->Draw();
 		map->Draw();
 		enemy->Draw();
 	}

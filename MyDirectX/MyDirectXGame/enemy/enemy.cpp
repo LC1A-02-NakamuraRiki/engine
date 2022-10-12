@@ -351,7 +351,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 	objEnemy->SetPosition(pos);
 }
 
-bool Enemy::catchCollision(Player* player)
+bool Enemy::CatchCollision(Player* player)
 {
 	XMFLOAT3 playerPos = player->GetPos();
 	return Collision::ChenkSphere2Sphere(playerPos, pos, 5.0f, 6.0f);

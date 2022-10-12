@@ -28,39 +28,66 @@ float4 main(VSOutput input) : SV_TARGET
 				// ‹¾–Ê”½ŽËŒõ
 				float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * m_specular;
 
-				float ax = -8 - input.worldpos.x;
-				float ay = 12 - input.worldpos.y;
-				float az = -40 - input.worldpos.z;
-				float axyz = ax * ax + ay * ay + az * az;
-				float xyzDistanse = sqrt(axyz);
-				float scalr = 1.0 - (xyzDistanse / 16);
+				float ax[10][10];
+				float ay[10][10];
+				float az[10][10];
+				float axyz[10][10];
+				float xyzDistanse[10][10];
+				float scalr[10][10];
 
-				float ax2 = -8 - input.worldpos.x;
+				for (int x = 0; x < 9; x++) {
+					for (int z = 0; z < 10; z++) {
+						ax[z][x] = 120 + (-32 * x) - input.worldpos.x;
+						ay[z][x] = 6 - input.worldpos.y;
+						az[z][x] = -152 + (32 * z) - input.worldpos.z;
+						axyz[z][x] = ax[z][x] * ax[z][x] + ay[z][x] * ay[z][x] + az[z][x] * az[z][x];
+						xyzDistanse[z][x] = sqrt(axyz[z][x]);
+						scalr[z][x] = 1.0 - (xyzDistanse[z][x] / 16);
+						// ‘S‚Ä‰ÁŽZ‚·‚é
+						if (scalr[z][x] >= 0)
+						{
+							shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr[z][x];
+						}
+					}
+				}
+
+				for (int x = 0; x < 10; x++) {
+					for (int z = 0; z < 9; z++) {
+						ax[z][x] = 136 + (-32 * x) - input.worldpos.x;
+						ay[z][x] = 6 - input.worldpos.y;
+						az[z][x] = -136 + (32 * z) - input.worldpos.z;
+						axyz[z][x] = ax[z][x] * ax[z][x] + ay[z][x] * ay[z][x] + az[z][x] * az[z][x];
+						xyzDistanse[z][x] = sqrt(axyz[z][x]);
+						scalr[z][x] = 1.0 - (xyzDistanse[z][x] / 16);
+						// ‘S‚Ä‰ÁŽZ‚·‚é
+						if (scalr[z][x] >= 0)
+						{
+							shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr[z][x];
+						}
+					}
+				}
+				/*float ax2 = -8 - input.worldpos.x;
 				float ay2 = 12 - input.worldpos.y;
 				float az2 = -72 - input.worldpos.z;
 				float axyz2 = ax2 * ax2 + ay2 * ay2 + az2 * az2;
 				float xyzDistanse2 = sqrt(axyz2);
 				float scalr2 = 1.0 - (xyzDistanse2 / 16);
 				
-				float ax3 = -40 - input.worldpos.x;
+				float ax3 = -8 - input.worldpos.x+32;
 				float ay3 = 12 - input.worldpos.y;
 				float az3 = -40 - input.worldpos.z;
 				float axyz3 = ax3 * ax3 + ay3 * ay3 + az3 * az3;
 				float xyzDistanse3 = sqrt(axyz3);
 				float scalr3 = 1.0 - (xyzDistanse3 / 16);
 
-				float ax4 = 40 - input.worldpos.x;
+				float ax4 = -8 - input.worldpos.x -32;
 				float ay4 = 12 - input.worldpos.y;
 				float az4 = -40 - input.worldpos.z;
 				float axyz4 = ax4 * ax4 + ay4 * ay4 + az4 * az4;
 				float xyzDistanse4 = sqrt(axyz4);
-				float scalr4 = 1.0 - (xyzDistanse4 / 16);
+				float scalr4 = 1.0 - (xyzDistanse4 / 18);*/
 				// ‘S‚Ä‰ÁŽZ‚·‚é
-				if (scalr >= 0)
-				{
-					shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr;
-				}
-				if (scalr2 >= 0)
+				/*if (scalr2 >= 0)
 				{
 					shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr2;
 				}
@@ -71,7 +98,7 @@ float4 main(VSOutput input) : SV_TARGET
 				if (scalr4 >= 0)
 				{
 					shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr4;
-				}
+				}*/
 			}
 		}
 

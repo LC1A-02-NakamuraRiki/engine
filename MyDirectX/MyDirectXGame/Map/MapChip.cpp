@@ -11,7 +11,7 @@ void MapChip::Initialize()
 		for (int y = 0; y < MapValue; y++)
 		{
 			objMapWall[y][x] = Object3d::Create(modelMapWall);
-			objMapWall[y][x]->SetScale(XMFLOAT3({ 8, 8, 8 }));
+			objMapWall[y][x]->SetScale(XMFLOAT3({ 8.05, 8.05, 8.05 }));
 			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), -2.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
 
 		}
@@ -31,9 +31,21 @@ void MapChip::Initialize()
 		for (int y = 0; y < MapValue; y++)
 		{
 			objCeiling[y][x] = Object3d::Create(modelCeiling);
-			objCeiling[y][x]->SetScale(XMFLOAT3({ 8, 8, 8 }));
+			objCeiling[y][x]->SetScale(XMFLOAT3({ 8.05, 8.05, 8.05 }));
 			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), 2.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
 			
+		}
+	}
+
+	modelFloor = Model::CreateFromObject("floor", false);
+	for (int x = 0; x < MapValue; x++)
+	{
+		for (int y = 0; y < MapValue; y++)
+		{
+			objFloor[y][x] = Object3d::Create(modelFloor);
+			objFloor[y][x]->SetScale(XMFLOAT3({ 8.05, 8.05, 8.05 }));
+			objFloor[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), 0.5f, y * 16.0f - (MapValue * 16.0f / 2) }));
+
 		}
 	}
 
@@ -105,7 +117,7 @@ void MapChip::Initialize()
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(24, L"Resources/miniMapFrame.png")) {
+	if (!Sprite::LoadTexture(26, L"Resources/miniMapFrame.png")) {
 		assert(0);
 		return;
 	}
@@ -127,7 +139,7 @@ void MapChip::Initialize()
 		}
 	}
 	spriteMapBack = Sprite::Create(5, {-16 + 100,650 -16 - 96});
-	spriteMapFrame = Sprite::Create(24, { -16 + 100,650 - 16 - 96 });
+	spriteMapFrame = Sprite::Create(26, { -16 + 100,650 - 16 - 96 });
 	
 	for (int i = 0; i < 9; i++)
 	{
@@ -411,6 +423,13 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos)
 			objCeiling[y][x]->Update(XMFLOAT2{ -8,-40 });
 		}
 	}
+	for (int x = 0; x < MapValue; x++)
+	{
+		for (int y = 0; y < MapValue; y++)
+		{
+			objFloor[y][x]->Update(XMFLOAT2{ -8,-40 });
+		}
+	}
 	XMFLOAT3 playerPos = pos;
 	for (int i = 0; i < 9; i++)
 	{
@@ -459,6 +478,16 @@ void MapChip::Draw()
 			if (mapWall[y][x] != 1)
 			{
 				objCeiling[y][x]->Draw();
+			}
+		}
+	}
+	for (int x = 0; x < MapValue; x++)
+	{
+		for (int y = 0; y < MapValue; y++)
+		{
+			if (mapWall[y][x] != 1)
+			{
+				objFloor[y][x]->Draw();
 			}
 		}
 	}

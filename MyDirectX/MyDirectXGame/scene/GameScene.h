@@ -124,10 +124,10 @@ private: // ÉÅÉìÉoïœêî
 	float lightDir4[3] = {-1,0,0 };
 	float lightDir5[3] = { 0,-1,0 };
 	
-	float lightColor0[3] = { 2.5,2.5,2.5 };
-	float lightColor1[3] = { 9.0,9.0,9.0 };
-	float lightColor2[3] = { 9.0,9.0,9.0 };
-	float lightColor3[3] = { 9.0,9.0,9.0 };
-	float lightColor4[3] = { 9.0,9.0,9.0 };
-	float lightColor5[3] = { 2.5,2.5,2.5 };
+	float lightColor0[3] = { 10.0,10.0,10.0 };
+	float lightColor1[3] = { 10.0,10.0,10.0 };
+	float lightColor2[3] = { 10.0,10.0,10.0 };
+	float lightColor3[3] = { 10.0,10.0,10.0 };
+	float lightColor4[3] = { 10.0,10.0,10.0 };
+	float lightColor5[3] = { 10.0,10.0,10.0 };
 };

@@ -36,7 +36,7 @@ public:
 
 	void Move(MapChip* mapChip, XMFLOAT2 mapPos);//歩き
 	
-	bool catchCollision(Player* player);//プレイヤーと敵当たり判定
+	bool CatchCollision(Player* player);//プレイヤーと敵当たり判定
 
 	XMFLOAT3 GetPos() { return pos; };
 private:
