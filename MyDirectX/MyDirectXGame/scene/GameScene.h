@@ -111,7 +111,7 @@ private: // ƒƒ“ƒo•Ï”
 
 	bool stopFlag;
 
-	float ambientColor0[3] = { 0.15,0.15,0.15 };
+	float ambientColor0[3] = { 0.3,0.3,0.3 };
 
 	int buttonNo = 0;
 	int optionButtonNo = 0;

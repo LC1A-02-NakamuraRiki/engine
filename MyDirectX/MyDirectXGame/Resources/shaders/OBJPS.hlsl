@@ -66,39 +66,6 @@ float4 main(VSOutput input) : SV_TARGET
 						}
 					}
 				}
-				/*float ax2 = -8 - input.worldpos.x;
-				float ay2 = 12 - input.worldpos.y;
-				float az2 = -72 - input.worldpos.z;
-				float axyz2 = ax2 * ax2 + ay2 * ay2 + az2 * az2;
-				float xyzDistanse2 = sqrt(axyz2);
-				float scalr2 = 1.0 - (xyzDistanse2 / 16);
-				
-				float ax3 = -8 - input.worldpos.x+32;
-				float ay3 = 12 - input.worldpos.y;
-				float az3 = -40 - input.worldpos.z;
-				float axyz3 = ax3 * ax3 + ay3 * ay3 + az3 * az3;
-				float xyzDistanse3 = sqrt(axyz3);
-				float scalr3 = 1.0 - (xyzDistanse3 / 16);
-
-				float ax4 = -8 - input.worldpos.x -32;
-				float ay4 = 12 - input.worldpos.y;
-				float az4 = -40 - input.worldpos.z;
-				float axyz4 = ax4 * ax4 + ay4 * ay4 + az4 * az4;
-				float xyzDistanse4 = sqrt(axyz4);
-				float scalr4 = 1.0 - (xyzDistanse4 / 18);*/
-				// ‘S‚Ä‰ÁŽZ‚·‚é
-				/*if (scalr2 >= 0)
-				{
-					shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr2;
-				}
-				if (scalr3 >= 0)
-				{
-					shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr3;
-				}
-				if (scalr4 >= 0)
-				{
-					shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr4;
-				}*/
 			}
 		}
 
