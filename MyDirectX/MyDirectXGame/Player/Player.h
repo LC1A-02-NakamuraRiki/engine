@@ -49,9 +49,9 @@ private:
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };
 	XMFLOAT2 mapPosValue = { 0,0 };
 	float r = 0.5;//プレイヤーの半径
-	float moveSpeed = 0.4f;//歩きの速度
+	float moveSpeed = 0.2f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ
-	float mouseViewSpeed = 0.5f;//視点の速さ
+	float mouseViewSpeed = 0.2f;//視点の速さ
 	XMFLOAT3 target = { 0,0.0f,0 };//注視点
 	float targetY = 0;//揺れの調整
 	XMFLOAT3 angle = { 0,0,0 };//歩く方向

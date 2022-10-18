@@ -11,8 +11,8 @@ void MapChip::Initialize()
 		for (int y = 0; y < MapValue; y++)
 		{
 			objMapWall[y][x] = Object3d::Create(modelMapWall);
-			objMapWall[y][x]->SetScale(XMFLOAT3({ 8.05, 8.05, 8.05 }));
-			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), -2.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
+			objMapWall[y][x]->SetScale(XMFLOAT3({ 4.05, 4.05, 4.05 }));
+			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), -2.0f, y * wallSize - (MapValue * wallSize / 2) }));
 
 		}
 	}
@@ -31,8 +31,8 @@ void MapChip::Initialize()
 		for (int y = 0; y < MapValue; y++)
 		{
 			objCeiling[y][x] = Object3d::Create(modelCeiling);
-			objCeiling[y][x]->SetScale(XMFLOAT3({ 8.05, 8.05, 8.05 }));
-			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), 2.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
+			objCeiling[y][x]->SetScale(XMFLOAT3({ 4.05, 4.05, 4.05 }));
+			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 2.0f, y * wallSize - (MapValue * wallSize / 2) }));
 			
 		}
 	}
@@ -43,8 +43,8 @@ void MapChip::Initialize()
 		for (int y = 0; y < MapValue; y++)
 		{
 			objFloor[y][x] = Object3d::Create(modelFloor);
-			objFloor[y][x]->SetScale(XMFLOAT3({ 8.05, 8.05, 8.05 }));
-			objFloor[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), 0.5f, y * 16.0f - (MapValue * 16.0f / 2) }));
+			objFloor[y][x]->SetScale(XMFLOAT3({ 4.05, 4.05, 4.05 }));
+			objFloor[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 0.5f, y * wallSize - (MapValue * wallSize / 2) }));
 
 		}
 	}
@@ -177,8 +177,8 @@ void MapChip::InitializeValue()
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			objMapWall[y][x]->SetScale(XMFLOAT3({ 8, 4, 8 }));
-			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * 16.0f - (MapValue * 16.0f / 2), 0.0f, y * 16.0f - (MapValue * 16.0f / 2) }));
+			objMapWall[y][x]->SetScale(XMFLOAT3({ 4, 4, 4 }));
+			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 0.0f, y * wallSize - (MapValue * wallSize / 2) }));
 		}
 	}
 	for (int i = 0; i < 9; i++)
@@ -393,7 +393,7 @@ void MapChip::MapMove(XMFLOAT2 mapPos)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			spriteMapWall[y][x]->SetPosition({ mapPos.x - 16 + 100 + (16.0f * (MapValue - x)), mapPos.y + 650 + (16.0f * y) });
+			spriteMapWall[y][x]->SetPosition({ mapPos.x - 16 + 100 + (16 * (MapValue - x)), mapPos.y + 650 + (16 * y) });
 		}
 	}
 
@@ -453,8 +453,8 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos)
 
 int MapChip::ArrayValue(float x, float y)
 {
-	int mapY = (y / 16) + ((MapValue+1) / 2);
-	int mapX = (x / 16) + ((MapValue+1) / 2);
+	int mapY = (y / wallSize) + ((MapValue+1) / 2);
+	int mapX = (x / wallSize) + ((MapValue+1) / 2);
 	
 	return mapWall[mapY][mapX];
 }

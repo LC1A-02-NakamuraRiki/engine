@@ -43,7 +43,7 @@ private:
 	Sprite* spriteEnemyDot = nullptr;
 	Sprite* spriteEnemyAngle = nullptr;
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 14) };
-
+	float wallSize = 8;
 	Model* modelEnemy = nullptr;
 	Object3d* objEnemy;
 	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//プレイヤーの位置

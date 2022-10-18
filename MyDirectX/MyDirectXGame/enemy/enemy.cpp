@@ -6,7 +6,7 @@ void Enemy::Initialize()
 	modelEnemy = Model::CreateFromObject("obake", false);
 	objEnemy = Object3d::Create(modelEnemy);
 	objEnemy->SetPosition(pos);
-	objEnemy->SetScale({ 1.25,1.25,1.25 });
+	objEnemy->SetScale({ 0.75,0.75,0.75 });
 
 	if (!Sprite::LoadTexture(4, L"Resources/enemyDot.png")) {
 		assert(0);
@@ -18,7 +18,7 @@ void Enemy::Initialize()
 
 void Enemy::InitializeValue()
 {
-	pos = { -8.0f,3.5f,-136.0f };//プレイヤーの位置
+	pos = { -4.0f,3.5f,-68.0f };//プレイヤーの位置
 	objEnemy->SetPosition(pos);
 	nowMove = DOWN;
 	adjustValueX = 0;
@@ -31,7 +31,7 @@ void Enemy::Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos)
 {
 	objEnemy->Update(XMFLOAT2{ -8,-40 });
 	AI(player,mapChip);
-	//Move(mapChip,mapPos);
+	Move(mapChip,mapPos);
 }
 
 void Enemy::Draw()
@@ -47,6 +47,7 @@ void Enemy::DrawSprite(MapChip* mapChip)
 		spriteEnemyAngle->Draw();
 		spriteEnemyDot->Draw();
 	}
+	spriteEnemyDot->Draw();
 }
 
 void Enemy::AI(Player* player,MapChip* mapChip)
@@ -67,7 +68,7 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 	if (adjustmentFlag)
 	{
 		adjustmentTime++;
-		if (adjustmentTime > 40)
+		if (adjustmentTime > 20)
 		{
 			adjustmentTime = 0;
 			adjustmentFlag = false;
@@ -317,33 +318,33 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		{
 			spriteEnemyAngle->SetRotation(45);
 			objEnemy->SetRotation({0, 90, 0});
-			pos.z += 0.4f;
-			miniMapPos.y += 0.4f;
-			adjustValueZ = -8.0f;
+			pos.z += 0.25f;
+			miniMapPos.y += 0.5f;
+			adjustValueZ = -4.0f;
 		}
 		else if (nowMove == UP)
 		{
 			spriteEnemyAngle->SetRotation(-135);
 			objEnemy->SetRotation({ 0, 270, 0 });
-			pos.z -= 0.4f;
-			miniMapPos.y -= 0.4f;
-			adjustValueZ = 8.0f;
+			pos.z -= 0.25f;
+			miniMapPos.y -= 0.5f;
+			adjustValueZ = 4.0f;
 		}
 		else if (nowMove == RIGHT)
 		{
 			spriteEnemyAngle->SetRotation(135);
 			objEnemy->SetRotation({ 0, 180, 0 });
-			pos.x += 0.4f;
-			miniMapPos.x -= 0.4f;
-			adjustValueX = -8.0f;
+			pos.x += 0.25f;
+			miniMapPos.x -= 0.5f;
+			adjustValueX = -4.0f;
 		}
 		else if (nowMove == LEFT)
 		{
 			spriteEnemyAngle->SetRotation(-45);
 			objEnemy->SetRotation({ 0, 0, 0 });
-			pos.x -= 0.4f;
-			miniMapPos.x += 0.4f;
-			adjustValueX = 8.0;
+			pos.x -= 0.25f;
+			miniMapPos.x += 0.5f;
+			adjustValueX = 4.0;
 		}
 	}
 	spriteEnemyDot->SetPosition({ miniMapPos.x + mapPos.x , miniMapPos.y + mapPos.y });

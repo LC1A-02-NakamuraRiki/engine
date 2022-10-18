@@ -35,30 +35,14 @@ float4 main(VSOutput input) : SV_TARGET
 				float xyzDistanse[10][10];
 				float scalr[10][10];
 
-				for (int x = 0; x < 9; x++) {
-					for (int z = 0; z < 10; z++) {
-						ax[z][x] = 120 + (-32 * x) - input.worldpos.x;
+				for (int x = 0; x < 7; x++) {
+					for (int z = 0; z < 7; z++) {
+						ax[z][x] = 68 + (-24 * x) - input.worldpos.x;
 						ay[z][x] = 6 - input.worldpos.y;
-						az[z][x] = -152 + (32 * z) - input.worldpos.z;
+						az[z][x] = -76 + (24 * z) - input.worldpos.z;
 						axyz[z][x] = ax[z][x] * ax[z][x] + ay[z][x] * ay[z][x] + az[z][x] * az[z][x];
 						xyzDistanse[z][x] = sqrt(axyz[z][x]);
-						scalr[z][x] = 1.0 - (xyzDistanse[z][x] / 16);
-						// ‘S‚Ä‰ÁŽZ‚·‚é
-						if (scalr[z][x] >= 0)
-						{
-							shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr[z][x];
-						}
-					}
-				}
-
-				for (int x = 0; x < 10; x++) {
-					for (int z = 0; z < 9; z++) {
-						ax[z][x] = 136 + (-32 * x) - input.worldpos.x;
-						ay[z][x] = 6 - input.worldpos.y;
-						az[z][x] = -136 + (32 * z) - input.worldpos.z;
-						axyz[z][x] = ax[z][x] * ax[z][x] + ay[z][x] * ay[z][x] + az[z][x] * az[z][x];
-						xyzDistanse[z][x] = sqrt(axyz[z][x]);
-						scalr[z][x] = 1.0 - (xyzDistanse[z][x] / 16);
+						scalr[z][x] = 1.0 - (xyzDistanse[z][x] / 8);
 						// ‘S‚Ä‰ÁŽZ‚·‚é
 						if (scalr[z][x] >= 0)
 						{
