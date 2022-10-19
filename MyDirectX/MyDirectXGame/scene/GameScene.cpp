@@ -249,9 +249,9 @@ void GameScene::Update()
 		particle3d->Update();
 		camera->Update();
 		//objSkydome->Update();
-		objGround->Update(XMFLOAT2{ -8,-40 });
+		//objGround->Update(XMFLOAT2{ -8,-40 });
 		light->Update();
-		map->Update(player->GetPos(),player->GetMapPos());
+		map->Update(player->GetPos(),player->GetMapPos(),enemy->GetPos());
 		stopFlag = map->GetStopFlag();
 		enemy->Update(player, map,player->GetMapPos());
 		if (enemy->CatchCollision(player))

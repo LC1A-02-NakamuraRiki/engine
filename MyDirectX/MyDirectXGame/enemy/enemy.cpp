@@ -18,7 +18,7 @@ void Enemy::Initialize()
 
 void Enemy::InitializeValue()
 {
-	pos = { -4.0f,3.5f,-68.0f };//プレイヤーの位置
+	pos = { -4.0f,3.0f,-68.0f };//プレイヤーの位置
 	objEnemy->SetPosition(pos);
 	nowMove = DOWN;
 	adjustValueX = 0;
@@ -29,7 +29,7 @@ void Enemy::InitializeValue()
 
 void Enemy::Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos)
 {
-	objEnemy->Update(XMFLOAT2{ -8,-40 });
+	objEnemy->Update(pos);
 	AI(player,mapChip);
 	Move(mapChip,mapPos);
 }

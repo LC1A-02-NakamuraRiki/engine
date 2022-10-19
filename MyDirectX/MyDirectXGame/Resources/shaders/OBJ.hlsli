@@ -3,7 +3,8 @@ cbuffer cbuff0 : register(b0)
 	matrix viewproj;
 	matrix world;
 	float3 cameraPos;
-	float2 lightPos;
+	float3 shadowPos;
+	bool lightFlag[7][7];
 };
 
 cbuffer cbuff1 : register(b1)

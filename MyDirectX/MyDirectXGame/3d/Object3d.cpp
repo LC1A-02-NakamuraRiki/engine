@@ -210,7 +210,7 @@ bool Object3d::Initialize()
 	return true;
 }
 
-void Object3d::Update(XMFLOAT2 lightPos)
+void Object3d::Update(XMFLOAT3 shadowPos)
 {
 	assert(camera);
 
@@ -257,7 +257,7 @@ void Object3d::Update(XMFLOAT2 lightPos)
 	constMap->viewproj = matViewProjection;
 	constMap->world = matWorld;
 	constMap->cameraPos = cameraPos;
-	constMap->lightPos = lightPos;
+	constMap->shadowPos = shadowPos;
 	constBuffB0->Unmap(0, nullptr);
 }
 

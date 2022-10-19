@@ -406,28 +406,28 @@ void MapChip::MapMove(XMFLOAT2 mapPos)
 	spriteCrystal[5]->SetPosition({ mapPos.x + mapCrystalPos[5].x, mapPos.y + mapCrystalPos[5].y });
 }
 
-void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos)
+void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos)
 {
 	MapMove(mapPos);
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			objMapWall[y][x]->Update(XMFLOAT2{ -8,-40 });
+			objMapWall[y][x]->Update(enemyPos);
 		}
 	}
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			objCeiling[y][x]->Update(XMFLOAT2{ -8,-40 });
+			objCeiling[y][x]->Update(enemyPos);
 		}
 	}
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			objFloor[y][x]->Update(XMFLOAT2{ -8,-40 });
+			objFloor[y][x]->Update(enemyPos);
 		}
 	}
 	XMFLOAT3 playerPos = pos;
@@ -440,7 +440,7 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos)
 				number--;
 			}
 		}
-		objCrystal[i]->Update(XMFLOAT2{ -8,-40 });
+		objCrystal[i]->Update(enemyPos);
 	}
 	if (crystalGetFlag[0] && crystalGetFlag[1] && crystalGetFlag[2] && crystalGetFlag[3] && crystalGetFlag[4] &&
 		crystalGetFlag[5] && crystalGetFlag[6] && crystalGetFlag[7] && crystalGetFlag[8])
