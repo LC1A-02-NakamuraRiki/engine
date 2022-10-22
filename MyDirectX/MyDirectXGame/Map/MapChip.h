@@ -40,15 +40,15 @@ private:
 	Model* modelItemCrystal = nullptr;
 	Object3d* objCrystal[9];
 	float wallSize = 8;
-	XMFLOAT3 crystalPos[9] = {XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2), 0.0f, 1 * wallSize - (21 * wallSize / 2)   }),
-							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 0.0f, 1 * wallSize - (21 * wallSize / 2)   }),
-							  XMFLOAT3({ 19 * wallSize - (21 * wallSize / 2), 0.0f, 1 * wallSize - (21 * wallSize / 2)  }),
-							  XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2), 0.0f, 10 * wallSize - (21 * wallSize / 2)   }),
-							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 0.0f, 16 * wallSize - (21 * wallSize / 2)   }),
-							  XMFLOAT3({ 19 * wallSize - (21 * wallSize / 2), 0.0f, 10 * wallSize - (21 * wallSize / 2)  }),
-							  XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2), 0.0f, 19 * wallSize - (21 * wallSize / 2)  }),
-							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 0.0f, 19 * wallSize - (21 * wallSize / 2)  }),
-							  XMFLOAT3({ 19 * wallSize - (21 *  wallSize / 2), 0.0f, 19 * wallSize - (21 *  wallSize / 2) }),
+	XMFLOAT3 crystalPos[9] = {XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
+							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
+							  XMFLOAT3({ 19 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)  }),
+							  XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 10 * wallSize - (21 * wallSize / 2)   }),
+							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 16 * wallSize - (21 * wallSize / 2)   }),
+							  XMFLOAT3({ 19 * wallSize - (21 * wallSize / 2), 1.0f, 10 * wallSize - (21 * wallSize / 2)  }),
+							  XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 19 * wallSize - (21 * wallSize / 2)  }),
+							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 19 * wallSize - (21 * wallSize / 2)  }),
+							  XMFLOAT3({ 19 * wallSize - (21 *  wallSize / 2),1.0f, 19 * wallSize - (21 *  wallSize / 2) }),
 	};
 	;
 	XMFLOAT2 mapCrystalPos[9] = { {100 + (16.0f * 19),650 + (16.0f * 1)},

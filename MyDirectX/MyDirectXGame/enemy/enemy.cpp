@@ -31,7 +31,7 @@ void Enemy::Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos)
 {
 	objEnemy->Update(pos);
 	AI(player,mapChip);
-	Move(mapChip,mapPos);
+	//Move(mapChip,mapPos);
 }
 
 void Enemy::Draw()

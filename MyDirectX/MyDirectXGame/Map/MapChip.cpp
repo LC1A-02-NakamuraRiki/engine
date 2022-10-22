@@ -183,7 +183,7 @@ void MapChip::InitializeValue()
 	}
 	for (int i = 0; i < 9; i++)
 	{
-		objCrystal[i]->SetScale(XMFLOAT3({ 0.75f, 0.75f, 0.75f }));
+		objCrystal[i]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
 		crystalGetFlag[i] = false;
 	}
 	objCrystal[0]->SetPosition(crystalPos[0]);
@@ -435,6 +435,9 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos)
 	{
 		if (crystalGetFlag[i] == false)
 		{
+			XMFLOAT3 crystalAngle = objCrystal[i]->GetRotation();
+			crystalAngle.y++;
+			objCrystal[i]->SetRotation(crystalAngle);
 			if (crystalGetFlag[i] = Collision::ChenkSphere2Sphere(playerPos, crystalPos[i], 6.5f, 6.0f))
 			{
 				number--;

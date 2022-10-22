@@ -111,7 +111,7 @@ private: // ƒƒ“ƒo•Ï”
 
 	bool stopFlag;
 
-	float ambientColor0[3] = { 0.6,0.6,0.6 };
+	float ambientColor0[3] = { 0.35,0.35,0.35 };
 
 	int buttonNo = 0;
 	int optionButtonNo = 0;
@@ -125,9 +125,9 @@ private: // ƒƒ“ƒo•Ï”
 	float lightDir5[3] = { 0,-1,0 };
 	
 	float lightColor0[3] = { 8.0,8.0,8.0 };
-	float lightColor1[3] = { 8.0,8.0,8.0 };
-	float lightColor2[3] = { 8.0,8.0,8.0 };
-	float lightColor3[3] = { 8.0,8.0,8.0 };
-	float lightColor4[3] = { 8.0,8.0,8.0 };
+	float lightColor1[3] = { 6.0,6.0,6.0 };
+	float lightColor2[3] = { 6.0,6.0,6.0 };
+	float lightColor3[3] = { 6.0,6.0,6.0 };
+	float lightColor4[3] = { 6.0,6.0,6.0 };
 	float lightColor5[3] = { 8.0,8.0,8.0 };
 };

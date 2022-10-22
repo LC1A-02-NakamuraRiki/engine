@@ -35,6 +35,18 @@ float4 main(VSOutput input) : SV_TARGET
 				float xyzDistanse[7][7];
 				float scalr[7][7];
 
+				float bx = shadowPos.x - input.worldpos.x;
+				float by = -0 - input.worldpos.y;
+				float bz = shadowPos.z - input.worldpos.z;
+				float bxyz = bx * bx + by * by + bz * bz;
+				float bxyzDistanse = sqrt(bxyz);
+				float bscalr = 1.0 - (bxyzDistanse / 1.6);
+				float3 darkColor = float3(0.7, 0.7, 0.7);
+				// ‘S‚Ä‰ÁŽZ‚·‚é
+				if (bscalr >= 0) {
+					shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor * bscalr);
+				}
+
 				for (int x = 0; x < 7; x++) {
 					for (int z = 0; z < 7; z++) {
 							ax[z][x] = 68 + (-24 * x) - input.worldpos.x;
@@ -49,17 +61,6 @@ float4 main(VSOutput input) : SV_TARGET
 							}
 						
 					}
-				}
-				float bx = shadowPos.x - input.worldpos.x;
-				float by = -0 - input.worldpos.y;
-				float bz = shadowPos.z - input.worldpos.z;
-				float bxyz = bx * bx + by * by + bz * bz;
-				float bxyzDistanse = sqrt(bxyz);
-				float bscalr = 1.0 - (bxyzDistanse / 1.6);
-				float3 darkColor = float3(0.7, 0.7, 0.7);
-				// ‘S‚Ä‰ÁŽZ‚·‚é
-				if (bscalr >= 0){
-					shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor * bscalr);
 				}
 			}
 		}
