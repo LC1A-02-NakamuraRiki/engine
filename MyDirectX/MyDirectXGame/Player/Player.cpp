@@ -20,7 +20,7 @@ void Player::Initialize()
 void Player::InitializeValue()
 {
 	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 7) };
-	pos = { -4.0f,0.0f,-28.0f };//プレイヤーの位置
+	pos = { -4.0f,0.0f,-4.0f };//プレイヤーの位置
 	mapPosValue = {0,0};
 	r = 0.5;//プレイヤーの半径
 	moveSpeed = 0.25f;//歩きの速度
@@ -35,12 +35,19 @@ void Player::InitializeValue()
 	angleY = 0; //カメラY軸
 }
 
-void Player::Update(MapChip *mapChip)
+void Player::Update(MapChip *mapChip,bool tutrialFlag)
 {
 	AngleSearch();//プレイヤーの向きの算出
-	Move(mapChip);//移動
+	if (tutrialFlag == false)
+	{
+		Move(mapChip);//移動
+	}
 	WalkShaking();//歩きの揺れ
-	View();//視点制御
+	View(tutrialFlag);//視点制御
+
+	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 634 + (16.0f * 11) });
+	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 634 + (16.0f * 11) + 8 });
+	spritePlayerAngle->SetRotation(angle.y + 135);
 }
 
 void Player::Draw()
@@ -237,9 +244,6 @@ void Player::Move(MapChip *mapChip)
 		}
 		isWalkShaking = true;
 	}
-	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 634 + (16.0f * 8) });
-	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 634 + (16.0f * 8) +8});
-	spritePlayerAngle->SetRotation(angle.y + 135);
 }
 
 void Player::WalkShaking()
@@ -273,7 +277,7 @@ void Player::WalkShaking()
 	}
 }
 
-void Player::View()
+void Player::View(bool tutrialFlag)
 {
 	XMVECTOR v0 = { 0,0,-10, 0 };
 	//angleラジアンだけy軸まわりに回転。半径は-100
@@ -286,42 +290,45 @@ void Player::View()
 	XMFLOAT3 f = { v3.m128_f32[0], v3.m128_f32[1], v3.m128_f32[2] };
 	pos = { cameraPos.m128_f32[0], cameraPos.m128_f32[1], cameraPos.m128_f32[2] };
 	target = f;
+	if (tutrialFlag == false)
+	{
+		if (Input::GetInstance()->KeybordTrigger(DIK_9))
+		{
+			mouseViewSpeed -= 0.01;
+		}
+		if (Input::GetInstance()->KeybordTrigger(DIK_0))
+		{
+			mouseViewSpeed += 0.01;
+		}
 
-	if (Input::GetInstance()->KeybordTrigger(DIK_9))
-	{
-		mouseViewSpeed -= 0.01;
-	}
-	if (Input::GetInstance()->KeybordTrigger(DIK_0))
-	{
-		mouseViewSpeed += 0.01;
-	}
+		if (angleX >= 85)
+		{
+			angleX = 85;
+		}
+		else if (Input::GetInstance()->KeybordPush(DIK_UP))
+		{
+			angleX += viewSpeed;
+		}
+		if (angleX <= -85)
+		{
+			angleX = -85;
+		}
+		else if (Input::GetInstance()->KeybordPush(DIK_DOWN))
+		{
+			angleX -= viewSpeed;
+		}
+		if (Input::GetInstance()->KeybordPush(DIK_LEFT))
+		{
+			angleY -= viewSpeed;
+		}
+		if (Input::GetInstance()->KeybordPush(DIK_RIGHT))
+		{
+			angleY += viewSpeed;
+		}
 
-	if (angleX >= 85)
-	{
-		angleX = 85;
+		angleY += Input::GetInstance()->GetMouseMove().lX * mouseViewSpeed;
+		angleX -= Input::GetInstance()->GetMouseMove().lY * mouseViewSpeed;
 	}
-	else if (Input::GetInstance()->KeybordPush(DIK_UP))
-	{
-		angleX += viewSpeed;
-	}
-	if (angleX <= -85)
-	{
-		angleX = -85;
-	}
-	else if (Input::GetInstance()->KeybordPush(DIK_DOWN))
-	{
-		angleX -= viewSpeed;
-	}
-	if (Input::GetInstance()->KeybordPush(DIK_LEFT))
-	{
-		angleY -= viewSpeed;
-	}
-	if (Input::GetInstance()->KeybordPush(DIK_RIGHT))
-	{
-		angleY += viewSpeed;
-	}
-	angleY += Input::GetInstance()->GetMouseMove().lX * mouseViewSpeed;
-	angleX -= Input::GetInstance()->GetMouseMove().lY * mouseViewSpeed;
 }
 
 void Player::AngleSearch()

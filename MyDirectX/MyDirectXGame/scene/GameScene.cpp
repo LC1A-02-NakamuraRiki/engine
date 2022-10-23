@@ -23,6 +23,7 @@ GameScene::~GameScene()
 	safe_delete(spriteOption3);
 	safe_delete(spriteClear);
 	safe_delete(spriteGAMEOVER);
+	safe_delete(spriteRule);
 	safe_delete(particle3d);
 	safe_delete(objSkydome);
 	safe_delete(modelSkydome);
@@ -91,6 +92,10 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		assert(0);
 		return;
 	}
+	if (!Sprite::LoadTexture(30, L"Resources/tutrial.png")) {
+		assert(0);
+		return;
+	}
 	//// 背景スプライト生成
 	spriteTitle = Sprite::Create(18, { 0.0f,0.0f });
 	spriteTitle2 = Sprite::Create(21, { 0.0f,0.0f });
@@ -100,6 +105,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	spriteOption3 = Sprite::Create(25, { 0.0f,0.0f });
 	spriteClear = Sprite::Create(19, { 0.0f,0.0f });
 	spriteGAMEOVER = Sprite::Create(20, { 0.0f,0.0f });
+	spriteRule = Sprite::Create(30, { 0.0f,0.0f });
 
 	// 3Dオブジェクト生成
 	modelSkydome = Model::CreateFromObject("skydome", false);
@@ -130,7 +136,6 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 
 void GameScene::Update()
 {
-	debugText.Print(20, 20, 2.0f, "x:%f  z:%f",player->GetPos().x, player->GetPos().z);
 	if (scene == TITLE)
 	{	
 		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)
@@ -196,34 +201,14 @@ void GameScene::Update()
 	}
 	else if (scene == PLAY)
 	{
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true)
+		{
+			tutrialFlag = false;
+		}
 		//プレイヤー系
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());
 
-		/*if (enemy->FlashingLight(player) == false)
-		{
-			for (int i = 0; i < 3; i++)
-			{
-				lightColor0[i] = 2.5;
-				lightColor1[i] = 9.0;
-				lightColor2[i] = 9.0;
-				lightColor3[i] = 9.0;
-				lightColor4[i] = 9.0;
-				lightColor5[i] = 2.5;
-			}
-		}
-		else if (enemy->FlashingLight(player))
-		{
-			for (int i = 0; i < 3; i++)
-			{
-				lightColor0[i] = 1.5;
-				lightColor1[i] = 5.0;
-				lightColor2[i] = 5.0;
-				lightColor3[i] = 5.0;
-				lightColor4[i] = 5.0;
-				lightColor5[i] = 1.5;
-			}
-		}*/
 		//ライト
 		light->SetAmbientColor(XMFLOAT3(ambientColor0));
 
@@ -244,8 +229,7 @@ void GameScene::Update()
 		
 		light->SetDirLightDir(5, XMVECTOR({ lightDir5[0], lightDir5[1], lightDir5[2], 0 }));
 		light->SetDirLightColor(5, XMFLOAT3(lightColor5));
-		
-		player->Update(map);
+		player->Update(map,tutrialFlag);
 		particle3d->Update();
 		camera->Update();
 		//objSkydome->Update();
@@ -374,6 +358,9 @@ void GameScene::Draw()
 		map->DrawSprite();
 		player->DrawSprite();
 		enemy->DrawSprite(map);
+		if (tutrialFlag == true) {
+			spriteRule->Draw();
+		}
 	}
 
 	//-------------------------------------------------------------//

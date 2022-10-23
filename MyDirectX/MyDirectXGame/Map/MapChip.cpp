@@ -51,7 +51,7 @@ void MapChip::Initialize()
 
 	modelCrystal = Model::CreateFromObject("crystal", false);
 	modelItemCrystal = Model::CreateFromObject("itemCrystal", false);
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		objCrystal[i] = Object3d::Create(modelCrystal);
 		objCrystal[i]->SetScale(XMFLOAT3({ 0.75f, 0.75f, 0.75f }));
@@ -69,6 +69,8 @@ void MapChip::Initialize()
 	objCrystal[6]->SetPosition(crystalPos[6]);
 	objCrystal[7]->SetPosition(crystalPos[7]);
 	objCrystal[8]->SetPosition(crystalPos[8]);
+	objCrystal[9]->SetPosition(crystalPos[9]);
+	objCrystal[10]->SetPosition(crystalPos[10]);
 	
 	allGetFlag = false;
 	if (!Sprite::LoadTexture(2, L"Resources/mapWall.png")) {
@@ -113,6 +115,10 @@ void MapChip::Initialize()
 		assert(0);
 		return;
 	}
+	if (!Sprite::LoadTexture(29, L"Resources/number/0.png")) {
+		assert(0);
+		return;
+	}
 	if (!Sprite::LoadTexture(17, L"Resources/crystal2.png")) {
 		assert(0);
 		return;
@@ -121,15 +127,27 @@ void MapChip::Initialize()
 		assert(0);
 		return;
 	}
-	spriteNumber[0] = Sprite::Create(8,  {260 - 34, 656 -16 - 96});
-	spriteNumber[1] = Sprite::Create(9,  {260 - 34, 656 -16 - 96});
-	spriteNumber[2] = Sprite::Create(10, {260 - 34, 656 -16 - 96});
-	spriteNumber[3] = Sprite::Create(11, {260 - 34, 656 -16 - 96});
-	spriteNumber[4] = Sprite::Create(12, {260 - 34, 656 -16 - 96});
-	spriteNumber[5] = Sprite::Create(13, {260 - 34, 656 -16 - 96});
-	spriteNumber[6] = Sprite::Create(14, {260 - 34, 656 -16 - 96});
-	spriteNumber[7] = Sprite::Create(15, {260 - 34, 656 -16 - 96});
-	spriteNumber[8] = Sprite::Create(16, {260 - 34, 656 -16 - 96});
+	spriteNumberNum1[0] = Sprite::Create(8,  {260 - 10, 656 -16 - 96});
+	spriteNumberNum1[1] = Sprite::Create(9,  {260 - 10, 656 -16 - 96});
+	spriteNumberNum1[2] = Sprite::Create(10, {260 - 10, 656 -16 - 96});
+	spriteNumberNum1[3] = Sprite::Create(11, {260 - 10, 656 -16 - 96});
+	spriteNumberNum1[4] = Sprite::Create(12, {260 - 10, 656 -16 - 96});
+	spriteNumberNum1[5] = Sprite::Create(13, {260 - 10, 656 -16 - 96});
+	spriteNumberNum1[6] = Sprite::Create(14, {260 - 10, 656 -16 - 96});
+	spriteNumberNum1[7] = Sprite::Create(15, {260 - 10, 656 -16 - 96});
+	spriteNumberNum1[8] = Sprite::Create(16, {260 - 10, 656 -16 - 96});
+	spriteNumberNum1[9] = Sprite::Create(29, { 260 - 10, 656 - 16 - 96 });
+
+	spriteNumberNum10[0] = Sprite::Create(8, { 260 -  58, 656 - 16 - 96 });
+	spriteNumberNum10[1] = Sprite::Create(9, { 260 -  58, 656 - 16 - 96 });
+	spriteNumberNum10[2] = Sprite::Create(10, { 260 - 58, 656 - 16 - 96 });
+	spriteNumberNum10[3] = Sprite::Create(11, { 260 - 58, 656 - 16 - 96 });
+	spriteNumberNum10[4] = Sprite::Create(12, { 260 - 58, 656 - 16 - 96 });
+	spriteNumberNum10[5] = Sprite::Create(13, { 260 - 58, 656 - 16 - 96 });
+	spriteNumberNum10[6] = Sprite::Create(14, { 260 - 58, 656 - 16 - 96 });
+	spriteNumberNum10[7] = Sprite::Create(15, { 260 - 58, 656 - 16 - 96 });
+	spriteNumberNum10[8] = Sprite::Create(16, { 260 - 58, 656 - 16 - 96 });
+	spriteNumberNum10[9] = Sprite::Create(29, { 260 - 58, 656 - 16 - 96 });
 
 	for (int x = 0; x < MapValue; x++)
 	{
@@ -141,7 +159,7 @@ void MapChip::Initialize()
 	spriteMapBack = Sprite::Create(5, {-16 + 100,650 -16 - 96});
 	spriteMapFrame = Sprite::Create(26, { -16 + 100,650 - 16 - 96 });
 	
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		spriteCrystal[i] = Sprite::Create(7, mapCrystalPos[i]);
 	}
@@ -181,7 +199,7 @@ void MapChip::InitializeValue()
 			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 0.0f, y * wallSize - (MapValue * wallSize / 2) }));
 		}
 	}
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		objCrystal[i]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
 		crystalGetFlag[i] = false;
@@ -195,10 +213,12 @@ void MapChip::InitializeValue()
 	objCrystal[6]->SetPosition(crystalPos[6]);
 	objCrystal[7]->SetPosition(crystalPos[7]);
 	objCrystal[8]->SetPosition(crystalPos[8]);
+	objCrystal[9]->SetPosition(crystalPos[9]);
+	objCrystal[10]->SetPosition(crystalPos[10]);
 
 	allGetFlag = false;
 	MapCreate();
-	number = 9;
+	number = 11;
 	stopTime = 0;
 	displayTime = 0;
 	displayFlag = false;
@@ -397,7 +417,7 @@ void MapChip::MapMove(XMFLOAT2 mapPos)
 		}
 	}
 
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		spriteCrystal[i]->SetPosition({ mapPos.x + mapCrystalPos[i].x, mapPos.y + mapCrystalPos[i].y });
 	}
@@ -431,14 +451,14 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos)
 		}
 	}
 	XMFLOAT3 playerPos = pos;
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		if (crystalGetFlag[i] == false)
 		{
 			XMFLOAT3 crystalAngle = objCrystal[i]->GetRotation();
 			crystalAngle.y++;
 			objCrystal[i]->SetRotation(crystalAngle);
-			if (crystalGetFlag[i] = Collision::ChenkSphere2Sphere(playerPos, crystalPos[i], 6.5f, 6.0f))
+			if (crystalGetFlag[i] = Collision::ChenkSphere2Sphere(playerPos, crystalPos[i], 3.25f, 1.0f))
 			{
 				number--;
 			}
@@ -446,9 +466,14 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos)
 		objCrystal[i]->Update(enemyPos);
 	}
 	if (crystalGetFlag[0] && crystalGetFlag[1] && crystalGetFlag[2] && crystalGetFlag[3] && crystalGetFlag[4] &&
-		crystalGetFlag[5] && crystalGetFlag[6] && crystalGetFlag[7] && crystalGetFlag[8])
+		crystalGetFlag[5] && crystalGetFlag[6] && crystalGetFlag[7] && crystalGetFlag[8] && crystalGetFlag[9] && crystalGetFlag[10])
 	{
 		allGetFlag = true;
+	}
+	if (crystalGetFlag[9] == true || crystalGetFlag[10] == true)
+	{
+		mapWall[8][10] = 1;
+		mapWall[10][8] = 1;
 	}
 	TimeStop();
 	EnemyDisplay();
@@ -494,7 +519,7 @@ void MapChip::Draw()
 			}
 		}
 	}
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		if(crystalGetFlag[i] == false)
 		{
@@ -518,7 +543,7 @@ void MapChip::DrawSprite()
 		}
 	}
 
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 11; i++)
 	{
 		if (crystalGetFlag[i] == false && spriteCrystal[i]->GetPosition().x < 420 && spriteCrystal[i]->GetPosition().x > 100
 			&& spriteCrystal[i]->GetPosition().y > 650 && spriteCrystal[i]->GetPosition().y < 970)
@@ -530,8 +555,18 @@ void MapChip::DrawSprite()
 	{
 		if (number == i + 1)
 		{
-			spriteNumber[i]->Draw();
+			spriteNumberNum1[i]->Draw();
 		}
+	}
+	if (number == 10)
+	{
+		spriteNumberNum10[0]->Draw();
+		spriteNumberNum1[9]->Draw();
+	}
+	if (number == 11)
+	{
+		spriteNumberNum1[0]->Draw();
+		spriteNumberNum10[0]->Draw();
 	}
 	spriteMapFrame->Draw();
 }

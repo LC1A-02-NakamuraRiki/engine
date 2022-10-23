@@ -95,6 +95,7 @@ private: // ƒƒ“ƒo•Ï”
 	Sprite* spriteOption3 = nullptr;
 	Sprite* spriteClear = nullptr;
 	Sprite* spriteGAMEOVER = nullptr;
+	Sprite* spriteRule = nullptr;
 
 	Model *modelSkydome = nullptr;
 	Object3d *objSkydome = nullptr;
@@ -115,6 +116,8 @@ private: // ƒƒ“ƒo•Ï”
 
 	int buttonNo = 0;
 	int optionButtonNo = 0;
+	
+	bool tutrialFlag = true;
 	// Œõü•ûŒü‰Šú’l
 
 	float lightDir0[3] = { 0,1,0 };
