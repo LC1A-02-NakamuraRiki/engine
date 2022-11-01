@@ -390,13 +390,14 @@ void UpdateGamePad()
 	{
 		is_push[ButtonKind::ButtonRT] = true;
 	}
-#define PI 3.141592653589793
-	leftAngle = atan2(0 - pad_data.lX, 0 - pad_data.lY);
-	rightAngle = atan2(0 - pad_data.lRx, 0 - pad_data.lRy);
+//#define PI 3.141592653589793
+	float PI = 3.141592653589793f;
+	leftAngle = float(atan2(0 - pad_data.lX, 0 - pad_data.lY));
+	rightAngle = float(atan2(0 - pad_data.lRx, 0 - pad_data.lRy));
 	// è\éöÉLÅ[îªíË
 	if (pad_data.rgdwPOV[0] != 0xFFFFFFFF)
 	{
-		float rad = ((pad_data.rgdwPOV[0] / 100.0f) * 180.0 / PI);;
+		float rad = ((pad_data.rgdwPOV[0] / 100.0f) * 180.0f / PI);;
 		float x = sinf(rad);
 		float y = cosf(rad);
 

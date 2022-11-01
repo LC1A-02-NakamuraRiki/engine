@@ -1,5 +1,5 @@
 #include "SoundVector.h"
-
+using namespace DirectX;
 void SoundVector::Initialize()
 {
 
@@ -15,7 +15,7 @@ float SoundVector::DistanceSearch(float playerX, float playerZ, float enemyX, fl
 	float aX = enemyX - playerX;
 	float aZ = enemyZ - playerZ;
 	float aXZ = aX * aX + aZ * aZ;
-	float axzDistanse = sqrt(aXZ);
+	float axzDistanse = float(sqrt(aXZ));
 	return axzDistanse;
 }
 
@@ -23,5 +23,5 @@ float SoundVector::VectorSearch(float playerX, float playerZ, float enemyX, floa
 {
 	float aX = enemyX - playerX;
 	float aZ = enemyZ - playerZ;
-	XMConvertToDegrees(atan2(aX, aZ));
+	return XMConvertToDegrees(float(atan2(aX, aZ)));
 }
