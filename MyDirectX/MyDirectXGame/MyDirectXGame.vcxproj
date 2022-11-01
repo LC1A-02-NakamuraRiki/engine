@@ -127,6 +127,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-md.lib;libxml2-md.lib;zlib-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PostBuildEvent>
       <Command>copy /y $(TargetPath) $(ProjectDir)</Command>
@@ -150,6 +152,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>libfbxsdk-mt.lib;libxml2-mt.lib;zlib-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalOptions>/IGNORE:4099 %(AdditionalOptions)</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -260,6 +264,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Map\MapChip.cpp" />
     <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Player\SoundVector.cpp" />
     <ClCompile Include="Scene\GameScene.cpp" />
     <ClCompile Include="Sound\Sound.cpp" />
   </ItemGroup>
@@ -292,6 +297,7 @@
     <ClInclude Include="input\Mouse.h" />
     <ClInclude Include="Map\MapChip.h" />
     <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Player\SoundVector.h" />
     <ClInclude Include="Scene\GameScene.h" />
     <ClInclude Include="Sound\Sound.h" />
   </ItemGroup>

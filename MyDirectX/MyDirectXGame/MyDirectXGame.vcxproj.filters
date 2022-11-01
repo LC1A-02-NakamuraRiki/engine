@@ -183,6 +183,9 @@
     <ClCompile Include="3d\LightGroop.cpp">
       <Filter>engine\3d</Filter>
     </ClCompile>
+    <ClCompile Include="Player\SoundVector.cpp">
+      <Filter>Library\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="3d\LightGroop.h">
       <Filter>engine\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\SoundVector.h">
+      <Filter>Library\player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

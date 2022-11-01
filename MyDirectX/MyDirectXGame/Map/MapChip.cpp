@@ -11,7 +11,7 @@ void MapChip::Initialize()
 		for (int y = 0; y < MapValue; y++)
 		{
 			objMapWall[y][x] = Object3d::Create(modelMapWall);
-			objMapWall[y][x]->SetScale(XMFLOAT3({ 4.05, 4.05, 4.05 }));
+			objMapWall[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
 			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), -2.0f, y * wallSize - (MapValue * wallSize / 2) }));
 
 		}
@@ -31,7 +31,7 @@ void MapChip::Initialize()
 		for (int y = 0; y < MapValue; y++)
 		{
 			objCeiling[y][x] = Object3d::Create(modelCeiling);
-			objCeiling[y][x]->SetScale(XMFLOAT3({ 4.05, 4.05, 4.05 }));
+			objCeiling[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
 			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 2.0f, y * wallSize - (MapValue * wallSize / 2) }));
 			
 		}
@@ -43,7 +43,7 @@ void MapChip::Initialize()
 		for (int y = 0; y < MapValue; y++)
 		{
 			objFloor[y][x] = Object3d::Create(modelFloor);
-			objFloor[y][x]->SetScale(XMFLOAT3({ 4.05, 4.05, 4.05 }));
+			objFloor[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
 			objFloor[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 0.5f, y * wallSize - (MapValue * wallSize / 2) }));
 
 		}
@@ -536,7 +536,7 @@ void MapChip::DrawSprite()
 		for (int y = 0; y < MapValue; y++)
 		{
 			if (mapWall[y][x] == 1 && spriteMapWall[y][x]->GetPosition().x < 420 && spriteMapWall[y][x]->GetPosition().x > 100
-				&& spriteMapWall[y][x]->GetPosition().y > 650 && spriteMapWall[y][x]->GetPosition().y < 970)
+				&& spriteMapWall[y][x]->GetPosition().y > 650 && spriteMapWall[y][x]->GetPosition().y < 986)
 			{
 				spriteMapWall[y][x]->Draw();
 			}
