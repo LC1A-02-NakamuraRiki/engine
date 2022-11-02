@@ -481,8 +481,8 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos)
 
 int MapChip::ArrayValue(float x, float y)
 {
-	int mapY = (y / wallSize) + ((MapValue+1) / 2);
-	int mapX = (x / wallSize) + ((MapValue+1) / 2);
+	int mapY = int((y / wallSize) + ((MapValue+1) / 2));
+	int mapX = int((x / wallSize) + ((MapValue+1) / 2));
 	
 	return mapWall[mapY][mapX];
 }
