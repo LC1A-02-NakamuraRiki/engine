@@ -14,7 +14,8 @@ protected: // エイリアス
 private:
 	void Initialize();//最初の初期化
 	void Update();
-	float DistanceSearch(float playerX, float playerZ, float enemyX, float enemyZ);
-	float VectorSearch(float playerX, float playerZ, float enemyX, float enemyZ);
+public:
+	static float DistanceSearch(float playerX, float playerZ, float enemyX, float enemyZ);
+	static float VectorSearch(float playerX, float playerZ, float enemyX, float enemyZ);
 };
 

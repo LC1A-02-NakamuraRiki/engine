@@ -298,7 +298,7 @@ void Player::View(bool tutrialFlag)
 		}
 		if (Input::GetInstance()->KeybordTrigger(DIK_0))
 		{
-			mouseViewSpeed += 0.01f;
+			mouseViewSpeed += 0.01f ;
 		}
 
 		if (angleX >= 85)
