@@ -138,9 +138,6 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 void GameScene::Update()
 {
 	float vec = SoundVector::VectorSearch(enemy->GetPos().x, enemy->GetPos().z, player->GetPos().x, player->GetPos().z);
-	debugText.Print(20, 30, 1.5f, "Dis %f", SoundVector::DistanceSearch(enemy->GetPos().x, enemy->GetPos().z, player->GetPos().x, player->GetPos().z));
-	debugText.Print(20, 60, 1.5f, "vec %f", -vec);
-	debugText.Print(20, 90, 1.5f, "pv %f", player->GetAngle() - 90);
 	float sideValue = 45;
 	
 	if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
