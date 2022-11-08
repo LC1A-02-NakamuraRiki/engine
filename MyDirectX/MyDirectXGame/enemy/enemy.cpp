@@ -1,5 +1,5 @@
 #include "enemy.h"
-#include "../collision/Collision.h"
+#include "Collision.h"
 
 void Enemy::Initialize()
 {
@@ -357,5 +357,5 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 bool Enemy::CatchCollision(Player* player)
 {
 	XMFLOAT3 playerPos = player->GetPos();
-	return Collision::ChenkSphere2Sphere(playerPos, pos, 5.0f, 6.0f);
+	return Collision::ChenkSphere2Sphere(playerPos, pos, 2.5f, 3.0f);
 }

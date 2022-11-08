@@ -1,5 +1,5 @@
 #include "Player.h"
-#include "../input/Input.h"
+#include "Input.h"
 using namespace DirectX;
 
 void Player::Initialize()
@@ -19,8 +19,8 @@ void Player::Initialize()
 
 void Player::InitializeValue()
 {
-	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 7) };
-	pos = { -4.0f,0.0f,-4.0f };//プレイヤーの位置
+	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };
+	pos = { 4.0f,0.0f,4.0f };//プレイヤーの位置
 	mapPosValue = {0,0};
 	r = 0.5;//プレイヤーの半径
 	moveSpeed = 0.25f;//歩きの速度
@@ -32,7 +32,7 @@ void Player::InitializeValue()
 	isWalkShaking = false;//歩きの揺れのフラグ
 	walkShakingTime = 0;//歩きの揺れのタイム
 	angleX = 0; //カメラX軸
-	angleY = 0; //カメラY軸
+	angleY = 90; //カメラY軸
 }
 
 void Player::Update(MapChip *mapChip,bool tutrialFlag)
@@ -45,8 +45,8 @@ void Player::Update(MapChip *mapChip,bool tutrialFlag)
 	WalkShaking();//歩きの揺れ
 	View(tutrialFlag);//視点制御
 
-	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 634 + (16.0f * 11) });
-	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 634 + (16.0f * 11) + 8 });
+	spritePlayerDot->SetPosition({ 100 + (16.0f * 9), 634 + (16.0f * 12) });
+	spritePlayerAngle->SetPosition({ 100 + (16.0f * 9) + 8, 634 + (16.0f * 12) + 8 });
 	spritePlayerAngle->SetRotation(angle.y + 135);
 }
 
@@ -257,15 +257,15 @@ void Player::WalkShaking()
 		if (isWalkShaking == true)
 		{
 			walkShakingTime++;
-			if (walkShakingTime <= 10)
+			if (walkShakingTime <= 8)
 			{
-				walkShaking += 0.1f;
+				walkShaking += 0.05f;
 			}
-			else if (walkShakingTime >= 10 && walkShakingTime <= 20)
+			else if (walkShakingTime >= 8 && walkShakingTime <= 16)
 			{
-				walkShaking -= 0.1f;
+				walkShaking -= 0.05f;
 			}
-			else if (walkShakingTime > 20)
+			else if (walkShakingTime > 16)
 			{
 				walkShaking = 2.5f;
 				walkShakingTime = 0;

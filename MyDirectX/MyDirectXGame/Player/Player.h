@@ -1,7 +1,7 @@
 #pragma once
 #include <DirectXMath.h>
-#include "../Map/MapChip.h"
-#include "../2d/Sprite.h"
+#include "MapChip.h"
+#include "Sprite.h"
 class Player
 {
 protected: // エイリアス

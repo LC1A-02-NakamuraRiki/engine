@@ -1,8 +1,8 @@
 #include "PostEffect.h"
 #include <d3dx12.h>
-#include "../base/WinApp.h"
+#include "WinApp.h"
 #include <d3dcompiler.h>
-#include "../input/Input.h"
+#include "Input.h"
 #pragma comment(lib,"d3dcompiler.lib")
 using namespace DirectX;
 

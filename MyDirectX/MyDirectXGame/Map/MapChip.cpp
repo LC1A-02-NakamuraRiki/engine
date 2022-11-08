@@ -1,5 +1,5 @@
 #include "MapChip.h"
-#include "../collision/Collision.h"
+#include "Collision.h"
 #include<time.h>
 #include<random>
 

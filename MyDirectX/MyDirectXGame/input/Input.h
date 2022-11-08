@@ -2,7 +2,7 @@
 #include"GamePad.h"
 #include"Keyboard.h"
 #include"Mouse.h"
-#include"../base/WinApp.h"
+#include"WinApp.h"
 class Input
 {
 private:

@@ -1,12 +1,12 @@
-#include "../Scene/GameScene.h"
-#include "../collision/Collision.h"
+#include "GameScene.h"
+#include "Collision.h"
 #include <cassert>
 #include <sstream>
 #include <iomanip>
-#include "../3d/FbxLoader.h"
-#include "../3d/FbxObject3d.h"
-#include "../input/Input.h"
-#include "../Player/SoundVector.h"
+#include "FbxLoader.h"
+#include "FbxObject3d.h"
+#include "Input.h"
+#include "SoundVector.h"
 
 using namespace DirectX;
 

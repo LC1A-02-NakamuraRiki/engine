@@ -1,8 +1,8 @@
 #pragma once
 #include <DirectXMath.h>
-#include "../3d/Object3d.h"
-#include "../2d/Sprite.h"
-#include"../helper/LoadCSV.h"
+#include "Object3d.h"
+#include "Sprite.h"
+#include"LoadCSV.h"
 
 class MapChip
 {

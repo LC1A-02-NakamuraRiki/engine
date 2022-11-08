@@ -1,6 +1,6 @@
 ﻿#include "DebugCamera.h"
 #include <cassert>
-#include "../input/Input.h"
+#include "Input.h"
 using namespace DirectX;
 
 DebugCamera::DebugCamera(int window_width, int window_height)

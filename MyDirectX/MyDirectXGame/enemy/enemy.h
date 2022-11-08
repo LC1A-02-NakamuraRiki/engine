@@ -1,9 +1,9 @@
 #pragma once
 #include <DirectXMath.h>
-#include "../Map/MapChip.h"
-#include "../3d/Object3d.h"
-#include "../Player/Player.h"
-#include "../2d/Sprite.h"
+#include "MapChip.h"
+#include "Object3d.h"
+#include "Player.h"
+#include "Sprite.h"
 
 class Enemy
 {
