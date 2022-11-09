@@ -199,7 +199,6 @@ void FbxObject3d::Initialize()
 		constMapSkin->bones[i] = XMMatrixIdentity();
 	}
 	constBuffSkin->Unmap(0, nullptr);
-
 }
 
 void FbxObject3d::Update()

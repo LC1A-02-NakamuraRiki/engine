@@ -26,10 +26,6 @@ GameScene::~GameScene()
 	safe_delete(spriteGAMEOVER);
 	safe_delete(spriteRule);
 	safe_delete(particle3d);
-	safe_delete(objSkydome);
-	safe_delete(modelSkydome);
-	safe_delete(objGround);
-	safe_delete(modelGround);
 	safe_delete(light);
 	safe_delete(player);
 	safe_delete(enemy);
@@ -109,12 +105,6 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	spriteRule = Sprite::Create(30, { 0.0f,0.0f });
 
 	// 3Dオブジェクト生成
-	modelSkydome = Model::CreateFromObject("skydome", false);
-	objSkydome = Object3d::Create(modelSkydome);
-	objSkydome->SetScale({5.0f,5.0f,5.0f});
-	modelGround = Model::CreateFromObject("ground", true);
-	objGround = Object3d::Create(modelGround);
-	objGround->SetScale({ 5.0f,2.0f ,5.0f });
 
 	// デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
@@ -164,7 +154,6 @@ void GameScene::Update()
 		{
 			buttonNo++;
 		}
-
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE)&& buttonNo == 0)
 		{
 			player->InitializeValue();
@@ -306,8 +295,7 @@ void GameScene::Draw()
 	//-------------------------------------------------------------//
 	if (scene == TITLE || scene == PLAY)
 	{
-		//objSkydome->Draw();
-		//objGround->Draw();
+
 		map->Draw();
 		enemy->Draw();
 	}

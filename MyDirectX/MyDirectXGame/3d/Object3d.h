@@ -33,7 +33,7 @@ public: // サブクラス
 		float pad;
 		XMFLOAT3 shadowPos;
 		float pad2;
-		float lightScale[7];
+		//float lightScale[7];
 	};
 
 	// パイプラインセット

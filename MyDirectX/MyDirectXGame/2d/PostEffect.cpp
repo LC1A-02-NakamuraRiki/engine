@@ -169,32 +169,12 @@ void PostEffect::Initialize()
 	descHeapDSV->GetCPUDescriptorHandleForHeapStart());
 
 	CreateGraphicsPipelineState();
+	texBuff[0]->SetName(L"aaaaaaaaaaaaaaaaaaaaa");
+	texBuff[1]->SetName(L"EZEZEZEZEZEZEZEZ");
 }
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, bool stopFlag)
 {
-	if(Input::GetInstance()->KeybordTrigger(DIK_0))
-	{
-		static int tex = 0;
-		tex = (tex + 1) % 2;
-
-		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-		srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-
-		srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-		srvDesc.Texture2D.MipLevels = 1;
-		device->CreateShaderResourceView(texBuff[tex].Get(),
-			&srvDesc,
-			descHeapSRV->GetCPUDescriptorHandleForHeapStart()
-		);
-	}
-	this->matWorld = XMMatrixIdentity();
-
-	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
-
-	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
-
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = constBuff->Map(0, nullptr, (void**)&constMap);
 	if (SUCCEEDED(result))
@@ -205,13 +185,13 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, bool stopFlag)
 		constBuff->Unmap(0, nullptr);
 	}
 
+	cmdList->IASetVertexBuffers(0, 1, &vbView);
+
 	cmdList->SetPipelineState(pipelineState.Get());
 
 	cmdList->SetGraphicsRootSignature(rootSignature.Get());
 
 	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-
-	cmdList->IASetVertexBuffers(0, 1, &vbView);
 
 	ID3D12DescriptorHeap* ppHeaps[] = { descHeapSRV.Get() };
 
@@ -228,7 +208,9 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, bool stopFlag)
 	cmdList->SetGraphicsRootDescriptorTable(2, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV->GetGPUDescriptorHandleForHeapStart(), 1,
 		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
 	);
-
+	/*cmdList->SetGraphicsRootDescriptorTable(3, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV->GetGPUDescriptorHandleForHeapStart(), 2,
+		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
+	);*/
 	cmdList->DrawInstanced(4, 1, 0, 0);
 }
 
@@ -236,17 +218,27 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
 	for (int i = 0; i < 2; i++)
 	{
-		cmdList->ResourceBarrier(1,
-		&CD3DX12_RESOURCE_BARRIER::Transition(texBuff[i].Get(),
-		D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-		D3D12_RESOURCE_STATE_RENDER_TARGET));
+		//リソースバリアを変更(シェーダリソース描画可能)
+		cmdList->ResourceBarrier
+		(
+			1,
+			&CD3DX12_RESOURCE_BARRIER::Transition
+			(
+				texBuff[i].Get(),
+				D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+				D3D12_RESOURCE_STATE_RENDER_TARGET
+			)
+		);
 	}
+	//レンダーターゲットビュー用デスクリプタヒープのハンドルを取得
 	D3D12_CPU_DESCRIPTOR_HANDLE rtvHs[2];
 	for (int i = 0; i < 2; i++)
 	{
-		rtvHs[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE(
-		descHeapRTV->GetCPUDescriptorHandleForHeapStart(),i,
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)
+		rtvHs[i] = CD3DX12_CPU_DESCRIPTOR_HANDLE
+		(
+			descHeapRTV->GetCPUDescriptorHandleForHeapStart(),
+			i,
+			device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV)
 		);
 	}
 
@@ -271,16 +263,15 @@ void PostEffect::PreDrawScene(ID3D12GraphicsCommandList* cmdList)
 	}
 	cmdList->ClearDepthStencilView(dsvH, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0,
 	nullptr);
-
-	for (int i = 0; i < 2; i++)
-	{
-		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(texBuff[i].Get(),
-		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
-	}
 }
 
 void PostEffect::PostDrawScene(ID3D12GraphicsCommandList* cmdList)
 {
+	for (int i = 0; i < 2; i++)
+	{
+		//リソースバリアを変更(描画可能シェーダーリソース)
+		cmdList->ResourceBarrier(1, &CD3DX12_RESOURCE_BARRIER::Transition(texBuff[i].Get(), D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE));
+	}
 }
 
 void PostEffect::CreateGraphicsPipelineState()

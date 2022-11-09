@@ -403,6 +403,7 @@ void Model::Initialize(const std::string &text, bool smoothing)
 
 	// テクスチャの読み込み
 	LoadTextures();
+	
 }
 
 void Model::Draw(ID3D12GraphicsCommandList *cmdList)

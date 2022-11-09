@@ -166,6 +166,7 @@ bool Collision::CheckRay2Triangle(const Ray &ray, const Triangle &triangle, floa
 		*inter = interPlane;
 		return true;
 	}
+	return false;
 }
 
 bool Collision::CheckRay2Sphere(const Ray &ray, const Sphere &sphere, float *distance, DirectX::XMVECTOR *inter)

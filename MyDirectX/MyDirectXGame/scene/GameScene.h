@@ -97,12 +97,6 @@ private: // ƒƒ“ƒo•Ï”
 	Sprite* spriteGAMEOVER = nullptr;
 	Sprite* spriteRule = nullptr;
 
-	Model *modelSkydome = nullptr;
-	Object3d *objSkydome = nullptr;
-
-	Model *modelGround = nullptr;
-	Object3d *objGround = nullptr;
-
 	ParticleManager *particle3d = nullptr;
 	Player* player = nullptr;
 	Enemy* enemy = nullptr;

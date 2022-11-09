@@ -3,6 +3,8 @@
 #include "Object3d.h"
 #include "Sprite.h"
 #include"LoadCSV.h"
+#include "SafeDelete.h"
+#include <memory>
 
 class MapChip
 {
@@ -15,6 +17,7 @@ protected: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
+	~MapChip();
 	void Initialize();//最初の初期化
 	void InitializeValue();//タイトル時の初期化
 	void MapCreate();
@@ -31,15 +34,16 @@ public:
 	bool GetCrystalGetFlag(int no) { return crystalGetFlag[no]; }
 private:
 
-	Model* modelMapWall = nullptr;
-	Object3d* objMapWall[21][21];
-	Model*  modelCeiling = nullptr;
-	Object3d* objCeiling[21][21];
-	Model* modelFloor = nullptr;
-	Object3d* objFloor[21][21];
-	Model* modelCrystal = nullptr;
-	Model* modelItemCrystal = nullptr;
-	Object3d* objCrystal[11];
+	std::unique_ptr<Model> modelMapWall;
+
+	std::unique_ptr<Object3d> objMapWall[21][21];
+	std::unique_ptr<Model> modelCeiling;
+	std::unique_ptr<Object3d> objCeiling[21][21];
+	std::unique_ptr<Model> modelFloor;
+	std::unique_ptr<Object3d> objFloor[21][21];
+	std::unique_ptr<Model> modelCrystal;
+	std::unique_ptr<Model> modelItemCrystal;
+	std::unique_ptr<Object3d> objCrystal[11];
 	float wallSize = 8;
 	XMFLOAT3 crystalPos[11] = {XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
 							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
@@ -285,12 +289,12 @@ private:
 	int displayTime = 0;
 	bool displayFlag = false;
 
-	Sprite* spriteMapWall[21][21];
-	Sprite* spriteMapBack = nullptr;
-	Sprite* spriteMapFrame = nullptr;
-
-	Sprite* spriteCrystal[11] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,false,false };
-	Sprite* spriteNumberNum1[10] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
-	Sprite* spriteNumberNum10[10] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
+	std::unique_ptr<Sprite> spriteMapWall[21][21];
+	std::unique_ptr<Sprite> spriteMapBack;
+	std::unique_ptr<Sprite> spriteMapFrame;
+					
+	std::unique_ptr<Sprite> spriteCrystal[11];
+	std::unique_ptr<Sprite> spriteNumberNum1[10];
+	std::unique_ptr<Sprite> spriteNumberNum10[10];
 	int number = 11;
 };

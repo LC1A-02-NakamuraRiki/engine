@@ -58,16 +58,6 @@ void Object3d::InitializeGraphicsPipeline()
 		0,
 		&psBlob, &errorBlob);
 
-	//// コンピュートシェーダの読み込みとコンパイル
-	//result = D3DCompileFromFile(
-	//	L"Resources/shaders/OBJCS.hlsl",   // シェーダファイル名
-	//	nullptr,
-	//	D3D_COMPILE_STANDARD_FILE_INCLUDE, // インクルード可能にする
-	//	"main", "ps_5_0", // エントリーポイント名、シェーダーモデル指定
-	//	D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
-	//	0,
-	//	&psBlob, &errorBlob);
-
 	if (FAILED(result)) {
 		// errorBlobからエラー内容をstring型にコピー
 		std::string errstr;
@@ -217,6 +207,8 @@ bool Object3d::Initialize()
 		nullptr,
 		IID_PPV_ARGS(&constBuffB0));
 
+	constBuffB0->SetName(L"EZEZEZEZEZEZEZEZ");
+
 	return true;
 }
 
@@ -268,7 +260,7 @@ void Object3d::Update(XMFLOAT3 shadowPos)
 	constMap->world = matWorld;
 	constMap->cameraPos = cameraPos;
 	constMap->shadowPos = shadowPos;
-	constMap->lightScale[0] = 1;
+	//constMap->lightScale[0] = 1;
 	constBuffB0->Unmap(0, nullptr);
 }
 

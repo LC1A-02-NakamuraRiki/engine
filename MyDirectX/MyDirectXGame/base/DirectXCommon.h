@@ -12,6 +12,8 @@ class DirectXCommon
 private: // エイリアス
 	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:
+	~DirectXCommon();
+
 	void Initialize(WinApp *win);
 
 	void PreDraw();

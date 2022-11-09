@@ -2,6 +2,12 @@
 #include "Input.h"
 using namespace DirectX;
 
+Player::~Player()
+{
+	safe_delete(spritePlayerDot);
+	safe_delete(spritePlayerAngle);
+}
+
 void Player::Initialize()
 {
 	if (!Sprite::LoadTexture(3, L"Resources/PlayerDot.png")) {

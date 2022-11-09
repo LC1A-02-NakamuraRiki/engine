@@ -1,6 +1,14 @@
 #include "enemy.h"
 #include "Collision.h"
 
+Enemy::~Enemy()
+{
+	safe_delete(spriteEnemyDot);
+	safe_delete(spriteEnemyAngle);
+	safe_delete(modelEnemy);
+	safe_delete(objEnemy);
+}
+
 void Enemy::Initialize()
 {
 	modelEnemy = Model::CreateFromObject("obake", false);

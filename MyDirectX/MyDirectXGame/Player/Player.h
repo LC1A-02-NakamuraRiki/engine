@@ -2,6 +2,8 @@
 #include <DirectXMath.h>
 #include "MapChip.h"
 #include "Sprite.h"
+#include "SafeDelete.h"
+
 class Player
 {
 protected: // エイリアス
@@ -13,6 +15,8 @@ protected: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
 	
+	~Player();
+
 	void Initialize();//最初の初期化
 	
 	void InitializeValue();//タイトル時の初期化

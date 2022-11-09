@@ -9,6 +9,17 @@
 
 using namespace Microsoft::WRL;
 
+DirectXCommon::~DirectXCommon()
+{
+	ID3D12InfoQueue* infoQueue;
+	if (SUCCEEDED(dev->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
+
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+		infoQueue->Release();
+	}
+}
 void DirectXCommon::Initialize(WinApp *winApp)
 {
 	// nullptrチェック
@@ -106,22 +117,13 @@ void DirectXCommon::ClearDepthBuffer()
 bool DirectXCommon::InitializeDXGIDevice()
 {
 	HRESULT result = S_FALSE;
-#ifdef _Debug
-	//デバッグレイヤーをオンに
+
 	ComPtr<ID3D12Debug1> debugController;
+	//デバッグレイヤーをオンに	
 	if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(&debugController))))
 	{
 		debugController->EnableDebugLayer();
-		debugController->SetEnableGPUBasedValidation(TRUE);
 	}
-	ComPtr<ID3D12InfoQueue> infoQueue;
-	if (SUCCEEDED(dev->QueryInterface(IID_PPV_ARGS(&infoQueue))))
-	{
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
-	}
-#endif
 	// 対応レベルの配列
 	D3D_FEATURE_LEVEL levels[] =
 	{

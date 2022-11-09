@@ -59,12 +59,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	{
 		// メッセージ処理
 		if (win->ProcessMessage()) { break; }
-		//ESCでの終了
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && gameScene->GetTitleButtonFlag()==2) { break; };
+		
 		// 入力関連の毎フレーム処理
 		Input::GetInstance()->Update();
 		// ゲームシーンの毎フレーム処理
 		gameScene->Update();
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && gameScene->GetTitleButtonFlag() == 2)
+		{
+			break;
+		}
 		postEffect->PreDrawScene(dxCommon->GetCommandList());
 		gameScene->Draw();
 		postEffect->PostDrawScene(dxCommon->GetCommandList());
@@ -74,13 +77,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// ゲームシーンの描画
 		// 描画終了
 		dxCommon->PostDraw();
+		//ESCでの終了
+		
 	}
 	// 各種解放
 	delete postEffect;
 	safe_delete(gameScene);
 	safe_delete(audio);
 	FbxLoader::GetInstance()->Finalize();
-	safe_delete(dxCommon);
+	delete dxCommon;
 
 	// ゲームウィンドウの破棄
 	win->Finalize();

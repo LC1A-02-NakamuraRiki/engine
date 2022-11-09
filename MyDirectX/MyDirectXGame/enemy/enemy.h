@@ -4,6 +4,7 @@
 #include "Object3d.h"
 #include "Player.h"
 #include "Sprite.h"
+#include "SafeDelete.h"
 
 class Enemy
 {
@@ -22,6 +23,7 @@ protected: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
+	~Enemy();
 	void Initialize();//最初の初期化
 
 	void InitializeValue();//タイトル時の初期化

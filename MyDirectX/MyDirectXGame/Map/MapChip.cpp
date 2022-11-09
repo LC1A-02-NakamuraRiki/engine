@@ -3,14 +3,66 @@
 #include<time.h>
 #include<random>
 
+MapChip::~MapChip()
+{
+	//safe_delete(modelMapWall);
+	//for (int x = 0; x < MapValue; x++)
+	//{
+	//	for (int y = 0; y < MapValue; y++)
+	//	{
+	//		safe_delete(objMapWall[y][x]);
+	//	}
+	//}
+	//safe_delete(modelCeiling);
+	//for (int x = 0; x < MapValue; x++)
+	//{
+	//	for (int y = 0; y < MapValue; y++)
+	//	{
+	//		safe_delete(objCeiling[y][x]);
+	//	}
+	//}
+	//safe_delete(modelFloor);
+	//for (int x = 0; x < MapValue; x++)
+	//{
+	//	for (int y = 0; y < MapValue; y++)
+	//	{
+	//		safe_delete(objFloor[y][x]);
+	//	}
+	//}
+	//safe_delete(modelCrystal);
+	//safe_delete(modelItemCrystal);
+	//for (int i = 0; i < 11; i++)
+	//{
+	//	safe_delete(objCrystal[i]);	
+	//}
+	//for (int x = 0; x < MapValue; x++)
+	//{
+	//	for (int y = 0; y < MapValue; y++)
+	//	{
+	//		safe_delete(spriteMapWall[y][x]);
+	//	}
+	//}
+	//safe_delete(spriteMapBack);
+	//safe_delete(spriteMapFrame);
+	//for (int i = 0; i < 11; i++)
+	//{
+	//	safe_delete(spriteCrystal[i]);
+	//}
+	//for (int i = 0; i < 10; i++)
+	//{
+	//	safe_delete(spriteNumberNum1[i]);
+	//	safe_delete(spriteNumberNum10[i]);
+	//}
+}
+
 void MapChip::Initialize()
 {
-	modelMapWall = Model::CreateFromObject("wall", false);
+	modelMapWall = std::unique_ptr<Model>(Model::CreateFromObject("wall", false));
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			objMapWall[y][x] = Object3d::Create(modelMapWall);
+			objMapWall[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelMapWall.get()));
 			objMapWall[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
 			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), -2.0f, y * wallSize - (MapValue * wallSize / 2) }));
 
@@ -25,40 +77,40 @@ void MapChip::Initialize()
 		}
 	}
 
-	modelCeiling = Model::CreateFromObject("ceiling", false);
+	modelCeiling = std::unique_ptr<Model>(Model::CreateFromObject("ceiling", false));
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			objCeiling[y][x] = Object3d::Create(modelCeiling);
+			objCeiling[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelCeiling.get()));
 			objCeiling[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
 			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 2.0f, y * wallSize - (MapValue * wallSize / 2) }));
 			
 		}
 	}
 
-	modelFloor = Model::CreateFromObject("floor", false);
+	modelFloor = std::unique_ptr<Model>(Model::CreateFromObject("floor", false));
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			objFloor[y][x] = Object3d::Create(modelFloor);
+			objFloor[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelFloor.get()));
 			objFloor[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
 			objFloor[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 0.5f, y * wallSize - (MapValue * wallSize / 2) }));
 
 		}
 	}
 
-	modelCrystal = Model::CreateFromObject("crystal", false);
-	modelItemCrystal = Model::CreateFromObject("itemCrystal", false);
+	modelCrystal = std::unique_ptr<Model>(Model::CreateFromObject("crystal", false));
+	modelItemCrystal = std::unique_ptr<Model>(Model::CreateFromObject("itemCrystal", false));
 	for (int i = 0; i < 11; i++)
 	{
-		objCrystal[i] = Object3d::Create(modelCrystal);
+		objCrystal[i] = std::unique_ptr<Object3d>(Object3d::Create(modelCrystal.get()));
 		objCrystal[i]->SetScale(XMFLOAT3({ 0.75f, 0.75f, 0.75f }));
 		crystalGetFlag[i] = false;
 	}
-	objCrystal[3] = Object3d::Create(modelItemCrystal);
-	objCrystal[5] = Object3d::Create(modelItemCrystal);
+	objCrystal[3] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
+	objCrystal[5] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
 
 	objCrystal[0]->SetPosition(crystalPos[0]);
 	objCrystal[1]->SetPosition(crystalPos[1]);
@@ -127,45 +179,45 @@ void MapChip::Initialize()
 		assert(0);
 		return;
 	}
-	spriteNumberNum1[0] = Sprite::Create(8,  {260 - 10, 656 -16 - 96});
-	spriteNumberNum1[1] = Sprite::Create(9,  {260 - 10, 656 -16 - 96});
-	spriteNumberNum1[2] = Sprite::Create(10, {260 - 10, 656 -16 - 96});
-	spriteNumberNum1[3] = Sprite::Create(11, {260 - 10, 656 -16 - 96});
-	spriteNumberNum1[4] = Sprite::Create(12, {260 - 10, 656 -16 - 96});
-	spriteNumberNum1[5] = Sprite::Create(13, {260 - 10, 656 -16 - 96});
-	spriteNumberNum1[6] = Sprite::Create(14, {260 - 10, 656 -16 - 96});
-	spriteNumberNum1[7] = Sprite::Create(15, {260 - 10, 656 -16 - 96});
-	spriteNumberNum1[8] = Sprite::Create(16, {260 - 10, 656 -16 - 96});
-	spriteNumberNum1[9] = Sprite::Create(29, { 260 - 10, 656 - 16 - 96 });
+	spriteNumberNum1[0] = std::unique_ptr<Sprite>(Sprite::Create(8, { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[1] = std::unique_ptr<Sprite>(Sprite::Create(9, { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[5] = std::unique_ptr<Sprite>(Sprite::Create(13, { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[6] = std::unique_ptr<Sprite>(Sprite::Create(14, { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 10, 656 - 16 - 96 }));
 
-	spriteNumberNum10[0] = Sprite::Create(8, { 260 -  58, 656 - 16 - 96 });
-	spriteNumberNum10[1] = Sprite::Create(9, { 260 -  58, 656 - 16 - 96 });
-	spriteNumberNum10[2] = Sprite::Create(10, { 260 - 58, 656 - 16 - 96 });
-	spriteNumberNum10[3] = Sprite::Create(11, { 260 - 58, 656 - 16 - 96 });
-	spriteNumberNum10[4] = Sprite::Create(12, { 260 - 58, 656 - 16 - 96 });
-	spriteNumberNum10[5] = Sprite::Create(13, { 260 - 58, 656 - 16 - 96 });
-	spriteNumberNum10[6] = Sprite::Create(14, { 260 - 58, 656 - 16 - 96 });
-	spriteNumberNum10[7] = Sprite::Create(15, { 260 - 58, 656 - 16 - 96 });
-	spriteNumberNum10[8] = Sprite::Create(16, { 260 - 58, 656 - 16 - 96 });
-	spriteNumberNum10[9] = Sprite::Create(29, { 260 - 58, 656 - 16 - 96 });
+	spriteNumberNum10[0] = std::unique_ptr<Sprite>(Sprite::Create(8, { 260 - 58, 656 - 16 - 96 }));
+	spriteNumberNum10[1] = std::unique_ptr<Sprite>(Sprite::Create(9, { 260 - 58, 656 - 16 - 96 }));
+	spriteNumberNum10[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 58, 656 - 16 - 96 }));
+	spriteNumberNum10[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 58, 656 - 16 - 96 }));
+	spriteNumberNum10[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 58, 656 - 16 - 96 }));
+	spriteNumberNum10[5] = std::unique_ptr<Sprite>(Sprite::Create(13, { 260 - 58, 656 - 16 - 96 }));
+	spriteNumberNum10[6] = std::unique_ptr<Sprite>(Sprite::Create(14, { 260 - 58, 656 - 16 - 96 }));
+	spriteNumberNum10[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 58, 656 - 16 - 96 }));
+	spriteNumberNum10[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 58, 656 - 16 - 96 }));
+	spriteNumberNum10[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 58, 656 - 16 - 96 }));
 
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			spriteMapWall[y][x] = Sprite::Create(2, {-16 + 100 + (16.0f * (MapValue - x)),650 + (16.0f * y )});
+			spriteMapWall[y][x] = std::unique_ptr<Sprite>(Sprite::Create(2, {-16 + 100 + (16.0f * (MapValue - x)),650 + (16.0f * y )}));
 		}
 	}
-	spriteMapBack = Sprite::Create(5, {-16 + 100,650 -16 - 96});
-	spriteMapFrame = Sprite::Create(26, { -16 + 100,650 - 16 - 96 });
+	spriteMapBack =  std::unique_ptr<Sprite>(Sprite::Create(5, {-16 + 100,650 -16 - 96}));
+	spriteMapFrame = std::unique_ptr<Sprite>(Sprite::Create(26, { -16 + 100,650 - 16 - 96 }));
 	
 	for (int i = 0; i < 11; i++)
 	{
-		spriteCrystal[i] = Sprite::Create(7, mapCrystalPos[i]);
+		spriteCrystal[i] = std::unique_ptr<Sprite>(Sprite::Create(7, mapCrystalPos[i]));
 	}
 
-	spriteCrystal[3] = Sprite::Create(17, mapCrystalPos[3]);
-	spriteCrystal[5] = Sprite::Create(17, mapCrystalPos[5]);
+	spriteCrystal[3] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[3]));
+	spriteCrystal[5] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[5]));
 
 	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");
 	LoadCSV(mapWallLeftCenter, "Resources/map/a2.csv");
