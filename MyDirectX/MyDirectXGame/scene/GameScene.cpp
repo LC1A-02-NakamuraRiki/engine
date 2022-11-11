@@ -130,7 +130,7 @@ void GameScene::Update()
 	float vec = SoundVector::VectorSearch(enemy->GetPos().x, enemy->GetPos().z, player->GetPos().x, player->GetPos().z);
 	float sideValue = 45;
 	
-	if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
+	/*if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
 	{
 		audio->PlaySE("Resources/seR.wav", false);
 	}
@@ -142,7 +142,7 @@ void GameScene::Update()
 	{
 		audio->PlaySE("Resources/seL.wav", false);
 		audio->PlaySE("Resources/seR.wav", false);
-	}
+	}*/
 	if (scene == TITLE)
 	{	
 		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)

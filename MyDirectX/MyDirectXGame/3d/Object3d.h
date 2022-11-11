@@ -32,7 +32,7 @@ public: // サブクラス
 		XMFLOAT3 cameraPos;
 		float pad;
 		XMFLOAT3 shadowPos;
-		float pad2;
+		//float pad2;
 		//float lightScale[7];
 	};
 

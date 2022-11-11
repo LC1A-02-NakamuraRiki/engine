@@ -4,7 +4,7 @@ cbuffer cbuff0 : register(b0)
 	matrix world;
 	float3 cameraPos;
 	float3 shadowPos;
-	bool lightScale[7];
+	//bool lightScale[7];
 };
 
 cbuffer cbuff1 : register(b1)

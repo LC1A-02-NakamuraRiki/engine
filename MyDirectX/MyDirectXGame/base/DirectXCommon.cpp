@@ -11,6 +11,7 @@ using namespace Microsoft::WRL;
 
 DirectXCommon::~DirectXCommon()
 {
+#ifdef _DEBUG
 	ID3D12InfoQueue* infoQueue;
 	if (SUCCEEDED(dev->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
 
@@ -19,6 +20,7 @@ DirectXCommon::~DirectXCommon()
 		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
 		infoQueue->Release();
 	}
+#endif
 }
 void DirectXCommon::Initialize(WinApp *winApp)
 {
