@@ -10,6 +10,7 @@
 #include "Model.h"
 #include "Camera.h"
 #include "LightGroop.h"
+
 class Object3d
 {
 private: // エイリアス
@@ -32,8 +33,56 @@ public: // サブクラス
 		XMFLOAT3 cameraPos;
 		float pad;
 		XMFLOAT3 shadowPos;
-		//float pad2;
-		//float lightScale[7];
+		unsigned int lightScale0;
+		unsigned int lightScale1;
+		unsigned int lightScale2;
+		unsigned int lightScale3;
+		unsigned int lightScale4;
+		unsigned int lightScale5;
+		unsigned int lightScale6;
+		unsigned int lightScale7;
+		unsigned int lightScale8;
+		unsigned int lightScale9;
+		unsigned int lightScale10;
+		unsigned int lightScale11;
+		unsigned int lightScale12;
+		unsigned int lightScale13;
+		unsigned int lightScale14;
+		unsigned int lightScale15;
+		unsigned int lightScale16;
+		unsigned int lightScale17;
+		unsigned int lightScale18;
+		unsigned int lightScale19;
+		unsigned int lightScale20;
+		unsigned int lightScale21;
+		unsigned int lightScale22;
+		unsigned int lightScale23;
+		unsigned int lightScale24;
+		unsigned int lightScale25;
+		unsigned int lightScale26;
+		unsigned int lightScale27;
+		unsigned int lightScale28;
+		unsigned int lightScale29;
+		unsigned int lightScale30;
+		unsigned int lightScale31;
+		unsigned int lightScale32;
+		unsigned int lightScale33;
+		unsigned int lightScale34;
+		unsigned int lightScale35;
+		unsigned int lightScale36;
+		unsigned int lightScale37;
+		unsigned int lightScale38;
+		unsigned int lightScale39;
+		unsigned int lightScale40;
+		unsigned int lightScale41;
+		unsigned int lightScale42;
+		unsigned int lightScale43;
+		unsigned int lightScale44;
+		unsigned int lightScale45;
+		unsigned int lightScale46;
+		unsigned int lightScale47;
+		unsigned int lightScale48;
+
 	};
 
 	// パイプラインセット
@@ -93,7 +142,9 @@ public:
 	bool Initialize();
 	
 	//毎フレーム処理
-	void Update(XMFLOAT3 shadowPos);
+	void Update(XMFLOAT3 shadowPos );
+
+	void LightUpdate(XMFLOAT3 shadowPos);
 
 	//描画
 	void Draw();
@@ -118,6 +169,9 @@ public:
 
 	/// ビルボードフラグのセット
 	void SetBillboard(bool isBillboard) { this->isBillboard = isBillboard; }
+	
+	float SetLightAllActive();
+	float SetLightAllNoActive();
 
 	private: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffB0; // 定数バッファ
@@ -137,4 +191,6 @@ public:
 	Model *model = nullptr;
 	// ビルボード
 	bool isBillboard = false;
+	public:
+	float lightActive[49];
 };

@@ -40,6 +40,7 @@ public:
 	
 	bool CatchCollision(Player* player);//ƒvƒŒƒCƒ„[‚Æ“G“–‚½‚è”»’è
 
+	bool DeathAnimation(Player* player);
 	XMFLOAT3 GetPos() { return pos; };
 private:
 	Sprite* spriteEnemyDot = nullptr;

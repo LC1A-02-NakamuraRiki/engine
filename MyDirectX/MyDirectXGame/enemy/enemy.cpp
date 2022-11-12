@@ -1,5 +1,7 @@
 #include "enemy.h"
 #include "Collision.h"
+#include "Input.h"
+using namespace DirectX;
 
 Enemy::~Enemy()
 {
@@ -366,4 +368,31 @@ bool Enemy::CatchCollision(Player* player)
 {
 	XMFLOAT3 playerPos = player->GetPos();
 	return Collision::ChenkSphere2Sphere(playerPos, pos, 2.5f, 3.0f);
+}
+
+bool Enemy::DeathAnimation(Player* player)
+{
+	//if (CatchCollision(player))
+	//{
+	if (Input::GetInstance()->KeybordPush(DIK_8))
+	{
+		float aX = player->GetPos().x - pos.x;
+		float aZ = player->GetPos().z - pos.z;
+		float aXZ = XMConvertToDegrees(float(atan2(aX, aZ)));
+		
+		if (player->GetViewAngle() < aXZ + 30 && player->GetViewAngle() > aXZ - 30)
+		{
+			player->SetViewAngle2(aXZ);
+		}
+		else if (player->GetViewAngle() < aXZ)
+		{
+			player->SetViewAngle(20);
+		}
+		else if (player->GetAngle() > aXZ)
+		{
+			player->SetViewAngle(-20);
+		}
+	}
+	//}
+	return false;
 }

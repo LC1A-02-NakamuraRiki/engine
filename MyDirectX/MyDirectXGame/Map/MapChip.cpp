@@ -2,7 +2,7 @@
 #include "Collision.h"
 #include<time.h>
 #include<random>
-
+#include "Input.h"
 MapChip::~MapChip()
 {
 	//safe_delete(modelMapWall);
@@ -457,6 +457,16 @@ void MapChip::MapCreate()
 			}
 		}
 	}
+	//for (int x = 0; x < MapValue; x++)
+	//{
+	//	for (int y = 0; y < MapValue; y++)
+	//	{
+	//		for (int i = 0; i < 49; i++)
+	//		{
+	//			objMapWall[y][x]->SetLightActive(0, i);
+	//		}
+	//	}
+	//}
 }
 
 void MapChip::MapMove(XMFLOAT2 mapPos)
@@ -480,6 +490,26 @@ void MapChip::MapMove(XMFLOAT2 mapPos)
 
 void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos)
 {
+	if (Input::GetInstance()->KeybordPush(DIK_L))
+	{
+		for (int x = 0; x < MapValue; x++)
+		{
+			for (int y = 0; y < MapValue; y++)
+			{
+				objMapWall[y][x]->SetLightAllActive();
+			}
+		}
+	}
+	if (Input::GetInstance()->KeybordPush(DIK_K))
+	{
+		for (int x = 0; x < MapValue; x++)
+		{
+			for (int y = 0; y < MapValue; y++)
+			{
+				objMapWall[y][x]->SetLightAllNoActive();
+			}
+		}
+	}
 	MapMove(mapPos);
 	for (int x = 0; x < MapValue; x++)
 	{

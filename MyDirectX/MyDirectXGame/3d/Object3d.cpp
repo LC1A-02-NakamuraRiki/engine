@@ -260,7 +260,159 @@ void Object3d::Update(XMFLOAT3 shadowPos)
 	constMap->world = matWorld;
 	constMap->cameraPos = cameraPos;
 	constMap->shadowPos = shadowPos;
-	//constMap->lightScale[0] = 1;
+	
+	 constMap->lightScale0 = 1;
+	 constMap->lightScale1 = 1;
+	 constMap->lightScale2 = 1;
+	 constMap->lightScale3 = 1;
+	 constMap->lightScale4 = 1;
+	 constMap->lightScale5 = 1;
+	 constMap->lightScale6 = 1;
+	 constMap->lightScale7 = 1;
+	 constMap->lightScale8 = 1;
+	 constMap->lightScale9 = 1;
+	constMap->lightScale10 = 1;
+	constMap->lightScale11 = 1;
+	constMap->lightScale12 = 1;
+	constMap->lightScale13 = 1;
+	constMap->lightScale14 = 1;
+	constMap->lightScale15 = 1;
+	constMap->lightScale16 = 1;
+	constMap->lightScale17 = 1;
+	constMap->lightScale18 = 1;
+	constMap->lightScale19 = 1;
+	constMap->lightScale20 = 1;
+	constMap->lightScale21 = 1;
+	constMap->lightScale22 = 1;
+	constMap->lightScale23 = 1;
+	constMap->lightScale24 = 1;
+	constMap->lightScale25 = 1;
+	constMap->lightScale26 = 1;
+	constMap->lightScale27 = 1;
+	constMap->lightScale28 = 1;
+	constMap->lightScale29 = 1;
+	constMap->lightScale30 = 1;
+	constMap->lightScale31 = 1;
+	constMap->lightScale32 = 1;
+	constMap->lightScale33 = 1;
+	constMap->lightScale34 = 1;
+	constMap->lightScale35 = 1;
+	constMap->lightScale36 = 1;
+	constMap->lightScale37 = 1;
+	constMap->lightScale38 = 1;
+	constMap->lightScale39 = 1;
+	constMap->lightScale40 = 1;
+	constMap->lightScale41 = 1;
+	constMap->lightScale42 = 1;
+	constMap->lightScale43 = 1;
+	constMap->lightScale44 = 1;
+	constMap->lightScale45 = 1;
+	constMap->lightScale46 = 1;
+	constMap->lightScale47 = 1;
+	constMap->lightScale48 = 1;
+
+	constBuffB0->Unmap(0, nullptr);
+}
+
+void Object3d::LightUpdate(XMFLOAT3 shadowPos)
+{
+	assert(camera);
+
+	HRESULT result;
+	XMMATRIX matScale, matRot, matTrans;
+
+	// スケール、回転、平行移動行列の計算
+	matScale = XMMatrixScaling(scale.x, scale.y, scale.z);
+	matRot = XMMatrixIdentity();
+	matRot *= XMMatrixRotationZ(XMConvertToRadians(rotation.z));
+	matRot *= XMMatrixRotationX(XMConvertToRadians(rotation.x));
+	matRot *= XMMatrixRotationY(XMConvertToRadians(rotation.y));
+	matTrans = XMMatrixTranslation(position.x, position.y, position.z);
+
+	// ワールド行列の合成
+	matWorld = XMMatrixIdentity(); // 変形をリセット
+	matWorld *= matScale; // ワールド行列にスケーリングを反映
+	matWorld *= matRot; // ワールド行列に回転を反映
+	matWorld *= matTrans; // ワールド行列に平行移動を反映
+
+	if (isBillboard) {
+		const XMMATRIX &matBillboard = camera->GetBillboardMatrix();
+
+		matWorld = XMMatrixIdentity();
+		matWorld *= matScale; // ワールド行列にスケーリングを反映
+		matWorld *= matRot; // ワールド行列に回転を反映
+		matWorld *= matBillboard;
+		matWorld *= matTrans; // ワールド行列に平行移動を反映
+	}
+
+	// 親オブジェクトがあれば
+	if (parent != nullptr) {
+		// 親オブジェクトのワールド行列を掛ける
+		matWorld *= parent->matWorld;
+	}
+
+	const XMMATRIX &matViewProjection = camera->GetViewProjectionMatrix();
+	const XMFLOAT3 &cameraPos = camera->GetEye();
+	const XMFLOAT3& cameraPos2 = camera->GetEye();
+	// 定数バッファへデータ転送
+	ConstBufferDataB0 *constMap = nullptr;
+	result = constBuffB0->Map(0, nullptr, (void **)&constMap);
+	//constMap->mat = matWorld * matViewProjection;	// 行列の合成
+	constMap->viewproj = matViewProjection;
+	constMap->world = matWorld;
+	constMap->cameraPos = cameraPos;
+	constMap->shadowPos = shadowPos;
+	
+	  constMap->lightScale0 = 9;
+	  constMap->lightScale1 = 9;
+	  constMap->lightScale2 = 9;
+	  constMap->lightScale3 = 9;
+	  constMap->lightScale4 = 9;
+	  constMap->lightScale5 = 9;
+	  constMap->lightScale6 = 9;
+	  constMap->lightScale7 = 9;
+	  constMap->lightScale8 = 9;
+	  constMap->lightScale9 = 9;
+	 constMap->lightScale10 = 9;
+	 constMap->lightScale11 = 9;
+	 constMap->lightScale12 = 9;
+	 constMap->lightScale13 = 9;
+	 constMap->lightScale14 = 9;
+	 constMap->lightScale15 = 9;
+	 constMap->lightScale16 = 9;
+	 constMap->lightScale17 = 9;
+	 constMap->lightScale18 = 9;
+	 constMap->lightScale19 = 9;
+	 constMap->lightScale20 = 9;
+	 constMap->lightScale21 = 9;
+	 constMap->lightScale22 = 9;
+	 constMap->lightScale23 = 9;
+	 constMap->lightScale24 = 9;
+	 constMap->lightScale25 = 9;
+	 constMap->lightScale26 = 9;
+	 constMap->lightScale27 = 9;
+	 constMap->lightScale28 = 9;
+	 constMap->lightScale29 = 9;
+	 constMap->lightScale30 = 9;
+	 constMap->lightScale31 = 9;
+	 constMap->lightScale32 = 9;
+	 constMap->lightScale33 = 9;
+	 constMap->lightScale34 = 9;
+	 constMap->lightScale35 = 9;
+	 constMap->lightScale36 = 9;
+	 constMap->lightScale37 = 9;
+	 constMap->lightScale38 = 9;
+	 constMap->lightScale39 = 9;
+	 constMap->lightScale40 = 9;
+	 constMap->lightScale41 = 9;
+	 constMap->lightScale42 = 9;
+	 constMap->lightScale43 = 9;
+	 constMap->lightScale44 = 9;
+	 constMap->lightScale45 = 9;
+	 constMap->lightScale46 = 9;
+	 constMap->lightScale47 = 9;
+	 constMap->lightScale48 = 9;
+
 	constBuffB0->Unmap(0, nullptr);
 }
 
@@ -281,4 +433,14 @@ void Object3d::Draw()
 	lightGroup->Draw(cmdList, 3);
 	// モデル描画
 	model->Draw(cmdList);
+}
+
+float Object3d::SetLightAllActive()
+{
+	return lightActive[0] = 1;
+}
+
+float Object3d::SetLightAllNoActive()
+{
+	return lightActive[0] = 0;
 }

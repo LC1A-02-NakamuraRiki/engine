@@ -12,14 +12,22 @@ using namespace Microsoft::WRL;
 DirectXCommon::~DirectXCommon()
 {
 #ifdef _DEBUG
-	ID3D12InfoQueue* infoQueue;
-	if (SUCCEEDED(dev->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
 
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
-		infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
-		infoQueue->Release();
+	ID3D12DebugDevice* debugInterface;
+	if (SUCCEEDED(dev->QueryInterface(&debugInterface)) && debugInterface != nullptr)
+	{
+		debugInterface->ReportLiveDeviceObjects(D3D12_RLDO_DETAIL | D3D12_RLDO_IGNORE_INTERNAL);
+		debugInterface->Release();
 	}
+
+	//ID3D12InfoQueue* infoQueue;
+	//if (SUCCEEDED(dev->QueryInterface(IID_PPV_ARGS(&infoQueue)))) {
+
+	//	infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, true);
+	//	infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, true);
+	//	infoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, true);
+	//	infoQueue->Release();
+	//}
 #endif
 }
 void DirectXCommon::Initialize(WinApp *winApp)

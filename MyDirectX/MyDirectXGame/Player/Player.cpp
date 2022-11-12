@@ -331,7 +331,14 @@ void Player::View(bool tutrialFlag)
 		{
 			angleY += viewSpeed;
 		}
-
+		if (angleY < -180)
+		{
+			angleY = 180;
+		}
+		if (angleY > 180)
+		{
+			angleY = -180;
+		}
 		angleY += Input::GetInstance()->GetMouseMove().lX * mouseViewSpeed;
 		angleX -= Input::GetInstance()->GetMouseMove().lY * mouseViewSpeed;
 	}

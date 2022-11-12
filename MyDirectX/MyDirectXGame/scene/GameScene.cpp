@@ -129,7 +129,11 @@ void GameScene::Update()
 {
 	float vec = SoundVector::VectorSearch(enemy->GetPos().x, enemy->GetPos().z, player->GetPos().x, player->GetPos().z);
 	float sideValue = 45;
-	
+	float aX = player->GetPos().x - enemy->GetPos().x;
+	float aZ = player->GetPos().z - enemy->GetPos().z;
+	float aXZ = XMConvertToDegrees(float(atan2(aX, aZ)));
+	debugText.Print(30, 60, 2, "ee%f", aXZ);
+	debugText.Print(30,30,2,"p%f",player->GetViewAngle());
 	/*if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
 	{
 		audio->PlaySE("Resources/seR.wav", false);
@@ -143,6 +147,7 @@ void GameScene::Update()
 		audio->PlaySE("Resources/seL.wav", false);
 		audio->PlaySE("Resources/seR.wav", false);
 	}*/
+
 	if (scene == TITLE)
 	{	
 		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)
@@ -244,7 +249,7 @@ void GameScene::Update()
 		map->Update(player->GetPos(),player->GetMapPos(),enemy->GetPos());
 		stopFlag = map->GetStopFlag();
 		enemy->Update(player, map,player->GetMapPos());
-		if (enemy->CatchCollision(player))
+		if (enemy->DeathAnimation(player))
 		{
 			scene = GAMEOVER;
 		}

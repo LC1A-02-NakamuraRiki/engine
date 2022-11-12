@@ -39,6 +39,9 @@ public:
 	XMFLOAT2 GetMapPos() { return mapPosValue; }
 	XMFLOAT3 GetTarget() { return target; }
 	float GetAngle() { return angle.y; }
+	float GetViewAngle() { return angleY; }
+	float SetViewAngle(float value) { return angleY += value; }
+	float SetViewAngle2(float value) { return angleY = value; }
 	float GetViewSpeed() { return mouseViewSpeed; }
 	float SetViewSpeedPlus() { return mouseViewSpeed += 0.05f; }
 	float SetViewSpeedMinus() { return mouseViewSpeed -= 0.05f; }
