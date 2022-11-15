@@ -320,15 +320,15 @@ void GameScene::Draw()
 	{
 		if (buttonNo == 0)
 		{
-			spriteTitle->Draw();
+			spriteTitle->Draw(1.0f);
 		}
 		else if (buttonNo == 1)
 		{
-			spriteTitle2->Draw();
+			spriteTitle2->Draw(1.0f);
 		}
 		else if (buttonNo == 2)
 		{
-			spriteTitle3->Draw();
+			spriteTitle3->Draw(1.0f);
 		}
 	}
 	if (scene == OPTION)
@@ -344,24 +344,24 @@ void GameScene::Draw()
 		}
 		if (optionButtonNo == 0)
 		{
-			spriteOption->Draw();
+			spriteOption->Draw(1.0f);
 		}
 		else if (optionButtonNo == 1)
 		{
-			spriteOption2->Draw();
+			spriteOption2->Draw(1.0f);
 		}
 		else if (optionButtonNo == 2)
 		{
-			spriteOption3->Draw();
+			spriteOption3->Draw(1.0f);
 		}
 	}
 	if (scene == CLEAR)
 	{
-		spriteClear->Draw();
+		spriteClear->Draw(1.0f);
 	}
 	if (scene == GAMEOVER)
 	{
-		spriteGAMEOVER->Draw();
+		spriteGAMEOVER->Draw(1.0f);
 	}
 	if (scene == PLAY)
 	{
@@ -417,7 +417,7 @@ void GameScene::PostOffDraw()
 		player->DrawSprite();
 		enemy->DrawSprite(map);
 		if (tutrialFlag == true) {
-			spriteRule->Draw();
+			spriteRule->Draw(1.0f);
 		}
 	}
 

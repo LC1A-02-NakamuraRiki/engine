@@ -59,7 +59,7 @@ float4 main(VSOutput input) : SV_TARGET
 				az = lightInfo.lightPos.z - input.worldpos.z;
 				axyz = ax * ax + ay * ay + az * az;
 				xyzDistanse = sqrt(axyz);
-				scalr = 1.0 - (xyzDistanse / 7);
+				scalr = 1.0 - (xyzDistanse / 8);
 				// ‘S‚Ä‰ÁŽZ‚·‚é
 				if (scalr >= 0) {
 
@@ -78,7 +78,7 @@ float4 main(VSOutput input) : SV_TARGET
 						az = -76 + (24 * y) - input.worldpos.z;
 						axyz = ax * ax + ay * ay + az * az;
 						xyzDistanse = sqrt(axyz);
-						scalr = 1.0 - (xyzDistanse / 7);
+						scalr = 1.0 - (xyzDistanse / 8);
 						// ‘S‚Ä‰ÁŽZ‚·‚é
 						if (scalr >= 0) {
 

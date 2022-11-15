@@ -94,7 +94,7 @@ void DebugText::DrawAll(ID3D12GraphicsCommandList *cmdList)
 	for (int i = 0; i < spriteIndex; i++)
 	{
 		//スプライト描画
-		spriteDatas[i]->Draw();
+		spriteDatas[i]->Draw(1.0f);
 	}
 
 	spriteIndex = 0;

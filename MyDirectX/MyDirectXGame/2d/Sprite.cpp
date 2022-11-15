@@ -372,7 +372,7 @@ void Sprite::SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize)
 	TransferVertices();
 }
 
-void Sprite::Draw()
+void Sprite::Draw(float alpha)
 {
 	this->matWorld = XMMatrixIdentity();
 
@@ -386,6 +386,7 @@ void Sprite::Draw()
 	{
 		constMap->mat = matWorld * matProjection;
 		constMap->color = color;
+		constMap->alpha = alpha;
 		constBuff->Unmap(0, nullptr);
 	}
 

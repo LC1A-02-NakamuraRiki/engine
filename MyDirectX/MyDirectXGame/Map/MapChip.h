@@ -301,9 +301,13 @@ private:
 	std::unique_ptr<Sprite> spriteEnemyStop;
 	XMFLOAT2 stopFontSize = { 1200.0f * 10, 200.0f * 10 };
 	int stopSprieteTime = 0;
+	float stopAlpha = 1.0f;
+
 	std::unique_ptr<Sprite> spriteEnemySpot;
 	XMFLOAT2 spotFontSize = { 1200.0f * 10, 200.0f * 10 };
 	int spotSprieteTime = 0;
+	float spotAlpha = 1.0f;
+	
 	std::unique_ptr<Sprite> spriteSpotEffect;
 	int number = 11;
 };

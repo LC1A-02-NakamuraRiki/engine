@@ -23,6 +23,8 @@ public: // サブクラス
 		XMFLOAT4 color;    //色(RGBA)
 		XMMATRIX mat;      //3D変換行列
 		bool flag;
+		bool pad;
+		float alpha;
 	};
 
 	struct VertexPosUv
@@ -108,7 +110,7 @@ public: // メンバ関数
 	void SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize);
 
 	//描画
-	void Draw();
+	void Draw(float alpha);
 
 protected: // メンバ変数
 	// 頂点バッファ

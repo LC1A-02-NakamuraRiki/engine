@@ -206,8 +206,8 @@ void MapChip::Initialize()
 		assert(0);
 		return;
 	}
-	spriteNumberNum1[0] = std::unique_ptr<Sprite>(Sprite::Create(8, { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum1[1] = std::unique_ptr<Sprite>(Sprite::Create(9, { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[0] = std::unique_ptr<Sprite>(Sprite::Create(8,  { 260 - 10, 656 - 16 - 96 }));
+	spriteNumberNum1[1] = std::unique_ptr<Sprite>(Sprite::Create(9,  { 260 - 10, 656 - 16 - 96 }));
 	spriteNumberNum1[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 10, 656 - 16 - 96 }));
 	spriteNumberNum1[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 10, 656 - 16 - 96 }));
 	spriteNumberNum1[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 10, 656 - 16 - 96 }));
@@ -229,11 +229,11 @@ void MapChip::Initialize()
 	spriteNumberNum10[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 58, 656 - 16 - 96 }));
 
 
-	 spriteEnemyStop = std::unique_ptr<Sprite>(Sprite::Create(31, { 990, 600 }));
+	 spriteEnemyStop = std::unique_ptr<Sprite>(Sprite::Create(31, { 990, 850 }));
 	 spriteEnemyStop->SetAnchorPoint(XMFLOAT2(0.5f,0.5f));
 	 spriteEnemyStop->SetSize(XMFLOAT2(stopFontSize));
 
-	 spriteEnemySpot = std::unique_ptr<Sprite>(Sprite::Create(32, { 990, 600 }));
+	 spriteEnemySpot = std::unique_ptr<Sprite>(Sprite::Create(32, { 990, 850 }));
 	 spriteEnemySpot->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 	 spriteEnemySpot->SetSize(XMFLOAT2(spotFontSize));
 
@@ -591,6 +591,33 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos)
 	}
 	TimeStop();
 	EnemyDisplay();
+
+	if (number >= 10)
+	{
+		spriteNumberNum1[0]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		spriteNumberNum1[1]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		spriteNumberNum1[2]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		spriteNumberNum1[3]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		spriteNumberNum1[4]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		spriteNumberNum1[5]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		spriteNumberNum1[6]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		spriteNumberNum1[7]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		spriteNumberNum1[8]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		spriteNumberNum1[9]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+	}
+	else
+	{
+		spriteNumberNum1[0]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		spriteNumberNum1[1]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		spriteNumberNum1[2]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		spriteNumberNum1[3]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		spriteNumberNum1[4]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		spriteNumberNum1[5]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		spriteNumberNum1[6]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		spriteNumberNum1[7]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		spriteNumberNum1[8]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		spriteNumberNum1[9]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+	}
 }
 
 int MapChip::ArrayValue(float x, float y)
@@ -646,11 +673,11 @@ void MapChip::DrawSprite()
 {
 	if (!displayFlag)
 	{
-		spriteMapBack->Draw();
+		spriteMapBack->Draw(1.0f);
 	}
 	else
 	{
-		spriteSpotEffect->Draw();
+		spriteSpotEffect->Draw(1.0f);
 	}
 
 	for (int x = 0; x < MapValue; x++)
@@ -660,7 +687,7 @@ void MapChip::DrawSprite()
 			if (mapWall[y][x] == 1 && spriteMapWall[y][x]->GetPosition().x < 420 && spriteMapWall[y][x]->GetPosition().x > 100
 				&& spriteMapWall[y][x]->GetPosition().y > 650 && spriteMapWall[y][x]->GetPosition().y < 986)
 			{
-				spriteMapWall[y][x]->Draw();
+				spriteMapWall[y][x]->Draw(1.0f);
 			}
 		}
 	}
@@ -670,33 +697,37 @@ void MapChip::DrawSprite()
 		if (crystalGetFlag[i] == false && spriteCrystal[i]->GetPosition().x < 420 && spriteCrystal[i]->GetPosition().x > 100
 			&& spriteCrystal[i]->GetPosition().y > 650 && spriteCrystal[i]->GetPosition().y < 970)
 		{
-			spriteCrystal[i]->Draw();
+			spriteCrystal[i]->Draw(1.0f);
 		}
 	}
 	for (int i = 0; i < 9; i++)
 	{
 		if (number == i + 1)
 		{
-			spriteNumberNum1[i]->Draw();
+			spriteNumberNum1[i]->Draw(1.0f);
 		}
 	}
 	if (number == 10)
 	{
-		spriteNumberNum10[0]->Draw();
-		spriteNumberNum1[9]->Draw();
+		spriteNumberNum10[0]->Draw(1.0f);
+		spriteNumberNum1[9]->Draw(1.0f);
 	}
 	if (number == 11)
 	{
-		spriteNumberNum1[0]->Draw();
-		spriteNumberNum10[0]->Draw();
+		spriteNumberNum1[0]->Draw(1.0f);
+		spriteNumberNum10[0]->Draw(1.0f);
 	}
-	spriteMapFrame->Draw();
+	spriteMapFrame->Draw(1.0f);
 	
 	
-	if (spotSprieteTime < 60 && displayFlag)
+	if (spotSprieteTime < 80 && displayFlag)
 	{	
 		spotSprieteTime++;
-		spriteEnemySpot->Draw();
+		spriteEnemySpot->Draw(spotAlpha);
+	}
+	if (spotSprieteTime > 60 && spotSprieteTime < 80 && displayFlag)
+	{
+		spotAlpha -= 0.05f;
 	}
 	if (spotSprieteTime < 60 && spotFontSize.x > 1200 && displayFlag)
 	{
@@ -705,10 +736,14 @@ void MapChip::DrawSprite()
 		spriteEnemySpot->SetSize(spotFontSize);
 	}
 	
-	if (stopSprieteTime < 60 && stopFlag)
+	if (stopSprieteTime < 80 && stopFlag)
 	{
 		stopSprieteTime++;
-		spriteEnemyStop->Draw();
+		spriteEnemyStop->Draw(stopAlpha);
+	}
+	if (stopSprieteTime > 60 && stopSprieteTime < 80 && stopFlag)
+	{
+		stopAlpha -= 0.05f;
 	}
 	if (stopSprieteTime < 60 && stopFontSize.x > 1200 && stopFlag)
 	{

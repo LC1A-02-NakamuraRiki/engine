@@ -60,8 +60,8 @@ void Enemy::DrawSprite(MapChip* mapChip)
 	if (mapChip->GetDisplayFlag() && miniMapPos.x < 420 && miniMapPos.x > 100
 		&& miniMapPos.y > 650 && miniMapPos.y < 970)
 	{
-		spriteEnemyAngle->Draw();
-		spriteEnemyDot->Draw();
+		spriteEnemyAngle->Draw(1.0f);
+		spriteEnemyDot->Draw(1.0f);
 	}
 }
 

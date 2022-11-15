@@ -62,8 +62,8 @@ void Player::Draw()
 
 void Player::DrawSprite()
 {
-	spritePlayerAngle->Draw();
-	spritePlayerDot->Draw();
+	spritePlayerAngle->Draw(1.0f);
+	spritePlayerDot->Draw(1.0f);
 }
 
 void Player::Move(MapChip *mapChip)
