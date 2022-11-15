@@ -39,7 +39,7 @@ void Enemy::InitializeValue()
 
 void Enemy::Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos)
 {
-	objEnemy->Update(pos);
+	objEnemy->Update(pos,pos,0,1);
 	AI(player,mapChip);
 	if (mapChip->GetCrystalGetFlag(9) || mapChip->GetCrystalGetFlag(10))
 	{
@@ -383,19 +383,20 @@ bool Enemy::DeathAnimation(Player* player)
 		
 		if (player->GetViewAngle() < aXZ + 30 && player->GetViewAngle() > aXZ - 30)
 		{
-			player->SetViewAngle2(aXZ);
+			player->SetViewAngleY2(aXZ);
+			player->SetViewAngleX2(10);
 			killTime++;
 		}
 		else if (player->GetViewAngle() < aXZ)
 		{
-			player->SetViewAngle(20);
+			player->SetViewAngleY(20);
 		}
 		else if (player->GetAngle() > aXZ)
 		{
-			player->SetViewAngle(-20);
+			player->SetViewAngleY(-20);
 		}
 
-		if (killTime > 20)
+		if (killTime > 60)
 		{
 			killTime = 0;
 			return true;

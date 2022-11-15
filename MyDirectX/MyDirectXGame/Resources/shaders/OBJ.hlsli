@@ -1,8 +1,8 @@
-static const int LIGHT_NUM = 7;
-
 struct LightInfo
 {
+	float3 lightPos;
 	uint lightActive;
+	uint allActive;
 };
 
 cbuffer cbuff0 : register(b0)
@@ -12,7 +12,7 @@ cbuffer cbuff0 : register(b0)
 	float3 cameraPos;
 	float3 shadowPos;
 	
-	LightInfo lightInfo[LIGHT_NUM];
+	LightInfo lightInfo;
 };
 
 cbuffer cbuff1 : register(b1)

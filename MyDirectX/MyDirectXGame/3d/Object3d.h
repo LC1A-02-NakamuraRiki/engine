@@ -26,9 +26,10 @@ public: // サブクラス
 
 	struct LightInfo
 	{
-		unsigned int lightActive = 1;
+		XMFLOAT3 lightPos;
+		unsigned int lightActive;
+		unsigned int allActive;
 	};
-	static const int DirLightNum = 49;
 	// 定数バッファ用データ構造体
 	struct ConstBufferDataB0
 	{
@@ -38,7 +39,8 @@ public: // サブクラス
 		XMFLOAT3 cameraPos;
 		float pad;
 		XMFLOAT3 shadowPos;
-		LightInfo lightInfo[DirLightNum];
+		float pad2;
+		LightInfo lightInfo;
 	};
 	
 	// パイプラインセット
@@ -98,9 +100,7 @@ public:
 	bool Initialize();
 	
 	//毎フレーム処理
-	void Update(XMFLOAT3 shadowPos );
-
-	void LightUpdate(XMFLOAT3 shadowPos);
+	void Update(XMFLOAT3 shadowPos , XMFLOAT3 lightPos,unsigned int lightActive,unsigned int allActive);
 
 	//描画
 	void Draw();
@@ -149,7 +149,5 @@ public:
 	// ビルボード
 	bool isBillboard = false;
 	public:
-	LightInfo lightInfo[7];
-
-	int activeFlag[7];
+	LightInfo lightInfo;
 };

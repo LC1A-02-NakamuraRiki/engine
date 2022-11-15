@@ -40,8 +40,10 @@ public:
 	XMFLOAT3 GetTarget() { return target; }
 	float GetAngle() { return angle.y; }
 	float GetViewAngle() { return angleY; }
-	float SetViewAngle(float value) { return angleY += value; }
-	float SetViewAngle2(float value) { return angleY = value; }
+	float SetViewAngleY(float value) { return angleY += value; }
+	float SetViewAngleY2(float value) { return angleY = value; }
+	float SetViewAngleX(float value) { return angleX += value; }
+	float SetViewAngleX2(float value) { return angleX = value; }
 	float GetViewSpeed() { return mouseViewSpeed; }
 	float SetViewSpeedPlus() { return mouseViewSpeed += 0.05f; }
 	float SetViewSpeedMinus() { return mouseViewSpeed -= 0.05f; }
