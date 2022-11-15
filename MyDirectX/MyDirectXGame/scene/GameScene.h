@@ -71,6 +71,7 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void PostOffDraw();
 	/// <summary>
 	/// パーティクル生成
 	/// </summary>

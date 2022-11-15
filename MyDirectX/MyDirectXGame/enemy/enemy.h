@@ -57,5 +57,7 @@ private:
 	bool wallHitFlag = false;
 	int adjustmentTime = 0;
 	bool adjustmentFlag = false;
+
+	int killTime = 0;
 };
 

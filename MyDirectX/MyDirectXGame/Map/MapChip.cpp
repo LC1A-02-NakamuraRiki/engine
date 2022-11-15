@@ -78,14 +78,29 @@ void MapChip::Initialize()
 	}
 
 	modelCeiling = std::unique_ptr<Model>(Model::CreateFromObject("ceiling", false));
+	modelFlat = std::unique_ptr<Model>(Model::CreateFromObject("roof", false));
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			objCeiling[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelCeiling.get()));
+			if (x == 1 || x == 4 || x == 7 || x == 10 || x == 13 || x == 16 || x == 19)
+			{
+				if (y == 1 || y == 4 || y == 7 || y == 10 || y == 13 || y == 16 || y == 19)
+				{
+					objCeiling[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelCeiling.get()));
+					
+				}
+				else
+				{
+					objCeiling[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelFlat.get()));
+				}
+			}
+			else
+			{
+				objCeiling[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelFlat.get()));
+			}
 			objCeiling[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
 			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 2.0f, y * wallSize - (MapValue * wallSize / 2) }));
-			
 		}
 	}
 
@@ -179,6 +194,18 @@ void MapChip::Initialize()
 		assert(0);
 		return;
 	}
+	if (!Sprite::LoadTexture(31, L"Resources/EnemyStop.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(32, L"Resources/EnemySpotted.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(33, L"Resources/MiniMapBack2.png")) {
+		assert(0);
+		return;
+	}
 	spriteNumberNum1[0] = std::unique_ptr<Sprite>(Sprite::Create(8, { 260 - 10, 656 - 16 - 96 }));
 	spriteNumberNum1[1] = std::unique_ptr<Sprite>(Sprite::Create(9, { 260 - 10, 656 - 16 - 96 }));
 	spriteNumberNum1[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 10, 656 - 16 - 96 }));
@@ -200,6 +227,17 @@ void MapChip::Initialize()
 	spriteNumberNum10[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 58, 656 - 16 - 96 }));
 	spriteNumberNum10[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 58, 656 - 16 - 96 }));
 	spriteNumberNum10[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 58, 656 - 16 - 96 }));
+
+
+	 spriteEnemyStop = std::unique_ptr<Sprite>(Sprite::Create(31, { 990, 600 }));
+	 spriteEnemyStop->SetAnchorPoint(XMFLOAT2(0.5f,0.5f));
+	 spriteEnemyStop->SetSize(XMFLOAT2(stopFontSize));
+
+	 spriteEnemySpot = std::unique_ptr<Sprite>(Sprite::Create(32, { 990, 600 }));
+	 spriteEnemySpot->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+	 spriteEnemySpot->SetSize(XMFLOAT2(spotFontSize));
+
+	 spriteSpotEffect = std::unique_ptr<Sprite>(Sprite::Create(33, { -16 + 100,650 - 16 - 96 }));
 
 	for (int x = 0; x < MapValue; x++)
 	{
@@ -457,16 +495,6 @@ void MapChip::MapCreate()
 			}
 		}
 	}
-	//for (int x = 0; x < MapValue; x++)
-	//{
-	//	for (int y = 0; y < MapValue; y++)
-	//	{
-	//		for (int i = 0; i < 49; i++)
-	//		{
-	//			objMapWall[y][x]->SetLightActive(0, i);
-	//		}
-	//	}
-	//}
 }
 
 void MapChip::MapMove(XMFLOAT2 mapPos)
@@ -490,26 +518,6 @@ void MapChip::MapMove(XMFLOAT2 mapPos)
 
 void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos)
 {
-	if (Input::GetInstance()->KeybordPush(DIK_L))
-	{
-		for (int x = 0; x < MapValue; x++)
-		{
-			for (int y = 0; y < MapValue; y++)
-			{
-				objMapWall[y][x]->SetLightAllActive();
-			}
-		}
-	}
-	if (Input::GetInstance()->KeybordPush(DIK_K))
-	{
-		for (int x = 0; x < MapValue; x++)
-		{
-			for (int y = 0; y < MapValue; y++)
-			{
-				objMapWall[y][x]->SetLightAllNoActive();
-			}
-		}
-	}
 	MapMove(mapPos);
 	for (int x = 0; x < MapValue; x++)
 	{
@@ -612,7 +620,15 @@ void MapChip::Draw()
 
 void MapChip::DrawSprite()
 {
-	spriteMapBack->Draw();
+	if (!displayFlag)
+	{
+		spriteMapBack->Draw();
+	}
+	else
+	{
+		spriteSpotEffect->Draw();
+	}
+
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
@@ -651,6 +667,31 @@ void MapChip::DrawSprite()
 		spriteNumberNum10[0]->Draw();
 	}
 	spriteMapFrame->Draw();
+	
+	
+	if (spotSprieteTime < 60 && displayFlag)
+	{	
+		spotSprieteTime++;
+		spriteEnemySpot->Draw();
+	}
+	if (spotSprieteTime < 60 && spotFontSize.x > 1200 && displayFlag)
+	{
+		spotFontSize.x -= 1200;
+		spotFontSize.y -= 200;
+		spriteEnemySpot->SetSize(spotFontSize);
+	}
+	
+	if (stopSprieteTime < 60 && stopFlag)
+	{
+		stopSprieteTime++;
+		spriteEnemyStop->Draw();
+	}
+	if (stopSprieteTime < 60 && stopFontSize.x > 1200 && stopFlag)
+	{
+		stopFontSize.x -= 1200;
+		stopFontSize.y -= 200;
+		spriteEnemyStop->SetSize(stopFontSize);
+	}
 }
 
 void MapChip::TimeStop()

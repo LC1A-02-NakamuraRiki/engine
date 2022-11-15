@@ -365,6 +365,54 @@ void GameScene::Draw()
 	}
 	if (scene == PLAY)
 	{
+		
+	}
+
+	//-------------------------------------------------------------//
+	// デバッグテキストの描画
+	debugText.DrawAll(cmdList);
+	// スプライト描画後処理
+	Sprite::PostDraw();
+#pragma endregion
+}
+
+void GameScene::PostOffDraw()
+{
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
+
+#pragma region 背景スプライト描画
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(cmdList);
+	// 背景スプライト描画
+	//-------------------------------------------------------------//
+
+	//-------------------------------------------------------------//
+	// スプライト描画後処理
+	Sprite::PostDraw();
+	// 深度バッファクリア
+	dxCommon->ClearDepthBuffer();
+#pragma endregion
+
+#pragma region 3Dオブジェクト描画
+	// 3Dオブジェクト描画前処理
+	Object3d::PreDraw(cmdList);
+	//-------------------------------------------------------------//
+
+	//-------------------------------------------------------------//
+	// 3Dオブジェクト描画後処理
+	Object3d::PostDraw();
+
+	particle3d->Draw(cmdList);
+#pragma endregion
+
+
+#pragma region 前景スプライト描画
+	//// 前景スプライト描画前処理
+	Sprite::PreDraw(cmdList);
+	//-------------------------------------------------------------//
+	if (scene == PLAY)
+	{
 		map->DrawSprite();
 		player->DrawSprite();
 		enemy->DrawSprite(map);
@@ -378,7 +426,6 @@ void GameScene::Draw()
 	debugText.DrawAll(cmdList);
 	// スプライト描画後処理
 	Sprite::PostDraw();
-#pragma endregion
 }
 
 void GameScene::ParticlesCreate(XMFLOAT3 Pos)

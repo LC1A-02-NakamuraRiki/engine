@@ -43,7 +43,10 @@ void Enemy::Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos)
 	AI(player,mapChip);
 	if (mapChip->GetCrystalGetFlag(9) || mapChip->GetCrystalGetFlag(10))
 	{
-		Move(mapChip, mapPos);
+		if(!CatchCollision(player))
+		{
+			Move(mapChip, mapPos);
+		}
 	}
 }
 
@@ -372,9 +375,7 @@ bool Enemy::CatchCollision(Player* player)
 
 bool Enemy::DeathAnimation(Player* player)
 {
-	//if (CatchCollision(player))
-	//{
-	if (Input::GetInstance()->KeybordPush(DIK_8))
+	if (CatchCollision(player))
 	{
 		float aX = player->GetPos().x - pos.x;
 		float aZ = player->GetPos().z - pos.z;
@@ -383,6 +384,7 @@ bool Enemy::DeathAnimation(Player* player)
 		if (player->GetViewAngle() < aXZ + 30 && player->GetViewAngle() > aXZ - 30)
 		{
 			player->SetViewAngle2(aXZ);
+			killTime++;
 		}
 		else if (player->GetViewAngle() < aXZ)
 		{
@@ -392,7 +394,12 @@ bool Enemy::DeathAnimation(Player* player)
 		{
 			player->SetViewAngle(-20);
 		}
+
+		if (killTime > 20)
+		{
+			killTime = 0;
+			return true;
+		}
 	}
-	//}
 	return false;
 }
