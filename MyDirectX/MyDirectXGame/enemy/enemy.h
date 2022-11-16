@@ -15,6 +15,14 @@ class Enemy
 		RIGHT,
 		LEFT
 	};
+	struct node
+	{
+		int posX;
+		int posZ;
+		int vector;
+		int	cellCount;
+		
+	};
 protected: // エイリアス
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
@@ -36,6 +44,8 @@ public:
 
 	void AI(Player* player,MapChip* mapChip);//歩き
 
+	int AI2(Player* player, MapChip* mapChip);//歩き
+	
 	void Move(MapChip* mapChip, XMFLOAT2 mapPos);//歩き
 	
 	bool CatchCollision(Player* player);//プレイヤーと敵当たり判定
@@ -59,5 +69,10 @@ private:
 	bool adjustmentFlag = false;
 
 	int killTime = 0;
+
+	int mapZ = int((pos.z / 8) + ((21 + 1) / 2));
+	int mapX = int((pos.x / 8) + ((21 + 1) / 2));
+	int count = 0;
+	int nextVector = 0;
 };
 

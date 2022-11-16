@@ -565,6 +565,15 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos)
 		}
 	}
 	XMFLOAT3 playerPos = pos;
+
+	int mapY = int((playerPos.z / 8) + ((21 + 1) / 2));
+	int mapX = int((playerPos.x / 8) + ((21 + 1) / 2));
+	mapPlayer[mapX][mapY] = 1;
+	mapPlayer[mapX + 1][mapY + 1] = 0;
+	mapPlayer[mapX + 1][mapY - 1] = 0;
+	mapPlayer[mapX - 1][mapY + 1] = 0;
+	mapPlayer[mapX - 1][mapY - 1] = 0;
+
 	for (int i = 0; i < 11; i++)
 	{
 		if (crystalGetFlag[i] == false)

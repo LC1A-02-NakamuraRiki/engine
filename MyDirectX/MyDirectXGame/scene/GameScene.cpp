@@ -132,8 +132,9 @@ void GameScene::Update()
 	float aX = player->GetPos().x - enemy->GetPos().x;
 	float aZ = player->GetPos().z - enemy->GetPos().z;
 	float aXZ = XMConvertToDegrees(float(atan2(aX, aZ)));
-	debugText.Print(30, 60, 2, "ee%f", aXZ);
-	debugText.Print(30,30,2,"p%f",player->GetViewAngle());
+	int mapY = int((player->GetPos().z / 8) + ((21 + 1) / 2));
+	int mapX = int((player->GetPos().x / 8) + ((21 + 1) / 2));
+	debugText.Print(30, 60, 2, "%d %d", mapX ,mapY);
 	/*if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
 	{
 		audio->PlaySE("Resources/seR.wav", false);

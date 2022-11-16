@@ -325,6 +325,81 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 	}
 }
 
+int Enemy::AI2(Player* player, MapChip* mapChip)
+{
+	mapZ = int((pos.z / 8) + ((21 + 1) / 2));
+	mapX = int((pos.x / 8) + ((21 + 1) / 2));
+	count = 0;
+	node nodeFirst = { mapX ,mapZ ,nowMove,count};
+
+	//ƒ}ƒXi‚ß‚é
+	if (nodeFirst.vector == RIGHT) { mapX++; count += 1; }
+	else if (nodeFirst.vector == LEFT) { mapX--; count += 1;}
+	else if (nodeFirst.vector == DOWN) { mapZ++; count += 1;}
+	else if (nodeFirst.vector == UP) { mapZ--; count += 1;}
+
+	//ƒvƒŒƒCƒ„[Œ©‚Â‚¯‚½
+	if (mapChip->GetPlayerArrayValue(mapX, mapZ) == 1){return nodeFirst.vector;}
+	
+
+	//Šp‹È‚ª‚ê‚é
+	//Šp‚Q
+	if (mapChip->GetArrayValue(mapX, mapZ) == 2 && nodeFirst.vector == LEFT) { nextVector = DOWN; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 2 && nodeFirst.vector == UP) { nextVector = RIGHT; }
+	//Šp‚S
+	if (mapChip->GetArrayValue(mapX, mapZ) == 4 && nodeFirst.vector == RIGHT) { nextVector = DOWN; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 4 && nodeFirst.vector == UP) { nextVector = LEFT; }
+	//Šp‚W
+	if (mapChip->GetArrayValue(mapX, mapZ) == 8 && nodeFirst.vector == LEFT) { nextVector = UP; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 8 && nodeFirst.vector == DOWN) { nextVector = RIGHT; }
+	//Šp‚P‚O
+	if (mapChip->GetArrayValue(mapX, mapZ) == 10 && nodeFirst.vector == RIGHT) { nextVector = UP; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 10 && nodeFirst.vector == DOWN) { nextVector = LEFT; }
+
+
+
+	//2Žè‚ ‚é
+	//•ª‚©‚ê“¹3
+	if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == UP) { nextVector = RIGHT; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == UP) { nextVector = LEFT; }
+
+	if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == LEFT) { nextVector = DOWN; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == LEFT) { nextVector = LEFT; }
+
+	if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == RIGHT) { nextVector = DOWN; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == RIGHT) { nextVector = RIGHT; }
+
+	//•ª‚©‚ê“¹5
+	if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == LEFT) { nextVector = UP; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == LEFT) { nextVector = DOWN; }
+
+	if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == UP) { nextVector = UP; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == UP) { nextVector = RIGHT; }
+
+	if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == DOWN) { nextVector = DOWN; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == DOWN) { nextVector = RIGHT; }
+
+	//•ª‚©‚ê“¹7
+	if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == RIGHT) { nextVector = UP; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == RIGHT) { nextVector = DOWN; }
+
+	if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == UP) { nextVector = LEFT; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == UP) { nextVector = UP; }
+
+	if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == DOWN) { nextVector = LEFT; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == DOWN) { nextVector = DOWN; }
+	
+	//•ª‚©‚ê“¹9
+	if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == DOWN) { nextVector = LEFT; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == DOWN) { nextVector = RIGHT; }
+
+	if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == LEFT) { nextVector = UP; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == LEFT) { nextVector = LEFT; }
+
+	if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == RIGHT) { nextVector = UP; }
+	else if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == RIGHT) { nextVector = RIGHT; }
+}
+
 void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 {
 	if (mapChip->GetStopFlag() == false)
@@ -389,11 +464,11 @@ bool Enemy::DeathAnimation(Player* player)
 		}
 		else if (player->GetViewAngle() < aXZ)
 		{
-			player->SetViewAngleY(20);
+			player->SetViewAngleY(15);
 		}
 		else if (player->GetAngle() > aXZ)
 		{
-			player->SetViewAngleY(-20);
+			player->SetViewAngleY(-15);
 		}
 
 		if (killTime > 60)
