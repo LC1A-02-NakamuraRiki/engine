@@ -17,11 +17,9 @@ class Enemy
 	};
 	struct node
 	{
-		int posX;
-		int posZ;
+		int startX;
+		int startZ;
 		int vector;
-		int	cellCount;
-		
 	};
 protected: // エイリアス
 	// DirectX::を省略
@@ -44,7 +42,7 @@ public:
 
 	void AI(Player* player,MapChip* mapChip);//歩き
 
-	int AI2(Player* player, MapChip* mapChip);//歩き
+	void AI2(Player* player, MapChip* mapChip);//歩き
 	
 	void Move(MapChip* mapChip, XMFLOAT2 mapPos);//歩き
 	
@@ -70,6 +68,7 @@ private:
 
 	int killTime = 0;
 
+	node nodeFirst;
 	int mapZ = int((pos.z / 8) + ((21 + 1) / 2));
 	int mapX = int((pos.x / 8) + ((21 + 1) / 2));
 	int count = 0;
