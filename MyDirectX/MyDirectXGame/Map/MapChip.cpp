@@ -694,7 +694,7 @@ void MapChip::DrawSprite()
 		for (int y = 0; y < MapValue; y++)
 		{
 			if (mapWall[y][x] == 1 && spriteMapWall[y][x]->GetPosition().x < 420 && spriteMapWall[y][x]->GetPosition().x > 100
-				&& spriteMapWall[y][x]->GetPosition().y > 650 && spriteMapWall[y][x]->GetPosition().y < 986)
+				&& spriteMapWall[y][x]->GetPosition().y > 650 && spriteMapWall[y][x]->GetPosition().y < 970)
 			{
 				spriteMapWall[y][x]->Draw(1.0f);
 			}

@@ -57,12 +57,12 @@ void Enemy::Draw()
 
 void Enemy::DrawSprite(MapChip* mapChip)
 {
-	if (mapChip->GetDisplayFlag() && miniMapPos.x < 420 && miniMapPos.x > 100
-		&& miniMapPos.y > 650 && miniMapPos.y < 970)
+	if (mapChip->GetDisplayFlag() && spriteEnemyDot->GetPosition().x < 420 && spriteEnemyDot->GetPosition().x > 100
+		&& spriteEnemyDot->GetPosition().y > 650 && spriteEnemyDot->GetPosition().y < 970)
 	{
 		spriteEnemyAngle->Draw(1.0f);
 		spriteEnemyDot->Draw(1.0f);
-	}
+	} 
 }
 
 void Enemy::AI(Player* player,MapChip* mapChip)
@@ -398,6 +398,7 @@ int Enemy::AI2(Player* player, MapChip* mapChip)
 
 	if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == RIGHT) { nextVector = UP; }
 	else if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == RIGHT) { nextVector = RIGHT; }
+	return 9;
 }
 
 void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)

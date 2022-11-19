@@ -21,7 +21,7 @@ public:
 	
 	void InitializeValue();//タイトル時の初期化
 
-	void Update(MapChip* mapChip,bool tutrialFlag);//アップデート
+	void Update(MapChip* mapChip,bool tutrialFlag, bool catchFlag);//アップデート
 	
 	void Draw();
 	
@@ -31,7 +31,7 @@ public:
 
 	void WalkShaking();//揺れ
 
-	void View(bool tutrialFlag);//視点の動き
+	void View(bool tutrialFlag, bool catchFlag);//視点の動き
 
 	void AngleSearch();//歩く方向の算出
 	

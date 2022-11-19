@@ -52,44 +52,43 @@ float4 main(VSOutput input) : SV_TARGET
 				&& cameraPos.z + 40 > input.worldpos.z
 				&& cameraPos.z - 40 < input.worldpos.z)
 			{*/
-			if (lightInfo.lightActive == 1 && lightInfo.allActive == 0)
-			{
-				ax = lightInfo.lightPos.x - input.worldpos.x;
-				ay = lightInfo.lightPos.y - input.worldpos.y;
-				az = lightInfo.lightPos.z - input.worldpos.z;
-				axyz = ax * ax + ay * ay + az * az;
-				xyzDistanse = sqrt(axyz);
-				scalr = 1.0 - (xyzDistanse / 8);
-				// ‘S‚Ä‰ÁŽZ‚·‚é
-				if (scalr >= 0) {
-
-					shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr;
-
-				}
-			}
-			else if (lightInfo.allActive == 1)
-			{
-				for (int x = 0; x < 7; x++)
+				if (lightInfo.lightActive == 1 && lightInfo.allActive == 0)
 				{
-					for (int y = 0; y < 7; y++)
+					ax = lightInfo.lightPos.x - input.worldpos.x;
+					ay = lightInfo.lightPos.y - input.worldpos.y;
+					az = lightInfo.lightPos.z - input.worldpos.z;
+					axyz = ax * ax + ay * ay + az * az;
+					xyzDistanse = sqrt(axyz);
+					scalr = 1.0 - (xyzDistanse / 8);
+					// ‘S‚Ä‰ÁŽZ‚·‚é
+					if (scalr >= 0) {
+
+						shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr;
+
+					}
+				}
+				else if (lightInfo.allActive == 1)
+				{
+					for (int x = 0; x < 7; x++)
 					{
-						ax = 68 + (-24 * x) - input.worldpos.x;
-						ay = 4 - input.worldpos.y;
-						az = -76 + (24 * y) - input.worldpos.z;
-						axyz = ax * ax + ay * ay + az * az;
-						xyzDistanse = sqrt(axyz);
-						scalr = 1.0 - (xyzDistanse / 8);
-						// ‘S‚Ä‰ÁŽZ‚·‚é
-						if (scalr >= 0) {
+						for (int y = 0; y < 7; y++)
+						{
+							ax = 68 + (-24 * x) - input.worldpos.x;
+							ay = 4 - input.worldpos.y;
+							az = -76 + (24 * y) - input.worldpos.z;
+							axyz = ax * ax + ay * ay + az * az;
+							xyzDistanse = sqrt(axyz);
+							scalr = 1.0 - (xyzDistanse / 8);
+							// ‘S‚Ä‰ÁŽZ‚·‚é
+							if (scalr >= 0) {
 
-							shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr;
+								shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr;
 
+							}
 						}
 					}
 				}
-			}
 			//}
-			
 		}
 	}
 

@@ -135,7 +135,7 @@ void GameScene::Update()
 	int mapY = int((player->GetPos().z / 8) + ((21 + 1) / 2));
 	int mapX = int((player->GetPos().x / 8) + ((21 + 1) / 2));
 	debugText.Print(30, 60, 2, "%d %d", mapX ,mapY);
-	/*if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
+	if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
 	{
 		audio->PlaySE("Resources/seR.wav", false);
 	}
@@ -147,7 +147,7 @@ void GameScene::Update()
 	{
 		audio->PlaySE("Resources/seL.wav", false);
 		audio->PlaySE("Resources/seR.wav", false);
-	}*/
+	}
 
 	if (scene == TITLE)
 	{	
@@ -241,7 +241,7 @@ void GameScene::Update()
 		
 		light->SetDirLightDir(5, XMVECTOR({ lightDir5[0], lightDir5[1], lightDir5[2], 0 }));
 		light->SetDirLightColor(5, XMFLOAT3(lightColor5));
-		player->Update(map,tutrialFlag);
+		player->Update(map,tutrialFlag,enemy->CatchCollision(player) == true);
 		particle3d->Update();
 		camera->Update();
 		//objSkydome->Update();

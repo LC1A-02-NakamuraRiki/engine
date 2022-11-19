@@ -41,15 +41,15 @@ void Player::InitializeValue()
 	angleY = 90; //カメラY軸
 }
 
-void Player::Update(MapChip *mapChip,bool tutrialFlag)
+void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag)
 {
 	AngleSearch();//プレイヤーの向きの算出
-	if (tutrialFlag == false)
+	if (tutrialFlag == false && catchFlag == false)
 	{
 		Move(mapChip);//移動
 	}
 	WalkShaking();//歩きの揺れ
-	View(tutrialFlag);//視点制御
+	View(tutrialFlag,catchFlag);//視点制御
 
 	spritePlayerDot->SetPosition({ 100 + (16.0f * 9), 634 + (16.0f * 12) });
 	spritePlayerAngle->SetPosition({ 100 + (16.0f * 9) + 8, 634 + (16.0f * 12) + 8 });
@@ -283,7 +283,7 @@ void Player::WalkShaking()
 	}
 }
 
-void Player::View(bool tutrialFlag)
+void Player::View(bool tutrialFlag, bool catchFlag)
 {
 	XMVECTOR v0 = { 0,0,-10, 0 };
 	//angleラジアンだけy軸まわりに回転。半径は-100
@@ -296,7 +296,7 @@ void Player::View(bool tutrialFlag)
 	XMFLOAT3 f = { v3.m128_f32[0], v3.m128_f32[1], v3.m128_f32[2] };
 	pos = { cameraPos.m128_f32[0], cameraPos.m128_f32[1], cameraPos.m128_f32[2] };
 	target = f;
-	if (tutrialFlag == false)
+	if (tutrialFlag == false&&catchFlag==false)
 	{
 		if (Input::GetInstance()->KeybordTrigger(DIK_9))
 		{
