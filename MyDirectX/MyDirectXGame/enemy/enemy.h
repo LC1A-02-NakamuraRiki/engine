@@ -42,8 +42,6 @@ public:
 
 	void AI(Player* player,MapChip* mapChip);//•à‚«
 
-	void AI2(Player* player, MapChip* mapChip);//•à‚«
-	
 	void Move(MapChip* mapChip, XMFLOAT2 mapPos);//•à‚«
 	
 	bool CatchCollision(Player* player);//ƒvƒŒƒCƒ„[‚Æ“G“–‚½‚è”»’è

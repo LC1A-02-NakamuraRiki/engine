@@ -15,7 +15,7 @@ private:
 	void Initialize();//Å‰‚Ì‰Šú‰»
 	void Update();
 public:
-	static float DistanceSearch(float playerX, float playerZ, float enemyX, float enemyZ);
+	static bool DistanceSearch(float playerX, float playerZ, float enemyX, float enemyZ);
 	static float VectorSearch(float playerX, float playerZ, float enemyX, float enemyZ);
 };
 

@@ -30,7 +30,7 @@ void Enemy::InitializeValue()
 {
 	pos = { -12.0f,3.0f,-76.0f };//ÉvÉåÉCÉÑÅ[ÇÃà íu
 	objEnemy->SetPosition(pos);
-	nowMove = DOWN;
+	nowMove = RIGHT;
 	adjustValueX = 0;
 	adjustValueZ = 0;
 	vReserveFlag = false;
@@ -40,7 +40,7 @@ void Enemy::InitializeValue()
 void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos)
 {
 	objEnemy->Update(pos, pos, 0, 1);
-	AI2(player, mapChip);
+	AI(player, mapChip);
 	if (mapChip->GetCrystalGetFlag(9) || mapChip->GetCrystalGetFlag(10))
 	{
 		if(!CatchCollision(player))
@@ -63,7 +63,6 @@ void Enemy::DrawSprite(MapChip* mapChip)
 		spriteEnemyAngle->Draw(1.0f);
 		spriteEnemyDot->Draw(1.0f);
 	} 
-	spriteEnemyDot->Draw(1.0f);
 }
 
 void Enemy::AI(Player* player,MapChip* mapChip)
@@ -326,121 +325,6 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 	}
 }
 
-void Enemy::AI2(Player* player, MapChip* mapChip)
-{
-	//ãSÇÃèÓïÒ
-	if (Input::GetInstance()->KeybordTrigger(DIK_P))
-	{
-		int mapZ = int((pos.z / 8) + ((21 + 1) / 2));
-		int mapX = int((pos.x / 8) + ((21 + 1) / 2));
-		nodeFirst.startX = mapX;
-		nodeFirst.startZ = mapZ;
-		nodeFirst.vector = nowMove;
-	}
-
-	//É}ÉXêiÇﬂÇÈ
-	if (nodeFirst.vector == RIGHT) 
-	{
-		for (int i = 0; i < 20 - nodeFirst.startX ; i++)
-		{
-			if (mapChip->GetPlayerArrayValue(nodeFirst.startX + i, nodeFirst.startZ) == 1) {
-				nowMove = RIGHT;
-			}
-		}
-	}
-	else if (nodeFirst.vector == LEFT) 
-	{
-		for (int i = 0; i < nodeFirst.startX; i++)
-		{
-			if (mapChip->GetPlayerArrayValue(nodeFirst.startX - i, nodeFirst.startZ) == 1) {
-				nowMove = LEFT;
-			}
-		}
-	}
-	else if (nodeFirst.vector == DOWN) 
-	{
-		for (int i = 0; i < 20 - nodeFirst.startZ; i++)
-		{
-			if (mapChip->GetPlayerArrayValue(nodeFirst.startX, nodeFirst.startZ+i) == 1) {
-				nowMove = DOWN;
-			}
-		}
-	}
-	else if (nodeFirst.vector == UP) 
-	{
-		for (int i = 0; i < nodeFirst.startZ; i++)
-		{
-			if (mapChip->GetPlayerArrayValue(nodeFirst.startX, nodeFirst.startZ-i) == 1) {
-				nowMove = UP;
-			}
-		}
-	}
-
-	//ÉvÉåÉCÉÑÅ[å©Ç¬ÇØÇΩ
-	if (mapChip->GetPlayerArrayValue(mapX, mapZ) == 1){
-		nowMove = nodeFirst.vector;
-	}
-	
-
-	////äpã»Ç™ÇÍÇÈ
-	////äpÇQ
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 2 && nodeFirst.vector == LEFT) { nextVector = DOWN; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 2 && nodeFirst.vector == UP) { nextVector = RIGHT; }
-	////äpÇS
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 4 && nodeFirst.vector == RIGHT) { nextVector = DOWN; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 4 && nodeFirst.vector == UP) { nextVector = LEFT; }
-	////äpÇW
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 8 && nodeFirst.vector == LEFT) { nextVector = UP; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 8 && nodeFirst.vector == DOWN) { nextVector = RIGHT; }
-	////äpÇPÇO
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 10 && nodeFirst.vector == RIGHT) { nextVector = UP; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 10 && nodeFirst.vector == DOWN) { nextVector = LEFT; }
-
-
-
-	////2éËÇ†ÇÈ
-	////ï™Ç©ÇÍìπ3
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == UP) { nextVector = RIGHT; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == UP) { nextVector = LEFT; }
-
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == LEFT) { nextVector = DOWN; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == LEFT) { nextVector = LEFT; }
-
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == RIGHT) { nextVector = DOWN; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 3 && nodeFirst.vector == RIGHT) { nextVector = RIGHT; }
-
-	////ï™Ç©ÇÍìπ5
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == LEFT) { nextVector = UP; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == LEFT) { nextVector = DOWN; }
-
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == UP) { nextVector = UP; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == UP) { nextVector = RIGHT; }
-
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == DOWN) { nextVector = DOWN; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 5 && nodeFirst.vector == DOWN) { nextVector = RIGHT; }
-
-	////ï™Ç©ÇÍìπ7
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == RIGHT) { nextVector = UP; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == RIGHT) { nextVector = DOWN; }
-
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == UP) { nextVector = LEFT; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == UP) { nextVector = UP; }
-
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == DOWN) { nextVector = LEFT; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 7 && nodeFirst.vector == DOWN) { nextVector = DOWN; }
-	//
-	////ï™Ç©ÇÍìπ9
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == DOWN) { nextVector = LEFT; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == DOWN) { nextVector = RIGHT; }
-
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == LEFT) { nextVector = UP; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == LEFT) { nextVector = LEFT; }
-
-	//if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == RIGHT) { nextVector = UP; }
-	//else if (mapChip->GetArrayValue(mapX, mapZ) == 9 && nodeFirst.vector == RIGHT) { nextVector = RIGHT; }
-	//return 4;
-}
-
 void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 {
 	if (mapChip->GetStopFlag() == false)
@@ -449,33 +333,33 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		{
 			spriteEnemyAngle->SetRotation(45);
 			objEnemy->SetRotation({0, 90, 0});
-		/*	pos.z += 0.2f;
+			pos.z += 0.2f;
 			miniMapPos.y += 0.4f;
-			adjustValueZ = -4.0f;*/
+			adjustValueZ = -4.0f;
 		}
 		else if (nowMove == UP)
 		{
 			spriteEnemyAngle->SetRotation(-135);
 			objEnemy->SetRotation({ 0, 270, 0 });
-			/*pos.z -= 0.2f;
+			pos.z -= 0.2f;
 			miniMapPos.y -= 0.4f;
-			adjustValueZ = 4.0f;*/
+			adjustValueZ = 4.0f;
 		}
 		else if (nowMove == RIGHT)
 		{
 			spriteEnemyAngle->SetRotation(135);
 			objEnemy->SetRotation({ 0, 180, 0 });
-			/*pos.x += 0.2f;
+			pos.x += 0.2f;
 			miniMapPos.x -= 0.4f;
-			adjustValueX = -4.0f;*/
+			adjustValueX = -4.0f;
 		}
 		else if (nowMove == LEFT)
 		{
 			spriteEnemyAngle->SetRotation(-45);
 			objEnemy->SetRotation({ 0, 0, 0 });
-			/*pos.x -= 0.2f;
+			pos.x -= 0.2f;
 			miniMapPos.x += 0.4f;
-			adjustValueX = 4.0;*/
+			adjustValueX = 4.0;
 		}
 	}
 	spriteEnemyDot->SetPosition({ miniMapPos.x + mapPos.x , miniMapPos.y + mapPos.y });

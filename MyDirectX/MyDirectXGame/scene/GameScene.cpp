@@ -129,24 +129,21 @@ void GameScene::Update()
 {
 	float vec = SoundVector::VectorSearch(enemy->GetPos().x, enemy->GetPos().z, player->GetPos().x, player->GetPos().z);
 	float sideValue = 45;
-	float aX = player->GetPos().x - enemy->GetPos().x;
-	float aZ = player->GetPos().z - enemy->GetPos().z;
-	float aXZ = XMConvertToDegrees(float(atan2(aX, aZ)));
-	int mapY = int((player->GetPos().z / 8) + ((21 + 1) / 2));
-	int mapX = int((player->GetPos().x / 8) + ((21 + 1) / 2));
-	debugText.Print(30, 60, 2, "%d %d", mapX ,mapY);
-	if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
+	if(SoundVector::DistanceSearch(enemy->GetPos().x, enemy->GetPos().z, player->GetPos().x, player->GetPos().z))
 	{
-		audio->PlaySE("Resources/seR.wav", false);
-	}
-	else if (-vec + player->GetAngle() - 90 > 90 - sideValue && -vec + player->GetAngle() - 90 < 90 + sideValue || -vec + player->GetAngle() - 90 < -270 + sideValue && -vec + player->GetAngle() - 90 > -270 - sideValue)
-	{
-		audio->PlaySE("Resources/seL.wav", false);
-	}
-	else
-	{
-		audio->PlaySE("Resources/seL.wav", false);
-		audio->PlaySE("Resources/seR.wav", false);
+		if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
+		{
+			audio->PlaySE("Resources/seR.wav", false);
+		}
+		else if (-vec + player->GetAngle() - 90 > 90 - sideValue && -vec + player->GetAngle() - 90 < 90 + sideValue || -vec + player->GetAngle() - 90 < -270 + sideValue && -vec + player->GetAngle() - 90 > -270 - sideValue)
+		{
+			audio->PlaySE("Resources/seL.wav", false);
+		}
+		else
+		{
+			audio->PlaySE("Resources/seL.wav", false);
+			audio->PlaySE("Resources/seR.wav", false);
+		}
 	}
 
 	if (scene == TITLE)
