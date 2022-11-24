@@ -80,12 +80,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)player;$(ProjectDir)Map;$(ProjectDir)enemy;$(ProjectDir)Sound;$(ProjectDir)Scene;$(ProjectDir)input;$(ProjectDir)helper;$(ProjectDir)collision;$(ProjectDir)base;$(ProjectDir)3d;$(ProjectDir)2d;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\lib\;$(ProjectDir)lib\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\DirectXTexDebug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)player;$(ProjectDir)Map;$(ProjectDir)enemy;$(ProjectDir)Sound;$(ProjectDir)Scene;$(ProjectDir)input;$(ProjectDir)helper;$(ProjectDir)collision;$(ProjectDir)base;$(ProjectDir)3d;$(ProjectDir)2d;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\lib\;$(ProjectDir)lib\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\DirectXTexRelease;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
