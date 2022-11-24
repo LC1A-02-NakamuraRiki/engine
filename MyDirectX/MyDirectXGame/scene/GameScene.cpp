@@ -241,8 +241,6 @@ void GameScene::Update()
 		player->Update(map,tutrialFlag,enemy->CatchCollision(player) == true);
 		particle3d->Update();
 		camera->Update();
-		//objSkydome->Update();
-		//objGround->Update(XMFLOAT2{ -8,-40 });
 		light->Update();
 		map->Update(player->GetPos(),player->GetMapPos(),enemy->GetPos());
 		stopFlag = map->GetStopFlag();

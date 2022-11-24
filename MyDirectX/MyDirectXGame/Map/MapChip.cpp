@@ -5,54 +5,6 @@
 #include "Input.h"
 MapChip::~MapChip()
 {
-	//safe_delete(modelMapWall);
-	//for (int x = 0; x < MapValue; x++)
-	//{
-	//	for (int y = 0; y < MapValue; y++)
-	//	{
-	//		safe_delete(objMapWall[y][x]);
-	//	}
-	//}
-	//safe_delete(modelCeiling);
-	//for (int x = 0; x < MapValue; x++)
-	//{
-	//	for (int y = 0; y < MapValue; y++)
-	//	{
-	//		safe_delete(objCeiling[y][x]);
-	//	}
-	//}
-	//safe_delete(modelFloor);
-	//for (int x = 0; x < MapValue; x++)
-	//{
-	//	for (int y = 0; y < MapValue; y++)
-	//	{
-	//		safe_delete(objFloor[y][x]);
-	//	}
-	//}
-	//safe_delete(modelCrystal);
-	//safe_delete(modelItemCrystal);
-	//for (int i = 0; i < 11; i++)
-	//{
-	//	safe_delete(objCrystal[i]);	
-	//}
-	//for (int x = 0; x < MapValue; x++)
-	//{
-	//	for (int y = 0; y < MapValue; y++)
-	//	{
-	//		safe_delete(spriteMapWall[y][x]);
-	//	}
-	//}
-	//safe_delete(spriteMapBack);
-	//safe_delete(spriteMapFrame);
-	//for (int i = 0; i < 11; i++)
-	//{
-	//	safe_delete(spriteCrystal[i]);
-	//}
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	safe_delete(spriteNumberNum1[i]);
-	//	safe_delete(spriteNumberNum10[i]);
-	//}
 }
 
 void MapChip::Initialize()
