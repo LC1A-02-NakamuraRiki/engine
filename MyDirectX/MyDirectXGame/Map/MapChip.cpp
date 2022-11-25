@@ -63,7 +63,7 @@ void MapChip::Initialize()
 		{
 			objFloor[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelFloor.get()));
 			objFloor[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
-			objFloor[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 0.5f, y * wallSize - (MapValue * wallSize / 2) }));
+			objFloor[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), -3.8f, y * wallSize - (MapValue * wallSize / 2) }));
 
 		}
 	}
