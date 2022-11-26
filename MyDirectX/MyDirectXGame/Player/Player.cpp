@@ -25,11 +25,11 @@ void Player::Initialize()
 
 void Player::InitializeValue()
 {
-	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };
-	pos = { 4.0f,0.0f,4.0f };//プレイヤーの位置
+	miniMapPos = { 100 + (16.0f * 11),650 + (16.0f * 11) };
+	pos = { -4.0f,0.0f,-4.0f };//プレイヤーの位置
 	mapPosValue = {0,0};
 	r = 0.5;//プレイヤーの半径
-	moveSpeed = 0.25f;//歩きの速度
+	moveSpeed = 0.21f;//歩きの速度
 	viewSpeed = 4.0f;//視点の速さ
 	target = { 0,0.0f,0 };//注視点
 	targetY = 0;//揺れの調整
@@ -51,8 +51,8 @@ void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag)
 	WalkShaking();//歩きの揺れ
 	View(tutrialFlag,catchFlag);//視点制御
 
-	spritePlayerDot->SetPosition({ 100 + (16.0f * 9), 634 + (16.0f * 12) });
-	spritePlayerAngle->SetPosition({ 100 + (16.0f * 9) + 8, 634 + (16.0f * 12) + 8 });
+	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 634 + (16.0f * 11) });
+	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 634 + (16.0f * 11) + 8 });
 	spritePlayerAngle->SetRotation(angle.y + 135);
 }
 

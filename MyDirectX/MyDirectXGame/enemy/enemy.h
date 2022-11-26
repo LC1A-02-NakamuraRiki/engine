@@ -15,11 +15,15 @@ class Enemy
 		RIGHT,
 		LEFT
 	};
-	struct node
+	struct Node
 	{
 		int startX;
 		int startZ;
-		int vector;
+		int startVector;
+		
+		int endX;
+		int endZ;
+		int endVector;
 	};
 protected: // エイリアス
 	// DirectX::を省略
@@ -66,7 +70,8 @@ private:
 
 	int killTime = 0;
 
-	node nodeFirst;
+	Node node[120];
+
 	int mapZ = int((pos.z / 8) + ((21 + 1) / 2));
 	int mapX = int((pos.x / 8) + ((21 + 1) / 2));
 	int count = 0;

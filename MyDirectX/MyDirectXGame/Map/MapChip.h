@@ -28,7 +28,7 @@ public:
 	void DrawSprite();
 	void TimeStop();
 	void EnemyDisplay();
-	int GetArrayValue(int x,int z) { return mapWall[x][z]; }
+	int GetArrayValue(int x,int z) { return mapWall[z][x]; }
 	int GetPlayerArrayValue(int x, int z) { return mapPlayer[x][z]; }
 	bool GetAllGetFlag() { return allGetFlag; }
 	bool GetStopFlag() { return stopFlag; }

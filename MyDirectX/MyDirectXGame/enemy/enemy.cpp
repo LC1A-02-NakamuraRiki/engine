@@ -40,6 +40,16 @@ void Enemy::InitializeValue()
 void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos)
 {
 	objEnemy->Update(pos, pos, 0, 1);
+	////‹S‚Ìî•ñ
+	//if (Input::GetInstance()->KeybordTrigger(DIK_P))
+	//{
+	//	int mapZ = int((pos.z / 8) + ((21 + 1) / 2));
+	//	int mapX = int((pos.x / 8) + ((21 + 1) / 2));
+	//	node[0].startX = mapX;
+	//	node[0].startZ = mapZ;
+	//	node[0].startVector = nowMove;
+	//}
+	//AI2(node[0], player, mapChip);
 	AI(player, mapChip);
 	if (mapChip->GetCrystalGetFlag(9) || mapChip->GetCrystalGetFlag(10))
 	{
@@ -63,6 +73,8 @@ void Enemy::DrawSprite(MapChip* mapChip)
 		spriteEnemyAngle->Draw(1.0f);
 		spriteEnemyDot->Draw(1.0f);
 	} 
+	spriteEnemyAngle->Draw(1.0f);
+	spriteEnemyDot->Draw(1.0f);
 }
 
 void Enemy::AI(Player* player,MapChip* mapChip)
@@ -83,7 +95,7 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 	if (adjustmentFlag)
 	{
 		adjustmentTime++;
-		if (adjustmentTime > 30)
+		if (adjustmentTime >= 40)
 		{
 			adjustmentTime = 0;
 			adjustmentFlag = false;
@@ -134,6 +146,22 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 					adjustmentFlag = true;
 				}
 			}
+			else if (nowMove == LEFT)
+			{
+				if (vectorZ > 0)
+				{
+					nowMove = DOWN;
+					adjustmentFlag = true;
+				}
+			}
+			else if (nowMove == RIGHT)
+			{
+				if (vectorZ > 0)
+				{
+					nowMove = DOWN;
+					adjustmentFlag = true;
+				}
+			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 4)
 		{
@@ -175,6 +203,22 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 				else if (vectorZ > 0)
 				{
 					nowMove = DOWN;
+					adjustmentFlag = true;
+				}
+			}
+			else if (nowMove == UP)
+			{
+				if (vectorX > 0)
+				{
+					nowMove = RIGHT;
+					adjustmentFlag = true;
+				}
+			}
+			else if (nowMove == DOWN)
+			{
+				if (vectorX > 0)
+				{
+					nowMove = RIGHT;
 					adjustmentFlag = true;
 				}
 			}
@@ -264,6 +308,22 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 					adjustmentFlag = true;
 				}
 			}
+			else if (nowMove == UP)
+			{
+				if (vectorX < 0)
+				{
+					nowMove = LEFT;
+					adjustmentFlag = true;
+				}
+			}
+			else if (nowMove == DOWN)
+			{
+				if (vectorX < 0)
+				{
+					nowMove = LEFT;
+					adjustmentFlag = true;
+				}
+			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 8)
 		{
@@ -305,6 +365,22 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 				if (vectorX > 0)
 				{
 					nowMove = RIGHT;
+					adjustmentFlag = true;
+				}
+			}
+			else if (nowMove == LEFT)
+			{
+				if (vectorZ < 0)
+				{
+					nowMove = UP;
+					adjustmentFlag = true;
+				}
+			}
+			else if (nowMove == RIGHT)
+			{
+				if (vectorZ < 0)
+				{
+					nowMove = UP;
 					adjustmentFlag = true;
 				}
 			}

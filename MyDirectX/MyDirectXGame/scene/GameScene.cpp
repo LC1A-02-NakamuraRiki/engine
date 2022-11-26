@@ -127,6 +127,11 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 
 void GameScene::Update()
 {
+	int mapY = int((player->GetPos().z / 8) + ((21 + 1) / 2));
+	int mapX = int((player->GetPos().x / 8) + ((21 + 1) / 2));
+	//debugText.Print(20.0f, 20.0f, 2.0f, "%d %d", mapX,mapY);
+	debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetPos().x - enemy->GetPos().x, player->GetPos().z - enemy->GetPos().z);
+	debugText.Print(20.0f, 40.0f, 2.0f, "%d",map->GetArrayValue(mapX,mapY));
 	float vec = SoundVector::VectorSearch(enemy->GetPos().x, enemy->GetPos().z, player->GetPos().x, player->GetPos().z);
 	float sideValue = 45;
 	if(SoundVector::DistanceSearch(enemy->GetPos().x, enemy->GetPos().z, player->GetPos().x, player->GetPos().z))
