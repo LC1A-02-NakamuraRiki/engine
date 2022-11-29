@@ -21,7 +21,7 @@ public:
 	
 	void InitializeValue();//タイトル時の初期化
 
-	void Update(MapChip* mapChip,bool tutrialFlag, bool catchFlag);//アップデート
+	void Update(MapChip* mapChip,bool tutrialFlag, bool catchFlag, bool catchFlag2);//アップデート
 	
 	void Draw();
 	
@@ -31,9 +31,11 @@ public:
 
 	void WalkShaking();//揺れ
 
-	void View(bool tutrialFlag, bool catchFlag);//視点の動き
+	void View(bool tutrialFlag, bool catchFlag,bool catchFlag2);//視点の動き
 
 	void AngleSearch();//歩く方向の算出
+
+	XMFLOAT2 GetShortCut(MapChip* mapChip,XMFLOAT3 enemyPos);
 	
 	XMFLOAT3 GetPos() { return pos; }
 	XMFLOAT2 GetMapPos() { return mapPosValue; }
@@ -58,7 +60,7 @@ private:
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };
 	XMFLOAT2 mapPosValue = { 0,0 };
 	float r = 0.5;//プレイヤーの半径
-	float moveSpeed = 0.2f;//歩きの速度
+	float moveSpeed = 0.18f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ
 	float mouseViewSpeed = 0.2f;//視点の速さ
 	XMFLOAT3 target = { 0,0.0f,0 };//注視点

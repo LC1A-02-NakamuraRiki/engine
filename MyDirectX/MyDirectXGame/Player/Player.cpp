@@ -29,7 +29,7 @@ void Player::InitializeValue()
 	pos = { -4.0f,0.0f,-4.0f };//プレイヤーの位置
 	mapPosValue = {0,0};
 	r = 0.5;//プレイヤーの半径
-	moveSpeed = 0.21f;//歩きの速度
+	moveSpeed = 0.2f;//歩きの速度
 	viewSpeed = 4.0f;//視点の速さ
 	target = { 0,0.0f,0 };//注視点
 	targetY = 0;//揺れの調整
@@ -41,15 +41,15 @@ void Player::InitializeValue()
 	angleY = 90; //カメラY軸
 }
 
-void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag)
+void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag, bool catchFlag2)
 {
 	AngleSearch();//プレイヤーの向きの算出
-	if (tutrialFlag == false && catchFlag == false)
+	if (tutrialFlag == false && catchFlag == false && catchFlag2 == false)
 	{
 		Move(mapChip);//移動
 	}
 	WalkShaking();//歩きの揺れ
-	View(tutrialFlag,catchFlag);//視点制御
+	View(tutrialFlag,catchFlag, catchFlag2);//視点制御
 
 	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 634 + (16.0f * 11) });
 	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 634 + (16.0f * 11) + 8 });
@@ -283,7 +283,7 @@ void Player::WalkShaking()
 	}
 }
 
-void Player::View(bool tutrialFlag, bool catchFlag)
+void Player::View(bool tutrialFlag, bool catchFlag,bool catchFlag2)
 {
 	XMVECTOR v0 = { 0,0,-10, 0 };
 	//angleラジアンだけy軸まわりに回転。半径は-100
@@ -296,7 +296,7 @@ void Player::View(bool tutrialFlag, bool catchFlag)
 	XMFLOAT3 f = { v3.m128_f32[0], v3.m128_f32[1], v3.m128_f32[2] };
 	pos = { cameraPos.m128_f32[0], cameraPos.m128_f32[1], cameraPos.m128_f32[2] };
 	target = f;
-	if (tutrialFlag == false&&catchFlag==false)
+	if (tutrialFlag == false&&catchFlag==false && catchFlag2 == false)
 	{
 		if (Input::GetInstance()->KeybordTrigger(DIK_9))
 		{
@@ -347,4 +347,110 @@ void Player::View(bool tutrialFlag, bool catchFlag)
 void Player::AngleSearch()
 {
 	angle.y = XMConvertToDegrees(atan2(pos.x - target.x, pos.z - target.z)) + 90;
+}
+
+XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
+{
+	int mapX = int((enemyPos.x / 8) + ((21 + 1) / 2));
+	int mapY = int((enemyPos.z / 8) + ((21 + 1) / 2));
+	for (int i = 1; i < 5; i++)
+	{
+		if (mapChip->GetArrayValue(mapX, mapY - i) == 1)
+		{
+			i = 5;
+		}
+		else if (mapChip->GetArrayValue(mapX, mapY - i) != 1 && mapChip->GetPlayerArrayValue(mapX, mapY - i) == 1)
+		{
+			return XMFLOAT2{ 0,0 };
+		}
+	}
+	for (int i = 1; i < 5; i++)
+	{
+		if (mapChip->GetArrayValue(mapX, mapY + i) == 1)
+		{
+			i = 5;
+		}
+		else if (mapChip->GetArrayValue(mapX, mapY + i) != 1 && mapChip->GetPlayerArrayValue(mapX, mapY + i) == 1)
+		{
+			return XMFLOAT2{ 0,0 };
+		}
+	}
+	for (int i = 1; i < 5; i++)
+	{
+		if (mapChip->GetArrayValue(mapX - 1, mapY) == 1)
+		{
+			i = 5;
+		}
+		else if (mapChip->GetArrayValue(mapX - i, mapY) != 1 && mapChip->GetPlayerArrayValue(mapX - i, mapY) == 1)
+		{
+			return XMFLOAT2{ 0,0 };
+		}
+	}
+	for (int i = 1; i < 5; i++)
+	{
+		if (mapChip->GetArrayValue(mapX + 1, mapY) == 1)
+		{
+			i = 5;
+		}
+		else if (mapChip->GetArrayValue(mapX + i, mapY) != 1 && mapChip->GetPlayerArrayValue(mapX + i, mapY) == 1)
+		{
+			return XMFLOAT2{ 0,0 };
+		}
+	}
+	
+
+
+	XMFLOAT2 plusValue = {0,0};
+	float vectorX = pos.x - enemyPos.x;
+	float vectorZ = pos.z - enemyPos.z;
+ 	if (-45 < angleY && angleY < 45)
+	{
+		for (int i = 1; i < 6; i++)
+		{
+			if (mapChip->ArrayValue(pos.x ,pos.z + (-8*i)) == 1 || i== 5)
+			{
+				plusValue.x = 0;
+				plusValue.y = -8.0f * (i - 1);
+				return plusValue;
+			}
+		}
+	}
+	else if (135 < angleY || angleY < -135)
+	{
+		for (int i = 1; i < 6; i++)
+		{
+			if (mapChip->ArrayValue(pos.x, pos.z + (8 * i)) == 1 || i == 5)
+			{
+				plusValue.x = 0;
+				plusValue.y = 8.0f * (i - 1);
+				return plusValue;
+			}
+		}
+	}
+	else if (-135 < angleY && angleY < -45)
+	{
+		for (int i = 1; i < 6; i++)
+		{
+			if (mapChip->ArrayValue(pos.x + (8 * i), pos.z) == 1 || i == 5)
+			{
+				plusValue.y = 0;
+				plusValue.x = 8.0f * (i - 1);
+				return plusValue;
+			}
+		}
+	}
+	else if (45 < angleY && angleY < 135)
+	{
+		for (int i = 1; i < 6; i++)
+		{
+			if (mapChip->ArrayValue(pos.x + (-8 * i), pos.z) == 1 || i == 5)
+			{
+				plusValue.y = 0;
+				plusValue.x = -8.0f * (i-1);
+				return plusValue;
+			}
+		}
+	}
+
+	return plusValue;
 }

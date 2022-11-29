@@ -33,24 +33,29 @@ void Enemy::InitializeValue()
 	nowMove = RIGHT;
 	adjustValueX = 0;
 	adjustValueZ = 0;
+	speed = 0.2f;
 	vReserveFlag = false;
 	miniMapPos = { 100 + (16.0f * 11),650 + (16.0f * 1) };
+	maxAdjustmentTime = 40;
 }
 
-void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos)
+void Enemy::InitializeValue2()
 {
-	objEnemy->Update(pos, pos, 0, 1);
-	////鬼の情報
-	//if (Input::GetInstance()->KeybordTrigger(DIK_P))
-	//{
-	//	int mapZ = int((pos.z / 8) + ((21 + 1) / 2));
-	//	int mapX = int((pos.x / 8) + ((21 + 1) / 2));
-	//	node[0].startX = mapX;
-	//	node[0].startZ = mapZ;
-	//	node[0].startVector = nowMove;
-	//}
-	//AI2(node[0], player, mapChip);
-	AI(player, mapChip);
+	pos = { 4.0f,3.0f,68.0f };//プレイヤーの位置
+	objEnemy->SetPosition(pos);
+	nowMove = LEFT;
+	adjustValueX = 0;
+	adjustValueZ = 0;
+	speed = 0.16f;
+	vReserveFlag = false;
+	miniMapPos = { 100 + (16.0f * 9),650 + (16.0f * 19) };
+	maxAdjustmentTime = 49;
+}
+
+void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos, XMFLOAT2 plusValue)
+{
+	objEnemy->Update(pos,pos, pos, 0, 1);
+	AI(player, mapChip,plusValue);
 	if (mapChip->GetCrystalGetFlag(9) || mapChip->GetCrystalGetFlag(10))
 	{
 		if(!CatchCollision(player))
@@ -68,21 +73,19 @@ void Enemy::Draw()
 void Enemy::DrawSprite(MapChip* mapChip)
 {
 	if (mapChip->GetDisplayFlag() && spriteEnemyDot->GetPosition().x < 420 && spriteEnemyDot->GetPosition().x > 100
-		&& spriteEnemyDot->GetPosition().y > 650 && spriteEnemyDot->GetPosition().y < 970)
+		&& spriteEnemyDot->GetPosition().y > 650 && spriteEnemyDot->GetPosition().y < 986)
 	{
 		spriteEnemyAngle->Draw(1.0f);
 		spriteEnemyDot->Draw(1.0f);
 	} 
-	spriteEnemyAngle->Draw(1.0f);
-	spriteEnemyDot->Draw(1.0f);
 }
 
-void Enemy::AI(Player* player,MapChip* mapChip)
+void Enemy::AI(Player* player,MapChip* mapChip, XMFLOAT2 plusValue)
 {
 	XMFLOAT3 playerPos = player->GetPos();
 
-	float vectorX  = playerPos.x - pos.x;
-	float vectorZ = playerPos.z - pos.z;
+	float vectorX = playerPos.x + plusValue.x - pos.x;
+	float vectorZ = playerPos.z + plusValue.y - pos.z;
 
 	if ((vectorX * vectorX) < (vectorZ * vectorZ))
 	{
@@ -95,7 +98,7 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 	if (adjustmentFlag)
 	{
 		adjustmentTime++;
-		if (adjustmentTime >= 40)
+		if (adjustmentTime >= maxAdjustmentTime)
 		{
 			adjustmentTime = 0;
 			adjustmentFlag = false;
@@ -280,22 +283,22 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 7)
 		{
-			if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
-			{
-				nowMove = UP;
-				adjustmentFlag = true;
-			}
-			else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
-			{
-				nowMove = DOWN;
-				adjustmentFlag = true;
-			}
-			else if (nowMove != RIGHT && vReserveFlag == false && vectorX <= 0)
-			{
-				nowMove = LEFT;
-				adjustmentFlag = true;
-			}
-			else if (nowMove == RIGHT)
+		if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
+		{
+			nowMove = UP;
+			adjustmentFlag = true;
+		}
+		else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
+		{
+			nowMove = DOWN;
+			adjustmentFlag = true;
+		}
+		else if (nowMove != RIGHT && vReserveFlag == false && vectorX <= 0)
+		{
+			nowMove = LEFT;
+			adjustmentFlag = true;
+		}
+		else if (nowMove == RIGHT)
 			{
 				if (vectorZ <= 0)
 				{
@@ -340,22 +343,23 @@ void Enemy::AI(Player* player,MapChip* mapChip)
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 9)
 		{
-			if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
-			{
-				nowMove = LEFT;
-				adjustmentFlag = true;
-			}
-			else if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
-			{
-				nowMove = RIGHT;
-				adjustmentFlag = true;
-			}
-			else if (nowMove != DOWN && vReserveFlag == true && vectorZ <= 0)
-			{
-				nowMove = UP;
-				adjustmentFlag = true;
-			}
-			else if (nowMove == DOWN)
+
+		if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
+		{
+			nowMove = LEFT;
+			adjustmentFlag = true;
+		}
+		else if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
+		{
+			nowMove = RIGHT;
+			adjustmentFlag = true;
+		}
+		else if (nowMove != DOWN && vReserveFlag == true && vectorZ <= 0)
+		{
+			nowMove = UP;
+			adjustmentFlag = true;
+		}
+		else if (nowMove == DOWN)
 			{
 				if (vectorX <= 0)
 				{
@@ -409,33 +413,33 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		{
 			spriteEnemyAngle->SetRotation(45);
 			objEnemy->SetRotation({0, 90, 0});
-			pos.z += 0.2f;
-			miniMapPos.y += 0.4f;
-			adjustValueZ = -4.0f;
+			pos.z += speed;
+			miniMapPos.y += speed * 2;
+			adjustValueZ = -3.9f;
 		}
 		else if (nowMove == UP)
 		{
 			spriteEnemyAngle->SetRotation(-135);
 			objEnemy->SetRotation({ 0, 270, 0 });
-			pos.z -= 0.2f;
-			miniMapPos.y -= 0.4f;
-			adjustValueZ = 4.0f;
+			pos.z -= speed;
+			miniMapPos.y -= speed * 2;
+			adjustValueZ = 3.9f;
 		}
 		else if (nowMove == RIGHT)
 		{
 			spriteEnemyAngle->SetRotation(135);
 			objEnemy->SetRotation({ 0, 180, 0 });
-			pos.x += 0.2f;
-			miniMapPos.x -= 0.4f;
-			adjustValueX = -4.0f;
+			pos.x += speed;
+			miniMapPos.x -= speed * 2;
+			adjustValueX = -3.9f;
 		}
 		else if (nowMove == LEFT)
 		{
 			spriteEnemyAngle->SetRotation(-45);
 			objEnemy->SetRotation({ 0, 0, 0 });
-			pos.x -= 0.2f;
-			miniMapPos.x += 0.4f;
-			adjustValueX = 4.0;
+			pos.x -= speed;
+			miniMapPos.x += speed * 2;
+			adjustValueX = 3.9f;
 		}
 	}
 	spriteEnemyDot->SetPosition({ miniMapPos.x + mapPos.x , miniMapPos.y + mapPos.y });

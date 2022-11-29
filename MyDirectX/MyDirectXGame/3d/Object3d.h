@@ -38,8 +38,10 @@ public: // サブクラス
 		XMMATRIX world;
 		XMFLOAT3 cameraPos;
 		float pad;
-		XMFLOAT3 shadowPos;
+		XMFLOAT3 shadowPos1;
 		float pad2;
+		XMFLOAT3 shadowPos2;
+		float pad3;
 		LightInfo lightInfo;
 	};
 	
@@ -100,7 +102,7 @@ public:
 	bool Initialize();
 	
 	//毎フレーム処理
-	void Update(XMFLOAT3 shadowPos , XMFLOAT3 lightPos,unsigned int lightActive,unsigned int allActive);
+	void Update(XMFLOAT3 objShadowPos , XMFLOAT3 objShadowPos2, XMFLOAT3 lightPos,unsigned int lightActive,unsigned int allActive);
 
 	//描画
 	void Draw();

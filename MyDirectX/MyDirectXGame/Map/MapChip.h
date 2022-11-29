@@ -22,7 +22,7 @@ public:
 	void InitializeValue();//タイトル時の初期化
 	void MapCreate();
 	void MapMove(XMFLOAT2 mapPos);
-	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos);//アップデート
+	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1,XMFLOAT3 enemyPos2);//アップデート
 	int ArrayValue(float x, float y);//座標からマップチップ配列の算出
 	void Draw();
 	void DrawSprite();

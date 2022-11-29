@@ -211,7 +211,7 @@ bool Object3d::Initialize()
 	return true;
 }
 
-void Object3d::Update(XMFLOAT3 shadowPos, XMFLOAT3 lightPos, unsigned int lightActive, unsigned int allActive)
+void Object3d::Update(XMFLOAT3 objShadowPos, XMFLOAT3 objShadowPos2, XMFLOAT3 lightPos, unsigned int lightActive, unsigned int allActive)
 {
 	assert(camera);
 
@@ -258,7 +258,8 @@ void Object3d::Update(XMFLOAT3 shadowPos, XMFLOAT3 lightPos, unsigned int lightA
 	constMap->viewproj = matViewProjection;
 	constMap->world = matWorld;
 	constMap->cameraPos = cameraPos;
-	constMap->shadowPos = shadowPos;
+	constMap->shadowPos1 = objShadowPos;
+	constMap->shadowPos2 = objShadowPos2;
 	
 	lightInfo.lightPos = lightPos;
 	lightInfo.lightActive = lightActive;

@@ -28,7 +28,8 @@ GameScene::~GameScene()
 	safe_delete(particle3d);
 	safe_delete(light);
 	safe_delete(player);
-	safe_delete(enemy);
+	safe_delete(enemy[0]);
+	safe_delete(enemy[1]);
 	safe_delete(map);
 }
 
@@ -121,33 +122,47 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	map = new MapChip;
 	map->Initialize();
 	
-	enemy = new Enemy;
-	enemy->Initialize();
+	for (int i = 0; i < 2; i++)
+	{
+		enemy[i] = new Enemy;
+		enemy[i]->Initialize();
+	}
 }
 
 void GameScene::Update()
 {
-	int mapY = int((player->GetPos().z / 8) + ((21 + 1) / 2));
-	int mapX = int((player->GetPos().x / 8) + ((21 + 1) / 2));
-	//debugText.Print(20.0f, 20.0f, 2.0f, "%d %d", mapX,mapY);
-	debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetPos().x - enemy->GetPos().x, player->GetPos().z - enemy->GetPos().z);
-	debugText.Print(20.0f, 40.0f, 2.0f, "%d",map->GetArrayValue(mapX,mapY));
-	float vec = SoundVector::VectorSearch(enemy->GetPos().x, enemy->GetPos().z, player->GetPos().x, player->GetPos().z);
-	float sideValue = 45;
-	if(SoundVector::DistanceSearch(enemy->GetPos().x, enemy->GetPos().z, player->GetPos().x, player->GetPos().z))
+	//int mapY = int((player->GetPos().z / 8) + ((21 + 1) / 2));
+	//int mapX = int((player->GetPos().x / 8) + ((21 + 1) / 2));
+	//debugText.Print(20.0f, 40.0f, 2.0f, "%d %d", mapX,mapY);
+	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetPos().x - enemy->GetPos().x, player->GetPos().z - enemy->GetPos().z);
+	//debugText.Print(20.0f, 40.0f, 2.0f, "%d",map->GetArrayValue(mapX,mapY));
+	
+	
+	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetPos().x, player->GetPos().z);
+	//debugText.Print(20.0f, 40.0f, 2.0f, "%f",player->GetViewAngle());
+	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetShortCut(map,enemy[1]->GetPos()).x, player->GetShortCut(map, enemy[1]->GetPos()).y);
+
+	for (int i = 0; i < 2; i++)
 	{
-		if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
+		soundTimer[i]++;
+		float vec = SoundVector::VectorSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z);
+		float sideValue = 45;
+		if (SoundVector::DistanceSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z) &&soundTimer[i]>20)
 		{
-			audio->PlaySE("Resources/seR.wav", false);
-		}
-		else if (-vec + player->GetAngle() - 90 > 90 - sideValue && -vec + player->GetAngle() - 90 < 90 + sideValue || -vec + player->GetAngle() - 90 < -270 + sideValue && -vec + player->GetAngle() - 90 > -270 - sideValue)
-		{
-			audio->PlaySE("Resources/seL.wav", false);
-		}
-		else
-		{
-			audio->PlaySE("Resources/seL.wav", false);
-			audio->PlaySE("Resources/seR.wav", false);
+			if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
+			{
+				audio->PlaySE("Resources/seR.wav", false);
+			}
+			else if (-vec + player->GetAngle() - 90 > 90 - sideValue && -vec + player->GetAngle() - 90 < 90 + sideValue || -vec + player->GetAngle() - 90 < -270 + sideValue && -vec + player->GetAngle() - 90 > -270 - sideValue)
+			{
+				audio->PlaySE("Resources/seL.wav", false);
+			}
+			else
+			{
+				audio->PlaySE("Resources/seL.wav", false);
+				audio->PlaySE("Resources/seR.wav", false);
+			}
+			soundTimer[i] = 0;
 		}
 	}
 
@@ -165,7 +180,17 @@ void GameScene::Update()
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE)&& buttonNo == 0)
 		{
 			player->InitializeValue();
-			enemy->InitializeValue();
+			for (int i = 0; i < 2; i++)
+			{
+				if (i == 0)
+				{
+					enemy[i]->InitializeValue();
+				}
+				else if (i == 1)
+				{
+					enemy[i]->InitializeValue2();
+				}
+			}
 			map->InitializeValue();
 			scene = PLAY;
 		}
@@ -243,16 +268,21 @@ void GameScene::Update()
 		
 		light->SetDirLightDir(5, XMVECTOR({ lightDir5[0], lightDir5[1], lightDir5[2], 0 }));
 		light->SetDirLightColor(5, XMFLOAT3(lightColor5));
-		player->Update(map,tutrialFlag,enemy->CatchCollision(player) == true);
+		player->Update(map,tutrialFlag,enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player));
 		particle3d->Update();
 		camera->Update();
 		light->Update();
-		map->Update(player->GetPos(),player->GetMapPos(),enemy->GetPos());
+		map->Update(player->GetPos(),player->GetMapPos(),enemy[0]->GetPos(), enemy[1]->GetPos());
 		stopFlag = map->GetStopFlag();
-		enemy->Update(player, map,player->GetMapPos());
-		if (enemy->DeathAnimation(player))
+		
+		enemy[0]->Update(player, map, player->GetMapPos(), XMFLOAT2(0,0));
+		enemy[1]->Update(player, map, player->GetMapPos(), player->GetShortCut(map,enemy[1]->GetPos()));
+		for (int i = 0; i < 2; i++)
 		{
-			scene = GAMEOVER;
+			if (enemy[i]->DeathAnimation(player))
+			{
+				scene = GAMEOVER;
+			}
 		}
 		if (map->GetAllGetFlag())
 		{
@@ -303,7 +333,10 @@ void GameScene::Draw()
 	{
 
 		map->Draw();
-		enemy->Draw();
+		for (int i = 0; i < 2; i++)
+		{
+			enemy[i]->Draw();
+		}
 	}
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
@@ -416,7 +449,10 @@ void GameScene::PostOffDraw()
 	{
 		map->DrawSprite();
 		player->DrawSprite();
-		enemy->DrawSprite(map);
+		for (int i = 0; i < 2; i++)
+		{
+			enemy[i]->DrawSprite(map);
+		}
 		if (tutrialFlag == true) {
 			spriteRule->Draw(1.0f);
 		}

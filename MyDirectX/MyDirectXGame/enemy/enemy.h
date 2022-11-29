@@ -37,14 +37,15 @@ public:
 	void Initialize();//最初の初期化
 
 	void InitializeValue();//タイトル時の初期化
+	void InitializeValue2();//タイトル時の初期化
 
-	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos);//アップデート
+	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos,XMFLOAT2 plusValue);//アップデート
 
 	void Draw();
 
 	void DrawSprite(MapChip* mapChip);
 
-	void AI(Player* player,MapChip* mapChip);//歩き
+	void AI(Player* player,MapChip* mapChip, XMFLOAT2 plusValue);//歩き
 
 	void Move(MapChip* mapChip, XMFLOAT2 mapPos);//歩き
 	
@@ -59,13 +60,15 @@ private:
 	float wallSize = 8;
 	Model* modelEnemy = nullptr;
 	Object3d* objEnemy;
-	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//プレイヤーの位置
+	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//位置
+	float speed = 2.0f;
 	int nowMove = UP;//どの動きをしているか
 	float adjustValueX = 0;//位置調整用変数X
 	float adjustValueZ = 0;//位置調整用変数Z
 	bool vReserveFlag = false;//縦優先
 	bool wallHitFlag = false;
 	int adjustmentTime = 0;
+	int maxAdjustmentTime = 0;
 	bool adjustmentFlag = false;
 
 	int killTime = 0;

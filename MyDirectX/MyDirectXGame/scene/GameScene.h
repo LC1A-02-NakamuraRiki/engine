@@ -40,7 +40,7 @@ protected: // エイリアス
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
-	LightGroop *light = nullptr;
+	LightGroop* light = nullptr;
 private: // 静的メンバ変数
 	static const int debugTextTexNumber = 0;
 
@@ -59,7 +59,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon *dxCommon, Sound *audio);
+	void Initialize(DirectXCommon* dxCommon, Sound* audio);
 
 	/// <summary>
 	/// 毎フレーム処理
@@ -80,15 +80,15 @@ public: // メンバ関数
 	bool GetStopFlag() { return stopFlag; }
 	int GetTitleButtonFlag() { return buttonNo; }
 private: // メンバ変数
-	DirectXCommon *dxCommon = nullptr;
-	Sound *audio = nullptr;
+	DirectXCommon* dxCommon = nullptr;
+	Sound* audio = nullptr;
 	DebugText debugText;
-	
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	DebugCamera *camera = nullptr;
-	Sprite *spriteTitle = nullptr;
+	DebugCamera* camera = nullptr;
+	Sprite* spriteTitle = nullptr;
 	Sprite* spriteTitle2 = nullptr;
 	Sprite* spriteTitle3 = nullptr;
 	Sprite* spriteOption = nullptr;
@@ -98,9 +98,11 @@ private: // メンバ変数
 	Sprite* spriteGAMEOVER = nullptr;
 	Sprite* spriteRule = nullptr;
 
-	ParticleManager *particle3d = nullptr;
+	ParticleManager* particle3d = nullptr;
 	Player* player = nullptr;
-	Enemy* enemy = nullptr;
+	Enemy* enemy[2] = { nullptr,nullptr };
+
+
 	MapChip* map = nullptr;
 	int scene = 0;
 	float collision;
@@ -111,8 +113,10 @@ private: // メンバ変数
 
 	int buttonNo = 0;
 	int optionButtonNo = 0;
-	
+
 	bool tutrialFlag = true;
+
+	int soundTimer[2] = { 0, 0 };
 	// 光線方向初期値
 
 	float lightDir0[3] = { 0,1,0 };
