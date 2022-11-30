@@ -92,6 +92,16 @@ void MapChip::Initialize()
 	objCrystal[10]->SetPosition(crystalPos[10]);
 	
 	allGetFlag = false;
+	for (int i = 0; i < 2; i++)
+	{
+		modelDoor[i] = std::unique_ptr<Model>(Model::CreateFromObject("door", false));
+		objMapDoor[i] = std::unique_ptr<Object3d>(Object3d::Create(modelDoor[i].get()));
+		objMapDoor[i]->SetRotation(XMFLOAT3({ 0.0f,doorAngle[i],0.0f}));
+		objMapDoor[i]->SetScale(XMFLOAT3({ 1.0f,1.5f,2.0f }));
+	}
+	objMapDoor[0]->SetPosition(XMFLOAT3({ -0.2f,0.2f,-8.0f }));
+	objMapDoor[1]->SetPosition(XMFLOAT3({ -7.8f,0.2f,-8.0f }));
+
 	if (!Sprite::LoadTexture(2, L"Resources/mapWall.png")) {
 		assert(0);
 		return;
@@ -264,6 +274,8 @@ void MapChip::InitializeValue()
 	stopTime = 0;
 	displayTime = 0;
 	displayFlag = false;
+	doorAngle[0] = 90;
+	doorAngle[1] = 270;
 
 }
 
@@ -468,8 +480,18 @@ void MapChip::MapMove(XMFLOAT2 mapPos)
 	spriteCrystal[5]->SetPosition({ mapPos.x + mapCrystalPos[5].x, mapPos.y + mapCrystalPos[5].y });
 }
 
-void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2)
+void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3)
 {
+	if (Input::GetInstance()->KeybordPush(DIK_E) && doorAngle[0] < 180)
+	{
+		doorAngle[1] -= 10;
+		doorAngle[0] += 10;
+	}
+
+	for (int i = 0; i < 2; i++)
+	{
+		objMapDoor[i]->SetRotation(XMFLOAT3({ 0.0f,doorAngle[i],0.0f}));
+	}
 	MapMove(mapPos);
 	for (int x = 0; x < 7; x++)
 	{
@@ -480,15 +502,15 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 			{
 				lightFlag = 0;
 			}
-			objMapWall[0 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objMapWall[0 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objMapWall[0 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objMapWall[1 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objMapWall[1 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objMapWall[1 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objMapWall[2 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objMapWall[2 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objMapWall[2 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objMapWall[0 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objMapWall[0 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objMapWall[0 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objMapWall[1 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objMapWall[1 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objMapWall[1 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objMapWall[2 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objMapWall[2 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objMapWall[2 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
 		}
 	}
 	for (int x = 0; x < 7; x++)
@@ -500,15 +522,15 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 			{
 				lightFlag = 0;
 			}
-			objCeiling[0 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objCeiling[0 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objCeiling[0 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objCeiling[1 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objCeiling[1 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objCeiling[1 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objCeiling[2 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objCeiling[2 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objCeiling[2 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objCeiling[0 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objCeiling[0 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objCeiling[0 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objCeiling[1 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objCeiling[1 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objCeiling[1 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objCeiling[2 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objCeiling[2 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objCeiling[2 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3,XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
 		}
 	}
 	for (int x = 0; x < 7; x++)
@@ -520,16 +542,20 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 			{
 				lightFlag = 0;
 			}
-			objFloor[0 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objFloor[0 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objFloor[0 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objFloor[1 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objFloor[1 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objFloor[1 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objFloor[2 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objFloor[2 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
-			objFloor[2 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objFloor[0 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objFloor[0 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objFloor[0 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objFloor[1 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objFloor[1 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objFloor[1 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objFloor[2 + 3 * y][0 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objFloor[2 + 3 * y][1 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
+			objFloor[2 + 3 * y][2 + 3 * x]->Update(enemyPos1, enemyPos2,enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * y)), lightFlag, 0);
 		}
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		objMapDoor[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
 	}
 	XMFLOAT3 playerPos = pos;
 
@@ -560,7 +586,7 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 				number--;
 			}
 		}
-		objCrystal[i]->Update(enemyPos1, enemyPos2, XMFLOAT3(0.0f,0.0f,0.0f), 0, 1);
+		objCrystal[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
 	}
 	if (crystalGetFlag[0] && crystalGetFlag[1] && crystalGetFlag[2] && crystalGetFlag[3] && crystalGetFlag[4] &&
 		crystalGetFlag[5] && crystalGetFlag[6] && crystalGetFlag[7] && crystalGetFlag[8] && crystalGetFlag[9] && crystalGetFlag[10])
@@ -649,6 +675,10 @@ void MapChip::Draw()
 		{
 			objCrystal[i]->Draw();
 		}
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		objMapDoor[i]->Draw();
 	}
 }
 

@@ -38,6 +38,7 @@ public:
 
 	void InitializeValue();//タイトル時の初期化
 	void InitializeValue2();//タイトル時の初期化
+	void InitializeValue3();//タイトル時の初期化
 
 	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos,XMFLOAT2 plusValue);//アップデート
 

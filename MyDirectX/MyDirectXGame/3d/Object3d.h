@@ -42,6 +42,8 @@ public: // サブクラス
 		float pad2;
 		XMFLOAT3 shadowPos2;
 		float pad3;
+		XMFLOAT3 shadowPos3;
+		float pad4;
 		LightInfo lightInfo;
 	};
 	
@@ -102,7 +104,7 @@ public:
 	bool Initialize();
 	
 	//毎フレーム処理
-	void Update(XMFLOAT3 objShadowPos , XMFLOAT3 objShadowPos2, XMFLOAT3 lightPos,unsigned int lightActive,unsigned int allActive);
+	void Update(XMFLOAT3 objShadowPos , XMFLOAT3 objShadowPos2, XMFLOAT3 objShadowPos3, XMFLOAT3 lightPos,unsigned int lightActive,unsigned int allActive);
 
 	//描画
 	void Draw();

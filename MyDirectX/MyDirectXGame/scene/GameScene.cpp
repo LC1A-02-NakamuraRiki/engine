@@ -30,6 +30,7 @@ GameScene::~GameScene()
 	safe_delete(player);
 	safe_delete(enemy[0]);
 	safe_delete(enemy[1]);
+	safe_delete(enemy[2]);
 	safe_delete(map);
 }
 
@@ -122,7 +123,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	map = new MapChip;
 	map->Initialize();
 	
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		enemy[i] = new Enemy;
 		enemy[i]->Initialize();
@@ -142,7 +143,7 @@ void GameScene::Update()
 	//debugText.Print(20.0f, 40.0f, 2.0f, "%f",player->GetViewAngle());
 	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetShortCut(map,enemy[1]->GetPos()).x, player->GetShortCut(map, enemy[1]->GetPos()).y);
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		soundTimer[i]++;
 		float vec = SoundVector::VectorSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z);
@@ -180,17 +181,11 @@ void GameScene::Update()
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE)&& buttonNo == 0)
 		{
 			player->InitializeValue();
-			for (int i = 0; i < 2; i++)
-			{
-				if (i == 0)
-				{
-					enemy[i]->InitializeValue();
-				}
-				else if (i == 1)
-				{
-					enemy[i]->InitializeValue2();
-				}
-			}
+				
+			enemy[0]->InitializeValue();
+			enemy[1]->InitializeValue2();
+			enemy[2]->InitializeValue3();
+			
 			map->InitializeValue();
 			scene = PLAY;
 		}
@@ -268,15 +263,16 @@ void GameScene::Update()
 		
 		light->SetDirLightDir(5, XMVECTOR({ lightDir5[0], lightDir5[1], lightDir5[2], 0 }));
 		light->SetDirLightColor(5, XMFLOAT3(lightColor5));
-		player->Update(map,tutrialFlag,enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player));
+		player->Update(map,tutrialFlag,enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
 		particle3d->Update();
 		camera->Update();
 		light->Update();
-		map->Update(player->GetPos(),player->GetMapPos(),enemy[0]->GetPos(), enemy[1]->GetPos());
+		map->Update(player->GetPos(),player->GetMapPos(),enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
 		stopFlag = map->GetStopFlag();
 		
 		enemy[0]->Update(player, map, player->GetMapPos(), XMFLOAT2(0,0));
 		enemy[1]->Update(player, map, player->GetMapPos(), player->GetShortCut(map,enemy[1]->GetPos()));
+		enemy[2]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[2]->GetPos()));
 		for (int i = 0; i < 2; i++)
 		{
 			if (enemy[i]->DeathAnimation(player))
@@ -333,7 +329,7 @@ void GameScene::Draw()
 	{
 
 		map->Draw();
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			enemy[i]->Draw();
 		}
@@ -449,7 +445,7 @@ void GameScene::PostOffDraw()
 	{
 		map->DrawSprite();
 		player->DrawSprite();
-		for (int i = 0; i < 2; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			enemy[i]->DrawSprite(map);
 		}

@@ -60,6 +60,19 @@ float4 main(VSOutput input) : SV_TARGET
 			if (bscalr2 >= 0) {
 				shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor2 * bscalr2);
 			}
+
+			float bx3 = shadowPos3.x - input.worldpos.x;
+			float by3 = -0 - input.worldpos.y;
+			float bz3 = shadowPos3.z - input.worldpos.z;
+			float bxyz3 = bx3 * bx3 + by3 * by3 + bz3 * bz3;
+			float bxyzDistanse3 = sqrt(bxyz3);
+			float bscalr3 = 1.0 - (bxyzDistanse3 / 1.6);
+			float3 darkColor3 = float3(0.7, 0.7, 0.7);
+
+			// ‘S‚Ä‰ÁŽZ‚·‚é
+			if (bscalr3 >= 0) {
+				shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor3 * bscalr3);
+			}
 			/*if (cameraPos.x + 40 > input.worldpos.x
 				&& cameraPos.x - 40 < input.worldpos.x
 				&& cameraPos.z + 40 > input.worldpos.z

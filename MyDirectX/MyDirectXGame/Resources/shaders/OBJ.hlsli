@@ -12,6 +12,7 @@ cbuffer cbuff0 : register(b0)
 	float3 cameraPos;
 	float3 shadowPos1;
 	float3 shadowPos2;
+	float3 shadowPos3;
 	LightInfo lightInfo;
 };
 

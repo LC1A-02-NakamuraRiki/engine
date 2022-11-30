@@ -52,9 +52,22 @@ void Enemy::InitializeValue2()
 	maxAdjustmentTime = 49;
 }
 
+void Enemy::InitializeValue3()
+{
+	pos = { -76.0f,3.0f,-12.0f };//ˆÊ’u
+	objEnemy->SetPosition(pos);
+	nowMove = UP;
+	adjustValueX = 0;
+	adjustValueZ = 0;
+	speed = 0.16f;
+	vReserveFlag = false;
+	miniMapPos = { 100 + (16.0f * 19),650 + (16.0f * 9) };
+	maxAdjustmentTime = 49;
+}
+
 void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos, XMFLOAT2 plusValue)
 {
-	objEnemy->Update(pos,pos, pos, 0, 1);
+	objEnemy->Update(pos,pos, pos,pos, 0, 1);
 	AI(player, mapChip,plusValue);
 	if (mapChip->GetCrystalGetFlag(9) || mapChip->GetCrystalGetFlag(10))
 	{
@@ -77,7 +90,7 @@ void Enemy::DrawSprite(MapChip* mapChip)
 	{
 		spriteEnemyAngle->Draw(1.0f);
 		spriteEnemyDot->Draw(1.0f);
-	} 
+	}
 }
 
 void Enemy::AI(Player* player,MapChip* mapChip, XMFLOAT2 plusValue)

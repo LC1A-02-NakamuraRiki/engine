@@ -29,7 +29,7 @@ void Player::InitializeValue()
 	pos = { -4.0f,0.0f,-4.0f };//プレイヤーの位置
 	mapPosValue = {0,0};
 	r = 0.5;//プレイヤーの半径
-	moveSpeed = 0.2f;//歩きの速度
+	moveSpeed = 0.18f;//歩きの速度
 	viewSpeed = 4.0f;//視点の速さ
 	target = { 0,0.0f,0 };//注視点
 	targetY = 0;//揺れの調整
@@ -38,18 +38,18 @@ void Player::InitializeValue()
 	isWalkShaking = false;//歩きの揺れのフラグ
 	walkShakingTime = 0;//歩きの揺れのタイム
 	angleX = 0; //カメラX軸
-	angleY = 90; //カメラY軸
+	angleY = 0; //カメラY軸
 }
 
-void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag, bool catchFlag2)
+void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag, bool catchFlag2, bool catchFlag3)
 {
 	AngleSearch();//プレイヤーの向きの算出
-	if (tutrialFlag == false && catchFlag == false && catchFlag2 == false)
+	if (tutrialFlag == false && catchFlag == false && catchFlag2 == false && catchFlag3 == false)
 	{
 		Move(mapChip);//移動
 	}
 	WalkShaking();//歩きの揺れ
-	View(tutrialFlag,catchFlag, catchFlag2);//視点制御
+	View(tutrialFlag,catchFlag, catchFlag2, catchFlag3);//視点制御
 
 	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 634 + (16.0f * 11) });
 	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 634 + (16.0f * 11) + 8 });
@@ -278,12 +278,12 @@ void Player::WalkShaking()
 				isWalkShaking = false;
 			}
 		}
-		pos.y = walkShaking;
+		pos.y = 0.5f + walkShaking;
 		target.y = targetY + walkShaking;
 	}
 }
 
-void Player::View(bool tutrialFlag, bool catchFlag,bool catchFlag2)
+void Player::View(bool tutrialFlag, bool catchFlag,bool catchFlag2, bool catchFlag3)
 {
 	XMVECTOR v0 = { 0,0,-10, 0 };
 	//angleラジアンだけy軸まわりに回転。半径は-100
@@ -296,7 +296,7 @@ void Player::View(bool tutrialFlag, bool catchFlag,bool catchFlag2)
 	XMFLOAT3 f = { v3.m128_f32[0], v3.m128_f32[1], v3.m128_f32[2] };
 	pos = { cameraPos.m128_f32[0], cameraPos.m128_f32[1], cameraPos.m128_f32[2] };
 	target = f;
-	if (tutrialFlag == false&&catchFlag==false && catchFlag2 == false)
+	if (tutrialFlag == false&&catchFlag==false && catchFlag2 == false && catchFlag3 == false)
 	{
 		if (Input::GetInstance()->KeybordTrigger(DIK_9))
 		{

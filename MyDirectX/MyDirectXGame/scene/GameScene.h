@@ -100,7 +100,7 @@ private: // ÉÅÉìÉoïœêî
 
 	ParticleManager* particle3d = nullptr;
 	Player* player = nullptr;
-	Enemy* enemy[2] = { nullptr,nullptr };
+	Enemy* enemy[3] = { nullptr,nullptr,nullptr };
 
 
 	MapChip* map = nullptr;
@@ -109,27 +109,32 @@ private: // ÉÅÉìÉoïœêî
 
 	bool stopFlag;
 
-	float ambientColor0[3] = { 0.35f,0.35f,0.35f };
 
 	int buttonNo = 0;
 	int optionButtonNo = 0;
 
 	bool tutrialFlag = true;
 
-	int soundTimer[2] = { 0, 0 };
+	int soundTimer[3] = { 0, 0 ,0};
 	// åıê¸ï˚å¸èâä˙íl
 
 	float lightDir0[3] = { 0,1,0 };
+	float lightDir5[3] = { 0,-1,0 };
 	float lightDir1[3] = { 0,0,1 };
 	float lightDir2[3] = { 0,0,-1 };
 	float lightDir3[3] = { 1,0,0 };
 	float lightDir4[3] = {-1,0,0 };
-	float lightDir5[3] = { 0,-1,0 };
+
+	const float colorAmbient = 0.65f;
+	float ambientColor0[3] = { colorAmbient,colorAmbient,colorAmbient };
 	
-	float lightColor0[3] = { 8.0,8.0,8.0 };
-	float lightColor1[3] = { 6.0,6.0,6.0 };
-	float lightColor2[3] = { 6.0,6.0,6.0 };
-	float lightColor3[3] = { 6.0,6.0,6.0 };
-	float lightColor4[3] = { 6.0,6.0,6.0 };
-	float lightColor5[3] = { 8.0,8.0,8.0 };
+	const float colorUpDown = 3.0f;
+	float lightColor0[3] = { colorUpDown,colorUpDown,colorUpDown };
+	float lightColor5[3] = { colorUpDown,colorUpDown,colorUpDown };
+	
+	const float colorSide = 3.0f;
+	float lightColor1[3] = { colorSide,colorSide,colorSide };
+	float lightColor2[3] = { colorSide,colorSide,colorSide };
+	float lightColor3[3] = { colorSide,colorSide,colorSide };
+	float lightColor4[3] = { colorSide,colorSide,colorSide };
 };

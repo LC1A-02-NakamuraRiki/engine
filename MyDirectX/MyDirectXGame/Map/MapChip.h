@@ -22,13 +22,13 @@ public:
 	void InitializeValue();//タイトル時の初期化
 	void MapCreate();
 	void MapMove(XMFLOAT2 mapPos);
-	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1,XMFLOAT3 enemyPos2);//アップデート
+	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);//アップデート
 	int ArrayValue(float x, float y);//座標からマップチップ配列の算出
 	void Draw();
 	void DrawSprite();
 	void TimeStop();
 	void EnemyDisplay();
-	int GetArrayValue(int x,int z) { return mapWall[z][x]; }
+	int GetArrayValue(int x, int z) { return mapWall[z][x]; }
 	int GetPlayerArrayValue(int x, int z) { return mapPlayer[x][z]; }
 	bool GetAllGetFlag() { return allGetFlag; }
 	bool GetStopFlag() { return stopFlag; }
@@ -47,6 +47,9 @@ private:
 	std::unique_ptr<Model> modelCrystal;
 	std::unique_ptr<Model> modelItemCrystal;
 	std::unique_ptr<Object3d> objCrystal[11];
+	std::unique_ptr<Model> modelDoor[2];
+	float doorAngle[2] = {90, 270};
+	std::unique_ptr<Object3d> objMapDoor[2];
 	float wallSize = 8;
 	XMFLOAT3 crystalPos[11] = {XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
 							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
