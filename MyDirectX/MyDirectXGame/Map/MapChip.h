@@ -25,7 +25,7 @@ public:
 	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);//アップデート
 	int ArrayValue(float x, float y);//座標からマップチップ配列の算出
 	void Draw();
-	void DrawSprite();
+	void DrawSprite(XMFLOAT3 pos);
 	void TimeStop();
 	void EnemyDisplay();
 	int GetArrayValue(int x, int z) { return mapWall[z][x]; }
@@ -34,6 +34,7 @@ public:
 	bool GetStopFlag() { return stopFlag; }
 	bool GetDisplayFlag() { return displayFlag; }
 	bool GetCrystalGetFlag(int no) { return crystalGetFlag[no]; }
+	bool GetGateOpenFlag() { return gateOpenFlag; }
 private:
 
 	std::unique_ptr<Model> modelMapWall;
@@ -47,9 +48,12 @@ private:
 	std::unique_ptr<Model> modelCrystal;
 	std::unique_ptr<Model> modelItemCrystal;
 	std::unique_ptr<Object3d> objCrystal[11];
-	std::unique_ptr<Model> modelDoor[2];
-	float doorAngle[2] = {90, 270};
-	std::unique_ptr<Object3d> objMapDoor[2];
+
+	std::unique_ptr<Sprite> spriteDoorOpen;
+	std::unique_ptr<Model> modelDoor[4];
+	float doorAngle[4] = {90, 270,90,270};
+	std::unique_ptr<Object3d> objMapDoor[4];
+	bool gateOpenFlag = false;
 	float wallSize = 8;
 	XMFLOAT3 crystalPos[11] = {XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
 							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
@@ -61,7 +65,7 @@ private:
 							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 19 * wallSize - (21 * wallSize / 2)  }),
 							  XMFLOAT3({ 19 * wallSize - (21 *  wallSize / 2),1.0f, 19 * wallSize - (21 *  wallSize / 2) }),
 							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2),1.0f, 7 * wallSize - (21 * wallSize / 2) }),
-							  XMFLOAT3({ 7 * wallSize - (21 * wallSize / 2),1.0f, 10 * wallSize - (21 * wallSize / 2) })	
+							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2),1.0f, 13 * wallSize - (21 * wallSize / 2) })	
 	};
 	;
 	XMFLOAT2 mapCrystalPos[11] = { {100 + (16.0f * 19),650 + (16.0f * 1)},
@@ -74,7 +78,7 @@ private:
 								  {100 + (16.0f * 10),650 + (16.0f * 19)},
 								  {100 + (16.0f * 1),650 + (16.0f * 19)},
 								  {100 + (16.0f * 10),650 + (16.0f * 7)},
-								  {100 + (16.0f * 13),650 + (16.0f * 10)}, };
+								  {100 + (16.0f * 10),650 + (16.0f * 13)}, };
 
 	bool crystalGetFlag[11] = { false,false,false,false,false,false,false,false,false,false,false };//クリスタル取ったか
 	int MapValue = 21;

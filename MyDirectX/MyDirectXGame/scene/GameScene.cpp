@@ -143,30 +143,6 @@ void GameScene::Update()
 	//debugText.Print(20.0f, 40.0f, 2.0f, "%f",player->GetViewAngle());
 	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetShortCut(map,enemy[1]->GetPos()).x, player->GetShortCut(map, enemy[1]->GetPos()).y);
 
-	for (int i = 0; i < 3; i++)
-	{
-		soundTimer[i]++;
-		float vec = SoundVector::VectorSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z);
-		float sideValue = 45;
-		if (SoundVector::DistanceSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z) &&soundTimer[i]>20)
-		{
-			if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
-			{
-				audio->PlaySE("Resources/seR.wav", false);
-			}
-			else if (-vec + player->GetAngle() - 90 > 90 - sideValue && -vec + player->GetAngle() - 90 < 90 + sideValue || -vec + player->GetAngle() - 90 < -270 + sideValue && -vec + player->GetAngle() - 90 > -270 - sideValue)
-			{
-				audio->PlaySE("Resources/seL.wav", false);
-			}
-			else
-			{
-				audio->PlaySE("Resources/seL.wav", false);
-				audio->PlaySE("Resources/seR.wav", false);
-			}
-			soundTimer[i] = 0;
-		}
-	}
-
 	if (scene == TITLE)
 	{	
 		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)
@@ -270,9 +246,37 @@ void GameScene::Update()
 		map->Update(player->GetPos(),player->GetMapPos(),enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
 		stopFlag = map->GetStopFlag();
 		
-		enemy[0]->Update(player, map, player->GetMapPos(), XMFLOAT2(0,0));
-		enemy[1]->Update(player, map, player->GetMapPos(), player->GetShortCut(map,enemy[1]->GetPos()));
-		enemy[2]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[2]->GetPos()));
+		enemy[0]->Update(player, map, player->GetMapPos(), XMFLOAT2(0,0),enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
+		enemy[1]->Update(player, map, player->GetMapPos(), player->GetShortCut(map,enemy[1]->GetPos()), enemy[0]->CatchCollision(player), enemy[2]->CatchCollision(player));
+		enemy[2]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[2]->GetPos()), enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player));
+		
+		if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				soundTimer[i]++;
+				float vec = SoundVector::VectorSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z);
+				float sideValue = 45;
+				if (SoundVector::DistanceSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z) && soundTimer[i] > 20)
+				{
+					if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
+					{
+						audio->PlaySE("Resources/seR.wav", false);
+					}
+					else if (-vec + player->GetAngle() - 90 > 90 - sideValue && -vec + player->GetAngle() - 90 < 90 + sideValue || -vec + player->GetAngle() - 90 < -270 + sideValue && -vec + player->GetAngle() - 90 > -270 - sideValue)
+					{
+						audio->PlaySE("Resources/seL.wav", false);
+					}
+					else
+					{
+						audio->PlaySE("Resources/seL.wav", false);
+						audio->PlaySE("Resources/seR.wav", false);
+					}
+					soundTimer[i] = 0;
+				}
+			}
+		}
+
 		for (int i = 0; i < 2; i++)
 		{
 			if (enemy[i]->DeathAnimation(player))
@@ -443,7 +447,7 @@ void GameScene::PostOffDraw()
 	//-------------------------------------------------------------//
 	if (scene == PLAY)
 	{
-		map->DrawSprite();
+		map->DrawSprite(player->GetPos());
 		player->DrawSprite();
 		for (int i = 0; i < 3; i++)
 		{

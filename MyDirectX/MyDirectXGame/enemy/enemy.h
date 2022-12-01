@@ -40,7 +40,7 @@ public:
 	void InitializeValue2();//タイトル時の初期化
 	void InitializeValue3();//タイトル時の初期化
 
-	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos,XMFLOAT2 plusValue);//アップデート
+	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos,XMFLOAT2 plusValue, bool catchFlag1, bool catchFlag2);//アップデート
 
 	void Draw();
 
@@ -73,7 +73,7 @@ private:
 	bool adjustmentFlag = false;
 
 	int killTime = 0;
-
+	int startStopTime = 0;
 	Node node[120];
 
 	int mapZ = int((pos.z / 8) + ((21 + 1) / 2));

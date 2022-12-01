@@ -28,15 +28,21 @@ void Enemy::Initialize()
 
 void Enemy::InitializeValue()
 {
-	pos = { -12.0f,3.0f,-76.0f };//プレイヤーの位置
+	pos = { -4.0f,3.0f,-28.0f };//プレイヤーの位置
 	objEnemy->SetPosition(pos);
-	nowMove = RIGHT;
+	objEnemy->SetRotation({ 0, 90, 0 });
+	nowMove = UP;
 	adjustValueX = 0;
 	adjustValueZ = 0;
 	speed = 0.2f;
 	vReserveFlag = false;
-	miniMapPos = { 100 + (16.0f * 11),650 + (16.0f * 1) };
+	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 7) };
 	maxAdjustmentTime = 40;
+
+	wallHitFlag = false;
+	adjustmentFlag = false;
+	killTime = 0;
+	startStopTime = 0;
 }
 
 void Enemy::InitializeValue2()
@@ -50,6 +56,10 @@ void Enemy::InitializeValue2()
 	vReserveFlag = false;
 	miniMapPos = { 100 + (16.0f * 9),650 + (16.0f * 19) };
 	maxAdjustmentTime = 49;
+	wallHitFlag = false;
+	adjustmentFlag = false;
+	killTime = 0;
+	startStopTime = 0;
 }
 
 void Enemy::InitializeValue3()
@@ -63,15 +73,21 @@ void Enemy::InitializeValue3()
 	vReserveFlag = false;
 	miniMapPos = { 100 + (16.0f * 19),650 + (16.0f * 9) };
 	maxAdjustmentTime = 49;
+	wallHitFlag = false;
+	adjustmentFlag = false;
+	killTime = 0;
+	startStopTime = 0;
 }
 
-void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos, XMFLOAT2 plusValue)
+void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos, XMFLOAT2 plusValue ,bool catchFlag1, bool catchFlag2)
 {
+
 	objEnemy->Update(pos,pos, pos,pos, 0, 1);
 	AI(player, mapChip,plusValue);
-	if (mapChip->GetCrystalGetFlag(9) || mapChip->GetCrystalGetFlag(10))
+	if (mapChip->GetGateOpenFlag() && !catchFlag1 && !catchFlag2)
 	{
-		if(!CatchCollision(player))
+		startStopTime++;
+		if(!CatchCollision(player) && startStopTime > 90)
 		{
 			Move(mapChip, mapPos);
 		}
