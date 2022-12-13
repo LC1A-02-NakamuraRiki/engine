@@ -89,7 +89,7 @@ float4 main(VSOutput input) : SV_TARGET
 					// ‘S‚Ä‰ÁŽZ‚·‚é
 					if (scalr >= 0) {
 
-						shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr;
+						shadecolor.rgb += ((0.125f) * dirLights[i].lightcolor) * scalr;
 
 					}
 				}
@@ -108,7 +108,7 @@ float4 main(VSOutput input) : SV_TARGET
 							// ‘S‚Ä‰ÁŽZ‚·‚é
 							if (scalr >= 0) {
 
-								shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor);
+								shadecolor.rgb += ((diffuse + specular) * dirLights[i].lightcolor) * scalr;
 
 							}
 						}

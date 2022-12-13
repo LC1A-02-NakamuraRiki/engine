@@ -14,7 +14,7 @@ float4 main(VSOutput input) :SV_TARGET
 {
 	float4 texcolor0 = float4(0,0,0,0);
 	float4 color;
-	float totalWeight = 0, sigma = 0.007f, stepWidth = 0.001f;
+	float totalWeight = 0, sigma = 0.005f, stepWidth = 0.001f;
 	for (float py = -sigma * 2; py <= sigma * 2; py += stepWidth)
 	{
 		for (float px = -sigma * 2; px <= sigma * 2; px += stepWidth)
@@ -42,11 +42,6 @@ float4 main(VSOutput input) :SV_TARGET
 	{
 		color = tex0.Sample(smp, input.uv);
 	}
-	if (gray > 0.85f)
-	{
-		return float4(0, 0, 0, 1);
-	}
-
 
 	if (flag)
 	{
