@@ -250,7 +250,7 @@ void GameScene::Update()
 		enemy[1]->Update(player, map, player->GetMapPos(), player->GetShortCut(map,enemy[1]->GetPos()), enemy[0]->CatchCollision(player), enemy[2]->CatchCollision(player));
 		enemy[2]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[2]->GetPos()), enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player));
 		
-		if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
+		/*if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -275,7 +275,7 @@ void GameScene::Update()
 					soundTimer[i] = 0;
 				}
 			}
-		}
+		}*/
 
 		for (int i = 0; i < 2; i++)
 		{

@@ -6,7 +6,7 @@
 #pragma comment(lib,"d3dcompiler.lib")
 using namespace DirectX;
 
-const float PostEffect::clearColor[4] = {0.0f,0.0f,0.5f,0.0f};
+const float PostEffect::clearColor[4] = {1.0f,1.0f,1.0f,1.0f};
 
 PostEffect::PostEffect() 
 	: Sprite(
@@ -301,6 +301,7 @@ void PostEffect::CreateGraphicsPipelineState()
 		0,
 		&psBlob, &errorBlob);
 
+	
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
 		{  //xyz座標
@@ -354,11 +355,12 @@ void PostEffect::CreateGraphicsPipelineState()
 
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
+	
 	gpipeline.NumRenderTargets = 2; // 描画対象は2つ
-	gpipeline.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
-	gpipeline.RTVFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM; // 0～255指定のRGBA
+	gpipeline.RTVFormats[0] = DXGI_FORMAT_R16G16B16A16_UNORM; // 0～255指定のRGBA
+	gpipeline.RTVFormats[1] = DXGI_FORMAT_R16G16B16A16_UNORM; // 0～255指定のRGBA
 	gpipeline.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
-
+	
 	//デスクリプタテーブルの設定
 	CD3DX12_DESCRIPTOR_RANGE descRangeSRV0;
 	descRangeSRV0.Init(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);  //t0 レジスタ

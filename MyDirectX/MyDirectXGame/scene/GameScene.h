@@ -125,14 +125,14 @@ private: // ÉÅÉìÉoïœêî
 	float lightDir3[3] = { 1,0,0 };
 	float lightDir4[3] = {-1,0,0 };
 
-	const float colorAmbient = 0.65f;
+	const float colorAmbient = 1.5f;
 	float ambientColor0[3] = { colorAmbient,colorAmbient,colorAmbient };
 	
-	const float colorUpDown = 3.0f;
+	const float colorUpDown = 5.0f;
 	float lightColor0[3] = { colorUpDown,colorUpDown,colorUpDown };
 	float lightColor5[3] = { colorUpDown,colorUpDown,colorUpDown };
 	
-	const float colorSide = 3.0f;
+	const float colorSide = 4.0f;
 	float lightColor1[3] = { colorSide,colorSide,colorSide };
 	float lightColor2[3] = { colorSide,colorSide,colorSide };
 	float lightColor3[3] = { colorSide,colorSide,colorSide };
