@@ -119,6 +119,7 @@ void Object3d::InitializeGraphicsPipeline()
 	blenddesc.DestBlendAlpha = D3D12_BLEND_ZERO;
 
 	gpipeline.BlendState.RenderTarget[0] = blenddesc;
+	gpipeline.BlendState.RenderTarget[1] = blenddesc;
 
 	gpipeline.DSVFormat = DXGI_FORMAT_D32_FLOAT;
 
@@ -127,8 +128,9 @@ void Object3d::InitializeGraphicsPipeline()
 
 	gpipeline.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
-	gpipeline.NumRenderTargets = 1; // 描画対象は1つ
+	gpipeline.NumRenderTargets = 2; // 描画対象は1つ
 	gpipeline.RTVFormats[0] = DXGI_FORMAT_R16G16B16A16_UNORM; // 0～255指定のRGBA
+	gpipeline.RTVFormats[1] = DXGI_FORMAT_R16G16B16A16_UNORM; // 0～255指定のRGBA
 	gpipeline.SampleDesc.Count = 1; // 1ピクセルにつき1回サンプリング
 
 	//デスクリプタテーブルの設定

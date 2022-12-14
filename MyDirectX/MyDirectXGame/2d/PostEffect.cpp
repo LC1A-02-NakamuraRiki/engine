@@ -169,6 +169,8 @@ void PostEffect::Initialize()
 	descHeapDSV->GetCPUDescriptorHandleForHeapStart());
 
 	CreateGraphicsPipelineState();
+
+	
 	texBuff[0]->SetName(L"aaaaaaaaaaaaaaaaaaaaa");
 	texBuff[1]->SetName(L"EZEZEZEZEZEZEZEZ");
 }
