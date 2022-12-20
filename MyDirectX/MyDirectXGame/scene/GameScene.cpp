@@ -329,9 +329,8 @@ void GameScene::Draw()
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-	if (scene == TITLE || scene == PLAY)
+	if (scene == PLAY)
 	{
-
 		map->Draw();
 		for (int i = 0; i < 3; i++)
 		{
@@ -350,57 +349,7 @@ void GameScene::Draw()
 	//// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-	if (scene == TITLE)
-	{
-		if (buttonNo == 0)
-		{
-			spriteTitle->Draw(1.0f);
-		}
-		else if (buttonNo == 1)
-		{
-			spriteTitle2->Draw(1.0f);
-		}
-		else if (buttonNo == 2)
-		{
-			spriteTitle3->Draw(1.0f);
-		}
-	}
-	if (scene == OPTION)
-	{
-		debugText.Print(1300, 390, 2.0f, "%f", player->GetViewSpeed());
-		if (player->GetShakeFlag())
-		{
-			debugText.Print(1335, 490, 2.0f, "ON");
-		}
-		else if (!player->GetShakeFlag())
-		{
-			debugText.Print(1325, 490, 2.0f, "OFF");
-		}
-		if (optionButtonNo == 0)
-		{
-			spriteOption->Draw(1.0f);
-		}
-		else if (optionButtonNo == 1)
-		{
-			spriteOption2->Draw(1.0f);
-		}
-		else if (optionButtonNo == 2)
-		{
-			spriteOption3->Draw(1.0f);
-		}
-	}
-	if (scene == CLEAR)
-	{
-		spriteClear->Draw(1.0f);
-	}
-	if (scene == GAMEOVER)
-	{
-		spriteGAMEOVER->Draw(1.0f);
-	}
-	if (scene == PLAY)
-	{
-		
-	}
+
 
 	//-------------------------------------------------------------//
 	// デバッグテキストの描画
@@ -458,6 +407,57 @@ void GameScene::PostOffDraw()
 		}
 	}
 
+	if (scene == TITLE)
+	{
+		if (buttonNo == 0)
+		{
+			spriteTitle->Draw(1.0f);
+		}
+		else if (buttonNo == 1)
+		{
+			spriteTitle2->Draw(1.0f);
+		}
+		else if (buttonNo == 2)
+		{
+			spriteTitle3->Draw(1.0f);
+		}
+	}
+	if (scene == OPTION)
+	{
+		debugText.Print(1300, 390, 2.0f, "%f", player->GetViewSpeed());
+		if (player->GetShakeFlag())
+		{
+			debugText.Print(1335, 490, 2.0f, "ON");
+		}
+		else if (!player->GetShakeFlag())
+		{
+			debugText.Print(1325, 490, 2.0f, "OFF");
+		}
+		if (optionButtonNo == 0)
+		{
+			spriteOption->Draw(1.0f);
+		}
+		else if (optionButtonNo == 1)
+		{
+			spriteOption2->Draw(1.0f);
+		}
+		else if (optionButtonNo == 2)
+		{
+			spriteOption3->Draw(1.0f);
+		}
+	}
+	if (scene == CLEAR)
+	{
+		spriteClear->Draw(1.0f);
+	}
+	if (scene == GAMEOVER)
+	{
+		spriteGAMEOVER->Draw(1.0f);
+	}
+	if (scene == PLAY)
+	{
+
+	}
 	//-------------------------------------------------------------//
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);

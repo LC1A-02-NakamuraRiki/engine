@@ -18,6 +18,7 @@ float4 main(VSOutput input) :SV_TARGET
 
 	float4 color2 = float4(0,0,0,0);
 	float totalWeight = 0, sigma = 0.012f, stepWidth = 0.003f;
+
 	for (float py = -sigma * 2; py <= sigma * 2; py += stepWidth)
 	{
 		for (float px = -sigma * 2; px <= sigma * 2; px += stepWidth)

@@ -104,7 +104,7 @@ void DirectXCommon::ClearRenderTarget()
 	// レンダーターゲットビュー用ディスクリプタヒープのハンドルを取得
 	CD3DX12_CPU_DESCRIPTOR_HANDLE rtvH = CD3DX12_CPU_DESCRIPTOR_HANDLE(rtvHeaps->GetCPUDescriptorHandleForHeapStart(), bbIndex, dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	// ３．画面クリア           R     G     B    A
-	float clearColor[] = { 1.0f,0.0f, 0.0f,1.0f }; // 青っぽい色
+	float clearColor[] = { 0.0f,0.0f, 0.0f,1.0f }; // 青っぽい色
 	cmdList->ClearRenderTargetView(rtvH, clearColor, 0, nullptr);
 }
 
