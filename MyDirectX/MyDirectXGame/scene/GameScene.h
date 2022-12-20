@@ -109,7 +109,6 @@ private: // ƒƒ“ƒo•Ï”
 
 	bool stopFlag;
 
-
 	int buttonNo = 0;
 	int optionButtonNo = 0;
 

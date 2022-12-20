@@ -64,6 +64,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		Input::GetInstance()->Update();
 		// ゲームシーンの毎フレーム処理
 		gameScene->Update();
+		if (Input::GetInstance()->KeybordTrigger(DIK_ESCAPE))
+		{
+			break;
+		}
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && gameScene->GetTitleButtonFlag() == 2)
 		{
 			break;

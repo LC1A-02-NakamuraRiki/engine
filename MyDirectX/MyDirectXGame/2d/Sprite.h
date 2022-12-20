@@ -24,6 +24,7 @@ public: // サブクラス
 		XMMATRIX mat;      //3D変換行列
 		bool flag;
 		bool pad;
+		bool effectFlag;
 		float alpha;
 	};
 

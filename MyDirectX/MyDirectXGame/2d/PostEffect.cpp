@@ -171,8 +171,7 @@ void PostEffect::Initialize()
 	CreateGraphicsPipelineState();
 
 	
-	texBuff[0]->SetName(L"aaaaaaaaaaaaaaaaaaaaa");
-	texBuff[1]->SetName(L"EZEZEZEZEZEZEZEZ");
+	texBuff[0]->SetName(L"a");
 }
 
 void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, bool stopFlag)

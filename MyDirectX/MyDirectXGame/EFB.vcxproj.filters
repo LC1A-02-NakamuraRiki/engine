@@ -11,9 +11,6 @@
     <Filter Include="engine\Sound">
       <UniqueIdentifier>{a48833fd-3d2a-4f11-ba5d-4613573f9c89}</UniqueIdentifier>
     </Filter>
-    <Filter Include="engine\Scene">
-      <UniqueIdentifier>{7ce5153d-1824-463d-bfce-aa78a16b17ee}</UniqueIdentifier>
-    </Filter>
     <Filter Include="engine\input">
       <UniqueIdentifier>{ac6c3e0e-d8ca-4591-ac18-396d5d9b9eb6}</UniqueIdentifier>
     </Filter>
@@ -43,6 +40,9 @@
     </Filter>
     <Filter Include="engine\helper">
       <UniqueIdentifier>{67f6a998-edf7-4099-b6b3-fddc8cec64ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Library\Scene">
+      <UniqueIdentifier>{7ce5153d-1824-463d-bfce-aa78a16b17ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -156,7 +156,7 @@
       <Filter>engine\Sound</Filter>
     </ClCompile>
     <ClCompile Include="Scene\GameScene.cpp">
-      <Filter>engine\Scene</Filter>
+      <Filter>Library\Scene</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="input\GamePad.cpp">
@@ -252,7 +252,7 @@
       <Filter>engine\Sound</Filter>
     </ClInclude>
     <ClInclude Include="Scene\GameScene.h">
-      <Filter>engine\Scene</Filter>
+      <Filter>Library\Scene</Filter>
     </ClInclude>
     <ClInclude Include="input\GamePad.h">
       <Filter>engine\input</Filter>
