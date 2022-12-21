@@ -18,7 +18,7 @@ void Enemy::Initialize()
 	objEnemy->SetPosition(pos);
 	objEnemy->SetScale({ 0.75,0.75,0.75 });
 
-	if (!Sprite::LoadTexture(4, L"Resources/enemyDot.png")) {
+	if (!Sprite::LoadTexture(4, L"Resources_/enemyDot.png")) {
 		assert(0);
 		return;
 	}
