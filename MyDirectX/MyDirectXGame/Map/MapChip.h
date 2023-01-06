@@ -344,4 +344,10 @@ private:
 	
 	std::unique_ptr<Sprite> spriteSpotEffect;
 	int number = 11;
+
+	std::unique_ptr<Model> modelPictureFrame;
+	std::unique_ptr<Object3d> objPictureFrame[2];
+
+	std::unique_ptr<Model> modelDesk;
+	std::unique_ptr<Object3d> objDesk[2];
 };

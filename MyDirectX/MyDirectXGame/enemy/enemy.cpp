@@ -13,12 +13,12 @@ Enemy::~Enemy()
 
 void Enemy::Initialize()
 {
-	modelEnemy = Model::CreateFromObject("obake", false);
+	modelEnemy = Model::CreateFromObject("gostFace", false);
 	objEnemy = Object3d::Create(modelEnemy);
 	objEnemy->SetPosition(pos);
-	objEnemy->SetScale({ 0.75,0.75,0.75 });
+	objEnemy->SetScale({ 0.35f,0.3f,0.35f });
 
-	if (!Sprite::LoadTexture(4, L"Resources_/enemyDot.png")) {
+	if (!Sprite::LoadTexture(4, L"Resources/enemyDot.png")) {
 		assert(0);
 		return;
 	}
@@ -30,7 +30,7 @@ void Enemy::InitializeValue()
 {
 	pos = { -4.0f,3.0f,-28.0f };//プレイヤーの位置
 	objEnemy->SetPosition(pos);
-	objEnemy->SetRotation({ 0, 90, 0 });
+	objEnemy->SetRotation({ 0, 270, 0 });
 	nowMove = UP;
 	adjustValueX = 0;
 	adjustValueZ = 0;
@@ -64,7 +64,7 @@ void Enemy::InitializeValue2()
 
 void Enemy::InitializeValue3()
 {
-	pos = { -76.0f,3.0f,-12.0f };//位置
+	pos = { -76.0f,3.5f,-12.0f };//位置
 	objEnemy->SetPosition(pos);
 	nowMove = UP;
 	adjustValueX = 0;
@@ -441,7 +441,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		if (nowMove == DOWN)
 		{
 			spriteEnemyAngle->SetRotation(45);
-			objEnemy->SetRotation({0, 90, 0});
+			objEnemy->SetRotation({0, 270, 0});
 			pos.z += speed;
 			miniMapPos.y += speed * 2;
 			adjustValueZ = -3.9f;
@@ -449,7 +449,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == UP)
 		{
 			spriteEnemyAngle->SetRotation(-135);
-			objEnemy->SetRotation({ 0, 270, 0 });
+			objEnemy->SetRotation({ 0, 90, 0 });
 			pos.z -= speed;
 			miniMapPos.y -= speed * 2;
 			adjustValueZ = 3.9f;
@@ -457,7 +457,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == RIGHT)
 		{
 			spriteEnemyAngle->SetRotation(135);
-			objEnemy->SetRotation({ 0, 180, 0 });
+			objEnemy->SetRotation({ 0, 0, 0 });
 			pos.x += speed;
 			miniMapPos.x -= speed * 2;
 			adjustValueX = -3.9f;
@@ -465,7 +465,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == LEFT)
 		{
 			spriteEnemyAngle->SetRotation(-45);
-			objEnemy->SetRotation({ 0, 0, 0 });
+			objEnemy->SetRotation({ 0, 180, 0 });
 			pos.x -= speed;
 			miniMapPos.x += speed * 2;
 			adjustValueX = 3.9f;

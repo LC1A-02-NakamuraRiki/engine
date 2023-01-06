@@ -9,6 +9,27 @@ MapChip::~MapChip()
 
 void MapChip::Initialize()
 {
+	modelPictureFrame = std::unique_ptr<Model>(Model::CreateFromObject("pictureFrame", false));
+
+	objPictureFrame[0] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
+	objPictureFrame[0]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+	objPictureFrame[0]->SetPosition(XMFLOAT3({0,4.25f,-4}));
+
+	objPictureFrame[1] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
+	objPictureFrame[1]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+	objPictureFrame[1]->SetPosition(XMFLOAT3({ -8.0f, 4.25f,-4 }));
+
+	modelDesk = std::unique_ptr<Model>(Model::CreateFromObject("desk", false));
+
+	objDesk[0] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
+	objDesk[0]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
+	objDesk[0]->SetPosition(XMFLOAT3({ -0.5f,2.0f,-4 }));
+
+	objDesk[1] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
+	objDesk[1]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
+	objDesk[1]->SetPosition(XMFLOAT3({ -7.5f,2.0f,-4 }));
+
+
 	modelMapWall = std::unique_ptr<Model>(Model::CreateFromObject("wall", false));
 	for (int x = 0; x < MapValue; x++)
 	{
@@ -104,74 +125,74 @@ void MapChip::Initialize()
 	objMapDoor[2]->SetPosition(XMFLOAT3({ -0.2f,0.2f,8.0f }));
 	objMapDoor[3]->SetPosition(XMFLOAT3({ -7.8f,0.2f,8.0f }));
 
-	if (!Sprite::LoadTexture(2, L"Resources_/mapWall.png")) {
+	if (!Sprite::LoadTexture(2, L"Resources/mapWall.png")) {
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(5, L"Resources_/miniMapBack.png")) {
-		assert(0);
-		return;
-	}
-
-	if (!Sprite::LoadTexture(7, L"Resources_/crystal.png")) {
+	if (!Sprite::LoadTexture(5, L"Resources/miniMapBack.png")) {
 		assert(0);
 		return;
 	}
 
-	if (!Sprite::LoadTexture(8, L"Resources_/number/1.png")) {
-		assert(0);
-		return;
-	}if (!Sprite::LoadTexture(9, L"Resources_/number/2.png")) {
-		assert(0);
-		return;
-	}if (!Sprite::LoadTexture(10, L"Resources_/number/3.png")) {
-		assert(0);
-		return;
-	}if (!Sprite::LoadTexture(11, L"Resources_/number/4.png")) {
-		assert(0);
-		return;
-	}if (!Sprite::LoadTexture(12, L"Resources_/number/5.png")) {
-		assert(0);
-		return;
-	}if (!Sprite::LoadTexture(13, L"Resources_/number/6.png")) {
-		assert(0);
-		return;
-	}if (!Sprite::LoadTexture(14, L"Resources_/number/7.png")) {
-		assert(0);
-		return;
-	}if (!Sprite::LoadTexture(15, L"Resources_/number/8.png")) {
-		assert(0);
-		return;
-	}if (!Sprite::LoadTexture(16, L"Resources_/number/9.png")) {
-		assert(0);
-		return;
-	}
-	if (!Sprite::LoadTexture(29, L"Resources_/number/0.png")) {
-		assert(0);
-		return;
-	}
-	if (!Sprite::LoadTexture(17, L"Resources_/crystal2.png")) {
-		assert(0);
-		return;
-	}
-	if (!Sprite::LoadTexture(26, L"Resources_/miniMapFrame.png")) {
-		assert(0);
-		return;
-	}
-	if (!Sprite::LoadTexture(31, L"Resources_/EnemyStop.png")) {
-		assert(0);
-		return;
-	}
-	if (!Sprite::LoadTexture(32, L"Resources_/EnemySpotted.png")) {
-		assert(0);
-		return;
-	}
-	if (!Sprite::LoadTexture(33, L"Resources_/MiniMapBack2.png")) {
+	if (!Sprite::LoadTexture(7, L"Resources/crystal.png")) {
 		assert(0);
 		return;
 	}
 
-	if (!Sprite::LoadTexture(45, L"Resources_/Open.png")) {
+	if (!Sprite::LoadTexture(8, L"Resources/number/1.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(9, L"Resources/number/2.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(10, L"Resources/number/3.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(11, L"Resources/number/4.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(12, L"Resources/number/5.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(13, L"Resources/number/6.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(14, L"Resources/number/7.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(15, L"Resources/number/8.png")) {
+		assert(0);
+		return;
+	}if (!Sprite::LoadTexture(16, L"Resources/number/9.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(29, L"Resources/number/0.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(17, L"Resources/crystal2.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(26, L"Resources/miniMapFrame.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(31, L"Resources/EnemyStop.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(32, L"Resources/EnemySpotted.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(33, L"Resources/MiniMapBack2.png")) {
+		assert(0);
+		return;
+	}
+
+	if (!Sprite::LoadTexture(45, L"Resources/Open.png")) {
 		assert(0);
 		return;
 	}
@@ -230,25 +251,25 @@ void MapChip::Initialize()
 	spriteCrystal[3] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[3]));
 	spriteCrystal[5] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[5]));
 
-	LoadCSV(mapWallLeftUp, "Resources_/map/a1.csv");
-	LoadCSV(mapWallLeftCenter, "Resources_/map/a2.csv");
-	LoadCSV(mapWallLeftDown, "Resources_/map/a3.csv");
-	LoadCSV(mapWallCenterUp, "Resources_/map/a4.csv");
-	LoadCSV(mapWallCenterCenter, "Resources_/map/a5.csv");
-	LoadCSV(mapWallCenterDown, "Resources_/map/a6.csv");
-	LoadCSV(mapWallRightUp, "Resources_/map/a7.csv");
-	LoadCSV(mapWallRightCenter, "Resources_/map/a8.csv");
-	LoadCSV(mapWallRightDown, "Resources_/map/a9.csv");
+	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");
+	LoadCSV(mapWallLeftCenter, "Resources/map/a2.csv");
+	LoadCSV(mapWallLeftDown, "Resources/map/a3.csv");
+	LoadCSV(mapWallCenterUp, "Resources/map/a4.csv");
+	LoadCSV(mapWallCenterCenter, "Resources/map/a5.csv");
+	LoadCSV(mapWallCenterDown, "Resources/map/a6.csv");
+	LoadCSV(mapWallRightUp, "Resources/map/a7.csv");
+	LoadCSV(mapWallRightCenter, "Resources/map/a8.csv");
+	LoadCSV(mapWallRightDown, "Resources/map/a9.csv");
 
-	LoadCSV(      mapWallLeftUp1,"Resources_/map/b1.csv");
-	LoadCSV(  mapWallLeftCenter1,"Resources_/map/b2.csv");
-	LoadCSV(    mapWallLeftDown1,"Resources_/map/b3.csv");
-	LoadCSV(    mapWallCenterUp1,"Resources_/map/b4.csv");
-	LoadCSV(mapWallCenterCenter1,"Resources_/map/b5.csv");
-	LoadCSV(  mapWallCenterDown1,"Resources_/map/b6.csv");
-	LoadCSV(     mapWallRightUp1,"Resources_/map/b7.csv");
-	LoadCSV( mapWallRightCenter1,"Resources_/map/b8.csv");
-	LoadCSV(   mapWallRightDown1,"Resources_/map/b9.csv");
+	LoadCSV(      mapWallLeftUp1,"Resources/map/b1.csv");
+	LoadCSV(  mapWallLeftCenter1,"Resources/map/b2.csv");
+	LoadCSV(    mapWallLeftDown1,"Resources/map/b3.csv");
+	LoadCSV(    mapWallCenterUp1,"Resources/map/b4.csv");
+	LoadCSV(mapWallCenterCenter1,"Resources/map/b5.csv");
+	LoadCSV(  mapWallCenterDown1,"Resources/map/b6.csv");
+	LoadCSV(     mapWallRightUp1,"Resources/map/b7.csv");
+	LoadCSV( mapWallRightCenter1,"Resources/map/b8.csv");
+	LoadCSV(   mapWallRightDown1,"Resources/map/b9.csv");
 
 }
 
@@ -617,6 +638,11 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 		}
 		objCrystal[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
 	}
+	objPictureFrame[0]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
+	objDesk[0]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
+
+	objPictureFrame[1]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
+	objDesk[1]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
 	if (crystalGetFlag[0] && crystalGetFlag[1] && crystalGetFlag[2] && crystalGetFlag[3] && crystalGetFlag[4] &&
 		crystalGetFlag[5] && crystalGetFlag[6] && crystalGetFlag[7] && crystalGetFlag[8] && crystalGetFlag[9] && crystalGetFlag[10])
 	{
@@ -708,6 +734,11 @@ void MapChip::Draw()
 	{
 		objMapDoor[i]->Draw();
 	}
+	objPictureFrame[0]->Draw();
+	objDesk[0]->Draw();
+
+	objPictureFrame[1]->Draw();
+	objDesk[1]->Draw();
 }
 
 void MapChip::DrawSprite(XMFLOAT3 pos)

@@ -48,7 +48,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	Object3d::SetCamera(camera);
 
 	// デバッグテキスト用テクスチャ読み込み
-	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources_/debugfont.png")) {
+	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/debugfont.png")) {
 		assert(0);
 		return;
 	}
@@ -59,39 +59,39 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	
 	//スプライト
 	// テクスチャ読み込み
-	if (!Sprite::LoadTexture(18, L"Resources_/Title.png")) {
+	if (!Sprite::LoadTexture(18, L"Resources/Title.png")) {
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(21, L"Resources_/Title2.png")) {
+	if (!Sprite::LoadTexture(21, L"Resources/Title2.png")) {
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(22, L"Resources_/Title3.png")) {
+	if (!Sprite::LoadTexture(22, L"Resources/Title3.png")) {
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(19, L"Resources_/Clear.png")) {
+	if (!Sprite::LoadTexture(19, L"Resources/Clear.png")) {
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(20, L"Resources_/GAMEOVER.png")) {
+	if (!Sprite::LoadTexture(20, L"Resources/GAMEOVER.png")) {
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(23, L"Resources_/Option.png")) {
+	if (!Sprite::LoadTexture(23, L"Resources/Option.png")) {
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(24, L"Resources_/Option2.png")) {
+	if (!Sprite::LoadTexture(24, L"Resources/Option2.png")) {
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(25, L"Resources_/Option3.png")) {
+	if (!Sprite::LoadTexture(25, L"Resources/Option3.png")) {
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(30, L"Resources_/tutrial.png")) {
+	if (!Sprite::LoadTexture(30, L"Resources/tutrial.png")) {
 		assert(0);
 		return;
 	}
@@ -261,17 +261,16 @@ void GameScene::Update()
 				{
 					if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
 					{
-						audio->PlaySE("Resources_/seR.wav", false);
-						audio->PlaySE("Resources_/seR.wav", false);
+						audio->PlaySE("Resources/seR.wav", false);
 					}
 					else if (-vec + player->GetAngle() - 90 > 90 - sideValue && -vec + player->GetAngle() - 90 < 90 + sideValue || -vec + player->GetAngle() - 90 < -270 + sideValue && -vec + player->GetAngle() - 90 > -270 - sideValue)
 					{
-						audio->PlaySE("Resources_/seL.wav", false);
+						audio->PlaySE("Resources/seL.wav", false);
 					}
 					else
 					{
-						audio->PlaySE("Resources_/seL.wav", false);
-						audio->PlaySE("Resources_/seR.wav", false);
+						audio->PlaySE("Resources/seL.wav", false);
+						audio->PlaySE("Resources/seR.wav", false);
 					}
 					soundTimer[i] = 0;
 				}

@@ -10,13 +10,13 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	if (!Sprite::LoadTexture(3, L"Resources_/PlayerDot.png")) {
+	if (!Sprite::LoadTexture(3, L"Resources/PlayerDot.png")) {
 		assert(0);
 		return;
 	}
 	spritePlayerDot = Sprite::Create(3, miniMapPos);
 
-	if (!Sprite::LoadTexture(6, L"Resources_/angle.png")) {
+	if (!Sprite::LoadTexture(6, L"Resources/angle.png")) {
 		assert(0);
 		return;
 	}
