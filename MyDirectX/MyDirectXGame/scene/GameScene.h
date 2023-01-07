@@ -136,4 +136,7 @@ private: // ƒƒ“ƒo•Ï”
 	float lightColor2[3] = { colorSide,colorSide,colorSide };
 	float lightColor3[3] = { colorSide,colorSide,colorSide };
 	float lightColor4[3] = { colorSide,colorSide,colorSide };
+	
+	FbxModel* model1 = nullptr;
+	FbxObject3d* object1 = nullptr;
 };

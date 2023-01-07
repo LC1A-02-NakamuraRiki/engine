@@ -52,6 +52,8 @@ private:
 	// FBXインポータ
 	FbxImporter* fbxImporter = nullptr;
 
+	// コントロールポイントのデータ
+	std::vector<std::vector<int>> controlPointsData_;
 private:
 	// privateなコンストラクタ（シングルトンパターン）
 	FbxLoader() = default;

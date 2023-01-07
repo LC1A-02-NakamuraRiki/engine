@@ -32,6 +32,9 @@ GameScene::~GameScene()
 	safe_delete(enemy[1]);
 	safe_delete(enemy[2]);
 	safe_delete(map);
+
+	safe_delete(object1);
+	safe_delete(model1);
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
@@ -128,6 +131,13 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		enemy[i] = new Enemy;
 		enemy[i]->Initialize();
 	}
+
+	model1 = FbxLoader::GetInstance()->LoadModelFromFile("uma");
+
+	object1 = new FbxObject3d;
+	object1->Initialize();
+	object1->SetModel(model1);
+	object1->PlayAnimation();
 }
 
 void GameScene::Update()
@@ -142,7 +152,8 @@ void GameScene::Update()
 	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetPos().x, player->GetPos().z);
 	//debugText.Print(20.0f, 40.0f, 2.0f, "%f",player->GetViewAngle());
 	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetShortCut(map,enemy[1]->GetPos()).x, player->GetShortCut(map, enemy[1]->GetPos()).y);
-
+	object1->SetPosition(XMFLOAT3{-4,0,0});
+	object1->Update();
 	if (scene == TITLE)
 	{	
 		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)
@@ -339,6 +350,7 @@ void GameScene::Draw()
 	}
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
+	object1->Draw(cmdList);
 	Object3d::PostDraw();
 
 	particle3d->Draw(cmdList);

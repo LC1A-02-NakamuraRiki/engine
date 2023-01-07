@@ -76,6 +76,8 @@ public: // メンバ関数
 
 	void PlayAnimation();
 
+	XMFLOAT3 SetPosition(XMFLOAT3 position) { return this->position = position;}
+	XMFLOAT3 SetScale(XMFLOAT3 scale) { return this->scale = scale;}
 protected: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffSkin;
 	// 定数バッファ
