@@ -201,7 +201,7 @@ void FbxObject3d::Initialize()
 	constBuffSkin->Unmap(0, nullptr);
 }
 
-void FbxObject3d::Update()
+void FbxObject3d::Update(bool lightActive)
 {
 	XMMATRIX matScale, matRot, matTrans;
 
@@ -234,6 +234,7 @@ void FbxObject3d::Update()
 		constMap->viewproj = matViewProjection;
 		constMap->world = modelTransform * matWorld;
 		constMap->cameraPos = cameraPos;
+		constMap->lightActive = lightActive;
 		constBuffTransform->Unmap(0, nullptr);
 	}
 	if (isPlay) {
@@ -266,8 +267,6 @@ void FbxObject3d::Draw(ID3D12GraphicsCommandList* cmdList)
 	cmdList->SetPipelineState(pipelinestate.Get());
 	// ルートシグネチャの設定
 	cmdList->SetGraphicsRootSignature(rootsignature.Get());
-	// プリミティブ形状を設定
-	cmdList->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	// 定数バッファビューをセット
 	cmdList->SetGraphicsRootConstantBufferView(0, constBuffTransform->GetGPUVirtualAddress());
 	cmdList->SetGraphicsRootConstantBufferView(2, constBuffSkin->GetGPUVirtualAddress());

@@ -9,7 +9,7 @@
 #include <d3dx12.h>
 #include <DirectXMath.h>
 #include <string>
-
+#include "LightGroop.h"
 
 class FbxObject3d
 {
@@ -23,12 +23,14 @@ protected: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public: // サブクラス
+
 	// 定数バッファ用データ構造体（座標変換行列用）
 	struct ConstBufferDataTransform
 	{
 		XMMATRIX viewproj;    // ビュープロジェクション行列
 		XMMATRIX world; // ワールド行列
 		XMFLOAT3 cameraPos; // カメラ座標（ワールド座標）
+		unsigned int lightActive;
 	};
 
 	static const int MAX_BONES = 32;
@@ -65,7 +67,7 @@ public: // メンバ関数
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	void Update(bool lightActive);
 
 	/// <summary>
 	/// 描画
@@ -78,16 +80,20 @@ public: // メンバ関数
 
 	XMFLOAT3 SetPosition(XMFLOAT3 position) { return this->position = position;}
 	XMFLOAT3 SetScale(XMFLOAT3 scale) { return this->scale = scale;}
+	XMFLOAT3 SetRotation(XMFLOAT3 rotation) { return this->rotation = rotation; }
+	void StopAnimation() { isPlay = false; }
+	void playAnimation() { isPlay = true; }
+	void AnimationReset() { currentTime = startTime;}
 protected: // メンバ変数
 	ComPtr<ID3D12Resource> constBuffSkin;
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuffTransform;
 	// ローカルスケール
-	XMFLOAT3 scale = { 1,1,1 };
+	XMFLOAT3 scale = { 0.35f,0.35f,0.35f };
 	// X,Y,Z軸回りのローカル回転角
 	XMFLOAT3 rotation = { 0,0,0 };
 	// ローカル座標
-	XMFLOAT3 position = { 0,0,0 };
+	XMFLOAT3 position = { 0,3,0 };
 	// ローカルワールド変換行列
 	XMMATRIX matWorld;
 	// モデル

@@ -31,6 +31,7 @@ void Enemy::InitializeValue()
 	pos = { -4.0f,3.0f,-28.0f };//プレイヤーの位置
 	objEnemy->SetPosition(pos);
 	objEnemy->SetRotation({ 0, 270, 0 });
+	angle = 270;
 	nowMove = UP;
 	adjustValueX = 0;
 	adjustValueZ = 0;
@@ -64,7 +65,7 @@ void Enemy::InitializeValue2()
 
 void Enemy::InitializeValue3()
 {
-	pos = { -76.0f,3.5f,-12.0f };//位置
+	pos = { -76.0f,3.0f,-12.0f };//位置
 	objEnemy->SetPosition(pos);
 	nowMove = UP;
 	adjustValueX = 0;
@@ -442,6 +443,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		{
 			spriteEnemyAngle->SetRotation(45);
 			objEnemy->SetRotation({0, 270, 0});
+			angle = 270;
 			pos.z += speed;
 			miniMapPos.y += speed * 2;
 			adjustValueZ = -3.9f;
@@ -450,6 +452,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		{
 			spriteEnemyAngle->SetRotation(-135);
 			objEnemy->SetRotation({ 0, 90, 0 });
+			angle = 90;
 			pos.z -= speed;
 			miniMapPos.y -= speed * 2;
 			adjustValueZ = 3.9f;
@@ -458,6 +461,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		{
 			spriteEnemyAngle->SetRotation(135);
 			objEnemy->SetRotation({ 0, 0, 0 });
+			angle = 0;
 			pos.x += speed;
 			miniMapPos.x -= speed * 2;
 			adjustValueX = -3.9f;
@@ -466,6 +470,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		{
 			spriteEnemyAngle->SetRotation(-45);
 			objEnemy->SetRotation({ 0, 180, 0 });
+			angle = 180;
 			pos.x -= speed;
 			miniMapPos.x += speed * 2;
 			adjustValueX = 3.9f;

@@ -14,11 +14,76 @@ PSOutput main(VSOutput input) : SV_TARGET
 	PSOutput output;
 	float4 texcolor = tex.Sample(smp, input.uv);
 
-	float3 light = normalize(float3(1, -1, 1));
-	float diffuse = saturate(dot(-light, input.normal));
-	float brightness = diffuse + 0.3f;
-	float4 shadecolor = float4(brightness, brightness, brightness, 1.0f);
+	float4 shadecolor = float4(0,0,0,1);
+
+	const float shininess = 10.0f;
+	// 頂点から視点への方向ベクトル
+	float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
+	// 環境反射光
+	float3 ambient = 0.7f;
+	// シェーディングによる色
+	float3 lightv[9];
+	lightv[0] = float3(0, 1, 0 );
+	lightv[1] = float3(1, 0, 0 );
+	lightv[2] = float3(-1, 0, 0 );
+	lightv[3] = float3(0, 0, 1 ); 
+	lightv[4] = float3(0, 0, -1 );
+	lightv[5] = float3(1, 0, -1);
+	lightv[6] = float3(-1, 0, -1);
+	lightv[7] = float3(-1, 0, 1);
+	lightv[8] = float3(1, 0, 1);
+
+	for (int i = 0; i < 9; i++) {
+		float3 dotlightnormal = dot(lightv[i], input.normal);
+		// 反射光ベクトル
+		float3 reflect = normalize(-lightv[i] + 2 * dotlightnormal * input.normal);
+		// 拡散反射光
+		float3 diffuse = dotlightnormal * 1.0f;
+		
+		// 鏡面反射光
+		float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * float3(1.0f, 1.0f, 1.0f);
+
+		if (i == 0)
+		{
+			shadecolor.rgb += ((diffuse + specular) * 0.7f);
+		}
+		else
+		{
+			shadecolor.rgb += ((diffuse + specular) * 0.7f);
+		}
+
+		for (int x = 0; x < 7; x++)
+		{
+			for (int y = 0; y < 7; y++)
+			{
+				if (lightActive)
+				{
+					float ax = 68 + (-24 * x) - input.worldpos.x;
+					float ay = 4 - input.worldpos.y;
+					float az = -76 + (24 * y) - input.worldpos.z;
+					float axyz = ax * ax + ay * ay + az * az;
+					float xyzDistanse = sqrt(axyz);
+					float scalr = 1.0 - (xyzDistanse / 8);
+					// 全て加算する
+					if (scalr >= 0) {
+						if (i == 0)
+						{
+							shadecolor.rgb += ((diffuse + specular) * 2.0f) * scalr;
+						}
+						else
+						{
+							shadecolor.rgb += ((diffuse + specular) * 2.0f) * scalr;
+
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+
 	output.target0 = shadecolor * texcolor;
-	output.target1 = float4(1 -(shadecolor * texcolor).rgb,1);
+	output.target1 = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	return output;
 }

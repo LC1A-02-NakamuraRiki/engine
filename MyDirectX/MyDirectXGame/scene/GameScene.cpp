@@ -33,8 +33,19 @@ GameScene::~GameScene()
 	safe_delete(enemy[2]);
 	safe_delete(map);
 
-	safe_delete(object1);
-	safe_delete(model1);
+	safe_delete(objectWalking[0]);
+	safe_delete(modelWalking[0]);
+	safe_delete(objectWalking[1]);
+	safe_delete(modelWalking[1]);
+	safe_delete(objectWalking[2]);
+	safe_delete(modelWalking[2]);
+
+	safe_delete(objectAttack[0]);
+	safe_delete(modelAttack[0]);
+	safe_delete(objectAttack[1]);
+	safe_delete(modelAttack[1]);
+	safe_delete(objectAttack[2]);
+	safe_delete(modelAttack[2]);
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
@@ -120,7 +131,26 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	light = LightGroop::Create();
 	
 	Object3d::SetLightGroup(light);
+	//ライト
+	light->SetAmbientColor(XMFLOAT3(ambientColor0));
 
+	light->SetDirLightDir(0, XMVECTOR({ lightDir0[0], lightDir0[1], lightDir0[2], 0 }));
+	light->SetDirLightColor(0, XMFLOAT3(lightColor0));
+
+	light->SetDirLightDir(1, XMVECTOR({ lightDir1[0], lightDir1[1], lightDir1[2], 0 }));
+	light->SetDirLightColor(1, XMFLOAT3(lightColor1));
+
+	light->SetDirLightDir(2, XMVECTOR({ lightDir2[0], lightDir2[1], lightDir2[2], 0 }));
+	light->SetDirLightColor(2, XMFLOAT3(lightColor2));
+
+	light->SetDirLightDir(3, XMVECTOR({ lightDir3[0], lightDir3[1], lightDir3[2], 0 }));
+	light->SetDirLightColor(3, XMFLOAT3(lightColor3));
+
+	light->SetDirLightDir(4, XMVECTOR({ lightDir4[0], lightDir4[1], lightDir4[2], 0 }));
+	light->SetDirLightColor(4, XMFLOAT3(lightColor4));
+
+	light->SetDirLightDir(5, XMVECTOR({ lightDir5[0], lightDir5[1], lightDir5[2], 0 }));
+	light->SetDirLightColor(5, XMFLOAT3(lightColor5));
 	player = new Player;
 	player->Initialize();
 	map = new MapChip;
@@ -131,13 +161,20 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		enemy[i] = new Enemy;
 		enemy[i]->Initialize();
 	}
+	for (int i = 0; i < 3; i++)
+	{
+		modelWalking[i] = FbxLoader::GetInstance()->LoadModelFromFile("Walking");
+		objectWalking[i] = new FbxObject3d;
+		objectWalking[i]->Initialize();
+		objectWalking[i]->SetModel(modelWalking[0]);
+		objectWalking[i]->PlayAnimation();
 
-	model1 = FbxLoader::GetInstance()->LoadModelFromFile("uma");
-
-	object1 = new FbxObject3d;
-	object1->Initialize();
-	object1->SetModel(model1);
-	object1->PlayAnimation();
+		modelAttack[i] = FbxLoader::GetInstance()->LoadModelFromFile("Jump Attack");
+		objectAttack[i] = new FbxObject3d;
+		objectAttack[i]->Initialize();
+		objectAttack[i]->SetModel(modelAttack[0]);
+		objectAttack[i]->PlayAnimation();
+	}
 }
 
 void GameScene::Update()
@@ -152,10 +189,17 @@ void GameScene::Update()
 	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetPos().x, player->GetPos().z);
 	//debugText.Print(20.0f, 40.0f, 2.0f, "%f",player->GetViewAngle());
 	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetShortCut(map,enemy[1]->GetPos()).x, player->GetShortCut(map, enemy[1]->GetPos()).y);
-	object1->SetPosition(XMFLOAT3{-4,0,0});
-	object1->Update();
+
 	if (scene == TITLE)
-	{	
+	{
+		objectWalking[0]->AnimationReset();
+		objectWalking[1]->AnimationReset();
+		objectWalking[2]->AnimationReset();
+
+		objectWalking[0]->AnimationReset();
+		objectWalking[1]->AnimationReset();
+		objectWalking[2]->AnimationReset();
+
 		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)
 		{
 			buttonNo--;
@@ -230,37 +274,68 @@ void GameScene::Update()
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());
 
-		//ライト
-		light->SetAmbientColor(XMFLOAT3(ambientColor0));
-
-		light->SetDirLightDir(0, XMVECTOR({ lightDir0[0], lightDir0[1], lightDir0[2], 0 }));
-		light->SetDirLightColor(0, XMFLOAT3(lightColor0));
-
-		light->SetDirLightDir(1, XMVECTOR({ lightDir1[0], lightDir1[1], lightDir1[2], 0 }));
-		light->SetDirLightColor(1, XMFLOAT3(lightColor1));
-
-		light->SetDirLightDir(2, XMVECTOR({ lightDir2[0], lightDir2[1], lightDir2[2], 0 }));
-		light->SetDirLightColor(2, XMFLOAT3(lightColor2));
-
-		light->SetDirLightDir(3, XMVECTOR({ lightDir3[0], lightDir3[1], lightDir3[2], 0 }));
-		light->SetDirLightColor(3, XMFLOAT3(lightColor3));
-
-		light->SetDirLightDir(4, XMVECTOR({ lightDir4[0], lightDir4[1], lightDir4[2], 0 }));
-		light->SetDirLightColor(4, XMFLOAT3(lightColor4));
 		
-		light->SetDirLightDir(5, XMVECTOR({ lightDir5[0], lightDir5[1], lightDir5[2], 0 }));
-		light->SetDirLightColor(5, XMFLOAT3(lightColor5));
 		player->Update(map,tutrialFlag,enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
 		particle3d->Update();
 		camera->Update();
 		light->Update();
 		map->Update(player->GetPos(),player->GetMapPos(),enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
 		stopFlag = map->GetStopFlag();
-		
+		if (map->GetStopFlag() || enemy[0]->GetStartStopTime() < 90)
+		{
+			objectWalking[0]->StopAnimation();
+			objectWalking[1]->StopAnimation();
+			objectWalking[2]->StopAnimation();
+		}
+		else
+		{
+			objectWalking[0]->playAnimation();
+			objectWalking[1]->playAnimation();
+			objectWalking[2]->playAnimation();
+		}
 		enemy[0]->Update(player, map, player->GetMapPos(), XMFLOAT2(0,0),enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
 		enemy[1]->Update(player, map, player->GetMapPos(), player->GetShortCut(map,enemy[1]->GetPos()), enemy[0]->CatchCollision(player), enemy[2]->CatchCollision(player));
 		enemy[2]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[2]->GetPos()), enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player));
-		
+
+		for (int i = 0; i < 3; i++)
+		{
+			objectWalking[i]->SetPosition(XMFLOAT3(enemy[i]->GetPos().x, enemy[i]->GetPos().y - 2.8f, enemy[i]->GetPos().z));
+			objectWalking[i]->SetRotation(XMFLOAT3(0, enemy[i]->GetRotation() + 90, 0));
+			
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			if (enemy[i]->CatchCollision(player)) {
+				objectAttack[i]->SetPosition(XMFLOAT3(enemy[i]->GetPos().x, enemy[i]->GetPos().y - 2.8f, enemy[i]->GetPos().z));
+				objectAttack[i]->SetRotation(XMFLOAT3(0, enemy[i]->GetRotation() + 90, 0));
+			}
+			else
+			{
+				objectAttack[i]->AnimationReset();
+			}
+			bool lightAction = map->LightAction();
+			objectWalking[i]->Update(lightAction);
+			objectAttack[i]->Update(lightAction);
+		}
+		for (int i = 0; i < 3; i++)
+		{
+			if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
+			{
+				float aX = enemy[i]->GetPos().x - player->GetPos().x;
+				float aZ = enemy[i]->GetPos().z - player->GetPos().z;
+				float aXZ = aX * aX + aZ * aZ;
+				float axzDistanse = float(sqrt(aXZ));
+				if (axzDistanse < 20.0f)
+				{
+					map->SetLightAction(true);
+					i = 3;
+				}
+				else
+				{
+					map->SetLightAction(false);
+				}
+			}
+		}
 		/*if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
 		{
 			for (int i = 0; i < 3; i++)
@@ -343,14 +418,25 @@ void GameScene::Draw()
 	if (scene == PLAY)
 	{
 		map->Draw();
-		for (int i = 0; i < 3; i++)
+		/*for (int i = 0; i < 3; i++)
 		{
 			enemy[i]->Draw();
+		}*/
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		if (!enemy[i]->CatchCollision(player))
+		{
+			objectWalking[i]->Draw(cmdList);
+		}
+		else
+		{
+			objectAttack[i]->Draw(cmdList);
 		}
 	}
+	//objectAttack->Draw(cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
-	object1->Draw(cmdList);
 	Object3d::PostDraw();
 
 	particle3d->Draw(cmdList);

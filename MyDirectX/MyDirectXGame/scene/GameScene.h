@@ -114,7 +114,7 @@ private: // ƒƒ“ƒo•Ï”
 
 	bool tutrialFlag = true;
 
-	int soundTimer[3] = { 0, 0 ,0};
+	int soundTimer[3] = { 0, 0 ,0 };
 	// Œõü•ûŒü‰Šú’l
 
 	float lightDir0[3] = { 0,1,0 };
@@ -122,21 +122,24 @@ private: // ƒƒ“ƒo•Ï”
 	float lightDir1[3] = { 0,0,1 };
 	float lightDir2[3] = { 0,0,-1 };
 	float lightDir3[3] = { 1,0,0 };
-	float lightDir4[3] = {-1,0,0 };
+	float lightDir4[3] = { -1,0,0 };
 
 	const float colorAmbient = 1.5f;
 	float ambientColor0[3] = { colorAmbient,colorAmbient,colorAmbient };
-	
+
 	const float colorUpDown = 5.0f;
 	float lightColor0[3] = { colorUpDown,colorUpDown,colorUpDown };
 	float lightColor5[3] = { colorUpDown,colorUpDown,colorUpDown };
-	
+
 	const float colorSide = 4.0f;
 	float lightColor1[3] = { colorSide,colorSide,colorSide };
 	float lightColor2[3] = { colorSide,colorSide,colorSide };
 	float lightColor3[3] = { colorSide,colorSide,colorSide };
 	float lightColor4[3] = { colorSide,colorSide,colorSide };
-	
-	FbxModel* model1 = nullptr;
-	FbxObject3d* object1 = nullptr;
+
+	FbxModel* modelWalking[3] = { nullptr, nullptr, nullptr };
+	FbxObject3d* objectWalking[3] = {nullptr, nullptr, nullptr};
+
+	FbxModel* modelAttack[3] = { nullptr, nullptr, nullptr };
+	FbxObject3d* objectAttack[3] = { nullptr, nullptr, nullptr };
 };

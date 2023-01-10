@@ -35,6 +35,9 @@ public:
 	bool GetDisplayFlag() { return displayFlag; }
 	bool GetCrystalGetFlag(int no) { return crystalGetFlag[no]; }
 	bool GetGateOpenFlag() { return gateOpenFlag; }
+
+	bool LightAction();
+	bool SetLightAction(bool actionFlag) {return this->lightAction = actionFlag;}
 private:
 
 	std::unique_ptr<Model> modelMapWall;
@@ -346,8 +349,17 @@ private:
 	int number = 11;
 
 	std::unique_ptr<Model> modelPictureFrame;
-	std::unique_ptr<Object3d> objPictureFrame[2];
+	std::unique_ptr<Object3d> objPictureFrame1[21][21];
+	std::unique_ptr<Object3d> objPictureFrame2[21][21];
+	std::unique_ptr<Object3d> objPictureFrame3[21][21];
+	std::unique_ptr<Object3d> objPictureFrame4[21][21];
 
 	std::unique_ptr<Model> modelDesk;
-	std::unique_ptr<Object3d> objDesk[2];
+	std::unique_ptr<Object3d> objDesk1[21][21];
+	std::unique_ptr<Object3d> objDesk2[21][21];
+	std::unique_ptr<Object3d> objDesk3[21][21];
+	std::unique_ptr<Object3d> objDesk4[21][21];
+
+	bool lightAction = 0;
+	int lightCount = 0;
 };

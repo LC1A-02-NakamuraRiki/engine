@@ -11,30 +11,53 @@ void MapChip::Initialize()
 {
 	modelPictureFrame = std::unique_ptr<Model>(Model::CreateFromObject("pictureFrame", false));
 
-	objPictureFrame[0] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
-	objPictureFrame[0]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-	objPictureFrame[0]->SetPosition(XMFLOAT3({0,4.25f,-4}));
-
-	objPictureFrame[1] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
-	objPictureFrame[1]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-	objPictureFrame[1]->SetPosition(XMFLOAT3({ -8.0f, 4.25f,-4 }));
+	
 
 	modelDesk = std::unique_ptr<Model>(Model::CreateFromObject("desk", false));
 
-	objDesk[0] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
-	objDesk[0]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-	objDesk[0]->SetPosition(XMFLOAT3({ -0.5f,2.0f,-4 }));
-
-	objDesk[1] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
-	objDesk[1]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-	objDesk[1]->SetPosition(XMFLOAT3({ -7.5f,2.0f,-4 }));
-
+	
 
 	modelMapWall = std::unique_ptr<Model>(Model::CreateFromObject("wall", false));
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
+			objPictureFrame1[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
+			objPictureFrame1[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+			objPictureFrame1[y][x]->SetPosition(XMFLOAT3({ 80.0f - (x * 8.0f),4.25f,76.0f - (y *8.0f)}));
+
+			objDesk1[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
+			objDesk1[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
+			objDesk1[y][x]->SetPosition(XMFLOAT3({ +0.5f + 80.0f - (x * 8.0f),2.0f,76.0f - (y * 8.0f) }));
+
+			objPictureFrame2[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
+			objPictureFrame2[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+			objPictureFrame2[y][x]->SetPosition(XMFLOAT3({ 72.0f - (x * 8.0f),4.25f,76.0f - (y * 8.0f) }));
+
+			objDesk2[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
+			objDesk2[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
+			objDesk2[y][x]->SetPosition(XMFLOAT3({ -0.5f + 72.0f - (x * 8.0f),2.0f,76.0f - (y * 8.0f) }));
+
+			objPictureFrame3[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
+			objPictureFrame3[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+			objPictureFrame3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * 8.0f),4.25f,72.0f - (y * 8.0f) }));
+			objPictureFrame3[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
+
+			objDesk3[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
+			objDesk3[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
+			objDesk3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * 8.0f),2.0f,-0.5f + 72.0f - (y * 8.0f) }));
+			objDesk3[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
+
+			objPictureFrame4[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
+			objPictureFrame4[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+			objPictureFrame4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * 8.0f),4.25f,80.0f - (y * 8.0f) }));
+			objPictureFrame4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
+
+			objDesk4[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
+			objDesk4[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
+			objDesk4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * 8.0f),2.0f,+0.5f + 80.0f - (y * 8.0f) }));
+			objDesk4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
+			
 			objMapWall[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelMapWall.get()));
 			objMapWall[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
 			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), -2.0f, y * wallSize - (MapValue * wallSize / 2) }));
@@ -540,14 +563,14 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 	{
 		objMapDoor[i]->SetRotation(XMFLOAT3({ 0.0f,doorAngle[i],0.0f}));
 	}
-
-
+	bool lightSilen = LightAction();
+	//lightSilen = 1;
 	MapMove(mapPos);
 	for (int x = 0; x < 7; x++)
 	{
 		for (int y = 0; y < 7; y++)
 		{
-			int lightFlag = 1;
+			int lightFlag = lightSilen;
 			if (ArrayValue(68.0f + (-24.0f * (6 - x)), -76.0f + (24.0f * y)) == 1)
 			{
 				lightFlag = 0;
@@ -567,7 +590,7 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 	{
 		for (int y = 0; y < 7; y++)
 		{
-			int lightFlag = 1;
+			int lightFlag = lightSilen;
 			if (ArrayValue(68.0f + (-24.0f * (6 - x)), -76.0f + (24.0f * y)) == 1)
 			{
 				lightFlag = 0;
@@ -587,7 +610,7 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 	{
 		for (int y = 0; y < 7; y++)
 		{
-			int lightFlag = 1;
+			int lightFlag = lightSilen;
 			if (ArrayValue(68.0f + (-24.0f * (6 - x)), -76.0f + (24.0f * y)) == 1)
 			{
 				lightFlag = 0;
@@ -605,7 +628,7 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 	}
 	for (int i = 0; i < 4; i++)
 	{
-		objMapDoor[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
+		objMapDoor[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
 	}
 	XMFLOAT3 playerPos = pos;
 
@@ -636,13 +659,26 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 				number--;
 			}
 		}
-		objCrystal[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
+		objCrystal[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
 	}
-	objPictureFrame[0]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
-	objDesk[0]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
 
-	objPictureFrame[1]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
-	objDesk[1]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), 0, 1);
+	for (int x = 0; x < 21; x += 2)
+	{
+		for (int y = 0; y < 21; y += 2)
+		{
+			objPictureFrame1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 80.0f - (x * 8.0f), 4.25f, 76.0f - (y * 8.0f) }), lightSilen, 0);
+			objDesk1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ +0.5f + 80.0f - (x * 8.0f),2.0f,76.0f - (y * 8.0f) }), lightSilen, 0);
+
+			objPictureFrame2[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 72.0f - (x * 8.0f),4.25f,76.0f - (y * 8.0f) }), lightSilen, 0);
+			objDesk2[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ -0.5f + 72.0f - (x * 8.0f),2.0f,76.0f - (y * 8.0f) }), lightSilen, 0);
+
+			objPictureFrame3[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * 8.0f),4.25f,72.0f - (y * 8.0f) }), lightSilen, 0);
+			objDesk3[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * 8.0f),2.0f,-0.5f + 72.0f - (y * 8.0f) }), lightSilen, 0);
+
+			objPictureFrame4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * 8.0f),4.25f,80.0f - (y * 8.0f) }), lightSilen, 0);
+			objDesk4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * 8.0f),2.0f,+0.5f + 80.0f - (y * 8.0f) }), lightSilen, 0);
+		}
+	}
 	if (crystalGetFlag[0] && crystalGetFlag[1] && crystalGetFlag[2] && crystalGetFlag[3] && crystalGetFlag[4] &&
 		crystalGetFlag[5] && crystalGetFlag[6] && crystalGetFlag[7] && crystalGetFlag[8] && crystalGetFlag[9] && crystalGetFlag[10])
 	{
@@ -734,11 +770,26 @@ void MapChip::Draw()
 	{
 		objMapDoor[i]->Draw();
 	}
-	objPictureFrame[0]->Draw();
-	objDesk[0]->Draw();
+	for (int x = 0; x < 21; x+=2)
+	{
+		for (int y = 0; y < 21; y+=2)
+		{
+			if (mapWall[y][x] == 1)
+			{
+				objPictureFrame1[y][x]->Draw();
+				objDesk1[y][x]->Draw();
 
-	objPictureFrame[1]->Draw();
-	objDesk[1]->Draw();
+				objPictureFrame2[y][x]->Draw();
+				objDesk2[y][x]->Draw();
+
+				objPictureFrame3[y][x]->Draw();
+				objDesk3[y][x]->Draw();
+
+				objPictureFrame4[y][x]->Draw();
+				objDesk4[y][x]->Draw();
+			}
+		}
+	}
 }
 
 void MapChip::DrawSprite(XMFLOAT3 pos)
@@ -861,5 +912,42 @@ void MapChip::EnemyDisplay()
 	if (displayTime > 600)
 	{
 		displayFlag = false;
+	}
+}
+
+bool MapChip::LightAction()
+{
+	if (lightAction)
+	{
+		lightCount++;
+		if (lightCount > 300)
+		{
+			lightCount = 0;
+		}
+		else if (lightCount > 90)
+		{
+			return 1;
+		}
+		else if (lightCount > 80)
+		{
+			return 1;
+		}
+		else if (lightCount > 60)
+		{
+			return 0;
+		}
+		else if (lightCount > 40)
+		{
+			return 1;
+		}
+		else if (lightCount > 20)
+		{
+			return 0;
+		}
+		return 1;
+	}
+	else
+	{
+		return 1;
 	}
 }

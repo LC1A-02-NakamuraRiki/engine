@@ -54,7 +54,11 @@ public:
 
 	bool DeathAnimation(Player* player);
 	XMFLOAT3 GetPos() { return pos; };
+	float GetRotation() { return angle; };
+	int GetStartStopTime() {return startStopTime;}
+	
 private:
+	float angle; 
 	Sprite* spriteEnemyDot = nullptr;
 	Sprite* spriteEnemyAngle = nullptr;
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 14) };
