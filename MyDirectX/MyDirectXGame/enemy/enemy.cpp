@@ -82,7 +82,7 @@ void Enemy::InitializeValue3()
 
 void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos, XMFLOAT2 plusValue ,bool catchFlag1, bool catchFlag2)
 {
-
+	
 	objEnemy->Update(pos,pos, pos,pos, 0, 1);
 	AI(player, mapChip,plusValue);
 	if (mapChip->GetGateOpenFlag() && !catchFlag1 && !catchFlag2)
@@ -489,6 +489,8 @@ bool Enemy::CatchCollision(Player* player)
 
 bool Enemy::DeathAnimation(Player* player)
 {
+	
+	
 	if (CatchCollision(player))
 	{
 		float aX = player->GetPos().x - pos.x;

@@ -78,6 +78,9 @@ public: // ƒƒ“ƒoŠÖ”
 
 	void PlayAnimation();
 
+	//À•W‚ÌŽæ“¾
+	const XMFLOAT3& GetPosition() { return position; }
+
 	XMFLOAT3 SetPosition(XMFLOAT3 position) { return this->position = position;}
 	XMFLOAT3 SetScale(XMFLOAT3 scale) { return this->scale = scale;}
 	XMFLOAT3 SetRotation(XMFLOAT3 rotation) { return this->rotation = rotation; }

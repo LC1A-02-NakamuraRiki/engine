@@ -25,6 +25,14 @@ GameScene::~GameScene()
 	safe_delete(spriteClear);
 	safe_delete(spriteGAMEOVER);
 	safe_delete(spriteRule);
+	safe_delete(spriteGrain[0]);
+	safe_delete(spriteGrain[1]);
+	safe_delete(spriteGrain[2]);
+	safe_delete(spriteGrain[3]);
+	safe_delete(spriteGrain[4]);
+	safe_delete(spriteGrain[5]);
+	safe_delete(spriteGrain[6]);
+	safe_delete(spriteGrain[7]);
 	safe_delete(particle3d);
 	safe_delete(light);
 	safe_delete(player);
@@ -109,6 +117,38 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		assert(0);
 		return;
 	}
+	if (!Sprite::LoadTexture(50, L"Resources/grain.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(51, L"Resources/grain2.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(52, L"Resources/grain3.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(53, L"Resources/grain4.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(54, L"Resources/grain5.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(55, L"Resources/grain6.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(56, L"Resources/grain7.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(57, L"Resources/grain8.png")) {
+		assert(0);
+		return;
+	}
 	//// 背景スプライト生成
 	spriteTitle = Sprite::Create(18, { 0.0f,0.0f });
 	spriteTitle2 = Sprite::Create(21, { 0.0f,0.0f });
@@ -119,6 +159,14 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	spriteClear = Sprite::Create(19, { 0.0f,0.0f });
 	spriteGAMEOVER = Sprite::Create(20, { 0.0f,0.0f });
 	spriteRule = Sprite::Create(30, { 0.0f,0.0f });
+	spriteGrain[0] = Sprite::Create(50, { 0.0f,0.0f });
+	spriteGrain[1] = Sprite::Create(51, { 0.0f,0.0f });
+	spriteGrain[2] = Sprite::Create(52, { 0.0f,0.0f });
+	spriteGrain[3] = Sprite::Create(53, { 0.0f,0.0f });
+	spriteGrain[4] = Sprite::Create(54, { 0.0f,0.0f });
+	spriteGrain[5] = Sprite::Create(55, { 0.0f,0.0f });
+	spriteGrain[6] = Sprite::Create(56, { 0.0f,0.0f });
+	spriteGrain[7] = Sprite::Create(57, { 0.0f,0.0f });
 
 	// 3Dオブジェクト生成
 
@@ -169,7 +217,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		objectWalking[i]->SetModel(modelWalking[0]);
 		objectWalking[i]->PlayAnimation();
 
-		modelAttack[i] = FbxLoader::GetInstance()->LoadModelFromFile("Jump Attack");
+		modelAttack[i] = FbxLoader::GetInstance()->LoadModelFromFile("Zombie Attack");
 		objectAttack[i] = new FbxObject3d;
 		objectAttack[i]->Initialize();
 		objectAttack[i]->SetModel(modelAttack[0]);
@@ -192,6 +240,7 @@ void GameScene::Update()
 
 	if (scene == TITLE)
 	{
+		titleTime = 0;
 		objectWalking[0]->AnimationReset();
 		objectWalking[1]->AnimationReset();
 		objectWalking[2]->AnimationReset();
@@ -266,6 +315,13 @@ void GameScene::Update()
 	}
 	else if (scene == PLAY)
 	{
+		titleTime++;
+		grainCount++;
+		
+		if (grainCount > 7)
+		{
+			grainCount = 0;
+		}
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true)
 		{
 			tutrialFlag = false;
@@ -307,7 +363,8 @@ void GameScene::Update()
 		{
 			if (enemy[i]->CatchCollision(player)) {
 				objectAttack[i]->SetPosition(XMFLOAT3(enemy[i]->GetPos().x, enemy[i]->GetPos().y - 2.8f, enemy[i]->GetPos().z));
-				objectAttack[i]->SetRotation(XMFLOAT3(0, enemy[i]->GetRotation() + 90, 0));
+				objectAttack[i]->SetRotation(XMFLOAT3(0, (XMConvertToDegrees(atan2(enemy[i]->GetPos().x - player->GetPos().x, enemy[i]->GetPos().z - player->GetPos().z)) + 270)-90, 0));
+
 			}
 			else
 			{
@@ -336,14 +393,14 @@ void GameScene::Update()
 				}
 			}
 		}
-		/*if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
+		if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
 		{
 			for (int i = 0; i < 3; i++)
 			{
 				soundTimer[i]++;
 				float vec = SoundVector::VectorSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z);
 				float sideValue = 45;
-				if (SoundVector::DistanceSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z) && soundTimer[i] > 20)
+				if (SoundVector::DistanceSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z) && soundTimer[i] > 20 && !map->GetStopFlag())
 				{
 					if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
 					{
@@ -361,7 +418,7 @@ void GameScene::Update()
 					soundTimer[i] = 0;
 				}
 			}
-		}*/
+		}
 
 		for (int i = 0; i < 3; i++)
 		{
@@ -398,7 +455,7 @@ void GameScene::Draw()
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList *cmdList = dxCommon->GetCommandList();
 
-#pragma region 背景スプライト描画
+#pragma region 背景スプライト描画g
 	// 背景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
 	// 背景スプライト描画
@@ -503,9 +560,10 @@ void GameScene::PostOffDraw()
 		if (tutrialFlag == true) {
 			spriteRule->Draw(1.0f);
 		}
+		spriteGrain[grainCount]->Draw(0.75f);
 	}
 
-	if (scene == TITLE)
+	if (scene == TITLE || scene == PLAY && titleTime < 5)
 	{
 		if (buttonNo == 0)
 		{

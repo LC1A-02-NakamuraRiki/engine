@@ -20,7 +20,7 @@ PSOutput main(VSOutput input) : SV_TARGET
 	// 頂点から視点への方向ベクトル
 	float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
 	// 環境反射光
-	float3 ambient = 0.7f;
+	float3 ambient = 0.175f;
 	// シェーディングによる色
 	float3 lightv[9];
 	lightv[0] = float3(0, 1, 0 );
@@ -28,12 +28,10 @@ PSOutput main(VSOutput input) : SV_TARGET
 	lightv[2] = float3(-1, 0, 0 );
 	lightv[3] = float3(0, 0, 1 ); 
 	lightv[4] = float3(0, 0, -1 );
-	lightv[5] = float3(1, 0, -1);
-	lightv[6] = float3(-1, 0, -1);
-	lightv[7] = float3(-1, 0, 1);
-	lightv[8] = float3(1, 0, 1);
+	lightv[5] = float3(0, -1, 0);
+	
 
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < 5; i++) {
 		float3 dotlightnormal = dot(lightv[i], input.normal);
 		// 反射光ベクトル
 		float3 reflect = normalize(-lightv[i] + 2 * dotlightnormal * input.normal);
@@ -45,11 +43,11 @@ PSOutput main(VSOutput input) : SV_TARGET
 
 		if (i == 0)
 		{
-			shadecolor.rgb += ((diffuse + specular) * 0.7f);
+			shadecolor.rgb += ((diffuse + specular + ambient) * 1.5f);
 		}
 		else
 		{
-			shadecolor.rgb += ((diffuse + specular) * 0.7f);
+			shadecolor.rgb += ((diffuse + specular + ambient) * 1.5f);
 		}
 
 		for (int x = 0; x < 7; x++)
@@ -68,11 +66,11 @@ PSOutput main(VSOutput input) : SV_TARGET
 					if (scalr >= 0) {
 						if (i == 0)
 						{
-							shadecolor.rgb += ((diffuse + specular) * 2.0f) * scalr;
+							shadecolor.rgb += ((diffuse + specular+ ambient) * 2.0f) * scalr;
 						}
 						else
 						{
-							shadecolor.rgb += ((diffuse + specular) * 2.0f) * scalr;
+							shadecolor.rgb += ((diffuse + specular+ ambient) * 2.0f) * scalr;
 
 						}
 					}

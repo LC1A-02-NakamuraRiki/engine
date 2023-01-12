@@ -97,6 +97,8 @@ private: // ƒƒ“ƒo•Ï”
 	Sprite* spriteClear = nullptr;
 	Sprite* spriteGAMEOVER = nullptr;
 	Sprite* spriteRule = nullptr;
+	Sprite* spriteGrain[8] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
+	int grainCount = 0;
 
 	ParticleManager* particle3d = nullptr;
 	Player* player = nullptr;
@@ -142,4 +144,6 @@ private: // ƒƒ“ƒo•Ï”
 
 	FbxModel* modelAttack[3] = { nullptr, nullptr, nullptr };
 	FbxObject3d* objectAttack[3] = { nullptr, nullptr, nullptr };
+
+	int titleTime;
 };
