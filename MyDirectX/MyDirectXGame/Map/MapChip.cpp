@@ -344,6 +344,9 @@ void MapChip::InitializeValue()
 
 	number = 11;
 	gateOpenFlag = false;
+
+	lightAction = 0;
+	lightCount = 0; 
 }
 
 void MapChip::MapCreate()
