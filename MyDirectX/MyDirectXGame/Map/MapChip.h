@@ -20,14 +20,16 @@ public:
 	~MapChip();
 	void Initialize();//最初の初期化
 	void InitializeValue();//タイトル時の初期化
-	void MapCreate();
-	void MapMove(XMFLOAT2 mapPos);
+	void MapCreate();//マップ作製
+	void MapMove(XMFLOAT2 mapPos);//ミニマップ移動
 	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);//アップデート
 	int ArrayValue(float x, float y);//座標からマップチップ配列の算出
-	void Draw();
-	void DrawSprite(XMFLOAT3 pos);
-	void TimeStop();
-	void EnemyDisplay();
+	void Draw();//描画
+	void DrawSprite(XMFLOAT3 pos);//スプライト描画
+	void TimeStop();//時間停止
+	void EnemyDisplay();//敵スポット
+	
+	//Getter
 	int GetArrayValue(int x, int z) { return mapWall[z][x]; }
 	int GetPlayerArrayValue(int x, int z) { return mapPlayer[x][z]; }
 	bool GetAllGetFlag() { return allGetFlag; }
@@ -36,8 +38,8 @@ public:
 	bool GetCrystalGetFlag(int no) { return crystalGetFlag[no]; }
 	bool GetGateOpenFlag() { return gateOpenFlag; }
 
-	bool LightAction();
-	bool SetLightAction(bool actionFlag) {return this->lightAction = actionFlag;}
+	bool LightAction();//ライト点滅
+	bool SetLightAction(bool actionFlag) {return this->lightAction = actionFlag;}//フラグセット
 private:
 
 	std::unique_ptr<Model> modelMapWall;
@@ -56,8 +58,8 @@ private:
 	std::unique_ptr<Model> modelDoor[4];
 	float doorAngle[4] = {90, 270,90,270};
 	std::unique_ptr<Object3d> objMapDoor[4];
-	bool gateOpenFlag = false;
-	float wallSize = 8;
+	bool gateOpenFlag = false;//ゲート空いたか
+	float wallSize = 8;//壁の大きさ
 	XMFLOAT3 crystalPos[11] = {XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
 							  XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
 							  XMFLOAT3({ 19 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)  }),
@@ -88,244 +90,40 @@ private:
 	int MapValueX = 15;
 	int MapValueZ = 15;
 	
-	int mapWall[21][21] = {
-		  
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,1,0,0,1,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-	};
+	//マップ情報
+	int mapWall[21][21] = {};
+	//プレイヤーの位置座標化
+	int mapPlayer[21][21] = {};
 
-	int mapPlayer[21][21] = {
+	//ランダムのためのマップ1
+	int mapWallLeftUp[7][7] = {};
+	int mapWallLeftCenter[7][7] = {};
+	int mapWallLeftDown[7][7] = {};
+	int mapWallCenterUp[7][7] = {};
+	int mapWallCenterCenter[7][7] = {};
+	int mapWallCenterDown[7][7] = {};
+	int mapWallRightUp[7][7] = {};
+	int mapWallRightCenter[7][7] = {};
+	int mapWallRightDown[7][7] = {};
 
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 }
-	};
-
-	int mapWallLeftUp[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0 },
-		{ 0,0,0,0,0,0,0 },
-	};
-	int mapWallLeftCenter[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallLeftDown[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallCenterUp[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallCenterCenter[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallCenterDown[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallRightUp[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallRightCenter[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallRightDown[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-
-	int mapWallLeftUp1[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallLeftCenter1[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallLeftDown1[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallCenterUp1[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallCenterCenter1[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallCenterDown1[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallRightUp1[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallRightCenter1[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
-	int mapWallRightDown1[7][7] = {
-		{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-{ 0,0,0,0,0,0,0 },
-
-	};
+	//ランダムのためのマップ2
+	int mapWallLeftUp1[7][7] = {};
+	int mapWallLeftCenter1[7][7] = {};
+	int mapWallLeftDown1[7][7] = {};
+	int mapWallCenterUp1[7][7] = {};
+	int mapWallCenterCenter1[7][7] = {};
+	int mapWallCenterDown1[7][7] = {};
+	int mapWallRightUp1[7][7] = {};
+	int mapWallRightCenter1[7][7] = {};
+	int mapWallRightDown1[7][7] = {};
 
 	bool allGetFlag = false;//クリスタル全部とれたか
 
-	int stopTime = 0;
-	bool stopFlag = false;
+	int stopTime = 0;//ストップタイム
+	bool stopFlag = false;//ストップフラグ
 
-	int displayTime = 0;
-	bool displayFlag = false;
+	int displayTime = 0;//スポットタイム
+	bool displayFlag = false;//スポットフラグ
 
 	std::unique_ptr<Sprite> spriteMapWall[21][21];
 	std::unique_ptr<Sprite> spriteMapBack;
@@ -337,16 +135,16 @@ private:
 
 	std::unique_ptr<Sprite> spriteEnemyStop;
 	XMFLOAT2 stopFontSize = { 1200.0f * 10, 200.0f * 10 };
-	int stopSprieteTime = 0;
-	float stopAlpha = 1.0f;
+	int stopSprieteTime = 0;//時間
+	float stopAlpha = 1.0f;//アルファ値
 
 	std::unique_ptr<Sprite> spriteEnemySpot;
 	XMFLOAT2 spotFontSize = { 1200.0f * 10, 200.0f * 10 };
-	int spotSprieteTime = 0;
-	float spotAlpha = 1.0f;
+	int spotSprieteTime = 0;//時間
+	float spotAlpha = 1.0f;//アルファ値
 	
 	std::unique_ptr<Sprite> spriteSpotEffect;
-	int number = 11;
+	int number = 11;//数字
 
 	std::unique_ptr<Model> modelPictureFrame;
 	std::unique_ptr<Object3d> objPictureFrame1[21][21];
@@ -360,6 +158,6 @@ private:
 	std::unique_ptr<Object3d> objDesk3[21][21];
 	std::unique_ptr<Object3d> objDesk4[21][21];
 
-	bool lightAction = 0;
-	int lightCount = 0;
+	bool lightAction = 0;//ライト点滅フラグ
+	int lightCount = 0;//ライト点滅のカウント
 };

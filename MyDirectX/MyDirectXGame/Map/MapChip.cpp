@@ -9,14 +9,9 @@ MapChip::~MapChip()
 
 void MapChip::Initialize()
 {
+	//モデル読み込み
 	modelPictureFrame = std::unique_ptr<Model>(Model::CreateFromObject("pictureFrame", false));
-
-	
-
 	modelDesk = std::unique_ptr<Model>(Model::CreateFromObject("desk", false));
-
-	
-
 	modelMapWall = std::unique_ptr<Model>(Model::CreateFromObject("wall", false));
 	for (int x = 0; x < MapValue; x++)
 	{
@@ -64,24 +59,15 @@ void MapChip::Initialize()
 
 		}
 	}
-
-	for (int x = 0; x < MapValue; x++)
-	{
-		for (int y = 0; y < MapValue; y++)
-		{
-			spriteMapWall[y][x] = nullptr;
-		}
-	}
-
 	modelCeiling = std::unique_ptr<Model>(Model::CreateFromObject("ceiling", false));
 	modelFlat = std::unique_ptr<Model>(Model::CreateFromObject("roof", false));
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			if (x == 1 || x == 4 || x == 7 || x == 10 || x == 13 || x == 16 || x == 19)
+			if (x%3 == 1)
 			{
-				if (y == 1 || y == 4 || y == 7 || y == 10 || y == 13 || y == 16 || y == 19)
+				if (y%3 == 1)
 				{
 					objCeiling[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelCeiling.get()));
 					
@@ -134,8 +120,6 @@ void MapChip::Initialize()
 	objCrystal[8]->SetPosition(crystalPos[8]);
 	objCrystal[9]->SetPosition(crystalPos[9]);
 	objCrystal[10]->SetPosition(crystalPos[10]);
-	
-	allGetFlag = false;
 	for (int i = 0; i < 4; i++)
 	{
 		modelDoor[i] = std::unique_ptr<Model>(Model::CreateFromObject("door", false));
@@ -147,7 +131,15 @@ void MapChip::Initialize()
 	objMapDoor[1]->SetPosition(XMFLOAT3({ -7.8f,0.2f,-16.0f }));
 	objMapDoor[2]->SetPosition(XMFLOAT3({ -0.2f,0.2f,8.0f }));
 	objMapDoor[3]->SetPosition(XMFLOAT3({ -7.8f,0.2f,8.0f }));
-
+	
+	//画像読み込み
+	for (int x = 0; x < MapValue; x++)
+	{
+		for (int y = 0; y < MapValue; y++)
+		{
+			spriteMapWall[y][x] = nullptr;
+		}
+	}
 	if (!Sprite::LoadTexture(2, L"Resources/mapWall.png")) {
 		assert(0);
 		return;
@@ -220,9 +212,9 @@ void MapChip::Initialize()
 		return;
 	}
 
+	//画像同期
 	spriteDoorOpen = std::unique_ptr<Sprite>(Sprite::Create(45, { 990, 850 }));
 	spriteDoorOpen->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
-
 	spriteNumberNum1[0] = std::unique_ptr<Sprite>(Sprite::Create(8,  { 260 - 10, 656 - 16 - 96 }));
 	spriteNumberNum1[1] = std::unique_ptr<Sprite>(Sprite::Create(9,  { 260 - 10, 656 - 16 - 96 }));
 	spriteNumberNum1[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 10, 656 - 16 - 96 }));
@@ -244,7 +236,6 @@ void MapChip::Initialize()
 	spriteNumberNum10[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 58, 656 - 16 - 96 }));
 	spriteNumberNum10[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 58, 656 - 16 - 96 }));
 	spriteNumberNum10[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 58, 656 - 16 - 96 }));
-
 
 	 spriteEnemyStop = std::unique_ptr<Sprite>(Sprite::Create(31, { 990, 850 }));
 	 spriteEnemyStop->SetAnchorPoint(XMFLOAT2(0.5f,0.5f));
@@ -274,6 +265,7 @@ void MapChip::Initialize()
 	spriteCrystal[3] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[3]));
 	spriteCrystal[5] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[5]));
 
+	//マップ読み込み
 	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");
 	LoadCSV(mapWallLeftCenter, "Resources/map/a2.csv");
 	LoadCSV(mapWallLeftDown, "Resources/map/a3.csv");
@@ -293,11 +285,12 @@ void MapChip::Initialize()
 	LoadCSV(     mapWallRightUp1,"Resources/map/b7.csv");
 	LoadCSV( mapWallRightCenter1,"Resources/map/b8.csv");
 	LoadCSV(   mapWallRightDown1,"Resources/map/b9.csv");
-
+	allGetFlag = false;
 }
 
 void MapChip::InitializeValue()
 {
+	//タイトル時の初期化
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
@@ -567,7 +560,6 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 		objMapDoor[i]->SetRotation(XMFLOAT3({ 0.0f,doorAngle[i],0.0f}));
 	}
 	bool lightSilen = LightAction();
-	//lightSilen = 1;
 	MapMove(mapPos);
 	for (int x = 0; x < 7; x++)
 	{
@@ -642,13 +634,6 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 	mapPlayer[mapX - 1][mapY] = 0;
 	mapPlayer[mapX][mapY + 1] = 0;
 	mapPlayer[mapX][mapY - 1] = 0;
-	/*for (int x = 0; x < 21; x++)
-	{
-		for (int y = 0; y < 21; y++)
-		{
-			mapPlayer[x][y] = 0;
-		}
-	}*/
 
 	for (int i = 0; i < 11; i++)
 	{

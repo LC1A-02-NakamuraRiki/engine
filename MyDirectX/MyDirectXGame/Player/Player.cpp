@@ -25,9 +25,9 @@ void Player::Initialize()
 
 void Player::InitializeValue()
 {
-	miniMapPos = { 100 + (16.0f * 11),650 + (16.0f * 11) };
+	miniMapPos = { 100 + (16.0f * 11),650 + (16.0f * 11) };//ミニマップ初期値
 	pos = { -4.0f,0.0f,-4.0f };//プレイヤーの位置
-	mapPosValue = {0,0};
+	mapPosValue = {0,0};//マップの座標
 	r = 0.5;//プレイヤーの半径
 	moveSpeed = 0.18f;//歩きの速度
 	viewSpeed = 4.0f;//視点の速さ
@@ -52,6 +52,7 @@ void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag, bool catch
 	WalkShaking();//歩きの揺れ
 	View(tutrialFlag,catchFlag, catchFlag2, catchFlag3);//視点制御
 
+	//スプライト関連のポジションとアングルセット
 	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 634 + (16.0f * 11) });
 	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 634 + (16.0f * 11) + 8 });
 	spritePlayerAngle->SetRotation(angle.y + 135);
@@ -63,22 +64,23 @@ void Player::Draw()
 
 void Player::DrawSprite()
 {
+	//プレイヤーのミニマップの情報
 	spritePlayerAngle->Draw(1.0f);
 	spritePlayerDot->Draw(1.0f);
 }
 
 void Player::Move(MapChip *mapChip)
 {
-	float r = 0.5f;
-	float cornerR = 0.35f;
-	if (mapChip->ArrayValue(pos.x - cornerR, pos.z + cornerR) == 1 || mapChip->ArrayValue(pos.x - cornerR, pos.z + cornerR) == 11)
+	float r = 0.5f;//半径
+	float corner = 0.35f;//角までの距離
+	if (mapChip->ArrayValue(pos.x - corner, pos.z + corner) == 1 || mapChip->ArrayValue(pos.x - corner, pos.z + corner) == 11)
 	{
 		pos.x += cos((45 * 3.14f) / -180) * moveSpeed;      // x座標を更新
 		pos.z += sin((45 * 3.14f) / -180) * moveSpeed;      // z座標を更新
 		mapPosValue.x += cos((45 * 3.14f) / -180) * (moveSpeed * 2);
 		mapPosValue.y += sin((45 * 3.14f) / -180) * (moveSpeed * 2);
 	}
-	else if (mapChip->ArrayValue(pos.x + cornerR, pos.z + cornerR) == 1|| mapChip->ArrayValue(pos.x + cornerR, pos.z + cornerR) == 11)
+	else if (mapChip->ArrayValue(pos.x + corner, pos.z + corner) == 1|| mapChip->ArrayValue(pos.x + corner, pos.z + corner) == 11)
 	{
 		pos.x += cos((135 * 3.14f) / -180) * moveSpeed;      // x座標を更新
 		pos.z += sin((135 * 3.14f) / -180) * moveSpeed;      // z座標を更新
@@ -86,14 +88,14 @@ void Player::Move(MapChip *mapChip)
 		mapPosValue.y += sin((135 * 3.14f) / -180) * (moveSpeed * 2);
 
 	}
-	else if (mapChip->ArrayValue(pos.x - cornerR, pos.z - cornerR) == 1|| mapChip->ArrayValue(pos.x - cornerR, pos.z - cornerR) == 11)
+	else if (mapChip->ArrayValue(pos.x - corner, pos.z - corner) == 1|| mapChip->ArrayValue(pos.x - corner, pos.z - corner) == 11)
 	{
 		pos.x += cos((-45 * 3.14f) / -180) * moveSpeed;      // x座標を更新
 		pos.z += sin((-45 * 3.14f) / -180) * moveSpeed;      // z座標を更新
 		mapPosValue.x += cos((-45 * 3.14f) / -180) * (moveSpeed * 2);
 		mapPosValue.y += sin((-45 * 3.14f) / -180) * (moveSpeed * 2);
 	}
-	else if (mapChip->ArrayValue(pos.x + cornerR, pos.z - cornerR) == 1|| mapChip->ArrayValue(pos.x + cornerR, pos.z - cornerR) == 11)
+	else if (mapChip->ArrayValue(pos.x + corner, pos.z - corner) == 1|| mapChip->ArrayValue(pos.x + corner, pos.z - corner) == 11)
 	{
 		pos.x += cos((225 * 3.14f) / -180) * moveSpeed;      // x座標を更新
 		pos.z += sin((225 * 3.14f) / -180) * moveSpeed;      // z座標を更新
@@ -255,11 +257,11 @@ void Player::Move(MapChip *mapChip)
 
 void Player::WalkShaking()
 {
-	if (!shakeFlag)
+	if (!shakeFlag)//シェイクしない
 	{
 		pos.y = 2.5;
 	}
-	else if (shakeFlag) 
+	else if (shakeFlag)//シェイクする 
 	{
 		if (isWalkShaking == true)
 		{
@@ -286,6 +288,7 @@ void Player::WalkShaking()
 
 void Player::View(bool tutrialFlag, bool catchFlag,bool catchFlag2, bool catchFlag3)
 {
+	//視点計算
 	XMVECTOR v0 = { 0,0,-10, 0 };
 	//angleラジアンだけy軸まわりに回転。半径は-100
 	XMMATRIX  rotM = XMMatrixIdentity();
@@ -299,15 +302,6 @@ void Player::View(bool tutrialFlag, bool catchFlag,bool catchFlag2, bool catchFl
 	target = f;
 	if (tutrialFlag == false&&catchFlag==false && catchFlag2 == false && catchFlag3 == false)
 	{
-		if (Input::GetInstance()->KeybordTrigger(DIK_9))
-		{
-			mouseViewSpeed -= 0.01f;
-		}
-		if (Input::GetInstance()->KeybordTrigger(DIK_0))
-		{
-			mouseViewSpeed += 0.01f ;
-		}
-
 		if (angleX >= 85)
 		{
 			angleX = 85;

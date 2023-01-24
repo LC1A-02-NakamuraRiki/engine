@@ -8,22 +8,12 @@
 
 class Enemy
 {
-	enum MoveVector
+	enum MoveVector//移動方向
 	{
 		UP,
 		DOWN,
 		RIGHT,
 		LEFT
-	};
-	struct Node
-	{
-		int startX;
-		int startZ;
-		int startVector;
-		
-		int endX;
-		int endZ;
-		int endVector;
 	};
 protected: // エイリアス
 	// DirectX::を省略
@@ -42,9 +32,9 @@ public:
 
 	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos,XMFLOAT2 plusValue, bool catchFlag1, bool catchFlag2);//アップデート
 
-	void Draw();
+	void Draw();//3dの描画
 
-	void DrawSprite(MapChip* mapChip);
+	void DrawSprite(MapChip* mapChip);//2dの描画
 
 	void AI(Player* player,MapChip* mapChip, XMFLOAT2 plusValue);//歩き
 
@@ -52,37 +42,35 @@ public:
 	
 	bool CatchCollision(Player* player);//プレイヤーと敵当たり判定
 
-	bool DeathAnimation(Player* player);
-	XMFLOAT3 GetPos() { return pos; };
-	float GetRotation() { return angle; };
-	int GetStartStopTime() {return startStopTime;}
+	bool DeathAnimation(Player* player);//殴りアニメーション
+
+	XMFLOAT3 GetPos() { return pos; };//座標
+	float GetRotation() { return angle; };//角度取得
+	int GetStartStopTime() {return startStopTime;}//スタートの硬直時間
 	
 private:
-	float angle; 
-	Sprite* spriteEnemyDot = nullptr;
-	Sprite* spriteEnemyAngle = nullptr;
-	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 14) };
-	float wallSize = 8;
-	Model* modelEnemy = nullptr;
-	Object3d* objEnemy;
+	float angle; //向き
+	Sprite* spriteEnemyDot = nullptr;//ミニマップの敵
+	Sprite* spriteEnemyAngle = nullptr;//ミニマップの敵の向き
+	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 14) };//ミニマップのドット座標
+	float wallSize = 8;//壁の大きさ
+	Model* modelEnemy = nullptr;//敵モデル
+	Object3d* objEnemy;//敵OBJ
 	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//位置
-	float speed = 2.0f;
+	float speed = 2.0f;//スピード
 	int nowMove = UP;//どの動きをしているか
 	float adjustValueX = 0;//位置調整用変数X
 	float adjustValueZ = 0;//位置調整用変数Z
 	bool vReserveFlag = false;//縦優先
-	bool wallHitFlag = false;
-	int adjustmentTime = 0;
-	int maxAdjustmentTime = 0;
-	bool adjustmentFlag = false;
+	bool wallHitFlag = false;//先読みの座標が壁に当たっているか
+	int adjustmentTime = 0;//位置調整の時間
+	int maxAdjustmentTime = 0;//位置調整の最大時間
+	bool adjustmentFlag = false;//位置調整フラグ
 
-	int killTime = 0;
-	int startStopTime = 0;
-	Node node[120];
+	int killTime = 0;//殴りモーションの時間
+	int startStopTime = 0;//スタートまでの硬直時間
 
-	int mapZ = int((pos.z / 8) + ((21 + 1) / 2));
-	int mapX = int((pos.x / 8) + ((21 + 1) / 2));
-	int count = 0;
-	int nextVector = 0;
+	int mapX = int((pos.x / 8) + ((21 + 1) / 2));//マップチップの座標X
+	int mapZ = int((pos.z / 8) + ((21 + 1) / 2));//マップチップの座標Z
 };
 

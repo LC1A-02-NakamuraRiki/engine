@@ -329,10 +329,8 @@ void GameScene::Update()
 		//ƒvƒŒƒCƒ„[Œn
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());
-
 		
 		player->Update(map,tutrialFlag,enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
-		particle3d->Update();
 		camera->Update();
 		light->Update();
 		map->Update(player->GetPos(),player->GetMapPos(),enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
