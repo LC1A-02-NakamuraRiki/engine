@@ -26,7 +26,7 @@ void Player::Initialize()
 void Player::InitializeValue()
 {
 	miniMapPos = { 100 + (16.0f * 11),650 + (16.0f * 11) };//ミニマップ初期値
-	pos = { -4.0f,0.0f,-4.0f };//プレイヤーの位置
+	pos = { -4.0f,0.0f,4.0f };//プレイヤーの位置
 	mapPosValue = {0,0};//マップの座標
 	r = 0.5;//プレイヤーの半径
 	moveSpeed = 0.18f;//歩きの速度
@@ -53,8 +53,8 @@ void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag, bool catch
 	View(tutrialFlag,catchFlag, catchFlag2, catchFlag3);//視点制御
 
 	//スプライト関連のポジションとアングルセット
-	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 634 + (16.0f * 11) });
-	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 634 + (16.0f * 11) + 8 });
+	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 650 + (16.0f * 11) });
+	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 650 + (16.0f * 11) + 8 });
 	spritePlayerAngle->SetRotation(angle.y + 135);
 }
 

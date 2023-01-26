@@ -223,10 +223,13 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		objectAttack[i]->SetModel(modelAttack[0]);
 		objectAttack[i]->PlayAnimation();
 	}
+
 }
 
 void GameScene::Update()
 {
+	
+
 	//int mapY = int((player->GetPos().z / 8) + ((21 + 1) / 2));
 	//int mapX = int((player->GetPos().x / 8) + ((21 + 1) / 2));
 	//debugText.Print(20.0f, 40.0f, 2.0f, "%d %d", mapX,mapY);
@@ -237,9 +240,9 @@ void GameScene::Update()
 	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetPos().x, player->GetPos().z);
 	//debugText.Print(20.0f, 40.0f, 2.0f, "%f",player->GetViewAngle());
 	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetShortCut(map,enemy[1]->GetPos()).x, player->GetShortCut(map, enemy[1]->GetPos()).y);
-
 	if (scene == TITLE)
 	{
+		map->InitializeValue();
 		titleTime = 0;
 		objectWalking[0]->AnimationReset();
 		objectWalking[1]->AnimationReset();
@@ -261,11 +264,7 @@ void GameScene::Update()
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE)&& buttonNo == 0)
 		{
 			player->InitializeValue();
-				
-			enemy[0]->InitializeValue();
-			enemy[1]->InitializeValue2();
-			enemy[2]->InitializeValue3();
-			
+
 			map->InitializeValue();
 			scene = PLAY;
 		}
@@ -273,6 +272,28 @@ void GameScene::Update()
 		{
 			scene = OPTION;
 		}
+
+		grainCount++;
+
+		if (grainCount > 7)
+		{
+			grainCount = 0;
+		}
+		//プレイヤー系
+		camera->SetEye(XMFLOAT3{ -4.0f,3.0f,4.0f });
+		camera->SetTarget(XMFLOAT3{ -4.0f,3.0f,-8.0f });
+
+		player->Update(map, tutrialFlag, enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
+		camera->Update();
+		light->Update();
+		map->Update(player->GetPos(), player->GetMapPos(), enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
+	
+		enemy[0]->InitializeValue();
+		enemy[1]->InitializeValue2();
+		enemy[2]->InitializeValue3();
+		enemy[0]->Update(player, map, player->GetMapPos(), XMFLOAT2(0, 0), enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
+		enemy[1]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[1]->GetPos()), enemy[0]->CatchCollision(player), enemy[2]->CatchCollision(player));
+		enemy[2]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[2]->GetPos()), enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player));
 	}
 	else if (scene == OPTION)
 	{
@@ -355,8 +376,8 @@ void GameScene::Update()
 		{
 			objectWalking[i]->SetPosition(XMFLOAT3(enemy[i]->GetPos().x, enemy[i]->GetPos().y - 2.8f, enemy[i]->GetPos().z));
 			objectWalking[i]->SetRotation(XMFLOAT3(0, enemy[i]->GetRotation() + 90, 0));
-			
 		}
+
 		for (int i = 0; i < 3; i++)
 		{
 			if (enemy[i]->CatchCollision(player)) {
@@ -472,24 +493,27 @@ void GameScene::Draw()
 	//-------------------------------------------------------------//
 	if (scene == PLAY)
 	{
+		for (int i = 0; i < 3; i++)
+		{
+			if (titleTime > 5)
+			{
+				if (!enemy[i]->CatchCollision(player))
+				{
+					objectWalking[i]->Draw(cmdList);
+				}
+				else
+				{
+					objectAttack[i]->Draw(cmdList);
+				}
+			}
+		}
 		map->Draw();
-		/*for (int i = 0; i < 3; i++)
-		{
-			enemy[i]->Draw();
-		}*/
 	}
-	for (int i = 0; i < 3; i++)
+	
+	if (scene == TITLE)
 	{
-		if (!enemy[i]->CatchCollision(player))
-		{
-			objectWalking[i]->Draw(cmdList);
-		}
-		else
-		{
-			objectAttack[i]->Draw(cmdList);
-		}
+		map->Draw();
 	}
-	//objectAttack->Draw(cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
@@ -561,8 +585,9 @@ void GameScene::PostOffDraw()
 		spriteGrain[grainCount]->Draw(0.75f);
 	}
 
-	if (scene == TITLE || scene == PLAY && titleTime < 5)
+	if (scene == TITLE)
 	{
+		spriteGrain[grainCount]->Draw(0.75f);
 		if (buttonNo == 0)
 		{
 			spriteTitle->Draw(1.0f);
