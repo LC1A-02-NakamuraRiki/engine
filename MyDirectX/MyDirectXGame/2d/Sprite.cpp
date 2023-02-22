@@ -307,12 +307,6 @@ bool Sprite::Initialize()
 	}
 
 	return true;
-	/*for (int i = 0; i < 512; i++)
-	{
-		texBuff[srvCount]->SetName(L"cccccccccccccccccccccccc");
-	}
-	vertBuff->SetName(L"aaaaaaaaaaaaaaaaaaaaaaaa");
-	constBuff->SetName(L"vvvvvvvvvvvvvvvvvvvvvvvv");*/
 }
 
 void Sprite::SetRotation(float rotation)

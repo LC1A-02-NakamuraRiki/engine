@@ -96,6 +96,7 @@ private: // ƒƒ“ƒo•Ï”
 	Sprite* spriteOption3 = nullptr;
 	Sprite* spriteClear = nullptr;
 	Sprite* spriteGAMEOVER = nullptr;
+	Sprite* spriteGAMEOVER2 = nullptr;
 	Sprite* spriteRule = nullptr;
 	Sprite* spriteGrain[8] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
 	int grainCount = 0;

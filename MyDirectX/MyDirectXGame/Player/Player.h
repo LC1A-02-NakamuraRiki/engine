@@ -51,11 +51,14 @@ public:
 	float SetViewSpeedMinus() { return mouseViewSpeed -= 0.05f; }
 	bool GetShakeFlag() { return shakeFlag; }
 	bool SetShakeFlag(bool ShakeFlag) { return shakeFlag = ShakeFlag; }
+	XMFLOAT3 SetPos(XMFLOAT3 pos) { return this->pos = pos; }
 private:
 
 	Sprite* spritePlayerDot = nullptr;
 	Sprite* spritePlayerAngle = nullptr;
-
+	Sprite* spriteMoveUI = nullptr;
+	Sprite* spriteViewUI = nullptr;
+	Sprite* spriteOpenUI = nullptr;
 	XMFLOAT3 pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };//ミニマップ初期値
 	XMFLOAT2 mapPosValue = { 0,0 };//マップの座標
@@ -73,4 +76,12 @@ private:
 	float angleY = 0; //カメラY軸
 
 	bool shakeFlag = true;//シェイクのON/OFF
+
+	float moveTutorial = 1.0f;
+	bool moveTutorialFlag = false;
+	float viewTutorial = 1.0f;
+	bool viewTutorialFlag = false;
+	float openTutorial = 1.0f;
+	bool openTutorialFlag = false;
+
 };

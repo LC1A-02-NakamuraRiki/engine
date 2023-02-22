@@ -52,6 +52,7 @@ private:
 	float angle; //向き
 	Sprite* spriteEnemyDot = nullptr;//ミニマップの敵
 	Sprite* spriteEnemyAngle = nullptr;//ミニマップの敵の向き
+	Sprite* spriteDeadEffect = nullptr;//ミニマップの敵の向き
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 14) };//ミニマップのドット座標
 	float wallSize = 8;//壁の大きさ
 	Model* modelEnemy = nullptr;//敵モデル
@@ -72,5 +73,10 @@ private:
 
 	int mapX = int((pos.x / 8) + ((21 + 1) / 2));//マップチップの座標X
 	int mapZ = int((pos.z / 8) + ((21 + 1) / 2));//マップチップの座標Z
+
+	XMFLOAT3 deadPos = { 0.0f,2.5f,0.0f };
+	float deadView = 0.0f;
+	float deadAlpha = 0.0f;
+	bool deadAlphaCountFlag = false;
 };
 

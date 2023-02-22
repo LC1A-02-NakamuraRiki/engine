@@ -24,6 +24,7 @@ GameScene::~GameScene()
 	safe_delete(spriteOption3);
 	safe_delete(spriteClear);
 	safe_delete(spriteGAMEOVER);
+	safe_delete(spriteGAMEOVER2);
 	safe_delete(spriteRule);
 	safe_delete(spriteGrain[0]);
 	safe_delete(spriteGrain[1]);
@@ -97,7 +98,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(20, L"Resources/GAMEOVER.png")) {
+	if (!Sprite::LoadTexture(20, L"Resources/GAMEOVER2.png")) {
 		assert(0);
 		return;
 	}
@@ -228,18 +229,6 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 
 void GameScene::Update()
 {
-	
-
-	//int mapY = int((player->GetPos().z / 8) + ((21 + 1) / 2));
-	//int mapX = int((player->GetPos().x / 8) + ((21 + 1) / 2));
-	//debugText.Print(20.0f, 40.0f, 2.0f, "%d %d", mapX,mapY);
-	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetPos().x - enemy->GetPos().x, player->GetPos().z - enemy->GetPos().z);
-	//debugText.Print(20.0f, 40.0f, 2.0f, "%d",map->GetArrayValue(mapX,mapY));
-	
-	
-	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetPos().x, player->GetPos().z);
-	//debugText.Print(20.0f, 40.0f, 2.0f, "%f",player->GetViewAngle());
-	//debugText.Print(20.0f, 20.0f, 2.0f, "%f %f", player->GetShortCut(map,enemy[1]->GetPos()).x, player->GetShortCut(map, enemy[1]->GetPos()).y);
 	if (scene == TITLE)
 	{
 		map->InitializeValue();

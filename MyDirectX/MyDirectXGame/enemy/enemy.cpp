@@ -10,6 +10,7 @@ Enemy::~Enemy()
 	safe_delete(spriteEnemyAngle);
 	safe_delete(modelEnemy);
 	safe_delete(objEnemy);
+	safe_delete(spriteDeadEffect);
 }
 
 void Enemy::Initialize()
@@ -25,10 +26,15 @@ void Enemy::Initialize()
 		assert(0);
 		return;
 	}
-
+	//画像読み込み
+	if (!Sprite::LoadTexture(99, L"Resources/DeadEf.png")) {
+		assert(0);
+		return;
+	}
 	//スプライト読み込み
 	spriteEnemyDot = Sprite::Create(4, miniMapPos);
 	spriteEnemyAngle = Sprite::Create(6, miniMapPos);
+	spriteDeadEffect = Sprite::Create(99, {0,0});
 }
 
 //鬼ごとの初期化
@@ -51,6 +57,9 @@ void Enemy::InitializeValue()
 	adjustmentFlag = false;//位置調整フラグ
 	killTime = 0;//殴りモーションの時間
 	startStopTime = 0;//スタートまでの硬直時間
+	deadPos = { 0.0f,2.5f,0.0f };
+	deadView = 0.0f;
+	deadAlpha = 0.0f;
 }
 
 void Enemy::InitializeValue2()
@@ -69,6 +78,9 @@ void Enemy::InitializeValue2()
 	adjustmentFlag = false;//位置調整フラグ
 	killTime = 0;//殴りモーションの時間
 	startStopTime = 0;//スタートまでの硬直時間
+	deadPos = { 0.0f,2.5f,0.0f };
+	deadView = 0.0f;
+	deadAlpha = 0.0f;
 }
 
 void Enemy::InitializeValue3()
@@ -87,6 +99,9 @@ void Enemy::InitializeValue3()
 	adjustmentFlag = false;//位置調整フラグ
 	killTime = 0;//殴りモーションの時間
 	startStopTime = 0;//スタートまでの硬直時間
+	deadPos = { 0.0f,2.5f,0.0f };
+	deadView = 0.0f;
+	deadAlpha = 0.0f;
 }
 
 void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos, XMFLOAT2 plusValue ,bool catchFlag1, bool catchFlag2)
@@ -119,6 +134,11 @@ void Enemy::DrawSprite(MapChip* mapChip)
 	{
 		spriteEnemyAngle->Draw(1.0f);//見ている方向描画
 		spriteEnemyDot->Draw(1.0f);//エネミーのドット描画
+	}
+	if (killTime > 45)
+	{
+		deadAlpha += 0.01f;
+		spriteDeadEffect->Draw(deadAlpha);
 	}
 }
 
@@ -513,12 +533,13 @@ bool Enemy::DeathAnimation(Player* player)
 		float aX = player->GetPos().x - pos.x;//xのベクトル
 		float aZ = player->GetPos().z - pos.z;//zのベクトル
 		float aXZ = XMConvertToDegrees(float(atan2(aX, aZ)));//角度算出
-		
-		
+		XMFLOAT3 playerPos = { 0,0,0 };
+		playerPos = player->GetPos();
 		if (player->GetViewAngle() < aXZ + 30 && player->GetViewAngle() > aXZ - 30)//敵の方向ききった
 		{
 			player->SetViewAngleY2(aXZ);
 			player->SetViewAngleX2(10);
+			
 			killTime++;
 		}
 		else if (player->GetViewAngle() < aXZ)//敵の方向いてないとき
@@ -530,7 +551,27 @@ bool Enemy::DeathAnimation(Player* player)
 			player->SetViewAngleY(-15);
 		}
 
-		if (killTime > 60)//モーション終わったか
+		if (killTime > 45)//モーション終わったか
+		{
+			if (killTime > 50)//モーション終わったか
+			{
+				player->SetViewAngleX2(70.0f);
+			}
+			else if (killTime > 45)
+			{
+				deadAlphaCountFlag = true;
+				deadView += 9;
+				player->SetViewAngleX2(10.0f + deadView);
+			}
+			
+			if (deadPos.y >= 0.0f)
+			{
+				deadPos.y -= 0.25f;
+			}
+			playerPos.y = deadPos.y;
+			player->SetPos(playerPos);
+		}
+		if (killTime > 150)//モーション終わったか
 		{
 			killTime = 0;
 			return true;

@@ -6,6 +6,9 @@ Player::~Player()
 {
 	safe_delete(spritePlayerDot);
 	safe_delete(spritePlayerAngle);
+	safe_delete(spriteMoveUI);
+	safe_delete(spriteViewUI);
+	safe_delete(spriteOpenUI);
 }
 
 void Player::Initialize()
@@ -21,6 +24,24 @@ void Player::Initialize()
 		return;
 	}
 	spritePlayerAngle = Sprite::Create(6, miniMapPos);
+
+	if (!Sprite::LoadTexture(100, L"Resources/MoveUI.png")) {
+		assert(0);
+		return;
+	}
+	spriteMoveUI = Sprite::Create(100, {0,0});
+
+	if (!Sprite::LoadTexture(101, L"Resources/ViewUI.png")) {
+		assert(0);
+		return;
+	}
+	spriteViewUI = Sprite::Create(101, {0,0});
+
+	if (!Sprite::LoadTexture(102, L"Resources/OpenUI.png")) {
+		assert(0);
+		return;
+	}
+	spriteOpenUI = Sprite::Create(102, { 0,0 });
 }
 
 void Player::InitializeValue()
@@ -44,6 +65,10 @@ void Player::InitializeValue()
 
 void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag, bool catchFlag2, bool catchFlag3)
 {
+	if (mapChip->GetGateOpenFlag())
+	{
+		openTutorialFlag = true;
+	}
 	AngleSearch();//プレイヤーの向きの算出
 	if (tutrialFlag == false && catchFlag == false && catchFlag2 == false && catchFlag3 == false)
 	{
@@ -67,6 +92,22 @@ void Player::DrawSprite()
 	//プレイヤーのミニマップの情報
 	spritePlayerAngle->Draw(1.0f);
 	spritePlayerDot->Draw(1.0f);
+	if (moveTutorialFlag)
+	{
+		moveTutorial -= 0.05f;
+	}
+	if (viewTutorialFlag)
+	{
+		viewTutorial -= 0.05f;
+	}
+	if (openTutorialFlag)
+	{
+		openTutorial -= 0.05f;
+	}
+	spriteViewUI->Draw(viewTutorial);
+	spriteMoveUI->Draw(moveTutorial);
+	spriteOpenUI->Draw(openTutorial);
+
 }
 
 void Player::Move(MapChip *mapChip)
@@ -105,6 +146,7 @@ void Player::Move(MapChip *mapChip)
 
 	if (Input::GetInstance()->KeybordPush(DIK_W))
 	{
+		moveTutorialFlag = true;
 		pos.x += cos((angle.y * 3.14f) / -180) * moveSpeed;      // x座標を更新
 		pos.z += sin((angle.y * 3.14f) / -180) * moveSpeed;      // z座標を更新
 
@@ -145,6 +187,7 @@ void Player::Move(MapChip *mapChip)
 	}
 	if (Input::GetInstance()->KeybordPush(DIK_A))
 	{
+		moveTutorialFlag = true;
 		pos.x += cos(((angle.y - 90) * 3.14f) / -180) * moveSpeed;      // x座標を更新
 		pos.z += sin(((angle.y - 90) * 3.14f) / -180) * moveSpeed;      // z座標を更新
 
@@ -185,6 +228,7 @@ void Player::Move(MapChip *mapChip)
 	}
 	if (Input::GetInstance()->KeybordPush(DIK_S))
 	{
+		moveTutorialFlag = true;
 		pos.x += cos(((angle.y + 180) * 3.14f) / -180) * moveSpeed;      // x座標を更新
 		pos.z += sin(((angle.y + 180) * 3.14f) / -180) * moveSpeed;      // z座標を更新
 		mapPosValue.x += cos(((angle.y + 180) * 3.14f) / -180) * (moveSpeed * 2);
@@ -220,6 +264,7 @@ void Player::Move(MapChip *mapChip)
 	}
 	if (Input::GetInstance()->KeybordPush(DIK_D))
 	{
+		moveTutorialFlag = true;
 		pos.x += cos(((angle.y + 90) * 3.14f) / -180) * moveSpeed;      // x座標を更新
 		pos.z += sin(((angle.y + 90) * 3.14f) / -180) * moveSpeed;      // z座標を更新
 		mapPosValue.x += cos(((angle.y - 90 + 180) * 3.14f) / -180) * (moveSpeed * 2);
@@ -302,6 +347,10 @@ void Player::View(bool tutrialFlag, bool catchFlag,bool catchFlag2, bool catchFl
 	target = f;
 	if (tutrialFlag == false&&catchFlag==false && catchFlag2 == false && catchFlag3 == false)
 	{
+		if (angleY != 0&& angleX != 0)
+		{
+			viewTutorialFlag = true;
+		}
 		if (angleX >= 85)
 		{
 			angleX = 85;
