@@ -14,12 +14,10 @@ PSOutput main(VSOutput input) : SV_TARGET
 	PSOutput output;
 	// テクスチャマッピング
 	float4 texcolor = tex.Sample(smp, input.uv);
-
 	// 光沢度
 	const float shininess = 5.0f;
 	// 頂点から視点への方向ベクトル
 	float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
-
 	// 環境反射光
 	float3 ambient = m_ambient;
 	// シェーディングによる色
@@ -35,13 +33,7 @@ PSOutput main(VSOutput input) : SV_TARGET
 			// 鏡面反射光
 			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * float3(1.0f, 1.0f, 1.0f);
 
-			float ax;
-			float ay;
-			float az;
-			float axyz;
-			float xyzDistanse;
-			float scalr;
-			
+			//丸陰
 			float bx = shadowPos1.x - input.worldpos.x;
 			float by = -0 - input.worldpos.y;
 			float bz = shadowPos1.z - input.worldpos.z;
@@ -49,12 +41,10 @@ PSOutput main(VSOutput input) : SV_TARGET
 			float bxyzDistanse = sqrt(bxyz);
 			float bscalr = 1.0 - (bxyzDistanse / 1.6);
 			float3 darkColor = float3(0.7, 0.7, 0.7);
-
 			// 全て加算する
 			if (bscalr >= 0) {
 				shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor * bscalr);
 			}
-
 			float bx2 = shadowPos2.x - input.worldpos.x;
 			float by2 = -0 - input.worldpos.y;
 			float bz2 = shadowPos2.z - input.worldpos.z;
@@ -62,12 +52,10 @@ PSOutput main(VSOutput input) : SV_TARGET
 			float bxyzDistanse2 = sqrt(bxyz2);
 			float bscalr2 = 1.0 - (bxyzDistanse2 / 1.6);
 			float3 darkColor2 = float3(0.7, 0.7, 0.7);
-
 			// 全て加算する
 			if (bscalr2 >= 0) {
 				shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor2 * bscalr2);
 			}
-
 			float bx3 = shadowPos3.x - input.worldpos.x;
 			float by3 = -0 - input.worldpos.y;
 			float bz3 = shadowPos3.z - input.worldpos.z;
@@ -75,11 +63,18 @@ PSOutput main(VSOutput input) : SV_TARGET
 			float bxyzDistanse3 = sqrt(bxyz3);
 			float bscalr3 = 1.0 - (bxyzDistanse3 / 1.6);
 			float3 darkColor3 = float3(0.7, 0.7, 0.7);
-
 			// 全て加算する
 			if (bscalr3 >= 0) {
 				shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor3 * bscalr3);
 			}
+
+			//ポイントライト
+			float ax;
+			float ay;
+			float az;
+			float axyz;
+			float xyzDistanse;
+			float scalr;
 			if (lightInfo.lightActive == 1 && lightInfo.allActive == 0)
 			{
 				ax = lightInfo.lightPos.x - input.worldpos.x;

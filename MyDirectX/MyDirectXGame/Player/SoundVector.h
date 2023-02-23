@@ -11,11 +11,8 @@ protected: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
-private:
-	void Initialize();//最初の初期化
-	void Update();
 public:
-	static bool DistanceSearch(float playerX, float playerZ, float enemyX, float enemyZ);
-	static float VectorSearch(float playerX, float playerZ, float enemyX, float enemyZ);
+	static bool DistanceSearch(float playerX, float playerZ, float enemyX, float enemyZ);//距離を見る
+	static float VectorSearch(float playerX, float playerZ, float enemyX, float enemyZ);//角度を見る
 };
 

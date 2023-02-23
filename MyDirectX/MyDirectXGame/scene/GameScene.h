@@ -88,38 +88,30 @@ private: // メンバ変数
 	/// ゲームシーン用
 	/// </summary>
 	DebugCamera* camera = nullptr;
-	Sprite* spriteTitle = nullptr;
-	Sprite* spriteTitle2 = nullptr;
-	Sprite* spriteTitle3 = nullptr;
-	Sprite* spriteOption = nullptr;
-	Sprite* spriteOption2 = nullptr;
-	Sprite* spriteOption3 = nullptr;
-	Sprite* spriteClear = nullptr;
-	Sprite* spriteGAMEOVER = nullptr;
-	Sprite* spriteGAMEOVER2 = nullptr;
-	Sprite* spriteRule = nullptr;
-	Sprite* spriteGrain[8] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };
-	int grainCount = 0;
+	Sprite* spriteTitle = nullptr;//タイトル
+	Sprite* spriteTitle2 = nullptr;//タイトル
+	Sprite* spriteTitle3 = nullptr;//タイトル
+	Sprite* spriteOption = nullptr;//オプション
+	Sprite* spriteOption2 = nullptr;//オプション
+	Sprite* spriteOption3 = nullptr;//オプション
+	Sprite* spriteClear = nullptr;//クリア
+	Sprite* spriteGAMEOVER = nullptr;//ゲームオーバー
+	Sprite* spriteGAMEOVER2 = nullptr;//ゲームオーバー
+	Sprite* spriteRule = nullptr;//ルール
+	Sprite* spriteGrain[8] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };//グレイン
+	int grainCount = 0;//グレインカウント
 
-	ParticleManager* particle3d = nullptr;
-	Player* player = nullptr;
-	Enemy* enemy[3] = { nullptr,nullptr,nullptr };
-
-
-	MapChip* map = nullptr;
-	int scene = 0;
-	float collision;
-
-	bool stopFlag;
-
-	int buttonNo = 0;
-	int optionButtonNo = 0;
-
-	bool tutrialFlag = true;
-
-	int soundTimer[3] = { 0, 0 ,0 };
-	// 光線方向初期値
-
+	ParticleManager* particle3d = nullptr;//パーティクル
+	Player* player = nullptr;//プレイヤー
+	Enemy* enemy[3] = { nullptr,nullptr,nullptr };//エネミー
+	MapChip* map = nullptr;//マップ
+	int scene = 0;//シーン
+	bool stopFlag;//停止フラグ
+	int buttonNo = 0;//タイトルの選択
+	int optionButtonNo = 0;//オプションの選択
+	bool tutrialFlag = true;//チュートリアルの表示
+	int soundTimer[3] = { 0, 0 ,0 };//足音の歩行レートのタイマー
+	//光線方向初期値
 	float lightDir0[3] = { 0,1,0 };
 	float lightDir5[3] = { 0,-1,0 };
 	float lightDir1[3] = { 0,0,1 };
@@ -127,24 +119,21 @@ private: // メンバ変数
 	float lightDir3[3] = { 1,0,0 };
 	float lightDir4[3] = { -1,0,0 };
 
+	//アンビエント初期値
 	const float colorAmbient = 1.5f;
 	float ambientColor0[3] = { colorAmbient,colorAmbient,colorAmbient };
-
+	
+	//ライトの色縦初期値
 	const float colorUpDown = 5.0f;
 	float lightColor0[3] = { colorUpDown,colorUpDown,colorUpDown };
 	float lightColor5[3] = { colorUpDown,colorUpDown,colorUpDown };
 
+	//ライトの色横初期値
 	const float colorSide = 4.0f;
 	float lightColor1[3] = { colorSide,colorSide,colorSide };
 	float lightColor2[3] = { colorSide,colorSide,colorSide };
 	float lightColor3[3] = { colorSide,colorSide,colorSide };
 	float lightColor4[3] = { colorSide,colorSide,colorSide };
 
-	FbxModel* modelWalking[3] = { nullptr, nullptr, nullptr };
-	FbxObject3d* objectWalking[3] = {nullptr, nullptr, nullptr};
-
-	FbxModel* modelAttack[3] = { nullptr, nullptr, nullptr };
-	FbxObject3d* objectAttack[3] = { nullptr, nullptr, nullptr };
-
-	int titleTime;
+	int titleTime;//タイトル遅延
 };

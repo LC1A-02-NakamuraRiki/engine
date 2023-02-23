@@ -23,9 +23,7 @@ public:
 
 	void Update(MapChip* mapChip,bool tutrialFlag, bool catchFlag, bool catchFlag2, bool catchFlag3);//アップデート
 	
-	void Draw();
-	
-	void DrawSprite();
+	void DrawSprite();//2D描画
 
 	void Move(MapChip* mapChip);//歩き
 
@@ -35,30 +33,30 @@ public:
 
 	void AngleSearch();//歩く方向の算出
 
-	XMFLOAT2 GetShortCut(MapChip* mapChip,XMFLOAT3 enemyPos);
+	XMFLOAT2 GetShortCut(MapChip* mapChip,XMFLOAT3 enemyPos);//プレイヤーの4マス先読み
 	
-	XMFLOAT3 GetPos() { return pos; }
-	XMFLOAT2 GetMapPos() { return mapPosValue; }
-	XMFLOAT3 GetTarget() { return target; }
-	float GetAngle() { return angle.y; }
-	float GetViewAngle() { return angleY; }
-	float SetViewAngleY(float value) { return angleY += value; }
-	float SetViewAngleY2(float value) { return angleY = value; }
-	float SetViewAngleX(float value) { return angleX += value; }
-	float SetViewAngleX2(float value) { return angleX = value; }
-	float GetViewSpeed() { return mouseViewSpeed; }
-	float SetViewSpeedPlus() { return mouseViewSpeed += 0.05f; }
-	float SetViewSpeedMinus() { return mouseViewSpeed -= 0.05f; }
-	bool GetShakeFlag() { return shakeFlag; }
-	bool SetShakeFlag(bool ShakeFlag) { return shakeFlag = ShakeFlag; }
-	XMFLOAT3 SetPos(XMFLOAT3 pos) { return this->pos = pos; }
+	XMFLOAT3 GetPos() { return pos; }//3D座標の取得
+	XMFLOAT3 SetPos(XMFLOAT3 pos) { return this->pos = pos; }//3D座標の指定
+	XMFLOAT2 GetMapPos() { return mapPosValue; }//2D座標の取得
+	XMFLOAT3 GetTarget() { return target; }//注視点の取得
+	float GetAngle() { return angle.y; }//見ている方向の取得
+	float GetViewAngle() { return angleY; }//見ている方向の取得
+	float SetViewAngleY(float value) { return angleY += value; }//見ている方向の指定
+	float SetViewAngleY2(float value) { return angleY = value; }//見ている方向の指定
+	float SetViewAngleX(float value) { return angleX += value; }//見ている方向の指定
+	float SetViewAngleX2(float value) { return angleX = value; }//見ている方向の指定
+	float GetViewSpeed() { return mouseViewSpeed; }//視点感度の取得
+	float SetViewSpeedPlus() { return mouseViewSpeed += 0.05f; }//視点感度の指定
+	float SetViewSpeedMinus() { return mouseViewSpeed -= 0.05f; }//視点感度の指定
+	bool GetShakeFlag() { return shakeFlag; }//シェイクフラグの取得
+	bool SetShakeFlag(bool ShakeFlag) { return shakeFlag = ShakeFlag; }//シェイクフラグの指定
 private:
 
-	Sprite* spritePlayerDot = nullptr;
-	Sprite* spritePlayerAngle = nullptr;
-	Sprite* spriteMoveUI = nullptr;
-	Sprite* spriteViewUI = nullptr;
-	Sprite* spriteOpenUI = nullptr;
+	Sprite* spritePlayerDot = nullptr;//ミニマップのドット
+	Sprite* spritePlayerAngle = nullptr;//ミニマップの見ている位置
+	Sprite* spriteMoveUI = nullptr;//移動のUI
+	Sprite* spriteViewUI = nullptr;//視点のUI
+	Sprite* spriteOpenUI = nullptr;//開けるUI
 	XMFLOAT3 pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };//ミニマップ初期値
 	XMFLOAT2 mapPosValue = { 0,0 };//マップの座標
@@ -77,11 +75,10 @@ private:
 
 	bool shakeFlag = true;//シェイクのON/OFF
 
-	float moveTutorial = 1.0f;
-	bool moveTutorialFlag = false;
-	float viewTutorial = 1.0f;
-	bool viewTutorialFlag = false;
-	float openTutorial = 1.0f;
-	bool openTutorialFlag = false;
-
+	float moveTutorial = 1.0f;//移動チュートリアルアルファ
+	bool moveTutorialFlag = false;//移動チュートリアルフラグ
+	float viewTutorial = 1.0f;//視点チュートリアルアルファ
+	bool viewTutorialFlag = false;//視点チュートリアルフラグ
+	float openTutorial = 1.0f;//開けるチュートリアルアルファ
+	bool openTutorialFlag = false;//開けるチュートリアルフラグ
 };

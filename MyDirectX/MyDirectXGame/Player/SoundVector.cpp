@@ -1,14 +1,5 @@
 #include "SoundVector.h"
 using namespace DirectX;
-void SoundVector::Initialize()
-{
-
-}
-
-void SoundVector::Update()
-{
-
-}
 
 bool SoundVector::DistanceSearch(float playerX, float playerZ, float enemyX, float enemyZ)
 {

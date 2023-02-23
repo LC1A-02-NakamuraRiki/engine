@@ -13,30 +13,27 @@ Player::~Player()
 
 void Player::Initialize()
 {
+	//スプライトの初期化
 	if (!Sprite::LoadTexture(3, L"Resources/PlayerDot.png")) {
 		assert(0);
 		return;
 	}
 	spritePlayerDot = Sprite::Create(3, miniMapPos);
-
 	if (!Sprite::LoadTexture(6, L"Resources/angle.png")) {
 		assert(0);
 		return;
 	}
 	spritePlayerAngle = Sprite::Create(6, miniMapPos);
-
 	if (!Sprite::LoadTexture(100, L"Resources/MoveUI.png")) {
 		assert(0);
 		return;
 	}
 	spriteMoveUI = Sprite::Create(100, {0,0});
-
 	if (!Sprite::LoadTexture(101, L"Resources/ViewUI.png")) {
 		assert(0);
 		return;
 	}
 	spriteViewUI = Sprite::Create(101, {0,0});
-
 	if (!Sprite::LoadTexture(102, L"Resources/OpenUI.png")) {
 		assert(0);
 		return;
@@ -65,33 +62,7 @@ void Player::InitializeValue()
 
 void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag, bool catchFlag2, bool catchFlag3)
 {
-	if (mapChip->GetGateOpenFlag())
-	{
-		openTutorialFlag = true;
-	}
-	AngleSearch();//プレイヤーの向きの算出
-	if (tutrialFlag == false && catchFlag == false && catchFlag2 == false && catchFlag3 == false)
-	{
-		Move(mapChip);//移動
-	}
-	WalkShaking();//歩きの揺れ
-	View(tutrialFlag,catchFlag, catchFlag2, catchFlag3);//視点制御
-
-	//スプライト関連のポジションとアングルセット
-	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 650 + (16.0f * 11) });
-	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 650 + (16.0f * 11) + 8 });
-	spritePlayerAngle->SetRotation(angle.y + 135);
-}
-
-void Player::Draw()
-{
-}
-
-void Player::DrawSprite()
-{
-	//プレイヤーのミニマップの情報
-	spritePlayerAngle->Draw(1.0f);
-	spritePlayerDot->Draw(1.0f);
+	//チュートリアル関連
 	if (moveTutorialFlag)
 	{
 		moveTutorial -= 0.05f;
@@ -104,10 +75,40 @@ void Player::DrawSprite()
 	{
 		openTutorial -= 0.05f;
 	}
+
+	//ゲートが開いたか
+	if (mapChip->GetGateOpenFlag())
+	{
+		openTutorialFlag = true;
+	}
+
+	AngleSearch();//プレイヤーの向きの算出
+	
+	//移動関連
+	if (tutrialFlag == false && catchFlag == false && catchFlag2 == false && catchFlag3 == false)
+	{
+		Move(mapChip);
+	}
+
+	WalkShaking();//歩きの揺れ
+	View(tutrialFlag,catchFlag, catchFlag2, catchFlag3);//視点制御
+
+	//スプライト関連のポジションとアングルセット
+	spritePlayerDot->SetPosition({ 100 + (16.0f * 10), 650 + (16.0f * 11) });
+	spritePlayerAngle->SetPosition({ 100 + (16.0f * 10) + 8, 650 + (16.0f * 11) + 8 });
+	spritePlayerAngle->SetRotation(angle.y + 135);
+}
+
+void Player::DrawSprite()
+{
+	//プレイヤーのミニマップの情報
+	spritePlayerAngle->Draw(1.0f);
+	spritePlayerDot->Draw(1.0f);
+
+	//チュートリアルの描画
 	spriteViewUI->Draw(viewTutorial);
 	spriteMoveUI->Draw(moveTutorial);
 	spriteOpenUI->Draw(openTutorial);
-
 }
 
 void Player::Move(MapChip *mapChip)
@@ -390,13 +391,17 @@ void Player::View(bool tutrialFlag, bool catchFlag,bool catchFlag2, bool catchFl
 
 void Player::AngleSearch()
 {
+	//見ている方向の角度
 	angle.y = XMConvertToDegrees(atan2(pos.x - target.x, pos.z - target.z)) + 90;
 }
 
 XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 {
+	//マップ内の座標の取得
 	int mapX = int((enemyPos.x / 8) + ((21 + 1) / 2));
 	int mapY = int((enemyPos.z / 8) + ((21 + 1) / 2));
+	
+	//近くに壁があるか
 	for (int i = 1; i < 5; i++)
 	{
 		if (mapChip->GetArrayValue(mapX, mapY - i) == 1)
@@ -442,8 +447,7 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 		}
 	}
 	
-
-
+	//何マス先を見るかの調整
 	XMFLOAT2 plusValue = {0,0};
 	float vectorX = pos.x - enemyPos.x;
 	float vectorZ = pos.z - enemyPos.z;

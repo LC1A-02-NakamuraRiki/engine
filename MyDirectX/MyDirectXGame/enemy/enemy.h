@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Sprite.h"
 #include "SafeDelete.h"
+#include "FbxObject3d.h"
 
 class Enemy
 {
@@ -32,7 +33,7 @@ public:
 
 	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos,XMFLOAT2 plusValue, bool catchFlag1, bool catchFlag2);//アップデート
 
-	void Draw();//3dの描画
+	void Draw(Player* player, ID3D12GraphicsCommandList* cmdList);//3dの描画
 
 	void DrawSprite(MapChip* mapChip);//2dの描画
 
@@ -49,14 +50,16 @@ public:
 	int GetStartStopTime() {return startStopTime;}//スタートの硬直時間
 	
 private:
+	FbxModel* modelWalking = nullptr;//歩きモデル
+	FbxObject3d* objectWalking = nullptr;//歩きオブジェ
+	FbxModel* modelAttack = nullptr;//攻撃モデル
+	FbxObject3d* objectAttack = nullptr;//攻撃オブジェ
 	float angle; //向き
 	Sprite* spriteEnemyDot = nullptr;//ミニマップの敵
 	Sprite* spriteEnemyAngle = nullptr;//ミニマップの敵の向き
 	Sprite* spriteDeadEffect = nullptr;//ミニマップの敵の向き
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 14) };//ミニマップのドット座標
 	float wallSize = 8;//壁の大きさ
-	Model* modelEnemy = nullptr;//敵モデル
-	Object3d* objEnemy;//敵OBJ
 	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//位置
 	float speed = 2.0f;//スピード
 	int nowMove = UP;//どの動きをしているか
@@ -74,9 +77,9 @@ private:
 	int mapX = int((pos.x / 8) + ((21 + 1) / 2));//マップチップの座標X
 	int mapZ = int((pos.z / 8) + ((21 + 1) / 2));//マップチップの座標Z
 
-	XMFLOAT3 deadPos = { 0.0f,2.5f,0.0f };
-	float deadView = 0.0f;
-	float deadAlpha = 0.0f;
-	bool deadAlphaCountFlag = false;
+	XMFLOAT3 deadPos = { 0.0f,2.5f,0.0f };//捕獲時のポジション
+	float deadView = 0.0f;//捕獲時の視点
+	float deadAlpha = 0.0f;//捕獲時のアルファ
+	bool deadAlphaCountFlag = false;//捕獲時のアルファのフラグ
 };
 

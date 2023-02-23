@@ -1,6 +1,8 @@
 #include "enemy.h"
 #include "Collision.h"
 #include "Input.h"
+#include "FbxLoader.h"
+#include "FbxObject3d.h"
 
 using namespace DirectX;
 
@@ -8,18 +10,29 @@ Enemy::~Enemy()
 {
 	safe_delete(spriteEnemyDot);
 	safe_delete(spriteEnemyAngle);
-	safe_delete(modelEnemy);
-	safe_delete(objEnemy);
 	safe_delete(spriteDeadEffect);
+	safe_delete(objectWalking);
+	safe_delete(modelWalking);
+
+	safe_delete(objectAttack);
+	safe_delete(modelAttack);
 }
 
 void Enemy::Initialize()
 {
 	//敵初期化
-	modelEnemy = Model::CreateFromObject("gostFace", false);//モデル初期化
-	objEnemy = Object3d::Create(modelEnemy);//object初期化
-	objEnemy->SetPosition(pos);//位置初期化
-	objEnemy->SetScale({ 0.35f,0.3f,0.35f });//大きさ初期化
+	modelWalking = FbxLoader::GetInstance()->LoadModelFromFile("Walking");//モデル初期化
+	objectWalking = new FbxObject3d;//object初期化
+	objectWalking->Initialize();//初期化
+	objectWalking->SetModel(modelWalking);//モデルと同期
+	objectWalking->PlayAnimation();//アニメーション
+
+	modelAttack = FbxLoader::GetInstance()->LoadModelFromFile("Zombie Attack");//モデル初期化
+	objectAttack = new FbxObject3d;//object初期化
+	objectAttack->Initialize();//初期化
+	objectAttack->SetModel(modelAttack);//モデルと同期
+	objectAttack->PlayAnimation();//アニメーション
+	
 
 	//画像読み込み
 	if (!Sprite::LoadTexture(4, L"Resources/enemyDot.png")) {
@@ -40,11 +53,12 @@ void Enemy::Initialize()
 //鬼ごとの初期化
 void Enemy::InitializeValue()
 {
+	objectWalking->AnimationReset();
+	objectAttack->AnimationReset();
+
 	//鬼ごとの初期化
 	pos = { -4.0f,3.0f,-28.0f };//位置
-	objEnemy->SetPosition(pos);//位置セット
 	angle = 270;//向き
-	objEnemy->SetRotation({ 0, angle, 0 });//向きセット
 	nowMove = UP;//進む向き
 	adjustValueX = 0;//調整値X
 	adjustValueZ = 0;//調整値Z
@@ -66,7 +80,6 @@ void Enemy::InitializeValue2()
 {
 	//鬼ごとの初期化
 	pos = { 4.0f,3.0f,68.0f };//位置
-	objEnemy->SetPosition(pos);//位置セット
 	nowMove = LEFT;//進む向き
 	adjustValueX = 0;//調整値X
 	adjustValueZ = 0;//調整値Z
@@ -87,7 +100,6 @@ void Enemy::InitializeValue3()
 {
 	//鬼ごとの初期化
 	pos = { -76.0f,3.0f,-12.0f };//位置
-	objEnemy->SetPosition(pos);//位置セット
 	nowMove = UP;//進む向き
 	adjustValueX = 0;//調整値X
 	adjustValueZ = 0;//調整値Z
@@ -106,8 +118,6 @@ void Enemy::InitializeValue3()
 
 void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos, XMFLOAT2 plusValue ,bool catchFlag1, bool catchFlag2)
 {	
-	//アップデート
-	objEnemy->Update(pos,pos, pos,pos, 0, 1);
 	//探索
 	AI(player, mapChip,plusValue);
 	if (mapChip->GetGateOpenFlag() && !catchFlag1 && !catchFlag2)//スタートしているか、捕まっていないか
@@ -119,11 +129,42 @@ void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos, XMFLOAT2 p
 			Move(mapChip, mapPos);
 		}
 	}
+	if (mapChip->GetStopFlag() || startStopTime < 90)
+	{
+		objectWalking->StopAnimation();
+	}
+	else
+	{
+		objectWalking->playAnimation();
+	}
+	
+	objectWalking->SetPosition(XMFLOAT3(pos.x, pos.y - 2.8f, pos.z));
+	objectWalking->SetRotation(XMFLOAT3(0, angle + 90, 0));
+	
+	if (CatchCollision(player)) {
+		objectAttack->SetPosition(XMFLOAT3(pos.x, pos.y - 2.8f, pos.z));
+		objectAttack->SetRotation(XMFLOAT3(0, (XMConvertToDegrees(atan2(pos.x - player->GetPos().x, pos.z - player->GetPos().z)) + 270) - 90, 0));
+	}
+	else
+	{
+		objectAttack->AnimationReset();
+	}
+	bool lightAction = mapChip->LightAction();
+	objectWalking->Update(lightAction);//アップデート
+	objectAttack->Update(lightAction);//アップデート
+	
 }
 
-void Enemy::Draw()
+void Enemy::Draw(Player* player, ID3D12GraphicsCommandList* cmdList)
 {
-	objEnemy->Draw();//エネミー描画
+	if (!CatchCollision(player))//捕まってないとき
+	{
+		objectWalking->Draw(cmdList);//エネミー歩き描画
+	}
+	else//捕まった時
+	{
+		objectAttack->Draw(cmdList);//エネミーアタック描画
+	}
 }
 
 void Enemy::DrawSprite(MapChip* mapChip)
@@ -149,7 +190,6 @@ void Enemy::AI(Player* player,MapChip* mapChip, XMFLOAT2 plusValue)
 	//距離調べ
 	float vectorX = playerPos.x + plusValue.x - pos.x;
 	float vectorZ = playerPos.z + plusValue.y - pos.z;
-	
 	//優先度調べ
 	if ((vectorX * vectorX) < (vectorZ * vectorZ))
 	{
@@ -478,7 +518,6 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		if (nowMove == DOWN)//下に移動
 		{
 			spriteEnemyAngle->SetRotation(45);//角度をセット
-			objEnemy->SetRotation({0, 270, 0});//角度をセット
 			angle = 270;//角度の値をセット
 			pos.z += speed;//移動スピード
 			miniMapPos.y += speed * 2;//ミニマップの移動
@@ -487,7 +526,6 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == UP)//上に移動
 		{
 			spriteEnemyAngle->SetRotation(-135);//角度をセット
-			objEnemy->SetRotation({ 0, 90, 0 });//角度をセット
 			angle = 90;//角度の値をセット
 			pos.z -= speed;//移動スピード
 			miniMapPos.y -= speed * 2;//ミニマップの移動
@@ -496,7 +534,6 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == RIGHT)//右に移動
 		{
 			spriteEnemyAngle->SetRotation(135);//角度をセット
-			objEnemy->SetRotation({ 0, 0, 0 });//角度をセット
 			angle = 0;//角度の値をセット
 			pos.x += speed;//移動スピード
 			miniMapPos.x -= speed * 2;//ミニマップの移動
@@ -505,7 +542,6 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == LEFT)//左に移動
 		{
 			spriteEnemyAngle->SetRotation(-45);//角度をセット
-			objEnemy->SetRotation({ 0, 180, 0 });//角度をセット
 			angle = 180;//角度の値をセット
 			pos.x -= speed;//移動スピード
 			miniMapPos.x += speed * 2;//ミニマップの移動
@@ -516,7 +552,6 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 	//obj等に影響
 	spriteEnemyDot->SetPosition({ miniMapPos.x + mapPos.x , miniMapPos.y + mapPos.y });//位置セット
 	spriteEnemyAngle->SetPosition({ miniMapPos.x + mapPos.x + 8, miniMapPos.y + mapPos.y + 8 });//位置セット
-	objEnemy->SetPosition(pos);//位置セット
 }
 
 bool Enemy::CatchCollision(Player* player)
@@ -557,13 +592,15 @@ bool Enemy::DeathAnimation(Player* player)
 			{
 				player->SetViewAngleX2(70.0f);
 			}
+			//少しづつ上向くのと血の演出
 			else if (killTime > 45)
 			{
 				deadAlphaCountFlag = true;
 				deadView += 9;
 				player->SetViewAngleX2(10.0f + deadView);
 			}
-			
+
+			//倒れる
 			if (deadPos.y >= 0.0f)
 			{
 				deadPos.y -= 0.25f;

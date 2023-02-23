@@ -12,10 +12,11 @@ struct PSOutput
 PSOutput main(VSOutput input) : SV_TARGET
 {
 	PSOutput output;
+	//テクスチャの色
 	float4 texcolor = tex.Sample(smp, input.uv);
-
+	//初期化
 	float4 shadecolor = float4(0,0,0,1);
-
+	// 光沢度
 	const float shininess = 10.0f;
 	// 頂点から視点への方向ベクトル
 	float3 eyedir = normalize(cameraPos - input.worldpos.xyz);
@@ -40,7 +41,8 @@ PSOutput main(VSOutput input) : SV_TARGET
 		
 		// 鏡面反射光
 		float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * float3(1.0f, 1.0f, 1.0f);
-
+		
+		//底上げのための追加
 		if (i == 0)
 		{
 			shadecolor.rgb += ((diffuse + specular + ambient) * 1.5f);
@@ -50,6 +52,7 @@ PSOutput main(VSOutput input) : SV_TARGET
 			shadecolor.rgb += ((diffuse + specular + ambient) * 1.5f);
 		}
 
+		//ポイントライト
 		for (int x = 0; x < 7; x++)
 		{
 			for (int y = 0; y < 7; y++)
@@ -79,8 +82,6 @@ PSOutput main(VSOutput input) : SV_TARGET
 		}
 	}
 	
-	
-
 	output.target0 = shadecolor * texcolor;
 	output.target1 = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	return output;

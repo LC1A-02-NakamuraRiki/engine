@@ -42,19 +42,7 @@ GameScene::~GameScene()
 	safe_delete(enemy[2]);
 	safe_delete(map);
 
-	safe_delete(objectWalking[0]);
-	safe_delete(modelWalking[0]);
-	safe_delete(objectWalking[1]);
-	safe_delete(modelWalking[1]);
-	safe_delete(objectWalking[2]);
-	safe_delete(modelWalking[2]);
-
-	safe_delete(objectAttack[0]);
-	safe_delete(modelAttack[0]);
-	safe_delete(objectAttack[1]);
-	safe_delete(modelAttack[1]);
-	safe_delete(objectAttack[2]);
-	safe_delete(modelAttack[2]);
+	
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
@@ -77,7 +65,6 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	}
 	// デバッグテキスト初期化
 	debugText.Initialize(debugTextTexNumber);
-
 	particle3d = ParticleManager::Create(dxCommon->GetDevice(), camera);
 	
 	//スプライト
@@ -150,6 +137,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		assert(0);
 		return;
 	}
+
 	//// 背景スプライト生成
 	spriteTitle = Sprite::Create(18, { 0.0f,0.0f });
 	spriteTitle2 = Sprite::Create(21, { 0.0f,0.0f });
@@ -169,8 +157,6 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	spriteGrain[6] = Sprite::Create(56, { 0.0f,0.0f });
 	spriteGrain[7] = Sprite::Create(57, { 0.0f,0.0f });
 
-	// 3Dオブジェクト生成
-
 	// デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
 	// カメラをセット
@@ -178,52 +164,37 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	// グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
 	light = LightGroop::Create();
-	
+	//ライトのセット
 	Object3d::SetLightGroup(light);
-	//ライト
-	light->SetAmbientColor(XMFLOAT3(ambientColor0));
 
+	//ライト関連
+	light->SetAmbientColor(XMFLOAT3(ambientColor0));
 	light->SetDirLightDir(0, XMVECTOR({ lightDir0[0], lightDir0[1], lightDir0[2], 0 }));
 	light->SetDirLightColor(0, XMFLOAT3(lightColor0));
-
 	light->SetDirLightDir(1, XMVECTOR({ lightDir1[0], lightDir1[1], lightDir1[2], 0 }));
 	light->SetDirLightColor(1, XMFLOAT3(lightColor1));
-
 	light->SetDirLightDir(2, XMVECTOR({ lightDir2[0], lightDir2[1], lightDir2[2], 0 }));
 	light->SetDirLightColor(2, XMFLOAT3(lightColor2));
-
 	light->SetDirLightDir(3, XMVECTOR({ lightDir3[0], lightDir3[1], lightDir3[2], 0 }));
 	light->SetDirLightColor(3, XMFLOAT3(lightColor3));
-
 	light->SetDirLightDir(4, XMVECTOR({ lightDir4[0], lightDir4[1], lightDir4[2], 0 }));
 	light->SetDirLightColor(4, XMFLOAT3(lightColor4));
-
 	light->SetDirLightDir(5, XMVECTOR({ lightDir5[0], lightDir5[1], lightDir5[2], 0 }));
 	light->SetDirLightColor(5, XMFLOAT3(lightColor5));
+
+	//プレイヤー初期化
 	player = new Player;
 	player->Initialize();
+	//マップ初期化
 	map = new MapChip;
 	map->Initialize();
 	
-	for (int i = 0; i < 3; i++)
-	{
+	//敵初期化
+	for (int i = 0; i < 3; i++){
 		enemy[i] = new Enemy;
 		enemy[i]->Initialize();
 	}
-	for (int i = 0; i < 3; i++)
-	{
-		modelWalking[i] = FbxLoader::GetInstance()->LoadModelFromFile("Walking");
-		objectWalking[i] = new FbxObject3d;
-		objectWalking[i]->Initialize();
-		objectWalking[i]->SetModel(modelWalking[0]);
-		objectWalking[i]->PlayAnimation();
-
-		modelAttack[i] = FbxLoader::GetInstance()->LoadModelFromFile("Zombie Attack");
-		objectAttack[i] = new FbxObject3d;
-		objectAttack[i]->Initialize();
-		objectAttack[i]->SetModel(modelAttack[0]);
-		objectAttack[i]->PlayAnimation();
-	}
+	
 
 }
 
@@ -231,25 +202,22 @@ void GameScene::Update()
 {
 	if (scene == TITLE)
 	{
-		map->InitializeValue();
+		//タイトルのディレイ初期化
 		titleTime = 0;
-		objectWalking[0]->AnimationReset();
-		objectWalking[1]->AnimationReset();
-		objectWalking[2]->AnimationReset();
-
-		objectWalking[0]->AnimationReset();
-		objectWalking[1]->AnimationReset();
-		objectWalking[2]->AnimationReset();
-
+		//マップ初期化
+		map->InitializeValue();
+		
+		//選択
 		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)
 		{
 			buttonNo--;
 		}
-
 		else if (Input::GetInstance()->KeybordTrigger(DIK_S) && buttonNo != 2 || Input::GetInstance()->KeybordTrigger(DIK_DOWN) && buttonNo != 2)
 		{
 			buttonNo++;
 		}
+		
+		//プレイへ
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE)&& buttonNo == 0)
 		{
 			player->InitializeValue();
@@ -257,26 +225,29 @@ void GameScene::Update()
 			map->InitializeValue();
 			scene = PLAY;
 		}
+		//オプションへ
 		else if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && buttonNo == 1)
 		{
 			scene = OPTION;
 		}
 
+		//グレイン
 		grainCount++;
-
 		if (grainCount > 7)
 		{
 			grainCount = 0;
 		}
-		//プレイヤー系
+
+		//プレイヤーの初期化と反映
 		camera->SetEye(XMFLOAT3{ -4.0f,3.0f,4.0f });
 		camera->SetTarget(XMFLOAT3{ -4.0f,3.0f,-8.0f });
-
 		player->Update(map, tutrialFlag, enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
 		camera->Update();
+		//マップの反映
 		light->Update();
 		map->Update(player->GetPos(), player->GetMapPos(), enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
 	
+		//エネミー初期化と反映
 		enemy[0]->InitializeValue();
 		enemy[1]->InitializeValue2();
 		enemy[2]->InitializeValue3();
@@ -286,16 +257,17 @@ void GameScene::Update()
 	}
 	else if (scene == OPTION)
 	{
+		//選択
 		if (Input::GetInstance()->KeybordTrigger(DIK_W) && optionButtonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && optionButtonNo != 0)
 		{
 			optionButtonNo--;
 		}
-
 		else if (Input::GetInstance()->KeybordTrigger(DIK_S) && optionButtonNo != 2 || Input::GetInstance()->KeybordTrigger(DIK_DOWN) && optionButtonNo != 2)
 		{
 			optionButtonNo++;
 		}
 
+		//感度変更
 		if (Input::GetInstance()->KeybordTrigger(DIK_D) && optionButtonNo == 0)
 		{
 			player->SetViewSpeedPlus();
@@ -305,12 +277,14 @@ void GameScene::Update()
 			player->SetViewSpeedMinus();
 		}
 
+		//シェイクオフ
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 1 && player->GetShakeFlag()||
 			Input::GetInstance()->KeybordTrigger(DIK_A) && optionButtonNo == 1 && player->GetShakeFlag()||
 			Input::GetInstance()->KeybordTrigger(DIK_D) && optionButtonNo == 1 && player->GetShakeFlag())
 		{
 			player->SetShakeFlag(false);
 		}
+		//シェイクオン
 		else if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 1 && !player->GetShakeFlag() ||
 			Input::GetInstance()->KeybordTrigger(DIK_A) && optionButtonNo == 1 && !player->GetShakeFlag() ||
 			Input::GetInstance()->KeybordTrigger(DIK_D) && optionButtonNo == 1 && !player->GetShakeFlag())
@@ -318,6 +292,7 @@ void GameScene::Update()
 			player->SetShakeFlag(true);
 		}
 
+		//タイトルへ
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 2)
 		{
 			scene = TITLE;
@@ -325,63 +300,36 @@ void GameScene::Update()
 	}
 	else if (scene == PLAY)
 	{
-		titleTime++;
-		grainCount++;
+		titleTime++;//タイトルディレイ
+	
+		//プレイヤーのカメラと移動
+		camera->SetEye(player->GetPos());
+		camera->SetTarget(player->GetTarget());
 		
-		if (grainCount > 7)
-		{
-			grainCount = 0;
-		}
+		//チュートリアル
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true)
 		{
 			tutrialFlag = false;
 		}
-		//プレイヤー系
-		camera->SetEye(player->GetPos());
-		camera->SetTarget(player->GetTarget());
-		
+
+		//プレイヤーのアップデート
 		player->Update(map,tutrialFlag,enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
+		
+		//カメラアップデート
 		camera->Update();
+		
+		//ライトアップデート
 		light->Update();
+		
+		//マップアップデート
 		map->Update(player->GetPos(),player->GetMapPos(),enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
-		stopFlag = map->GetStopFlag();
-		if (map->GetStopFlag() || enemy[0]->GetStartStopTime() < 90)
-		{
-			objectWalking[0]->StopAnimation();
-			objectWalking[1]->StopAnimation();
-			objectWalking[2]->StopAnimation();
-		}
-		else
-		{
-			objectWalking[0]->playAnimation();
-			objectWalking[1]->playAnimation();
-			objectWalking[2]->playAnimation();
-		}
+		
+		//エネミーアップデート
 		enemy[0]->Update(player, map, player->GetMapPos(), XMFLOAT2(0,0),enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
 		enemy[1]->Update(player, map, player->GetMapPos(), player->GetShortCut(map,enemy[1]->GetPos()), enemy[0]->CatchCollision(player), enemy[2]->CatchCollision(player));
 		enemy[2]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[2]->GetPos()), enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player));
 
-		for (int i = 0; i < 3; i++)
-		{
-			objectWalking[i]->SetPosition(XMFLOAT3(enemy[i]->GetPos().x, enemy[i]->GetPos().y - 2.8f, enemy[i]->GetPos().z));
-			objectWalking[i]->SetRotation(XMFLOAT3(0, enemy[i]->GetRotation() + 90, 0));
-		}
-
-		for (int i = 0; i < 3; i++)
-		{
-			if (enemy[i]->CatchCollision(player)) {
-				objectAttack[i]->SetPosition(XMFLOAT3(enemy[i]->GetPos().x, enemy[i]->GetPos().y - 2.8f, enemy[i]->GetPos().z));
-				objectAttack[i]->SetRotation(XMFLOAT3(0, (XMConvertToDegrees(atan2(enemy[i]->GetPos().x - player->GetPos().x, enemy[i]->GetPos().z - player->GetPos().z)) + 270)-90, 0));
-
-			}
-			else
-			{
-				objectAttack[i]->AnimationReset();
-			}
-			bool lightAction = map->LightAction();
-			objectWalking[i]->Update(lightAction);
-			objectAttack[i]->Update(lightAction);
-		}
+		//ライト点滅関連
 		for (int i = 0; i < 3; i++)
 		{
 			if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
@@ -401,6 +349,8 @@ void GameScene::Update()
 				}
 			}
 		}
+
+		//音関連
 		if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
 		{
 			for (int i = 0; i < 3; i++)
@@ -428,6 +378,14 @@ void GameScene::Update()
 			}
 		}
 
+		//グレイン関連
+		grainCount++;
+		if (grainCount > 7)
+		{
+			grainCount = 0;
+		}
+
+		//死亡アニメーション
 		for (int i = 0; i < 3; i++)
 		{
 			if (enemy[i]->DeathAnimation(player))
@@ -435,15 +393,21 @@ void GameScene::Update()
 				scene = GAMEOVER;
 			}
 		}
+
+		//ストップフラグ
+		stopFlag = map->GetStopFlag();
+
+		//クリスタル全部入手
 		if (map->GetAllGetFlag())
 		{
-			scene = CLEAR;
+			scene = CLEAR;//クリアへ
 		}
 	}
 	else if (scene == CLEAR)
 	{
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
+			//タイトルに戻る
 			buttonNo = 0;
 			scene = TITLE;
 		}
@@ -452,6 +416,7 @@ void GameScene::Update()
 	{
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
+			//タイトルに戻る
 			buttonNo = 0;
 			scene = TITLE;
 		}
@@ -486,22 +451,15 @@ void GameScene::Draw()
 		{
 			if (titleTime > 5)
 			{
-				if (!enemy[i]->CatchCollision(player))
-				{
-					objectWalking[i]->Draw(cmdList);
-				}
-				else
-				{
-					objectAttack[i]->Draw(cmdList);
-				}
+				enemy[i]->Draw(player,cmdList);//敵の3D描画
 			}
 		}
-		map->Draw();
+		map->Draw();//マップの3D描画
 	}
 	
 	if (scene == TITLE)
 	{
-		map->Draw();
+		map->Draw();//マップの3D描画
 	}
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
@@ -562,70 +520,67 @@ void GameScene::PostOffDraw()
 	//-------------------------------------------------------------//
 	if (scene == PLAY)
 	{
-		map->DrawSprite(player->GetPos());
-		player->DrawSprite();
+		map->DrawSprite(player->GetPos());//マップ関連のスプライト
+		player->DrawSprite();//プレイヤーのスプライト
 		for (int i = 0; i < 3; i++)
 		{
-			enemy[i]->DrawSprite(map);
+			enemy[i]->DrawSprite(map);//エネミースプライト
 		}
 		if (tutrialFlag == true) {
-			spriteRule->Draw(1.0f);
+			spriteRule->Draw(1.0f);//ルール表示スプライト
 		}
-		spriteGrain[grainCount]->Draw(0.75f);
+		spriteGrain[grainCount]->Draw(0.75f);//テクスチャスプライト
 	}
 
 	if (scene == TITLE)
 	{
-		spriteGrain[grainCount]->Draw(0.75f);
+		spriteGrain[grainCount]->Draw(0.75f);//テクスチャスプライト
 		if (buttonNo == 0)
 		{
-			spriteTitle->Draw(1.0f);
+			spriteTitle->Draw(1.0f);//タイトルのスプライト
 		}
 		else if (buttonNo == 1)
 		{
-			spriteTitle2->Draw(1.0f);
+			spriteTitle2->Draw(1.0f);//タイトルのスプライト
 		}
 		else if (buttonNo == 2)
 		{
-			spriteTitle3->Draw(1.0f);
+			spriteTitle3->Draw(1.0f);//タイトルのスプライト
 		}
 	}
 	if (scene == OPTION)
 	{
-		debugText.Print(1300, 390, 2.0f, "%f", player->GetViewSpeed());
+		debugText.Print(1300, 390, 2.0f, "%f", player->GetViewSpeed());//スピードのスプライト
 		if (player->GetShakeFlag())
 		{
-			debugText.Print(1335, 490, 2.0f, "ON");
+			debugText.Print(1335, 490, 2.0f, "ON");//ONのスプライト
 		}
 		else if (!player->GetShakeFlag())
 		{
-			debugText.Print(1325, 490, 2.0f, "OFF");
+			debugText.Print(1325, 490, 2.0f, "OFF");//OFFのスプライト
 		}
 		if (optionButtonNo == 0)
 		{
-			spriteOption->Draw(1.0f);
+			spriteOption->Draw(1.0f);//オプションのスプライト
 		}
 		else if (optionButtonNo == 1)
 		{
-			spriteOption2->Draw(1.0f);
+			spriteOption2->Draw(1.0f);//オプションのスプライト
 		}
 		else if (optionButtonNo == 2)
 		{
-			spriteOption3->Draw(1.0f);
+			spriteOption3->Draw(1.0f);//オプションのスプライト
 		}
 	}
 	if (scene == CLEAR)
 	{
-		spriteClear->Draw(1.0f);
+		spriteClear->Draw(1.0f);//クリアのスプライト
 	}
 	if (scene == GAMEOVER)
 	{
-		spriteGAMEOVER->Draw(1.0f);
+		spriteGAMEOVER->Draw(1.0f);//ゲームオーバーのスプライト
 	}
-	if (scene == PLAY)
-	{
-
-	}
+	
 	//-------------------------------------------------------------//
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
