@@ -65,15 +65,15 @@ void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag, bool catch
 	//チュートリアル関連
 	if (moveTutorialFlag)
 	{
-		moveTutorial -= 0.05f;
+		moveTutorial -= 0.025f;
 	}
 	if (viewTutorialFlag)
 	{
-		viewTutorial -= 0.05f;
+		viewTutorial -= 0.025f;
 	}
 	if (openTutorialFlag)
 	{
-		openTutorial -= 0.05f;
+		openTutorial -= 0.025f;
 	}
 
 	//ゲートが開いたか
