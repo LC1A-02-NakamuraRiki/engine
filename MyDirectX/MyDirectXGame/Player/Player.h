@@ -52,11 +52,11 @@ public:
 	bool SetShakeFlag(bool ShakeFlag) { return shakeFlag = ShakeFlag; }//シェイクフラグの指定
 private:
 
-	Sprite* spritePlayerDot = nullptr;//ミニマップのドット
-	Sprite* spritePlayerAngle = nullptr;//ミニマップの見ている位置
-	Sprite* spriteMoveUI = nullptr;//移動のUI
-	Sprite* spriteViewUI = nullptr;//視点のUI
-	Sprite* spriteOpenUI = nullptr;//開けるUI
+	std::unique_ptr<Sprite> spritePlayerDot;//ミニマップのドット
+	std::unique_ptr<Sprite> spritePlayerAngle;//ミニマップの見ている位置
+	std::unique_ptr<Sprite> spriteMoveUI;//移動のUI
+	std::unique_ptr<Sprite> spriteViewUI;//視点のUI
+	std::unique_ptr<Sprite> spriteOpenUI;//開けるUI
 	XMFLOAT3 pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 8) };//ミニマップ初期値
 	XMFLOAT2 mapPosValue = { 0,0 };//マップの座標

@@ -10,6 +10,10 @@ MapChip::~MapChip()
 void MapChip::Initialize()
 {
 	//モデル読み込み
+	Model *model = Model::CreateFromObject("pictureFrame", false);
+	modelPictureFrame = std::make_unique<Model>();
+	modelPictureFrame = std::unique_ptr<Model>(model);
+
 	modelPictureFrame = std::unique_ptr<Model>(Model::CreateFromObject("pictureFrame", false));
 	modelDesk = std::unique_ptr<Model>(Model::CreateFromObject("desk", false));
 	modelMapWall = std::unique_ptr<Model>(Model::CreateFromObject("wall", false));
@@ -101,17 +105,10 @@ void MapChip::Initialize()
 	}
 	objCrystal[3] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
 	objCrystal[5] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
-	objCrystal[0]->SetPosition(crystalPos[0]);
-	objCrystal[1]->SetPosition(crystalPos[1]);
-	objCrystal[2]->SetPosition(crystalPos[2]);
-	objCrystal[3]->SetPosition(crystalPos[3]);
-	objCrystal[4]->SetPosition(crystalPos[4]);
-	objCrystal[5]->SetPosition(crystalPos[5]);
-	objCrystal[6]->SetPosition(crystalPos[6]);
-	objCrystal[7]->SetPosition(crystalPos[7]);
-	objCrystal[8]->SetPosition(crystalPos[8]);
-	objCrystal[9]->SetPosition(crystalPos[9]);
-	objCrystal[10]->SetPosition(crystalPos[10]);
+	for (int i = 0; i < 11; i++)
+	{
+		objCrystal[i]->SetPosition(crystalPos[i]);
+	}
 	for (int i = 0; i < 4; i++)
 	{
 		modelDoor[i] = std::unique_ptr<Model>(Model::CreateFromObject("door", false));
@@ -123,8 +120,6 @@ void MapChip::Initialize()
 	objMapDoor[1]->SetPosition(XMFLOAT3({ -7.8f,0.2f,-16.0f }));
 	objMapDoor[2]->SetPosition(XMFLOAT3({ -0.2f,0.2f,8.0f }));
 	objMapDoor[3]->SetPosition(XMFLOAT3({ -7.8f,0.2f,8.0f }));
-	
-	
 	
 	//画像の読み込み
 	if (!Sprite::LoadTexture(2, L"Resources/mapWall.png")) {
@@ -204,6 +199,7 @@ void MapChip::Initialize()
 	}
 	spriteDoorOpen = std::unique_ptr<Sprite>(Sprite::Create(45, { 990, 850 }));
 	spriteDoorOpen->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+
 	spriteNumberNum1[0] = std::unique_ptr<Sprite>(Sprite::Create(8,  { 260 - 10, 656 - 16 - 96 }));
 	spriteNumberNum1[1] = std::unique_ptr<Sprite>(Sprite::Create(9,  { 260 - 10, 656 - 16 - 96 }));
 	spriteNumberNum1[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 10, 656 - 16 - 96 }));
@@ -287,18 +283,10 @@ void MapChip::InitializeValue()
 		objCrystal[i]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
 		crystalGetFlag[i] = false;
 	}
-	objCrystal[0]->SetPosition(crystalPos[0]);
-	objCrystal[1]->SetPosition(crystalPos[1]);
-	objCrystal[2]->SetPosition(crystalPos[2]);
-	objCrystal[3]->SetPosition(crystalPos[3]);
-	objCrystal[4]->SetPosition(crystalPos[4]);
-	objCrystal[5]->SetPosition(crystalPos[5]);
-	objCrystal[6]->SetPosition(crystalPos[6]);
-	objCrystal[7]->SetPosition(crystalPos[7]);
-	objCrystal[8]->SetPosition(crystalPos[8]);
-	objCrystal[9]->SetPosition(crystalPos[9]);
-	objCrystal[10]->SetPosition(crystalPos[10]);
-
+	for (int i = 0; i < 10; i++)
+	{
+		objCrystal[i]->SetPosition(crystalPos[i]);
+	}
 	allGetFlag = false;
 	MapCreate();
 	number = 11;
@@ -659,29 +647,17 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 	//数字のフォント
 	if (number >= 10)
 	{
-		spriteNumberNum1[0]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
-		spriteNumberNum1[1]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
-		spriteNumberNum1[2]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
-		spriteNumberNum1[3]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
-		spriteNumberNum1[4]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
-		spriteNumberNum1[5]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
-		spriteNumberNum1[6]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
-		spriteNumberNum1[7]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
-		spriteNumberNum1[8]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
-		spriteNumberNum1[9]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		for (int i = 0; i < 10; i++)
+		{
+			spriteNumberNum1[i]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
+		}
 	}
 	else
 	{
-		spriteNumberNum1[0]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
-		spriteNumberNum1[1]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
-		spriteNumberNum1[2]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
-		spriteNumberNum1[3]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
-		spriteNumberNum1[4]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
-		spriteNumberNum1[5]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
-		spriteNumberNum1[6]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
-		spriteNumberNum1[7]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
-		spriteNumberNum1[8]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
-		spriteNumberNum1[9]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		for (int i = 0; i < 10; i++)
+		{
+			spriteNumberNum1[i]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
+		}
 	}
 
 	//ゲートオープン

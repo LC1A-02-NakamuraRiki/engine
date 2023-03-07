@@ -11,25 +11,25 @@
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
 	// 汎用機能
-	WinApp *win = nullptr;
-	DirectXCommon *dxCommon = nullptr;
-	Sound *audio = nullptr;
-	GameScene *gameScene = nullptr;
-	PostEffect* postEffect = nullptr;
+	std::unique_ptr <WinApp> win;
+	std::unique_ptr <DirectXCommon> dxCommon;
+	std::unique_ptr <Sound>audio;
+	std::unique_ptr<GameScene> gameScene;
+	std::unique_ptr<PostEffect> postEffect;
 
 	// ゲームウィンドウの作成
-	win = new WinApp();
+	win = std::make_unique<WinApp>();
 	win->Initialize();
 
 	//DirectX初期化処理
-	dxCommon = new DirectXCommon();
-	dxCommon->Initialize(win);
+	dxCommon = std::make_unique<DirectXCommon>();
+	dxCommon->Initialize(win.get());
 
 #pragma region 汎用機能初期化
 	// 入力の初期化
-	Input::GetInstance()->Initialize(win);
+	Input::GetInstance()->Initialize(win.get());
 	// オーディオの初期化
-	audio = new Sound();
+	audio = std::make_unique<Sound>();
 	if (!audio->Initialize()) {
 		assert(0);
 		return 1;
@@ -42,24 +42,24 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 	// 3Dオブジェクト静的初期化
 	Object3d::StaticInitialize(dxCommon->GetDevice());
-		
+
 	LightGroop::StaticInitialize(dxCommon->GetDevice());
 	FbxLoader::GetInstance()->Initialize(dxCommon->GetDevice());
 
-	postEffect = new PostEffect();
+	postEffect = std::make_unique<PostEffect>();
 	postEffect->Initialize();
 #pragma endregion
 
 	// ゲームシーンの初期化
-	gameScene = new GameScene();
-	gameScene->Initialize(dxCommon, audio);
+	gameScene = std::make_unique<GameScene>();
+	gameScene->Initialize(dxCommon.get(), audio.get());
 
 	// メインループ
 	while (true)
 	{
 		// メッセージ処理
 		if (win->ProcessMessage()) { break; }
-		
+
 		// 入力関連の毎フレーム処理
 		Input::GetInstance()->Update();
 		// ゲームシーンの毎フレーム処理
@@ -78,24 +78,16 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// 描画開始
 		dxCommon->PreDraw();
-		postEffect->Draw(dxCommon->GetCommandList(),gameScene->GetStopFlag());
+		postEffect->Draw(dxCommon->GetCommandList(), gameScene->GetStopFlag());
 		gameScene->PostOffDraw();
 		// ゲームシーンの描画
 		// 描画終了
 		dxCommon->PostDraw();
 		//ESCでの終了
-		
-	}
-	// 各種解放
-	delete postEffect;
-	safe_delete(gameScene);
-	safe_delete(audio);
-	FbxLoader::GetInstance()->Finalize();
-	delete dxCommon;
 
+	}
+	FbxLoader::GetInstance()->Finalize();
 	// ゲームウィンドウの破棄
 	win->Finalize();
-	safe_delete(win);
-
 	return 0;
 }

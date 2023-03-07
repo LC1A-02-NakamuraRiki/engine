@@ -8,30 +8,26 @@ using namespace DirectX;
 
 Enemy::~Enemy()
 {
-	safe_delete(spriteEnemyDot);
-	safe_delete(spriteEnemyAngle);
-	safe_delete(spriteDeadEffect);
-	safe_delete(objectWalking);
-	safe_delete(modelWalking);
-
-	safe_delete(objectAttack);
-	safe_delete(modelAttack);
 }
 
 void Enemy::Initialize()
 {
 	//敵初期化
-	modelWalking = FbxLoader::GetInstance()->LoadModelFromFile("Walking");//モデル初期化
-	objectWalking = new FbxObject3d;//object初期化
+	modelWalking = std::unique_ptr<FbxModel>(FbxLoader::GetInstance()->LoadModelFromFile("Walking"));//モデル初期化
+	objectWalking = std::make_unique<FbxObject3d>();//object初期化
 	objectWalking->Initialize();//初期化
-	objectWalking->SetModel(modelWalking);//モデルと同期
+	objectWalking->SetModel(modelWalking.get());//モデルと同期
 	objectWalking->PlayAnimation();//アニメーション
 
-	modelAttack = FbxLoader::GetInstance()->LoadModelFromFile("Zombie Attack");//モデル初期化
-	objectAttack = new FbxObject3d;//object初期化
+
+	//敵初期化
+	modelAttack = std::unique_ptr<FbxModel>(FbxLoader::GetInstance()->LoadModelFromFile("Zombie Attack"));//モデル初期化
+	objectAttack = std::make_unique<FbxObject3d>();//object初期化
 	objectAttack->Initialize();//初期化
-	objectAttack->SetModel(modelAttack);//モデルと同期
+	objectAttack->SetModel(modelAttack.get());//モデルと同期
 	objectAttack->PlayAnimation();//アニメーション
+
+	
 	
 
 	//画像読み込み
@@ -45,9 +41,9 @@ void Enemy::Initialize()
 		return;
 	}
 	//スプライト読み込み
-	spriteEnemyDot = Sprite::Create(4, miniMapPos);
-	spriteEnemyAngle = Sprite::Create(6, miniMapPos);
-	spriteDeadEffect = Sprite::Create(99, {0,0});
+	spriteEnemyDot = std::unique_ptr<Sprite>(Sprite::Create(4, miniMapPos));
+	spriteEnemyAngle = std::unique_ptr<Sprite>(Sprite::Create(6, miniMapPos));
+	spriteDeadEffect = std::unique_ptr<Sprite>(Sprite::Create(99, {0,0}));
 }
 
 //鬼ごとの初期化
@@ -58,7 +54,7 @@ void Enemy::InitializeValue()
 
 	//鬼ごとの初期化
 	pos = { -4.0f,3.0f,-28.0f };//位置
-	angle = 270;//向き
+	angle = 360;//向き
 	nowMove = UP;//進む向き
 	adjustValueX = 0;//調整値X
 	adjustValueZ = 0;//調整値Z
@@ -139,7 +135,7 @@ void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos, XMFLOAT2 p
 	}
 	
 	objectWalking->SetPosition(XMFLOAT3(pos.x, pos.y - 2.8f, pos.z));
-	objectWalking->SetRotation(XMFLOAT3(0, angle + 90, 0));
+	objectWalking->SetRotation(XMFLOAT3(0, angle, 0));
 	
 	if (CatchCollision(player)) {
 		objectAttack->SetPosition(XMFLOAT3(pos.x, pos.y - 2.8f, pos.z));
@@ -518,7 +514,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		if (nowMove == DOWN)//下に移動
 		{
 			spriteEnemyAngle->SetRotation(45);//角度をセット
-			angle = 270;//角度の値をセット
+			angle = 360;//角度の値をセット
 			pos.z += speed;//移動スピード
 			miniMapPos.y += speed * 2;//ミニマップの移動
 			adjustValueZ = -3.9f;//調整値セット
@@ -526,7 +522,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == UP)//上に移動
 		{
 			spriteEnemyAngle->SetRotation(-135);//角度をセット
-			angle = 90;//角度の値をセット
+			angle = 180;//角度の値をセット
 			pos.z -= speed;//移動スピード
 			miniMapPos.y -= speed * 2;//ミニマップの移動
 			adjustValueZ = 3.9f;//調整値セット
@@ -534,7 +530,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == RIGHT)//右に移動
 		{
 			spriteEnemyAngle->SetRotation(135);//角度をセット
-			angle = 0;//角度の値をセット
+			angle = 90;//角度の値をセット
 			pos.x += speed;//移動スピード
 			miniMapPos.x -= speed * 2;//ミニマップの移動
 			adjustValueX = -3.9f;//調整値セット
@@ -542,7 +538,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 		else if (nowMove == LEFT)//左に移動
 		{
 			spriteEnemyAngle->SetRotation(-45);//角度をセット
-			angle = 180;//角度の値をセット
+			angle = 270;//角度の値をセット
 			pos.x -= speed;//移動スピード
 			miniMapPos.x += speed * 2;//ミニマップの移動
 			adjustValueX = 3.9f;//調整値セット

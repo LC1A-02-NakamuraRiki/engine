@@ -17,12 +17,14 @@ class Enemy
 		LEFT
 	};
 protected: // エイリアス
+
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
+
 public:
 	~Enemy();
 	void Initialize();//最初の初期化
@@ -50,14 +52,14 @@ public:
 	int GetStartStopTime() {return startStopTime;}//スタートの硬直時間
 	
 private:
-	FbxModel* modelWalking = nullptr;//歩きモデル
-	FbxObject3d* objectWalking = nullptr;//歩きオブジェ
-	FbxModel* modelAttack = nullptr;//攻撃モデル
-	FbxObject3d* objectAttack = nullptr;//攻撃オブジェ
+	std::unique_ptr<FbxModel> modelWalking;//歩きモデル
+	std::unique_ptr<FbxObject3d> objectWalking;//歩きオブジェ
+	std::unique_ptr<FbxModel> modelAttack;//攻撃モデル
+	std::unique_ptr<FbxObject3d> objectAttack;//攻撃オブジェ
 	float angle; //向き
-	Sprite* spriteEnemyDot = nullptr;//ミニマップの敵
-	Sprite* spriteEnemyAngle = nullptr;//ミニマップの敵の向き
-	Sprite* spriteDeadEffect = nullptr;//ミニマップの敵の向き
+	std::unique_ptr<Sprite> spriteEnemyDot;//ミニマップの敵
+	std::unique_ptr<Sprite> spriteEnemyAngle;//ミニマップの敵の向き
+	std::unique_ptr<Sprite> spriteDeadEffect;//ミニマップの敵の向き
 	XMFLOAT2 miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 14) };//ミニマップのドット座標
 	float wallSize = 8;//壁の大きさ
 	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//位置

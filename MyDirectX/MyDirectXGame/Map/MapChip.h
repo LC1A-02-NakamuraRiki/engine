@@ -5,7 +5,7 @@
 #include"LoadCSV.h"
 #include "SafeDelete.h"
 #include <memory>
-
+#include <array>
 class MapChip
 {
 protected: // エイリアス
@@ -40,27 +40,27 @@ public:
 	bool LightAction();//ライト点滅
 	bool SetLightAction(bool actionFlag) {return this->lightAction = actionFlag;}//フラグセット
 private:
-
+	
 	std::unique_ptr<Model> modelMapWall;//壁モデル
-	std::unique_ptr<Object3d> objMapWall[21][21];//壁オブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>,21>,21> objMapWall;//壁オブジェクト
 	std::unique_ptr<Model> modelCeiling;//ライトモデル
 	std::unique_ptr<Model> modelFlat;//天井モデル
-	std::unique_ptr<Object3d> objCeiling[21][21];//ライトオブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objCeiling;//ライトオブジェクト
 	std::unique_ptr<Model> modelFloor;//床モデル
-	std::unique_ptr<Object3d> objFloor[21][21];//床オブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objFloor;//床オブジェクト
 	std::unique_ptr<Model> modelCrystal;//クリスタルモデル
 	std::unique_ptr<Model> modelItemCrystal;//アイテムクリスタルモデル
-	std::unique_ptr<Object3d> objCrystal[11];//クリスタルオブジェクト
+	std::array <std::unique_ptr<Object3d>, 11> objCrystal;//クリスタルオブジェクト
 
 	std::unique_ptr<Sprite> spriteDoorOpen;//ドアUI
-	std::unique_ptr<Model> modelDoor[4];//ドアモデル
-	float doorAngle[4] = {90, 270,90,270};//ドア角度
-	std::unique_ptr<Object3d> objMapDoor[4];//ドアオブジェクト
+	std::array < std::unique_ptr<Model>,4> modelDoor;//ドアモデル
+	std::array<float, 4> doorAngle = {90, 270,90,270};//ドア角度
+	std::array < std::unique_ptr<Object3d>,4> objMapDoor;//ドアオブジェクト
 	bool gateOpenFlag = false;//ゲート空いたか
 	float wallSize = 8;//壁の大きさ
 
 	//クリスタルの位置3D
-	XMFLOAT3 crystalPos[11] = {XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
+	std::array<XMFLOAT3, 11> crystalPos = {XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
 	XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
 	XMFLOAT3({ 19 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)  }),
 	XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 10 * wallSize - (21 * wallSize / 2)   }),
@@ -73,18 +73,18 @@ private:
 	XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2),1.0f, 13 * wallSize - (21 * wallSize / 2) })	};
 	
 	//クリスタルの位置2D
-	XMFLOAT2 mapCrystalPos[11] = { {100 + (16.0f * 19),650 + (16.0f * 1)},{100 + (16.0f * 10),650 + (16.0f * 1)},
-	{100 + (16.0f * 1),650 + (16.0f * 1)},{100 + (16.0f * 19),650 + (16.0f * 10)},{100 + (16.0f * 10),650 + (16.0f * 16)},
-	{100 + (16.0f * 1),650 + (16.0f * 10)},{100 + (16.0f * 19),650 + (16.0f * 19)},{100 + (16.0f * 10),650 + (16.0f * 19)},
-	{100 + (16.0f * 1),650 + (16.0f * 19)},{100 + (16.0f * 10),650 + (16.0f * 7)},{100 + (16.0f * 10),650 + (16.0f * 13)}, };
+	std::array<XMFLOAT2, 11> mapCrystalPos = { XMFLOAT2{100 + (16.0f * 19),650 + (16.0f * 1)},XMFLOAT2{100 + (16.0f * 10),650 + (16.0f * 1)},
+	XMFLOAT2{100 + (16.0f * 1),650 + (16.0f * 1)},XMFLOAT2{100 + (16.0f * 19),650 + (16.0f * 10)},XMFLOAT2{100 + (16.0f * 10),650 + (16.0f * 16)},
+	XMFLOAT2{100 + (16.0f * 1),650 + (16.0f * 10)},XMFLOAT2{100 + (16.0f * 19),650 + (16.0f * 19)},XMFLOAT2{100 + (16.0f * 10),650 + (16.0f * 19)},
+	XMFLOAT2{100 + (16.0f * 1),650 + (16.0f * 19)},XMFLOAT2{100 + (16.0f * 10),650 + (16.0f * 7)},XMFLOAT2{100 + (16.0f * 10),650 + (16.0f * 13)}, };
 
-	bool crystalGetFlag[11] = { false,false,false,false,false,false,false,false,false,false,false };//クリスタル取ったか
+	std::array<bool, 11> crystalGetFlag = { false,false,false,false,false,false,false,false,false,false,false };//クリスタル取ったか
 	int MapValue = 21;//マップサイズ
 	
 	//マップ情報
-	int mapWall[21][21] = {};
+	std::array<std::array<int, 21>, 21> mapWall = {};
 	//プレイヤーの位置座標化
-	int mapPlayer[21][21] = {};
+	std::array<std::array<int, 21>, 21> mapPlayer = {};
 
 	//ランダムのためのマップ1
 	int mapWallLeftUp[7][7] = {};
@@ -116,13 +116,13 @@ private:
 	int displayTime = 0;//スポットタイム
 	bool displayFlag = false;//スポットフラグ
 
-	std::unique_ptr<Sprite> spriteMapWall[21][21];//ミニマップ壁
+	std::array < std::array < std::unique_ptr<Sprite>,21>,21> spriteMapWall;//ミニマップ壁
 	std::unique_ptr<Sprite> spriteMapBack;//ミニマップの背景
 	std::unique_ptr<Sprite> spriteMapFrame;//ミニマップのフレーム
 					
-	std::unique_ptr<Sprite> spriteCrystal[11];//ミニマップのクリスタル
-	std::unique_ptr<Sprite> spriteNumberNum1[10];//ナンバー1のくらい
-	std::unique_ptr<Sprite> spriteNumberNum10[10];//ナンバー10のくらい
+	std::array <std::unique_ptr<Sprite>,11> spriteCrystal;//ミニマップのクリスタル
+	std::array <std::unique_ptr<Sprite>,10> spriteNumberNum1;//ナンバー1のくらい
+	std::array <std::unique_ptr<Sprite>,10> spriteNumberNum10;//ナンバー10のくらい
 
 	std::unique_ptr<Sprite> spriteEnemyStop;//敵停止
 	XMFLOAT2 stopFontSize = { 1200.0f * 10, 200.0f * 10 };//フォントサイズ
@@ -138,16 +138,16 @@ private:
 	int number = 11;//数字
 
 	std::unique_ptr<Model> modelPictureFrame;//絵画のモデル
-	std::unique_ptr<Object3d> objPictureFrame1[21][21];//絵画オブジェクト
-	std::unique_ptr<Object3d> objPictureFrame2[21][21];//絵画オブジェクト
-	std::unique_ptr<Object3d> objPictureFrame3[21][21];//絵画オブジェクト
-	std::unique_ptr<Object3d> objPictureFrame4[21][21];//絵画オブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objPictureFrame1;//絵画オブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objPictureFrame2;//絵画オブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objPictureFrame3;//絵画オブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objPictureFrame4;//絵画オブジェクト
 
 	std::unique_ptr<Model> modelDesk;//机モデル
-	std::unique_ptr<Object3d> objDesk1[21][21];//机オブジェクト
-	std::unique_ptr<Object3d> objDesk2[21][21];//机オブジェクト
-	std::unique_ptr<Object3d> objDesk3[21][21];//机オブジェクト
-	std::unique_ptr<Object3d> objDesk4[21][21];//机オブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objDesk1;//机オブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objDesk2;//机オブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objDesk3;//机オブジェクト
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objDesk4;//机オブジェクト
 
 	bool lightAction = 0;//ライト点滅フラグ
 	int lightCount = 0;//ライト点滅のカウント

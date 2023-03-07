@@ -16,33 +16,6 @@ GameScene::GameScene()
 
 GameScene::~GameScene()
 {
-	safe_delete(spriteTitle);
-	safe_delete(spriteTitle2);
-	safe_delete(spriteTitle3);
-	safe_delete(spriteOption);
-	safe_delete(spriteOption2);
-	safe_delete(spriteOption3);
-	safe_delete(spriteClear);
-	safe_delete(spriteGAMEOVER);
-	safe_delete(spriteGAMEOVER2);
-	safe_delete(spriteRule);
-	safe_delete(spriteGrain[0]);
-	safe_delete(spriteGrain[1]);
-	safe_delete(spriteGrain[2]);
-	safe_delete(spriteGrain[3]);
-	safe_delete(spriteGrain[4]);
-	safe_delete(spriteGrain[5]);
-	safe_delete(spriteGrain[6]);
-	safe_delete(spriteGrain[7]);
-	safe_delete(particle3d);
-	safe_delete(light);
-	safe_delete(player);
-	safe_delete(enemy[0]);
-	safe_delete(enemy[1]);
-	safe_delete(enemy[2]);
-	safe_delete(map);
-
-	
 }
 
 void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
@@ -54,9 +27,9 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	this->dxCommon = dxCommon;
 	this->audio = audio;
 
-	camera = new DebugCamera(WinApp::window_width, WinApp::window_height);
+	camera = std::make_unique<DebugCamera>(DebugCamera(WinApp::window_width, WinApp::window_height));
 	// 3Dオブジェクトにカメラをセット
-	Object3d::SetCamera(camera);
+	Object3d::SetCamera(camera.get());
 
 	// デバッグテキスト用テクスチャ読み込み
 	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/debugfont.png")) {
@@ -65,7 +38,7 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	}
 	// デバッグテキスト初期化
 	debugText.Initialize(debugTextTexNumber);
-	particle3d = ParticleManager::Create(dxCommon->GetDevice(), camera);
+	particle3d = std::unique_ptr<ParticleManager>(ParticleManager::Create(dxCommon->GetDevice(), camera.get()));
 	
 	//スプライト
 	// テクスチャ読み込み
@@ -138,60 +111,56 @@ void GameScene::Initialize(DirectXCommon *dxCommon, Sound *audio)
 		return;
 	}
 
-	//// 背景スプライト生成
-	spriteTitle = Sprite::Create(18, { 0.0f,0.0f });
-	spriteTitle2 = Sprite::Create(21, { 0.0f,0.0f });
-	spriteTitle3 = Sprite::Create(22, { 0.0f,0.0f });
-	spriteOption = Sprite::Create(23, { 0.0f,0.0f });
-	spriteOption2 = Sprite::Create(24, { 0.0f,0.0f });
-	spriteOption3 = Sprite::Create(25, { 0.0f,0.0f });
-	spriteClear = Sprite::Create(19, { 0.0f,0.0f });
-	spriteGAMEOVER = Sprite::Create(20, { 0.0f,0.0f });
-	spriteRule = Sprite::Create(30, { 0.0f,0.0f });
-	spriteGrain[0] = Sprite::Create(50, { 0.0f,0.0f });
-	spriteGrain[1] = Sprite::Create(51, { 0.0f,0.0f });
-	spriteGrain[2] = Sprite::Create(52, { 0.0f,0.0f });
-	spriteGrain[3] = Sprite::Create(53, { 0.0f,0.0f });
-	spriteGrain[4] = Sprite::Create(54, { 0.0f,0.0f });
-	spriteGrain[5] = Sprite::Create(55, { 0.0f,0.0f });
-	spriteGrain[6] = Sprite::Create(56, { 0.0f,0.0f });
-	spriteGrain[7] = Sprite::Create(57, { 0.0f,0.0f });
 
+	//// 背景スプライト生成
+	spriteTitle[0] = std::unique_ptr<Sprite>(Sprite::Create(18, {0.0f,0.0f}));
+	spriteTitle[1] = std::unique_ptr<Sprite>(Sprite::Create(21, {0.0f,0.0f}));
+	spriteTitle[2] = std::unique_ptr<Sprite>(Sprite::Create(22, {0.0f,0.0f}));
+	spriteOption[0] = std::unique_ptr<Sprite>(Sprite::Create(23, {0.0f,0.0f}));
+	spriteOption[1] = std::unique_ptr<Sprite>(Sprite::Create(24, {0.0f,0.0f}));
+	spriteOption[2] = std::unique_ptr<Sprite>(Sprite::Create(25, {0.0f,0.0f}));
+	spriteClear = std::unique_ptr<Sprite>(Sprite::Create(19, { 0.0f,0.0f }));
+	spriteGAMEOVER = std::unique_ptr<Sprite>(Sprite::Create(20, { 0.0f,0.0f }));
+	spriteRule = std::unique_ptr<Sprite>(Sprite::Create(30, { 0.0f,0.0f }));
+	for (int i = 0; i < 8; i++)
+	{
+		spriteGrain[i] = std::unique_ptr<Sprite>(Sprite::Create(50 + i, { 0.0f,0.0f }));
+	}
 	// デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
 	// カメラをセット
-	FbxObject3d::SetCamera(camera);
+	FbxObject3d::SetCamera(camera.get());
 	// グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
-	light = LightGroop::Create();
+	light = std::unique_ptr<LightGroop>(LightGroop::Create());
 	//ライトのセット
-	Object3d::SetLightGroup(light);
+	Object3d::SetLightGroup(light.get());
 
 	//ライト関連
-	light->SetAmbientColor(XMFLOAT3(ambientColor0));
+	light->SetAmbientColor(XMFLOAT3({ ambientColor0[0],ambientColor0[1] ,ambientColor0[2]}));
 	light->SetDirLightDir(0, XMVECTOR({ lightDir0[0], lightDir0[1], lightDir0[2], 0 }));
-	light->SetDirLightColor(0, XMFLOAT3(lightColor0));
+	light->SetDirLightColor(0, XMFLOAT3({ lightColor0[0],lightColor0[1] ,lightColor0[2] }));
 	light->SetDirLightDir(1, XMVECTOR({ lightDir1[0], lightDir1[1], lightDir1[2], 0 }));
-	light->SetDirLightColor(1, XMFLOAT3(lightColor1));
+	light->SetDirLightColor(1, XMFLOAT3({ lightColor1[0],lightColor1[1] ,lightColor1[2] }));
 	light->SetDirLightDir(2, XMVECTOR({ lightDir2[0], lightDir2[1], lightDir2[2], 0 }));
-	light->SetDirLightColor(2, XMFLOAT3(lightColor2));
+	light->SetDirLightColor(2, XMFLOAT3({ lightColor2[0],lightColor2[1] ,lightColor2[2] }));
 	light->SetDirLightDir(3, XMVECTOR({ lightDir3[0], lightDir3[1], lightDir3[2], 0 }));
-	light->SetDirLightColor(3, XMFLOAT3(lightColor3));
+	light->SetDirLightColor(3, XMFLOAT3({ lightColor3[0],lightColor3[1] ,lightColor3[2] }));
 	light->SetDirLightDir(4, XMVECTOR({ lightDir4[0], lightDir4[1], lightDir4[2], 0 }));
-	light->SetDirLightColor(4, XMFLOAT3(lightColor4));
+	light->SetDirLightColor(4, XMFLOAT3({ lightColor4[0],lightColor4[1] ,lightColor4[2] }));
 	light->SetDirLightDir(5, XMVECTOR({ lightDir5[0], lightDir5[1], lightDir5[2], 0 }));
-	light->SetDirLightColor(5, XMFLOAT3(lightColor5));
+	light->SetDirLightColor(5, XMFLOAT3({ lightColor5[0],lightColor5[1] ,lightColor5[2] }));
 
 	//プレイヤー初期化
-	player = new Player;
+	player = std::make_unique<Player>();
 	player->Initialize();
 	//マップ初期化
-	map = new MapChip;
+	map = std::make_unique<MapChip>();
 	map->Initialize();
 	
 	//敵初期化
 	for (int i = 0; i < 3; i++){
-		enemy[i] = new Enemy;
+		enemy[i] = std::make_unique < Enemy>();
 		enemy[i]->Initialize();
 	}
 	
@@ -241,7 +210,7 @@ void GameScene::Update()
 		//プレイヤーの初期化と反映
 		camera->SetEye(XMFLOAT3{ -4.0f,3.0f,4.0f });
 		camera->SetTarget(XMFLOAT3{ -4.0f,3.0f,-8.0f });
-		player->Update(map, tutrialFlag, enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
+		player->Update(map.get(), tutrialFlag, enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
 		camera->Update();
 		//マップの反映
 		light->Update();
@@ -251,9 +220,9 @@ void GameScene::Update()
 		enemy[0]->InitializeValue();
 		enemy[1]->InitializeValue2();
 		enemy[2]->InitializeValue3();
-		enemy[0]->Update(player, map, player->GetMapPos(), XMFLOAT2(0, 0), enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
-		enemy[1]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[1]->GetPos()), enemy[0]->CatchCollision(player), enemy[2]->CatchCollision(player));
-		enemy[2]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[2]->GetPos()), enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player));
+		enemy[0]->Update(player.get(), map.get(), player->GetMapPos(), XMFLOAT2(0, 0), enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
+		enemy[1]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(), enemy[1]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
+		enemy[2]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(), enemy[2]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()));
 	}
 	else if (scene == OPTION)
 	{
@@ -313,7 +282,7 @@ void GameScene::Update()
 		}
 
 		//プレイヤーのアップデート
-		player->Update(map,tutrialFlag,enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
+		player->Update(map.get(),tutrialFlag,enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
 		
 		//カメラアップデート
 		camera->Update();
@@ -325,14 +294,14 @@ void GameScene::Update()
 		map->Update(player->GetPos(),player->GetMapPos(),enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
 		
 		//エネミーアップデート
-		enemy[0]->Update(player, map, player->GetMapPos(), XMFLOAT2(0,0),enemy[1]->CatchCollision(player), enemy[2]->CatchCollision(player));
-		enemy[1]->Update(player, map, player->GetMapPos(), player->GetShortCut(map,enemy[1]->GetPos()), enemy[0]->CatchCollision(player), enemy[2]->CatchCollision(player));
-		enemy[2]->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy[2]->GetPos()), enemy[0]->CatchCollision(player), enemy[1]->CatchCollision(player));
+		enemy[0]->Update(player.get(), map.get(), player->GetMapPos(), XMFLOAT2(0,0),enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
+		enemy[1]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(),enemy[1]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
+		enemy[2]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(), enemy[2]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()));
 
 		//ライト点滅関連
 		for (int i = 0; i < 3; i++)
 		{
-			if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
+			if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player.get()) && !enemy[1]->CatchCollision(player.get()) && !enemy[2]->CatchCollision(player.get()))
 			{
 				float aX = enemy[i]->GetPos().x - player->GetPos().x;
 				float aZ = enemy[i]->GetPos().z - player->GetPos().z;
@@ -351,7 +320,7 @@ void GameScene::Update()
 		}
 
 		//音関連
-		if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player) && !enemy[1]->CatchCollision(player) && !enemy[2]->CatchCollision(player))
+		if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player.get()) && !enemy[1]->CatchCollision(player.get()) && !enemy[2]->CatchCollision(player.get()))
 		{
 			for (int i = 0; i < 3; i++)
 			{
@@ -388,7 +357,7 @@ void GameScene::Update()
 		//死亡アニメーション
 		for (int i = 0; i < 3; i++)
 		{
-			if (enemy[i]->DeathAnimation(player))
+			if (enemy[i]->DeathAnimation(player.get()))
 			{
 				scene = GAMEOVER;
 			}
@@ -451,7 +420,7 @@ void GameScene::Draw()
 		{
 			if (titleTime > 5)
 			{
-				enemy[i]->Draw(player,cmdList);//敵の3D描画
+				enemy[i]->Draw(player.get(),cmdList);//敵の3D描画
 			}
 		}
 		map->Draw();//マップの3D描画
@@ -524,7 +493,7 @@ void GameScene::PostOffDraw()
 		player->DrawSprite();//プレイヤーのスプライト
 		for (int i = 0; i < 3; i++)
 		{
-			enemy[i]->DrawSprite(map);//エネミースプライト
+			enemy[i]->DrawSprite(map.get());//エネミースプライト
 		}
 		if (tutrialFlag == true) {
 			spriteRule->Draw(1.0f);//ルール表示スプライト
@@ -535,17 +504,12 @@ void GameScene::PostOffDraw()
 	if (scene == TITLE)
 	{
 		spriteGrain[grainCount]->Draw(0.75f);//テクスチャスプライト
-		if (buttonNo == 0)
+		for (int i = 0; i < 3; i++)
 		{
-			spriteTitle->Draw(1.0f);//タイトルのスプライト
-		}
-		else if (buttonNo == 1)
-		{
-			spriteTitle2->Draw(1.0f);//タイトルのスプライト
-		}
-		else if (buttonNo == 2)
-		{
-			spriteTitle3->Draw(1.0f);//タイトルのスプライト
+			if (buttonNo == i)
+			{
+				spriteTitle[i]->Draw(1.0f);//タイトルのスプライト
+			}
 		}
 	}
 	if (scene == OPTION)
@@ -559,17 +523,12 @@ void GameScene::PostOffDraw()
 		{
 			debugText.Print(1325, 490, 2.0f, "OFF");//OFFのスプライト
 		}
-		if (optionButtonNo == 0)
+		for (int i = 0; i < 3; i++)
 		{
-			spriteOption->Draw(1.0f);//オプションのスプライト
-		}
-		else if (optionButtonNo == 1)
-		{
-			spriteOption2->Draw(1.0f);//オプションのスプライト
-		}
-		else if (optionButtonNo == 2)
-		{
-			spriteOption3->Draw(1.0f);//オプションのスプライト
+			if (optionButtonNo == i)
+			{
+				spriteOption[i]->Draw(1.0f);//オプションのスプライト
+			}
 		}
 	}
 	if (scene == CLEAR)

@@ -17,6 +17,7 @@
 #include "MapChip.h"
 #include "enemy.h"
 #include "LightGroop.h"
+#include <array>
 
 /// <summary>
 /// ゲームシーン
@@ -40,7 +41,7 @@ protected: // エイリアス
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
-	LightGroop* light = nullptr;
+	std::unique_ptr<LightGroop> light;
 private: // 静的メンバ変数
 	static const int debugTextTexNumber = 0;
 
@@ -87,53 +88,49 @@ private: // メンバ変数
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
-	DebugCamera* camera = nullptr;
-	Sprite* spriteTitle = nullptr;//タイトル
-	Sprite* spriteTitle2 = nullptr;//タイトル
-	Sprite* spriteTitle3 = nullptr;//タイトル
-	Sprite* spriteOption = nullptr;//オプション
-	Sprite* spriteOption2 = nullptr;//オプション
-	Sprite* spriteOption3 = nullptr;//オプション
-	Sprite* spriteClear = nullptr;//クリア
-	Sprite* spriteGAMEOVER = nullptr;//ゲームオーバー
-	Sprite* spriteGAMEOVER2 = nullptr;//ゲームオーバー
-	Sprite* spriteRule = nullptr;//ルール
-	Sprite* spriteGrain[8] = { nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr };//グレイン
+	std::unique_ptr <DebugCamera> camera;
+	std::array <std::unique_ptr<Sprite>,3> spriteTitle;//タイトル
+	std::array < std::unique_ptr<Sprite>,3> spriteOption ;//オプション
+	std::unique_ptr<Sprite> spriteClear;//クリア
+	std::unique_ptr<Sprite> spriteGAMEOVER;//ゲームオーバー
+	std::unique_ptr<Sprite> spriteGAMEOVER2;//ゲームオーバー
+	std::unique_ptr<Sprite> spriteRule;//ルール
+	std::array<std::unique_ptr<Sprite>,8> spriteGrain;//グレイン
 	int grainCount = 0;//グレインカウント
 
-	ParticleManager* particle3d = nullptr;//パーティクル
-	Player* player = nullptr;//プレイヤー
-	Enemy* enemy[3] = { nullptr,nullptr,nullptr };//エネミー
-	MapChip* map = nullptr;//マップ
+	std::unique_ptr<ParticleManager> particle3d;//パーティクル
+	std::unique_ptr<Player> player = nullptr;//プレイヤー
+	std::array <std::unique_ptr<Enemy>,3> enemy = { nullptr,nullptr,nullptr };//エネミー
+	std::unique_ptr<MapChip> map = nullptr;//マップ
 	int scene = 0;//シーン
 	bool stopFlag;//停止フラグ
 	int buttonNo = 0;//タイトルの選択
 	int optionButtonNo = 0;//オプションの選択
 	bool tutrialFlag = true;//チュートリアルの表示
-	int soundTimer[3] = { 0, 0 ,0 };//足音の歩行レートのタイマー
+	std::array<int, 3> soundTimer = { 0, 0 ,0 };//足音の歩行レートのタイマー
 	//光線方向初期値
-	float lightDir0[3] = { 0,1,0 };
-	float lightDir5[3] = { 0,-1,0 };
-	float lightDir1[3] = { 0,0,1 };
-	float lightDir2[3] = { 0,0,-1 };
-	float lightDir3[3] = { 1,0,0 };
-	float lightDir4[3] = { -1,0,0 };
+	std::array<float, 3> lightDir0 = { 0,1,0 };
+	std::array<float, 3> lightDir5 = { 0,-1,0 };
+	std::array<float, 3> lightDir1 = { 0,0,1 };
+	std::array<float, 3> lightDir2 = { 0,0,-1 };
+	std::array<float, 3> lightDir3 = { 1,0,0 };
+	std::array<float, 3> lightDir4 = { -1,0,0 };
 
 	//アンビエント初期値
 	const float colorAmbient = 1.5f;
-	float ambientColor0[3] = { colorAmbient,colorAmbient,colorAmbient };
+	std::array<float, 3> ambientColor0 = { colorAmbient,colorAmbient,colorAmbient };
 	
 	//ライトの色縦初期値
 	const float colorUpDown = 5.0f;
-	float lightColor0[3] = { colorUpDown,colorUpDown,colorUpDown };
-	float lightColor5[3] = { colorUpDown,colorUpDown,colorUpDown };
+	std::array<float, 3> lightColor0 = { colorUpDown,colorUpDown,colorUpDown };
+	std::array<float, 3> lightColor5 = { colorUpDown,colorUpDown,colorUpDown };
 
 	//ライトの色横初期値
 	const float colorSide = 4.0f;
-	float lightColor1[3] = { colorSide,colorSide,colorSide };
-	float lightColor2[3] = { colorSide,colorSide,colorSide };
-	float lightColor3[3] = { colorSide,colorSide,colorSide };
-	float lightColor4[3] = { colorSide,colorSide,colorSide };
+	std::array<float, 3> lightColor1 = { colorSide,colorSide,colorSide };
+	std::array<float, 3> lightColor2 = { colorSide,colorSide,colorSide };
+	std::array<float, 3> lightColor3 = { colorSide,colorSide,colorSide };
+	std::array<float, 3> lightColor4 = { colorSide,colorSide,colorSide };
 
 	int titleTime;//タイトル遅延
 };
