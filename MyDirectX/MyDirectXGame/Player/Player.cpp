@@ -38,11 +38,9 @@ void Player::Initialize()
 
 void Player::InitializeValue()
 {
-	miniMapPos = { 100 + (16.0f * 11),650 + (16.0f * 11) };//ミニマップ初期値
+	miniMapPos = { 100 + (mapWallSize * 11),650 + (mapWallSize * 11) };//ミニマップ初期値
 	pos = { -4.0f,0.0f,4.0f };//プレイヤーの位置
 	mapPosValue = {0,0};//マップの座標
-	r = 0.5;//プレイヤーの半径
-	moveSpeed = 0.18f;//歩きの速度
 	viewSpeed = 4.0f;//視点の速さ
 	target = { 0,0.0f,0 };//注視点
 	targetY = 0;//揺れの調整
@@ -89,11 +87,12 @@ void Player::Update(MapChip *mapChip,bool tutrialFlag,bool catchFlag, bool catch
 	View(tutrialFlag,catchFlag, catchFlag2, catchFlag3);//視点制御
 
 	//スプライト関連のポジションとアングルセット
-	float mapLeftValue = 100.0f;
-	float mapTopValue = 650.0f;
-	float angleConvertValue = 135;
-	spritePlayerDot->SetPosition({ mapLeftValue + (16.0f * 10), mapTopValue + (16.0f * 11) });
-	spritePlayerAngle->SetPosition({ mapLeftValue + (16.0f * 10) + 8, mapTopValue + (16.0f * 11) + 8 });
+	const float mapLeftValue = 100.0f;
+	const float mapTopValue = 650.0f;
+	const float angleConvertValue = 135;
+	const float enemyAngleAdjustValue = 8.0f;
+	spritePlayerDot->SetPosition({ mapLeftValue + (mapWallSize * 10), mapTopValue + (mapWallSize * 11) });
+	spritePlayerAngle->SetPosition({ mapLeftValue + (mapWallSize * 10) + enemyAngleAdjustValue, mapTopValue + (mapWallSize * 11) + enemyAngleAdjustValue });
 	spritePlayerAngle->SetRotation(angle.y + angleConvertValue);
 }
 
@@ -111,191 +110,191 @@ void Player::DrawSprite()
 
 void Player::Move(MapChip *mapChip)
 {
-	float pai = 3.141592f;
-	float inverseVector = 180;
-	float r = 0.5f;//半径
-	float corner = 0.35f;//角までの距離
+	const float PI = 3.141592f;
+	const float inverseVector = 180;
+	const float r = 0.5f;//半径
+	const float corner = 0.35f;//角までの距離
 	if (mapChip->ArrayValue(pos.x - corner, pos.z + corner) == 1 || mapChip->ArrayValue(pos.x - corner, pos.z + corner) == 11)
 	{
-		pos.x += cos((45 * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		pos.z += sin((45 * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-		mapPosValue.x += cos((45 * pai) / -inverseVector) * (moveSpeed * 2);
-		mapPosValue.y += sin((45 * pai) / -inverseVector) * (moveSpeed * 2);
+		pos.x += cos((45 * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		pos.z += sin((45 * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+		mapPosValue.x += cos((45 * PI) / -inverseVector) * (moveSpeed * 2);
+		mapPosValue.y += sin((45 * PI) / -inverseVector) * (moveSpeed * 2);
 	}
 	else if (mapChip->ArrayValue(pos.x + corner, pos.z + corner) == 1|| mapChip->ArrayValue(pos.x + corner, pos.z + corner) == 11)
 	{
-		pos.x += cos((135 * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		pos.z += sin((135 * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-		mapPosValue.x += cos((135 * pai) / -inverseVector) * (moveSpeed * 2);
-		mapPosValue.y += sin((135 * pai) / -inverseVector) * (moveSpeed * 2);
+		pos.x += cos((135 * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		pos.z += sin((135 * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+		mapPosValue.x += cos((135 * PI) / -inverseVector) * (moveSpeed * 2);
+		mapPosValue.y += sin((135 * PI) / -inverseVector) * (moveSpeed * 2);
 
 	}
 	else if (mapChip->ArrayValue(pos.x - corner, pos.z - corner) == 1|| mapChip->ArrayValue(pos.x - corner, pos.z - corner) == 11)
 	{
-		pos.x += cos((-45 * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		pos.z += sin((-45 * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-		mapPosValue.x += cos((-45 * pai) / -inverseVector) * (moveSpeed * 2);
-		mapPosValue.y += sin((-45 * pai) / -inverseVector) * (moveSpeed * 2);
+		pos.x += cos((-45 * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		pos.z += sin((-45 * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+		mapPosValue.x += cos((-45 * PI) / -inverseVector) * (moveSpeed * 2);
+		mapPosValue.y += sin((-45 * PI) / -inverseVector) * (moveSpeed * 2);
 	}
 	else if (mapChip->ArrayValue(pos.x + corner, pos.z - corner) == 1|| mapChip->ArrayValue(pos.x + corner, pos.z - corner) == 11)
 	{
-		pos.x += cos((225 * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		pos.z += sin((225 * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-		mapPosValue.x += cos((225 * pai) / -inverseVector) * (moveSpeed * 2);
-		mapPosValue.y += sin((225 * pai) / -inverseVector) * (moveSpeed * 2);
+		pos.x += cos((225 * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		pos.z += sin((225 * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+		mapPosValue.x += cos((225 * PI) / -inverseVector) * (moveSpeed * 2);
+		mapPosValue.y += sin((225 * PI) / -inverseVector) * (moveSpeed * 2);
 	}
 
 	if (Input::GetInstance()->KeybordPush(DIK_W))
 	{
 		moveTutorialFlag = true;
-		pos.x += cos((angle.y * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		pos.z += sin((angle.y * pai) / -inverseVector) * moveSpeed;      // z座標を更新
+		pos.x += cos((angle.y * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		pos.z += sin((angle.y * PI) / -inverseVector) * moveSpeed;      // z座標を更新
 
-		mapPosValue.x += cos(((angle.y + inverseVector + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
-		mapPosValue.y += sin(((angle.y + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+		mapPosValue.x += cos(((angle.y + inverseVector + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
+		mapPosValue.y += sin(((angle.y + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 
-		target.x += cos((angle.y * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		target.z += sin((angle.y * pai) / -inverseVector) * moveSpeed;      // z座標を更新
+		target.x += cos((angle.y * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		target.z += sin((angle.y * PI) / -inverseVector) * moveSpeed;      // z座標を更新
 		//上
 		if (mapChip->ArrayValue(pos.x, pos.z + r) == 1|| mapChip->ArrayValue(pos.x, pos.z + r) == 11)
 		{
-			pos.z += sin(((angle.y + inverseVector) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
+			pos.z += sin(((angle.y + inverseVector) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
 
-			mapPosValue.y += sin(((angle.y) * pai) / -inverseVector) * (moveSpeed * 2);
+			mapPosValue.y += sin(((angle.y) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		//左
 		if (mapChip->ArrayValue(pos.x - r, pos.z) == 1|| mapChip->ArrayValue(pos.x - r, pos.z) == 1)
 		{
-			pos.x += cos(((angle.y + inverseVector) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
+			pos.x += cos(((angle.y + inverseVector) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
 
-			mapPosValue.x += cos(((angle.y + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			mapPosValue.x += cos(((angle.y + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		//下
 		if (mapChip->ArrayValue(pos.x, pos.z - r) == 1|| mapChip->ArrayValue(pos.x, pos.z - r) == 11)
 		{
-			pos.z += sin(((angle.y + inverseVector) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-			mapPosValue.y += sin(((angle.y) * pai) / -inverseVector) * (moveSpeed * 2);
+			pos.z += sin(((angle.y + inverseVector) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+			mapPosValue.y += sin(((angle.y) * PI) / -inverseVector) * (moveSpeed * 2);
 			
 		}
 		//右
 		if (mapChip->ArrayValue(pos.x + r, pos.z) == 1|| mapChip->ArrayValue(pos.x + r, pos.z) == 11)
 		{
-			pos.x += cos(((angle.y + inverseVector) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
+			pos.x += cos(((angle.y + inverseVector) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
 
-			mapPosValue.x += cos(((angle.y + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			mapPosValue.x += cos(((angle.y + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		isWalkShaking = true;
 	}
 	if (Input::GetInstance()->KeybordPush(DIK_A))
 	{
 		moveTutorialFlag = true;
-		pos.x += cos(((angle.y - 90) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		pos.z += sin(((angle.y - 90) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
+		pos.x += cos(((angle.y - 90) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		pos.z += sin(((angle.y - 90) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
 
-		mapPosValue.x += cos(((angle.y + 90 + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
-		mapPosValue.y += sin(((angle.y + 90) * pai) / -inverseVector) * (moveSpeed * 2);
+		mapPosValue.x += cos(((angle.y + 90 + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
+		mapPosValue.y += sin(((angle.y + 90) * PI) / -inverseVector) * (moveSpeed * 2);
 
-		target.x += cos(((angle.y - 90) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		target.z += sin(((angle.y - 90) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
+		target.x += cos(((angle.y - 90) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		target.z += sin(((angle.y - 90) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
 		//上
 		if (mapChip->ArrayValue(pos.x, pos.z + r) == 1|| mapChip->ArrayValue(pos.x, pos.z + r) == 11)
 		{
-			pos.z += sin(((angle.y - 90 + inverseVector) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-			mapPosValue.y += sin(((angle.y + 90 + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			pos.z += sin(((angle.y - 90 + inverseVector) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+			mapPosValue.y += sin(((angle.y + 90 + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 			
 		}
 		//左
 		if (mapChip->ArrayValue(pos.x - r, pos.z) == 1|| mapChip->ArrayValue(pos.x - r, pos.z) == 11)
 		{
-			pos.x += cos(((angle.y - 90 + inverseVector) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
+			pos.x += cos(((angle.y - 90 + inverseVector) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
 
-			mapPosValue.x += cos(((angle.y + 90 + inverseVector + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			mapPosValue.x += cos(((angle.y + 90 + inverseVector + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		//下
 		if (mapChip->ArrayValue(pos.x, pos.z - r) == 1|| mapChip->ArrayValue(pos.x, pos.z - r) == 11)
 		{
-			pos.z += sin(((angle.y - 90 + inverseVector) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
+			pos.z += sin(((angle.y - 90 + inverseVector) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
 
-			mapPosValue.y += sin(((angle.y + 90 + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			mapPosValue.y += sin(((angle.y + 90 + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		//右
 		if (mapChip->ArrayValue(pos.x + r, pos.z) == 1|| mapChip->ArrayValue(pos.x + r, pos.z) == 11)
 		{
-			pos.x += cos(((angle.y - 90 + inverseVector) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
+			pos.x += cos(((angle.y - 90 + inverseVector) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
 
-			mapPosValue.x += cos(((angle.y + 90 + inverseVector + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			mapPosValue.x += cos(((angle.y + 90 + inverseVector + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		isWalkShaking = true;
 	}
 	if (Input::GetInstance()->KeybordPush(DIK_S))
 	{
 		moveTutorialFlag = true;
-		pos.x += cos(((angle.y + inverseVector) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		pos.z += sin(((angle.y + inverseVector) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-		mapPosValue.x += cos(((angle.y + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
-		mapPosValue.y += sin((angle.y * pai) / -inverseVector) * (moveSpeed * 2);
+		pos.x += cos(((angle.y + inverseVector) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		pos.z += sin(((angle.y + inverseVector) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+		mapPosValue.x += cos(((angle.y + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
+		mapPosValue.y += sin((angle.y * PI) / -inverseVector) * (moveSpeed * 2);
 
-		target.x -= cos((angle.y * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		target.z -= sin((angle.y * pai) / -inverseVector) * moveSpeed;      // z座標を更新
+		target.x -= cos((angle.y * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		target.z -= sin((angle.y * PI) / -inverseVector) * moveSpeed;      // z座標を更新
 		//上
 		if (mapChip->ArrayValue(pos.x, pos.z + r) == 1|| mapChip->ArrayValue(pos.x, pos.z + r) == 11)
 		{
-			pos.z += sin(((angle.y) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-			mapPosValue.y += sin(((angle.y + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			pos.z += sin(((angle.y) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+			mapPosValue.y += sin(((angle.y + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		//左
 		if (mapChip->ArrayValue(pos.x - r, pos.z) == 1|| mapChip->ArrayValue(pos.x - r, pos.z) == 11)
 		{
-			pos.x += cos(((angle.y) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-			mapPosValue.x += cos(((angle.y + 360) * pai) / -inverseVector) * (moveSpeed * 2);
+			pos.x += cos(((angle.y) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+			mapPosValue.x += cos(((angle.y + 360) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		//下
 		if (mapChip->ArrayValue(pos.x, pos.z - r) == 1|| mapChip->ArrayValue(pos.x, pos.z - r) == 11)
 		{
-			pos.z += sin(((angle.y) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-			mapPosValue.y += sin(((angle.y + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			pos.z += sin(((angle.y) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+			mapPosValue.y += sin(((angle.y + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		//右
 		if (mapChip->ArrayValue(pos.x + r, pos.z) == 1|| mapChip->ArrayValue(pos.x + r, pos.z) == 11)
 		{
-			pos.x += cos(((angle.y) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-			mapPosValue.x += cos(((angle.y + 360) * pai) / -inverseVector) * (moveSpeed * 2);
+			pos.x += cos(((angle.y) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+			mapPosValue.x += cos(((angle.y + 360) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		isWalkShaking = true;
 	}
 	if (Input::GetInstance()->KeybordPush(DIK_D))
 	{
 		moveTutorialFlag = true;
-		pos.x += cos(((angle.y + 90) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		pos.z += sin(((angle.y + 90) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-		mapPosValue.x += cos(((angle.y - 90 + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
-		mapPosValue.y += sin(((angle.y - 90) * pai) / -inverseVector) * (moveSpeed * 2);
+		pos.x += cos(((angle.y + 90) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		pos.z += sin(((angle.y + 90) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+		mapPosValue.x += cos(((angle.y - 90 + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
+		mapPosValue.y += sin(((angle.y - 90) * PI) / -inverseVector) * (moveSpeed * 2);
 
-		target.x += cos(((angle.y + 90) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-		target.z += sin(((angle.y + 90) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
+		target.x += cos(((angle.y + 90) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+		target.z += sin(((angle.y + 90) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
 		//上
 		if (mapChip->ArrayValue(pos.x, pos.z + r) == 1 || mapChip->ArrayValue(pos.x, pos.z + r) == 11)
 		{
-			pos.z += sin(((angle.y + 90 + inverseVector) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-			mapPosValue.y += sin(((angle.y - 90 + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			pos.z += sin(((angle.y + 90 + inverseVector) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+			mapPosValue.y += sin(((angle.y - 90 + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		//左
 		if (mapChip->ArrayValue(pos.x - r, pos.z) == 1 || mapChip->ArrayValue(pos.x - r, pos.z) == 11)
 		{
-			pos.x += cos(((angle.y + 90 + inverseVector) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-			mapPosValue.x += cos(((angle.y - 90 + inverseVector + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			pos.x += cos(((angle.y + 90 + inverseVector) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+			mapPosValue.x += cos(((angle.y - 90 + inverseVector + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		//下
 		if (mapChip->ArrayValue(pos.x, pos.z - r) == 1 || mapChip->ArrayValue(pos.x, pos.z - r) == 11)
 		{
-			pos.z += sin(((angle.y + 90 + inverseVector) * pai) / -inverseVector) * moveSpeed;      // z座標を更新
-			mapPosValue.y += sin(((angle.y - 90 + inverseVector) * pai) / -inverseVector) * (moveSpeed * 2);
+			pos.z += sin(((angle.y + 90 + inverseVector) * PI) / -inverseVector) * moveSpeed;      // z座標を更新
+			mapPosValue.y += sin(((angle.y - 90 + inverseVector) * PI) / -inverseVector) * (moveSpeed * 2);
 		}
 		//右
 		if (mapChip->ArrayValue(pos.x + r, pos.z) == 1 || mapChip->ArrayValue(pos.x + r, pos.z) == 11)
 		{
-			pos.x += cos(((angle.y + 90 + inverseVector) * pai) / -inverseVector) * moveSpeed;      // x座標を更新
-			mapPosValue.x += cos(((angle.y - 90 + inverseVector + inverseVector) * pai) / -inverseVector) * (moveSpeed*2);
+			pos.x += cos(((angle.y + 90 + inverseVector) * PI) / -inverseVector) * moveSpeed;      // x座標を更新
+			mapPosValue.x += cos(((angle.y - 90 + inverseVector + inverseVector) * PI) / -inverseVector) * (moveSpeed*2);
 		}
 		isWalkShaking = true;
 	}
@@ -334,7 +333,7 @@ void Player::WalkShaking()
 
 void Player::View(bool tutrialFlag, bool catchFlag,bool catchFlag2, bool catchFlag3)
 {
-	float inverseVector = 180;
+	const float inverseVector = 180;
 	//視点計算
 	XMVECTOR v0 = { 0,0,-10, 0 };
 	//angleラジアンだけy軸まわりに回転。半径は-100
@@ -399,8 +398,8 @@ void Player::AngleSearch()
 XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 {
 	//マップ内の座標の取得
-	int mapX = int((enemyPos.x / 8) + ((21 + 1) / 2));
-	int mapY = int((enemyPos.z / 8) + ((21 + 1) / 2));
+	int mapX = int((enemyPos.x / wallSize) + ((MapValue + 1) / 2));
+	int mapY = int((enemyPos.z / wallSize) + ((MapValue + 1) / 2));
 	
 	//近くに壁があるか
 	for (int i = 1; i < 5; i++)
@@ -456,10 +455,10 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	{
 		for (int i = 1; i < 6; i++)
 		{
-			if (mapChip->ArrayValue(pos.x ,pos.z + (-8*i)) == 1 || i== 5)
+			if (mapChip->ArrayValue(pos.x ,pos.z + (-wallSize *i)) == 1 || i== 5)
 			{
 				plusValue.x = 0;
-				plusValue.y = -8.0f * (i - 1);
+				plusValue.y = -wallSize * (i - 1);
 				return plusValue;
 			}
 		}
@@ -468,10 +467,10 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	{
 		for (int i = 1; i < 6; i++)
 		{
-			if (mapChip->ArrayValue(pos.x, pos.z + (8 * i)) == 1 || i == 5)
+			if (mapChip->ArrayValue(pos.x, pos.z + (wallSize * i)) == 1 || i == 5)
 			{
 				plusValue.x = 0;
-				plusValue.y = 8.0f * (i - 1);
+				plusValue.y = wallSize * (i - 1);
 				return plusValue;
 			}
 		}
@@ -480,10 +479,10 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	{
 		for (int i = 1; i < 6; i++)
 		{
-			if (mapChip->ArrayValue(pos.x + (8 * i), pos.z) == 1 || i == 5)
+			if (mapChip->ArrayValue(pos.x + (wallSize * i), pos.z) == 1 || i == 5)
 			{
 				plusValue.y = 0;
-				plusValue.x = 8.0f * (i - 1);
+				plusValue.x = wallSize * (i - 1);
 				return plusValue;
 			}
 		}
@@ -492,10 +491,10 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	{
 		for (int i = 1; i < 6; i++)
 		{
-			if (mapChip->ArrayValue(pos.x + (-8 * i), pos.z) == 1 || i == 5)
+			if (mapChip->ArrayValue(pos.x + (-wallSize * i), pos.z) == 1 || i == 5)
 			{
 				plusValue.y = 0;
-				plusValue.x = -8.0f * (i-1);
+				plusValue.x = -wallSize * (i-1);
 				return plusValue;
 			}
 		}

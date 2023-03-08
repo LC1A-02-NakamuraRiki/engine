@@ -97,7 +97,7 @@ private: // メンバ変数
 	std::unique_ptr<Sprite> spriteRule;//ルール
 	std::array<std::unique_ptr<Sprite>,8> spriteGrain;//グレイン
 	int grainCount = 0;//グレインカウント
-
+	
 	std::unique_ptr<ParticleManager> particle3d;//パーティクル
 	std::unique_ptr<Player> player = nullptr;//プレイヤー
 	std::array <std::unique_ptr<Enemy>,3> enemy = { nullptr,nullptr,nullptr };//エネミー

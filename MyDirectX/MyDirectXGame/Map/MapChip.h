@@ -57,29 +57,30 @@ private:
 	std::array<float, 4> doorAngle = {90, 270,90,270};//ドア角度
 	std::array < std::unique_ptr<Object3d>,4> objMapDoor;//ドアオブジェクト
 	bool gateOpenFlag = false;//ゲート空いたか
-	float wallSize = 8;//壁の大きさ
-
+	const float wallSize = 8;//壁の大きさ
+	const float mapWallSize = 16.0f;//ミニマップの壁の大きさ
+	const int MapValue = 21;//マップの最大サイズ
 	//クリスタルの位置3D
-	std::array<XMFLOAT3, 11> crystalPos = {XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
-	XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
-	XMFLOAT3({ 19 * wallSize - (21 * wallSize / 2), 1.0f, 1 * wallSize - (21 * wallSize / 2)  }),
-	XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 10 * wallSize - (21 * wallSize / 2)   }),
-	XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 16 * wallSize - (21 * wallSize / 2)   }),
-	XMFLOAT3({ 19 * wallSize - (21 * wallSize / 2), 1.0f, 10 * wallSize - (21 * wallSize / 2)  }),
-	XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 19 * wallSize - (21 * wallSize / 2)  }),
-	XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2), 1.0f, 19 * wallSize - (21 * wallSize / 2)  }),
-	XMFLOAT3({ 19 * wallSize - (21 *  wallSize / 2),1.0f, 19 * wallSize - (21 *  wallSize / 2) }),
-	XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2),1.0f, 7 * wallSize - (21 * wallSize / 2) }),
-	XMFLOAT3({ 10 * wallSize - (21 * wallSize / 2),1.0f, 13 * wallSize - (21 * wallSize / 2) })	};
+	std::array<XMFLOAT3, 11> crystalPos = { XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
+	XMFLOAT3({ 10 * wallSize - (MapValue * wallSize / 2), 1.0f, 1 * wallSize - (MapValue * wallSize / 2)   }),
+	XMFLOAT3({ 19 * wallSize - (MapValue * wallSize / 2), 1.0f, 1 * wallSize - (MapValue * wallSize / 2)  }),
+	XMFLOAT3({ 1 * wallSize - (MapValue * wallSize / 2),  1.0f, 10 * wallSize - (MapValue * wallSize / 2)   }),
+	XMFLOAT3({ 10 * wallSize - (MapValue * wallSize / 2), 1.0f, 16 * wallSize - (MapValue * wallSize / 2)   }),
+	XMFLOAT3({ 19 * wallSize - (MapValue * wallSize / 2), 1.0f, 10 * wallSize - (MapValue * wallSize / 2)  }),
+	XMFLOAT3({ 1 * wallSize - (MapValue * wallSize / 2),  1.0f, 19 * wallSize - (MapValue * wallSize / 2)  }),
+	XMFLOAT3({ 10 * wallSize - (MapValue * wallSize / 2), 1.0f, 19 * wallSize - (MapValue * wallSize / 2)  }),
+	XMFLOAT3({ 19 * wallSize - (MapValue * wallSize / 2),1.0f, 19 * wallSize - (MapValue * wallSize / 2) }),
+	XMFLOAT3({ 10 * wallSize - (MapValue * wallSize / 2),1.0f, 7 * wallSize - (MapValue * wallSize / 2) }),
+	XMFLOAT3({ 10 * wallSize - (MapValue * wallSize / 2),1.0f, 13 * wallSize - (MapValue * wallSize / 2) }) };
 	
 	//クリスタルの位置2D
-	std::array<XMFLOAT2, 11> mapCrystalPos = { XMFLOAT2{100 + (16.0f * 19),650 + (16.0f * 1)},XMFLOAT2{100 + (16.0f * 10),650 + (16.0f * 1)},
-	XMFLOAT2{100 + (16.0f * 1),650 + (16.0f * 1)},XMFLOAT2{100 + (16.0f * 19),650 + (16.0f * 10)},XMFLOAT2{100 + (16.0f * 10),650 + (16.0f * 16)},
-	XMFLOAT2{100 + (16.0f * 1),650 + (16.0f * 10)},XMFLOAT2{100 + (16.0f * 19),650 + (16.0f * 19)},XMFLOAT2{100 + (16.0f * 10),650 + (16.0f * 19)},
-	XMFLOAT2{100 + (16.0f * 1),650 + (16.0f * 19)},XMFLOAT2{100 + (16.0f * 10),650 + (16.0f * 7)},XMFLOAT2{100 + (16.0f * 10),650 + (16.0f * 13)}, };
+	std::array<XMFLOAT2, 11> mapCrystalPos = { XMFLOAT2{100 + (mapWallSize * 19),650 + (mapWallSize * 1)},XMFLOAT2{100 + (mapWallSize * 10),650 + (mapWallSize * 1)},
+	XMFLOAT2{100 + (mapWallSize * 1),650 + (mapWallSize * 1)}, XMFLOAT2{100 + (mapWallSize * 19),650 + (mapWallSize * 10)},XMFLOAT2{100 + (mapWallSize * 10),650 + (mapWallSize * 16)},
+	XMFLOAT2{100 + (mapWallSize * 1),650 + (mapWallSize * 10)},XMFLOAT2{100 + (mapWallSize * 19),650 + (mapWallSize * 19)},XMFLOAT2{100 + (mapWallSize * 10),650 + (mapWallSize * 19)},
+	XMFLOAT2{100 + (mapWallSize * 1),650 + (mapWallSize * 19)},XMFLOAT2{100 + (mapWallSize * 10),650 + (mapWallSize * 7)} ,XMFLOAT2{100 + (mapWallSize * 10),650 + (mapWallSize * 13)}, };
 
 	std::array<bool, 11> crystalGetFlag = { false,false,false,false,false,false,false,false,false,false,false };//クリスタル取ったか
-	int MapValue = 21;//マップサイズ
+	
 	
 	//マップ情報
 	std::array<std::array<int, 21>, 21> mapWall = {};

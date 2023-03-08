@@ -27,9 +27,6 @@ void Enemy::Initialize()
 	objectAttack->SetModel(modelAttack.get());//モデルと同期
 	objectAttack->PlayAnimation();//アニメーション
 
-	
-	
-
 	//画像読み込み
 	if (!Sprite::LoadTexture(4, L"Resources/enemyDot.png")) {
 		assert(0);
@@ -60,7 +57,7 @@ void Enemy::InitializeValue()
 	adjustValueZ = 0;//調整値Z
 	speed = 0.2f;//スピード
 	vReserveFlag = false;//優先度
-	miniMapPos = { 100 + (16.0f * 10),650 + (16.0f * 7) };//ミニマップ位置
+	miniMapPos = { 100 + (mapWallSize * 10),650 + (mapWallSize * 7) };//ミニマップ位置
 	maxAdjustmentTime = 40;//調整タイム
 
 	wallHitFlag = false;//先読みの座標が壁に当たっているか
@@ -81,7 +78,7 @@ void Enemy::InitializeValue2()
 	adjustValueZ = 0;//調整値Z
 	speed = 0.16f;//スピード
 	vReserveFlag = false;//優先度
-	miniMapPos = { 100 + (16.0f * 9),650 + (16.0f * 19) };//ミニマップ位置
+	miniMapPos = { 100 + (mapWallSize * 9),650 + (mapWallSize * 19) };//ミニマップ位置
 	maxAdjustmentTime = 49;//調整タイム
 	wallHitFlag = false;//先読みの座標が壁に当たっているか
 	adjustmentFlag = false;//位置調整フラグ
@@ -101,7 +98,7 @@ void Enemy::InitializeValue3()
 	adjustValueZ = 0;//調整値Z
 	speed = 0.16f;//スピード
 	vReserveFlag = false;//優先度
-	miniMapPos = { 100 + (16.0f * 19),650 + (16.0f * 9) };//ミニマップ位置
+	miniMapPos = { 100 + (mapWallSize * 19),650 + (mapWallSize * 9) };//ミニマップ位置
 	maxAdjustmentTime = 49;//調整タイム
 	wallHitFlag = false;//先読みの座標が壁に当たっているか
 	adjustmentFlag = false;//位置調整フラグ
@@ -546,8 +543,9 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 	}
 
 	//obj等に影響
+	const float enemyAngleAdjustValue = 8.0f;
 	spriteEnemyDot->SetPosition({ miniMapPos.x + mapPos.x , miniMapPos.y + mapPos.y });//位置セット
-	spriteEnemyAngle->SetPosition({ miniMapPos.x + mapPos.x + 8, miniMapPos.y + mapPos.y + 8 });//位置セット
+	spriteEnemyAngle->SetPosition({ miniMapPos.x + mapPos.x + enemyAngleAdjustValue, miniMapPos.y + mapPos.y + enemyAngleAdjustValue });//位置セット
 }
 
 bool Enemy::CatchCollision(Player* player)

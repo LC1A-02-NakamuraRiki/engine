@@ -21,38 +21,38 @@ void MapChip::Initialize()
 		for (int y = 0; y < MapValue; y++){
 			objPictureFrame1[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
 			objPictureFrame1[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame1[y][x]->SetPosition(XMFLOAT3({ 80.0f - (x * 8.0f),4.25f,76.0f - (y *8.0f)}));
+			objPictureFrame1[y][x]->SetPosition(XMFLOAT3({ 80.0f - (x * wallSize),4.25f,76.0f - (y * wallSize)}));
 
 			objDesk1[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
 			objDesk1[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk1[y][x]->SetPosition(XMFLOAT3({ +0.5f + 80.0f - (x * 8.0f),2.0f,76.0f - (y * 8.0f) }));
+			objDesk1[y][x]->SetPosition(XMFLOAT3({ +0.5f + 80.0f - (x * wallSize),2.0f,76.0f - (y * wallSize) }));
 
 			objPictureFrame2[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
 			objPictureFrame2[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame2[y][x]->SetPosition(XMFLOAT3({ 72.0f - (x * 8.0f),4.25f,76.0f - (y * 8.0f) }));
+			objPictureFrame2[y][x]->SetPosition(XMFLOAT3({ 72.0f - (x * wallSize),4.25f,76.0f - (y * wallSize) }));
 
 			objDesk2[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
 			objDesk2[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk2[y][x]->SetPosition(XMFLOAT3({ -0.5f + 72.0f - (x * 8.0f),2.0f,76.0f - (y * 8.0f) }));
+			objDesk2[y][x]->SetPosition(XMFLOAT3({ -0.5f + 72.0f - (x * wallSize),2.0f,76.0f - (y * wallSize) }));
 
 			objPictureFrame3[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
 			objPictureFrame3[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * 8.0f),4.25f,72.0f - (y * 8.0f) }));
+			objPictureFrame3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * wallSize),4.25f,72.0f - (y * wallSize) }));
 			objPictureFrame3[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
 
 			objDesk3[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
 			objDesk3[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * 8.0f),2.0f,-0.5f + 72.0f - (y * 8.0f) }));
+			objDesk3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * wallSize),2.0f,-0.5f + 72.0f - (y * wallSize) }));
 			objDesk3[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
 
 			objPictureFrame4[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
 			objPictureFrame4[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * 8.0f),4.25f,80.0f - (y * 8.0f) }));
+			objPictureFrame4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * wallSize),4.25f,80.0f - (y * wallSize) }));
 			objPictureFrame4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
 
 			objDesk4[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
 			objDesk4[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * 8.0f),2.0f,+0.5f + 80.0f - (y * 8.0f) }));
+			objDesk4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * wallSize),2.0f,+0.5f + 80.0f - (y * wallSize) }));
 			objDesk4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
 			
 			objMapWall[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelMapWall.get()));
@@ -200,38 +200,38 @@ void MapChip::Initialize()
 	spriteDoorOpen = std::unique_ptr<Sprite>(Sprite::Create(45, { 990, 850 }));
 	spriteDoorOpen->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 
-	spriteNumberNum1[0] = std::unique_ptr<Sprite>(Sprite::Create(8,  { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum1[1] = std::unique_ptr<Sprite>(Sprite::Create(9,  { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum1[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum1[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum1[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum1[5] = std::unique_ptr<Sprite>(Sprite::Create(13, { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum1[6] = std::unique_ptr<Sprite>(Sprite::Create(14, { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum1[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum1[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum1[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 10, 656 - 16 - 96 }));
-	spriteNumberNum10[0] = std::unique_ptr<Sprite>(Sprite::Create(8, { 260 - 58, 656 - 16 - 96 }));
-	spriteNumberNum10[1] = std::unique_ptr<Sprite>(Sprite::Create(9, { 260 - 58, 656 - 16 - 96 }));
-	spriteNumberNum10[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 58, 656 - 16 - 96 }));
-	spriteNumberNum10[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 58, 656 - 16 - 96 }));
-	spriteNumberNum10[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 58, 656 - 16 - 96 }));
-	spriteNumberNum10[5] = std::unique_ptr<Sprite>(Sprite::Create(13, { 260 - 58, 656 - 16 - 96 }));
-	spriteNumberNum10[6] = std::unique_ptr<Sprite>(Sprite::Create(14, { 260 - 58, 656 - 16 - 96 }));
-	spriteNumberNum10[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 58, 656 - 16 - 96 }));
-	spriteNumberNum10[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 58, 656 - 16 - 96 }));
-	spriteNumberNum10[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 58, 656 - 16 - 96 }));
+	spriteNumberNum1[0] = std::unique_ptr<Sprite>(Sprite::Create(8,  { 260 - 10, 656 -  mapWallSize - 96 }));
+	spriteNumberNum1[1] = std::unique_ptr<Sprite>(Sprite::Create(9,  { 260 - 10, 656 -  mapWallSize - 96 }));
+	spriteNumberNum1[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 10, 656 -  mapWallSize - 96 }));
+	spriteNumberNum1[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 10, 656 -  mapWallSize - 96 }));
+	spriteNumberNum1[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 10, 656 -  mapWallSize - 96 }));
+	spriteNumberNum1[5] = std::unique_ptr<Sprite>(Sprite::Create(13, { 260 - 10, 656 -  mapWallSize - 96 }));
+	spriteNumberNum1[6] = std::unique_ptr<Sprite>(Sprite::Create(14, { 260 - 10, 656 -  mapWallSize - 96 }));
+	spriteNumberNum1[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 10, 656 -  mapWallSize - 96 }));
+	spriteNumberNum1[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 10, 656 -  mapWallSize - 96 }));
+	spriteNumberNum1[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 10, 656 -  mapWallSize - 96 }));
+	spriteNumberNum10[0] = std::unique_ptr<Sprite>(Sprite::Create(8, { 260 - 58, 656 -  mapWallSize - 96 }));
+	spriteNumberNum10[1] = std::unique_ptr<Sprite>(Sprite::Create(9, { 260 - 58, 656 -  mapWallSize - 96 }));
+	spriteNumberNum10[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 58, 656 - mapWallSize - 96 }));
+	spriteNumberNum10[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 58, 656 - mapWallSize - 96 }));
+	spriteNumberNum10[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 58, 656 - mapWallSize - 96 }));
+	spriteNumberNum10[5] = std::unique_ptr<Sprite>(Sprite::Create(13, { 260 - 58, 656 - mapWallSize - 96 }));
+	spriteNumberNum10[6] = std::unique_ptr<Sprite>(Sprite::Create(14, { 260 - 58, 656 - mapWallSize - 96 }));
+	spriteNumberNum10[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 58, 656 - mapWallSize - 96 }));
+	spriteNumberNum10[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 58, 656 - mapWallSize - 96 }));
+	spriteNumberNum10[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 58, 656 - mapWallSize - 96 }));
 	 spriteEnemyStop = std::unique_ptr<Sprite>(Sprite::Create(31, { 990, 850 }));
 	 spriteEnemyStop->SetAnchorPoint(XMFLOAT2(0.5f,0.5f));
 	 spriteEnemyStop->SetSize(XMFLOAT2(stopFontSize));
 	 spriteEnemySpot = std::unique_ptr<Sprite>(Sprite::Create(32, { 990, 850 }));
 	 spriteEnemySpot->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 	 spriteEnemySpot->SetSize(XMFLOAT2(spotFontSize));
-	 spriteSpotEffect = std::unique_ptr<Sprite>(Sprite::Create(33, { -16 + 100,650 - 16 - 96 }));
+	 spriteSpotEffect = std::unique_ptr<Sprite>(Sprite::Create(33, { 84,650 - 16 - 96 }));
 	for (int x = 0; x < MapValue; x++)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			spriteMapWall[y][x] = std::unique_ptr<Sprite>(Sprite::Create(2, {-16 + 100 + (16.0f * (MapValue - x)),650 + (16.0f * y )}));
+			spriteMapWall[y][x] = std::unique_ptr<Sprite>(Sprite::Create(2, {-16 + 100 + (mapWallSize * (MapValue - x)),650 + (mapWallSize * y )}));
 		}
 	}
 	spriteMapBack =  std::unique_ptr<Sprite>(Sprite::Create(5, {-16 + 100,650 -16 - 96}));
@@ -502,7 +502,7 @@ void MapChip::MapMove(XMFLOAT2 mapPos)
 	{
 		for (int y = 0; y < MapValue; y++)
 		{
-			spriteMapWall[y][x]->SetPosition({ mapPos.x - 16 + 100 + (16 * (MapValue - x)), mapPos.y + 650 + (16 * y) });
+			spriteMapWall[y][x]->SetPosition({ mapPos.x - mapWallSize + 100 + (mapWallSize * (MapValue - x)), mapPos.y + 650 + (mapWallSize * y) });
 		}
 	}
 	for (int i = 0; i < 11; i++)
@@ -620,17 +620,17 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 	{
 		for (int y = 0; y < 21; y += 2)
 		{
-			objPictureFrame1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 80.0f - (x * 8.0f), 4.25f, 76.0f - (y * 8.0f) }), lightSilen, 0);
-			objDesk1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ +0.5f + 80.0f - (x * 8.0f),2.0f,76.0f - (y * 8.0f) }), lightSilen, 0);
+			objPictureFrame1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 80.0f - (x * wallSize), 4.25f, 76.0f - (y * wallSize) }), lightSilen, 0);
+			objDesk1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ +0.5f + 80.0f - (x * wallSize),2.0f,76.0f - (y * wallSize) }), lightSilen, 0);
 
-			objPictureFrame2[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 72.0f - (x * 8.0f),4.25f,76.0f - (y * 8.0f) }), lightSilen, 0);
-			objDesk2[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ -0.5f + 72.0f - (x * 8.0f),2.0f,76.0f - (y * 8.0f) }), lightSilen, 0);
+			objPictureFrame2[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 72.0f - (x * wallSize),4.25f,76.0f - (y * wallSize) }), lightSilen, 0);
+			objDesk2[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ -0.5f + 72.0f - (x * wallSize),2.0f,76.0f - (y * wallSize) }), lightSilen, 0);
 
-			objPictureFrame3[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * 8.0f),4.25f,72.0f - (y * 8.0f) }), lightSilen, 0);
-			objDesk3[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * 8.0f),2.0f,-0.5f + 72.0f - (y * 8.0f) }), lightSilen, 0);
+			objPictureFrame3[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * wallSize),4.25f,72.0f - (y * wallSize) }), lightSilen, 0);
+			objDesk3[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * wallSize),2.0f,-0.5f + 72.0f - (y * wallSize) }), lightSilen, 0);
 
-			objPictureFrame4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * 8.0f),4.25f,80.0f - (y * 8.0f) }), lightSilen, 0);
-			objDesk4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * 8.0f),2.0f,+0.5f + 80.0f - (y * 8.0f) }), lightSilen, 0);
+			objPictureFrame4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * wallSize),4.25f,80.0f - (y * wallSize) }), lightSilen, 0);
+			objDesk4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * wallSize),2.0f,+0.5f + 80.0f - (y * wallSize) }), lightSilen, 0);
 		}
 	}
 	//ƒNƒŠƒXƒ^ƒ‹“üŽè‚µ‚½‚©
