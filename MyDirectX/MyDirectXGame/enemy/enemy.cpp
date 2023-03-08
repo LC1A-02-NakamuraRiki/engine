@@ -52,12 +52,12 @@ void Enemy::InitializeValue()
 	//鬼ごとの初期化
 	pos = { -4.0f,3.0f,-28.0f };//位置
 	angle = 360;//向き
-	nowMove = UP;//進む向き
+	nowMove = static_cast<int>(MoveVector::UP);//進む向き
 	adjustValueX = 0;//調整値X
 	adjustValueZ = 0;//調整値Z
 	speed = 0.2f;//スピード
 	vReserveFlag = false;//優先度
-	miniMapPos = { 100 + (mapWallSize * 10),650 + (mapWallSize * 7) };//ミニマップ位置
+	miniMapPos = { 100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 7) };//ミニマップ位置
 	maxAdjustmentTime = 40;//調整タイム
 
 	wallHitFlag = false;//先読みの座標が壁に当たっているか
@@ -73,12 +73,12 @@ void Enemy::InitializeValue2()
 {
 	//鬼ごとの初期化
 	pos = { 4.0f,3.0f,68.0f };//位置
-	nowMove = LEFT;//進む向き
+	nowMove = static_cast<int>(MoveVector::LEFT);//進む向き
 	adjustValueX = 0;//調整値X
 	adjustValueZ = 0;//調整値Z
 	speed = 0.16f;//スピード
 	vReserveFlag = false;//優先度
-	miniMapPos = { 100 + (mapWallSize * 9),650 + (mapWallSize * 19) };//ミニマップ位置
+	miniMapPos = { 100 + (MAPWALLSIZE * 9),650 + (MAPWALLSIZE * 19) };//ミニマップ位置
 	maxAdjustmentTime = 49;//調整タイム
 	wallHitFlag = false;//先読みの座標が壁に当たっているか
 	adjustmentFlag = false;//位置調整フラグ
@@ -93,12 +93,12 @@ void Enemy::InitializeValue3()
 {
 	//鬼ごとの初期化
 	pos = { -76.0f,3.0f,-12.0f };//位置
-	nowMove = UP;//進む向き
+	nowMove = static_cast<int>(MoveVector::UP);//進む向き
 	adjustValueX = 0;//調整値X
 	adjustValueZ = 0;//調整値Z
 	speed = 0.16f;//スピード
 	vReserveFlag = false;//優先度
-	miniMapPos = { 100 + (mapWallSize * 19),650 + (mapWallSize * 9) };//ミニマップ位置
+	miniMapPos = { 100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 9) };//ミニマップ位置
 	maxAdjustmentTime = 49;//調整タイム
 	wallHitFlag = false;//先読みの座標が壁に当たっているか
 	adjustmentFlag = false;//位置調整フラグ
@@ -206,297 +206,297 @@ void Enemy::AI(Player* player,MapChip* mapChip, XMFLOAT2 plusValue)
 	{
 		if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 2)//上左角
 		{
-			if (nowMove == UP)
+			if (nowMove == static_cast<int>(MoveVector::UP))
 			{
-				nowMove = RIGHT;
+				nowMove = static_cast<int>(MoveVector::RIGHT);
 				adjustmentFlag = true;
 			}
-			if (nowMove == LEFT)
+			if (nowMove == static_cast<int>(MoveVector::LEFT))
 			{
-				nowMove = DOWN;
+				nowMove = static_cast<int>(MoveVector::DOWN);
 				adjustmentFlag = true;
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 3)//上中心
 		{
-			if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
+			if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && 0 < vectorX)
 			{
-				nowMove = RIGHT;
+				nowMove = static_cast<int>(MoveVector::RIGHT);
 				adjustmentFlag = true;
 			}
-			else if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
+			else if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vectorX < 0)
 			{
-				nowMove = LEFT;
+				nowMove = static_cast<int>(MoveVector::LEFT);
 				adjustmentFlag = true;
 			}
-			else if (nowMove != UP && vReserveFlag == true && vectorZ >= 0)
+			else if (nowMove != static_cast<int>(MoveVector::UP) && vReserveFlag == true && vectorZ >= 0)
 			{
-				nowMove = DOWN;
+				nowMove = static_cast<int>(MoveVector::DOWN);
 				adjustmentFlag = true;
 			}
-			else if (nowMove == UP)
+			else if (nowMove == static_cast<int>(MoveVector::UP))
 			{
 				if (vectorX <= 0)
 				{
-					nowMove = LEFT;
+					nowMove = static_cast<int>(MoveVector::LEFT);
 					adjustmentFlag = true;
 				}
 				if (vectorX > 0)
 				{
-					nowMove = RIGHT;
+					nowMove = static_cast<int>(MoveVector::RIGHT);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == LEFT)
+			else if (nowMove == static_cast<int>(MoveVector::LEFT))
 			{
 				if (vectorZ > 0)
 				{
-					nowMove = DOWN;
+					nowMove = static_cast<int>(MoveVector::DOWN);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == RIGHT)
+			else if (nowMove == static_cast<int>(MoveVector::RIGHT))
 			{
 				if (vectorZ > 0)
 				{
-					nowMove = DOWN;
+					nowMove = static_cast<int>(MoveVector::DOWN);
 					adjustmentFlag = true;
 				}
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 4)//上右角
 		{
-			if (nowMove == RIGHT)
+			if (nowMove == static_cast<int>(MoveVector::RIGHT))
 			{
-				nowMove = DOWN;
+				nowMove = static_cast<int>(MoveVector::DOWN);
 				adjustmentFlag = true;
 			}
-			if (nowMove == UP)
+			if (nowMove == static_cast<int>(MoveVector::UP))
 			{
-				nowMove = LEFT;
+				nowMove = static_cast<int>(MoveVector::LEFT);
 				adjustmentFlag = true;
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 5)//中央左
 		{
-			if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
+			if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vectorZ < 0)
 			{
-				nowMove = UP;
+				nowMove = static_cast<int>(MoveVector::UP);
 				adjustmentFlag = true;
 			}
-			else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
+			else if (nowMove != static_cast<int>(MoveVector::UP) && vReserveFlag == true && 0 < vectorZ)
 			{
-				nowMove = DOWN;
+				nowMove = static_cast<int>(MoveVector::DOWN);
 				adjustmentFlag = true;
 			}
-			else if (nowMove != LEFT && vReserveFlag == false && vectorX >= 0)
+			else if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && vectorX >= 0)
 			{
-				nowMove = RIGHT;
+				nowMove = static_cast<int>(MoveVector::RIGHT);
 				adjustmentFlag = true;
 			}
-			else if(nowMove == LEFT)
+			else if(nowMove == static_cast<int>(MoveVector::LEFT))
 			{
 				if (vectorZ <= 0)
 				{
-					nowMove = UP;
+					nowMove = static_cast<int>(MoveVector::UP);
 					adjustmentFlag = true;
 				}
 				else if (vectorZ > 0)
 				{
-					nowMove = DOWN;
+					nowMove = static_cast<int>(MoveVector::DOWN);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == UP)
+			else if (nowMove == static_cast<int>(MoveVector::UP))
 			{
 				if (vectorX > 0)
 				{
-					nowMove = RIGHT;
+					nowMove = static_cast<int>(MoveVector::RIGHT);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == DOWN)
+			else if (nowMove == static_cast<int>(MoveVector::DOWN))
 			{
 				if (vectorX > 0)
 				{
-					nowMove = RIGHT;
+					nowMove = static_cast<int>(MoveVector::RIGHT);
 					adjustmentFlag = true;
 				}
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 6)//中央
 		{
-			if (nowMove == UP && vectorZ > 0)
+			if (nowMove == static_cast<int>(MoveVector::UP) && vectorZ > 0)
 			{
 				if (vectorX <= 0)
 				{
-					nowMove = LEFT;
+					nowMove = static_cast<int>(MoveVector::LEFT);
 					adjustmentFlag = true;
 				}
 				if (vectorX > 0)
 				{
-					nowMove = RIGHT;
+					nowMove = static_cast<int>(MoveVector::RIGHT);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == DOWN && vectorZ < 0)
+			else if (nowMove == static_cast<int>(MoveVector::DOWN) && vectorZ < 0)
 			{
 				if (vectorX <= 0)
 				{
-					nowMove = LEFT;
+					nowMove = static_cast<int>(MoveVector::LEFT);
 					adjustmentFlag = true;
 				}
 				if (vectorX > 0)
 				{
-					nowMove = RIGHT;
+					nowMove = static_cast<int>(MoveVector::RIGHT);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == RIGHT && vectorX < 0)
+			else if (nowMove == static_cast<int>(MoveVector::RIGHT) && vectorX < 0)
 			{
 				if (vectorZ <= 0)
 				{
-					nowMove = UP;
+					nowMove = static_cast<int>(MoveVector::UP);
 					adjustmentFlag = true;
 				}
 				if (vectorZ > 0)
 				{
-					nowMove = DOWN;
+					nowMove = static_cast<int>(MoveVector::DOWN);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == LEFT && vectorX> 0)
+			else if (nowMove == static_cast<int>(MoveVector::LEFT) && vectorX> 0)
 			{
 				if (vectorZ <= 0)
 				{
-					nowMove = UP;
+					nowMove = static_cast<int>(MoveVector::UP);
 					adjustmentFlag = true;
 				}
 				if (vectorZ > 0)
 				{
-					nowMove = DOWN;
+					nowMove = static_cast<int>(MoveVector::DOWN);
 					adjustmentFlag = true;
 				}
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 7)//中央右
 		{
-		if (nowMove != DOWN && vReserveFlag == true && vectorZ < 0)
+		if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vectorZ < 0)
 		{
-			nowMove = UP;
+			nowMove = static_cast<int>(MoveVector::UP);
 			adjustmentFlag = true;
 		}
-		else if (nowMove != UP && vReserveFlag == true && 0 < vectorZ)
+		else if (nowMove != static_cast<int>(MoveVector::UP) && vReserveFlag == true && 0 < vectorZ)
 		{
-			nowMove = DOWN;
+			nowMove = static_cast<int>(MoveVector::DOWN);
 			adjustmentFlag = true;
 		}
-		else if (nowMove != RIGHT && vReserveFlag == false && vectorX <= 0)
+		else if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vectorX <= 0)
 		{
-			nowMove = LEFT;
+			nowMove = static_cast<int>(MoveVector::LEFT);
 			adjustmentFlag = true;
 		}
-		else if (nowMove == RIGHT)
+		else if (nowMove == static_cast<int>(MoveVector::RIGHT))
 			{
 				if (vectorZ <= 0)
 				{
-					nowMove = UP;
+					nowMove = static_cast<int>(MoveVector::UP);
 					adjustmentFlag = true;
 				}
 				if (vectorZ > 0)
 				{
-					nowMove = DOWN;
+					nowMove = static_cast<int>(MoveVector::DOWN);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == UP)
+			else if (nowMove == static_cast<int>(MoveVector::UP))
 			{
 				if (vectorX < 0)
 				{
-					nowMove = LEFT;
+					nowMove = static_cast<int>(MoveVector::LEFT);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == DOWN)
+			else if (nowMove == static_cast<int>(MoveVector::DOWN))
 			{
 				if (vectorX < 0)
 				{
-					nowMove = LEFT;
+					nowMove = static_cast<int>(MoveVector::LEFT);
 					adjustmentFlag = true;
 				}
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 8)//下左角
 		{
-			if (nowMove == LEFT)
+			if (nowMove == static_cast<int>(MoveVector::LEFT))
 			{
-				nowMove = UP;
+				nowMove = static_cast<int>(MoveVector::UP);
 				adjustmentFlag = true;
 			}
-			if (nowMove == DOWN)
+			if (nowMove == static_cast<int>(MoveVector::DOWN))
 			{
-				nowMove = RIGHT;
+				nowMove = static_cast<int>(MoveVector::RIGHT);
 				adjustmentFlag = true;
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 9)//下中央
 		{
 
-		if (nowMove != RIGHT && vReserveFlag == false && vectorX < 0)
+		if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vectorX < 0)
 		{
-			nowMove = LEFT;
+			nowMove = static_cast<int>(MoveVector::LEFT);
 			adjustmentFlag = true;
 		}
-		else if (nowMove != LEFT && vReserveFlag == false && 0 < vectorX)
+		else if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && 0 < vectorX)
 		{
-			nowMove = RIGHT;
+			nowMove = static_cast<int>(MoveVector::RIGHT);
 			adjustmentFlag = true;
 		}
-		else if (nowMove != DOWN && vReserveFlag == true && vectorZ <= 0)
+		else if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vectorZ <= 0)
 		{
-			nowMove = UP;
+			nowMove = static_cast<int>(MoveVector::UP);
 			adjustmentFlag = true;
 		}
-		else if (nowMove == DOWN)
+		else if (nowMove == static_cast<int>(MoveVector::DOWN))
 			{
 				if (vectorX <= 0)
 				{
-					nowMove = LEFT;
+					nowMove = static_cast<int>(MoveVector::LEFT);
 					adjustmentFlag = true;
 				}
 				if (vectorX > 0)
 				{
-					nowMove = RIGHT;
+					nowMove = static_cast<int>(MoveVector::RIGHT);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == LEFT)
+			else if (nowMove == static_cast<int>(MoveVector::LEFT))
 			{
 				if (vectorZ < 0)
 				{
-					nowMove = UP;
+					nowMove = static_cast<int>(MoveVector::UP);
 					adjustmentFlag = true;
 				}
 			}
-			else if (nowMove == RIGHT)
+			else if (nowMove == static_cast<int>(MoveVector::RIGHT))
 			{
 				if (vectorZ < 0)
 				{
-					nowMove = UP;
+					nowMove = static_cast<int>(MoveVector::UP);
 					adjustmentFlag = true;
 				}
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 10)//下右角
 		{
-			if (nowMove == DOWN)
+			if (nowMove == static_cast<int>(MoveVector::DOWN))
 			{
-				nowMove = LEFT;
+				nowMove = static_cast<int>(MoveVector::LEFT);
 				adjustmentFlag = true;
 			}
-			if (nowMove == RIGHT)
+			if (nowMove == static_cast<int>(MoveVector::RIGHT))
 			{
-				nowMove = UP;
+				nowMove = static_cast<int>(MoveVector::UP);
 				adjustmentFlag = true;
 			}
 		}
@@ -508,7 +508,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 	
 	if (mapChip->GetStopFlag() == false)//STOP発動してるか
 	{
-		if (nowMove == DOWN)//下に移動
+		if (nowMove == static_cast<int>(MoveVector::DOWN))//下に移動
 		{
 			spriteEnemyAngle->SetRotation(45);//角度をセット
 			angle = 360;//角度の値をセット
@@ -516,7 +516,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 			miniMapPos.y += speed * 2;//ミニマップの移動
 			adjustValueZ = -3.9f;//調整値セット
 		}
-		else if (nowMove == UP)//上に移動
+		else if (nowMove == static_cast<int>(MoveVector::UP))//上に移動
 		{
 			spriteEnemyAngle->SetRotation(-135);//角度をセット
 			angle = 180;//角度の値をセット
@@ -524,7 +524,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 			miniMapPos.y -= speed * 2;//ミニマップの移動
 			adjustValueZ = 3.9f;//調整値セット
 		}
-		else if (nowMove == RIGHT)//右に移動
+		else if (nowMove == static_cast<int>(MoveVector::RIGHT))//右に移動
 		{
 			spriteEnemyAngle->SetRotation(135);//角度をセット
 			angle = 90;//角度の値をセット
@@ -532,7 +532,7 @@ void Enemy::Move(MapChip* mapChip, XMFLOAT2 mapPos)
 			miniMapPos.x -= speed * 2;//ミニマップの移動
 			adjustValueX = -3.9f;//調整値セット
 		}
-		else if (nowMove == LEFT)//左に移動
+		else if (nowMove == static_cast<int>(MoveVector::LEFT))//左に移動
 		{
 			spriteEnemyAngle->SetRotation(-45);//角度をセット
 			angle = 270;//角度の値をセット

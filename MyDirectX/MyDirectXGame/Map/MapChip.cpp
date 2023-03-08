@@ -17,54 +17,54 @@ void MapChip::Initialize()
 	modelPictureFrame = std::unique_ptr<Model>(Model::CreateFromObject("pictureFrame", false));
 	modelDesk = std::unique_ptr<Model>(Model::CreateFromObject("desk", false));
 	modelMapWall = std::unique_ptr<Model>(Model::CreateFromObject("wall", false));
-	for (int x = 0; x < MapValue; x++){
-		for (int y = 0; y < MapValue; y++){
+	for (int x = 0; x < MAPVALUE; x++){
+		for (int y = 0; y < MAPVALUE; y++){
 			objPictureFrame1[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
 			objPictureFrame1[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame1[y][x]->SetPosition(XMFLOAT3({ 80.0f - (x * wallSize),4.25f,76.0f - (y * wallSize)}));
+			objPictureFrame1[y][x]->SetPosition(XMFLOAT3({ 80.0f - (x * WALLSIZE),4.25f,76.0f - (y * WALLSIZE)}));
 
 			objDesk1[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
 			objDesk1[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk1[y][x]->SetPosition(XMFLOAT3({ +0.5f + 80.0f - (x * wallSize),2.0f,76.0f - (y * wallSize) }));
+			objDesk1[y][x]->SetPosition(XMFLOAT3({ +0.5f + 80.0f - (x * WALLSIZE),2.0f,76.0f - (y * WALLSIZE) }));
 
 			objPictureFrame2[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
 			objPictureFrame2[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame2[y][x]->SetPosition(XMFLOAT3({ 72.0f - (x * wallSize),4.25f,76.0f - (y * wallSize) }));
+			objPictureFrame2[y][x]->SetPosition(XMFLOAT3({ 72.0f - (x * WALLSIZE),4.25f,76.0f - (y * WALLSIZE) }));
 
 			objDesk2[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
 			objDesk2[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk2[y][x]->SetPosition(XMFLOAT3({ -0.5f + 72.0f - (x * wallSize),2.0f,76.0f - (y * wallSize) }));
+			objDesk2[y][x]->SetPosition(XMFLOAT3({ -0.5f + 72.0f - (x * WALLSIZE),2.0f,76.0f - (y * WALLSIZE) }));
 
 			objPictureFrame3[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
 			objPictureFrame3[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * wallSize),4.25f,72.0f - (y * wallSize) }));
+			objPictureFrame3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),4.25f,72.0f - (y * WALLSIZE) }));
 			objPictureFrame3[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
 
 			objDesk3[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
 			objDesk3[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * wallSize),2.0f,-0.5f + 72.0f - (y * wallSize) }));
+			objDesk3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),2.0f,-0.5f + 72.0f - (y * WALLSIZE) }));
 			objDesk3[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
 
 			objPictureFrame4[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
 			objPictureFrame4[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * wallSize),4.25f,80.0f - (y * wallSize) }));
+			objPictureFrame4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),4.25f,80.0f - (y * WALLSIZE) }));
 			objPictureFrame4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
 
 			objDesk4[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
 			objDesk4[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * wallSize),2.0f,+0.5f + 80.0f - (y * wallSize) }));
+			objDesk4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),2.0f,+0.5f + 80.0f - (y * WALLSIZE) }));
 			objDesk4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
 			
 			objMapWall[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelMapWall.get()));
 			objMapWall[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
-			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), -2.0f, y * wallSize - (MapValue * wallSize / 2) }));
+			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * WALLSIZE - (MAPVALUE * WALLSIZE / 2), -2.0f, y * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }));
 		}
 	}
 	modelCeiling = std::unique_ptr<Model>(Model::CreateFromObject("ceiling", false));
 	modelFlat = std::unique_ptr<Model>(Model::CreateFromObject("roof", false));
-	for (int x = 0; x < MapValue; x++)
+	for (int x = 0; x < MAPVALUE; x++)
 	{
-		for (int y = 0; y < MapValue; y++)
+		for (int y = 0; y < MAPVALUE; y++)
 		{
 			if (x%3 == 1)
 			{
@@ -83,16 +83,16 @@ void MapChip::Initialize()
 				objCeiling[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelFlat.get()));
 			}
 			objCeiling[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
-			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 2.0f, y * wallSize - (MapValue * wallSize / 2) }));
+			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 2.0f, y * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }));
 		}
 	}
 
 	modelFloor = std::unique_ptr<Model>(Model::CreateFromObject("floor", false));
-	for (int x = 0; x < MapValue; x++){
-		for (int y = 0; y < MapValue; y++){
+	for (int x = 0; x < MAPVALUE; x++){
+		for (int y = 0; y < MAPVALUE; y++){
 			objFloor[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelFloor.get()));
 			objFloor[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
-			objFloor[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), -3.8f, y * wallSize - (MapValue * wallSize / 2) }));
+			objFloor[y][x]->SetPosition(XMFLOAT3({ x * WALLSIZE - (MAPVALUE * WALLSIZE / 2), -3.8f, y * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }));
 
 		}
 	}
@@ -192,34 +192,34 @@ void MapChip::Initialize()
 	}
 
 	//スプライトの初期化
-	for (int x = 0; x < MapValue; x++){
-		for (int y = 0; y < MapValue; y++)	{
+	for (int x = 0; x < MAPVALUE; x++){
+		for (int y = 0; y < MAPVALUE; y++)	{
 			spriteMapWall[y][x] = nullptr;
 		}
 	}
 	spriteDoorOpen = std::unique_ptr<Sprite>(Sprite::Create(45, { 990, 850 }));
 	spriteDoorOpen->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 
-	spriteNumberNum1[0] = std::unique_ptr<Sprite>(Sprite::Create(8,  { 260 - 10, 656 -  mapWallSize - 96 }));
-	spriteNumberNum1[1] = std::unique_ptr<Sprite>(Sprite::Create(9,  { 260 - 10, 656 -  mapWallSize - 96 }));
-	spriteNumberNum1[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 10, 656 -  mapWallSize - 96 }));
-	spriteNumberNum1[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 10, 656 -  mapWallSize - 96 }));
-	spriteNumberNum1[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 10, 656 -  mapWallSize - 96 }));
-	spriteNumberNum1[5] = std::unique_ptr<Sprite>(Sprite::Create(13, { 260 - 10, 656 -  mapWallSize - 96 }));
-	spriteNumberNum1[6] = std::unique_ptr<Sprite>(Sprite::Create(14, { 260 - 10, 656 -  mapWallSize - 96 }));
-	spriteNumberNum1[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 10, 656 -  mapWallSize - 96 }));
-	spriteNumberNum1[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 10, 656 -  mapWallSize - 96 }));
-	spriteNumberNum1[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 10, 656 -  mapWallSize - 96 }));
-	spriteNumberNum10[0] = std::unique_ptr<Sprite>(Sprite::Create(8, { 260 - 58, 656 -  mapWallSize - 96 }));
-	spriteNumberNum10[1] = std::unique_ptr<Sprite>(Sprite::Create(9, { 260 - 58, 656 -  mapWallSize - 96 }));
-	spriteNumberNum10[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 58, 656 - mapWallSize - 96 }));
-	spriteNumberNum10[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 58, 656 - mapWallSize - 96 }));
-	spriteNumberNum10[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 58, 656 - mapWallSize - 96 }));
-	spriteNumberNum10[5] = std::unique_ptr<Sprite>(Sprite::Create(13, { 260 - 58, 656 - mapWallSize - 96 }));
-	spriteNumberNum10[6] = std::unique_ptr<Sprite>(Sprite::Create(14, { 260 - 58, 656 - mapWallSize - 96 }));
-	spriteNumberNum10[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 58, 656 - mapWallSize - 96 }));
-	spriteNumberNum10[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 58, 656 - mapWallSize - 96 }));
-	spriteNumberNum10[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 58, 656 - mapWallSize - 96 }));
+	spriteNumberNum1[0] = std::unique_ptr<Sprite>(Sprite::Create(8,  { 260 - 10, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum1[1] = std::unique_ptr<Sprite>(Sprite::Create(9,  { 260 - 10, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum1[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 10, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum1[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 10, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum1[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 10, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum1[5] = std::unique_ptr<Sprite>(Sprite::Create(13, { 260 - 10, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum1[6] = std::unique_ptr<Sprite>(Sprite::Create(14, { 260 - 10, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum1[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 10, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum1[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 10, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum1[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 10, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum10[0] = std::unique_ptr<Sprite>(Sprite::Create(8, { 260 - 58, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum10[1] = std::unique_ptr<Sprite>(Sprite::Create(9, { 260 - 58, 656 -  MAPWALLSIZE - 96 }));
+	spriteNumberNum10[2] = std::unique_ptr<Sprite>(Sprite::Create(10, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
+	spriteNumberNum10[3] = std::unique_ptr<Sprite>(Sprite::Create(11, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
+	spriteNumberNum10[4] = std::unique_ptr<Sprite>(Sprite::Create(12, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
+	spriteNumberNum10[5] = std::unique_ptr<Sprite>(Sprite::Create(13, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
+	spriteNumberNum10[6] = std::unique_ptr<Sprite>(Sprite::Create(14, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
+	spriteNumberNum10[7] = std::unique_ptr<Sprite>(Sprite::Create(15, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
+	spriteNumberNum10[8] = std::unique_ptr<Sprite>(Sprite::Create(16, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
+	spriteNumberNum10[9] = std::unique_ptr<Sprite>(Sprite::Create(29, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
 	 spriteEnemyStop = std::unique_ptr<Sprite>(Sprite::Create(31, { 990, 850 }));
 	 spriteEnemyStop->SetAnchorPoint(XMFLOAT2(0.5f,0.5f));
 	 spriteEnemyStop->SetSize(XMFLOAT2(stopFontSize));
@@ -227,11 +227,11 @@ void MapChip::Initialize()
 	 spriteEnemySpot->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 	 spriteEnemySpot->SetSize(XMFLOAT2(spotFontSize));
 	 spriteSpotEffect = std::unique_ptr<Sprite>(Sprite::Create(33, { 84,650 - 16 - 96 }));
-	for (int x = 0; x < MapValue; x++)
+	for (int x = 0; x < MAPVALUE; x++)
 	{
-		for (int y = 0; y < MapValue; y++)
+		for (int y = 0; y < MAPVALUE; y++)
 		{
-			spriteMapWall[y][x] = std::unique_ptr<Sprite>(Sprite::Create(2, {-16 + 100 + (mapWallSize * (MapValue - x)),650 + (mapWallSize * y )}));
+			spriteMapWall[y][x] = std::unique_ptr<Sprite>(Sprite::Create(2, {-16 + 100 + (MAPWALLSIZE * (MAPVALUE - x)),650 + (MAPWALLSIZE * y )}));
 		}
 	}
 	spriteMapBack =  std::unique_ptr<Sprite>(Sprite::Create(5, {-16 + 100,650 -16 - 96}));
@@ -269,12 +269,12 @@ void MapChip::Initialize()
 void MapChip::InitializeValue()
 {
 	//壁の初期化
-	for (int x = 0; x < MapValue; x++)
+	for (int x = 0; x < MAPVALUE; x++)
 	{
-		for (int y = 0; y < MapValue; y++)
+		for (int y = 0; y < MAPVALUE; y++)
 		{
 			objMapWall[y][x]->SetScale(XMFLOAT3({ 4, 4, 4 }));
-			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * wallSize - (MapValue * wallSize / 2), 0.0f, y * wallSize - (MapValue * wallSize / 2) }));
+			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 0.0f, y * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }));
 		}
 	}
 	//クリスタル初期化
@@ -320,9 +320,9 @@ void MapChip::MapCreate()
 	std::mt19937 mt(rnd());
 	std::uniform_int_distribution<>rand3(0, 1);//0~3の範囲
 	int num = rand3(mt);
-	for (int z = 0; z < MapValue / 3; z++)
+	for (int z = 0; z < MAPVALUE / 3; z++)
 	{
-		for (int x = 0; x < MapValue / 3; x++)
+		for (int x = 0; x < MAPVALUE / 3; x++)
 		{
 			if (num == 0)
 			{
@@ -339,157 +339,157 @@ void MapChip::MapCreate()
 		}
 	}
 	num = rand3(mt);
-	for (int z = 0; z < MapValue / 3; z++)
+	for (int z = 0; z < MAPVALUE / 3; z++)
 	{
-		for (int x = 0; x < MapValue / 3; x++)
+		for (int x = 0; x < MAPVALUE / 3; x++)
 		{
 			if (num == 0)
 			{
-				mapWall[z + MapValue / 3][x] = mapWallLeftCenter[z][x];
+				mapWall[z + MAPVALUE / 3][x] = mapWallLeftCenter[z][x];
 			}
 			else if (num == 1)
 			{
-				mapWall[z + MapValue / 3][x] = mapWallLeftCenter1[z][x];
+				mapWall[z + MAPVALUE / 3][x] = mapWallLeftCenter1[z][x];
 			}
 			else if (num == 2)
 			{
-				mapWall[z + MapValue / 3][x] = mapWallLeftCenter[z][x];
+				mapWall[z + MAPVALUE / 3][x] = mapWallLeftCenter[z][x];
 			}
 		}
 	}
 	num = rand3(mt);
-	for (int z = 0; z < MapValue / 3; z++)
+	for (int z = 0; z < MAPVALUE / 3; z++)
 	{
-		for (int x = 0; x < MapValue / 3; x++)
+		for (int x = 0; x < MAPVALUE / 3; x++)
 		{
 			if (num == 0)
 			{
-				mapWall[z + (MapValue / 3) * 2][x] = mapWallLeftDown[z][x];
+				mapWall[z + (MAPVALUE / 3) * 2][x] = mapWallLeftDown[z][x];
 			}
 			else if (num == 1)
 			{
-				mapWall[z + (MapValue / 3) * 2][x] = mapWallLeftDown1[z][x];
+				mapWall[z + (MAPVALUE / 3) * 2][x] = mapWallLeftDown1[z][x];
 			}
 			else if (num == 2)
 			{
-				mapWall[z + (MapValue / 3) * 2][x] = mapWallLeftDown[z][x];
+				mapWall[z + (MAPVALUE / 3) * 2][x] = mapWallLeftDown[z][x];
 			}
 		}
 	}
 
 	num = rand3(mt);
-	for (int z = 0; z < MapValue / 3; z++)
+	for (int z = 0; z < MAPVALUE / 3; z++)
 	{
-		for (int x = 0; x < MapValue / 3; x++)
+		for (int x = 0; x < MAPVALUE / 3; x++)
 		{
 			if (num == 0)
 			{
-				mapWall[z][x + MapValue / 3] = mapWallCenterUp[z][x];
+				mapWall[z][x + MAPVALUE / 3] = mapWallCenterUp[z][x];
 			}
 			else if (num == 1)
 			{
-				mapWall[z][x + MapValue / 3] = mapWallCenterUp1[z][x];
+				mapWall[z][x + MAPVALUE / 3] = mapWallCenterUp1[z][x];
 			}
 			else if (num == 2)
 			{
-				mapWall[z][x + MapValue / 3] = mapWallCenterUp[z][x];
+				mapWall[z][x + MAPVALUE / 3] = mapWallCenterUp[z][x];
 			}
 		}
 	}
 	num = rand3(mt);
-	for (int z = 0; z < MapValue / 3; z++)
+	for (int z = 0; z < MAPVALUE / 3; z++)
 	{
-		for (int x = 0; x < MapValue / 3; x++)
+		for (int x = 0; x < MAPVALUE / 3; x++)
 		{
 			num = 1;
 			if (num == 0)
 			{
-				mapWall[z + MapValue / 3][x + MapValue / 3] = mapWallCenterCenter[z][x];
+				mapWall[z + MAPVALUE / 3][x + MAPVALUE / 3] = mapWallCenterCenter[z][x];
 			}
 			else if (num == 1)
 			{
-				mapWall[z + MapValue / 3][x + MapValue / 3] = mapWallCenterCenter1[z][x];
+				mapWall[z + MAPVALUE / 3][x + MAPVALUE / 3] = mapWallCenterCenter1[z][x];
 			}
 			else if (num == 2)
 			{
-				mapWall[z + MapValue / 3][x + MapValue / 3] = mapWallCenterCenter[z][x];
+				mapWall[z + MAPVALUE / 3][x + MAPVALUE / 3] = mapWallCenterCenter[z][x];
 			}
 		}
 	}
 	num = rand3(mt);
-	for (int z = 0; z < MapValue / 3; z++)
+	for (int z = 0; z < MAPVALUE / 3; z++)
 	{
-		for (int x = 0; x < MapValue / 3; x++)
+		for (int x = 0; x < MAPVALUE / 3; x++)
 		{
 			if (num == 0)
 			{
-				mapWall[z + (MapValue / 3) * 2][x + MapValue / 3] = mapWallCenterDown[z][x];
+				mapWall[z + (MAPVALUE / 3) * 2][x + MAPVALUE / 3] = mapWallCenterDown[z][x];
 			}
 			else if (num == 1)
 			{
-				mapWall[z + (MapValue / 3) * 2][x + MapValue / 3] = mapWallCenterDown1[z][x];
+				mapWall[z + (MAPVALUE / 3) * 2][x + MAPVALUE / 3] = mapWallCenterDown1[z][x];
 			}
 			else if (num == 2)
 			{
-				mapWall[z + (MapValue / 3) * 2][x + MapValue / 3] = mapWallCenterDown[z][x];
+				mapWall[z + (MAPVALUE / 3) * 2][x + MAPVALUE / 3] = mapWallCenterDown[z][x];
 			}
 		}
 	}
 
 	num = rand3(mt);
-	for (int z = 0; z < MapValue / 3; z++)
+	for (int z = 0; z < MAPVALUE / 3; z++)
 	{
-		for (int x = 0; x < MapValue / 3; x++)
+		for (int x = 0; x < MAPVALUE / 3; x++)
 		{
 			if (num == 0)
 			{
-				mapWall[z][x + (MapValue / 3) * 2] = mapWallRightUp[z][x];
+				mapWall[z][x + (MAPVALUE / 3) * 2] = mapWallRightUp[z][x];
 			}
 			else if (num == 1)
 			{
-				mapWall[z][x + (MapValue / 3) * 2] = mapWallRightUp1[z][x];
+				mapWall[z][x + (MAPVALUE / 3) * 2] = mapWallRightUp1[z][x];
 			}
 			else if (num == 2)
 			{
-				mapWall[z][x + (MapValue / 3) * 2] = mapWallRightUp[z][x];
+				mapWall[z][x + (MAPVALUE / 3) * 2] = mapWallRightUp[z][x];
 			}
 		}
 	}
 	num = rand3(mt);
-	for (int z = 0; z < MapValue / 3; z++)
+	for (int z = 0; z < MAPVALUE / 3; z++)
 	{
-		for (int x = 0; x < MapValue / 3; x++)
+		for (int x = 0; x < MAPVALUE / 3; x++)
 		{
 			if (num == 0)
 			{
-				mapWall[z + MapValue / 3][x + (MapValue / 3) * 2] = mapWallRightCenter[z][x];
+				mapWall[z + MAPVALUE / 3][x + (MAPVALUE / 3) * 2] = mapWallRightCenter[z][x];
 			}
 			else if (num == 1)
 			{
-				mapWall[z + MapValue / 3][x + (MapValue / 3) * 2] = mapWallRightCenter1[z][x];
+				mapWall[z + MAPVALUE / 3][x + (MAPVALUE / 3) * 2] = mapWallRightCenter1[z][x];
 			}
 			else if (num == 2)
 			{
-				mapWall[z + MapValue / 3][x + (MapValue / 3) * 2] = mapWallRightCenter[z][x];
+				mapWall[z + MAPVALUE / 3][x + (MAPVALUE / 3) * 2] = mapWallRightCenter[z][x];
 			}
 		}
 	}
 	num = rand3(mt);
-	for (int z = 0; z < MapValue / 3; z++)
+	for (int z = 0; z < MAPVALUE / 3; z++)
 	{
-		for (int x = 0; x < MapValue / 3; x++)
+		for (int x = 0; x < MAPVALUE / 3; x++)
 		{
 			if (num == 0)
 			{
-				mapWall[z + (MapValue / 3) * 2][x + (MapValue / 3) * 2] = mapWallRightDown[z][x];
+				mapWall[z + (MAPVALUE / 3) * 2][x + (MAPVALUE / 3) * 2] = mapWallRightDown[z][x];
 			}
 			else if (num == 1)
 			{
-				mapWall[z + (MapValue / 3) * 2][x + (MapValue / 3) * 2] = mapWallRightDown1[z][x];
+				mapWall[z + (MAPVALUE / 3) * 2][x + (MAPVALUE / 3) * 2] = mapWallRightDown1[z][x];
 			}
 			else if (num == 2)
 			{
-				mapWall[z + (MapValue / 3) * 2][x + (MapValue / 3) * 2] = mapWallRightDown[z][x];
+				mapWall[z + (MAPVALUE / 3) * 2][x + (MAPVALUE / 3) * 2] = mapWallRightDown[z][x];
 			}
 		}
 	}
@@ -498,11 +498,11 @@ void MapChip::MapCreate()
 void MapChip::MapMove(XMFLOAT2 mapPos)
 {
 	//ミニマップの移動
-	for (int x = 0; x < MapValue; x++)
+	for (int x = 0; x < MAPVALUE; x++)
 	{
-		for (int y = 0; y < MapValue; y++)
+		for (int y = 0; y < MAPVALUE; y++)
 		{
-			spriteMapWall[y][x]->SetPosition({ mapPos.x - mapWallSize + 100 + (mapWallSize * (MapValue - x)), mapPos.y + 650 + (mapWallSize * y) });
+			spriteMapWall[y][x]->SetPosition({ mapPos.x - MAPWALLSIZE + 100 + (MAPWALLSIZE * (MAPVALUE - x)), mapPos.y + 650 + (MAPWALLSIZE * y) });
 		}
 	}
 	for (int i = 0; i < 11; i++)
@@ -620,17 +620,17 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 	{
 		for (int y = 0; y < 21; y += 2)
 		{
-			objPictureFrame1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 80.0f - (x * wallSize), 4.25f, 76.0f - (y * wallSize) }), lightSilen, 0);
-			objDesk1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ +0.5f + 80.0f - (x * wallSize),2.0f,76.0f - (y * wallSize) }), lightSilen, 0);
+			objPictureFrame1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 80.0f - (x * WALLSIZE), 4.25f, 76.0f - (y * WALLSIZE) }), lightSilen, 0);
+			objDesk1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ +0.5f + 80.0f - (x * WALLSIZE),2.0f,76.0f - (y * WALLSIZE) }), lightSilen, 0);
 
-			objPictureFrame2[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 72.0f - (x * wallSize),4.25f,76.0f - (y * wallSize) }), lightSilen, 0);
-			objDesk2[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ -0.5f + 72.0f - (x * wallSize),2.0f,76.0f - (y * wallSize) }), lightSilen, 0);
+			objPictureFrame2[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 72.0f - (x * WALLSIZE),4.25f,76.0f - (y * WALLSIZE) }), lightSilen, 0);
+			objDesk2[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ -0.5f + 72.0f - (x * WALLSIZE),2.0f,76.0f - (y * WALLSIZE) }), lightSilen, 0);
 
-			objPictureFrame3[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * wallSize),4.25f,72.0f - (y * wallSize) }), lightSilen, 0);
-			objDesk3[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * wallSize),2.0f,-0.5f + 72.0f - (y * wallSize) }), lightSilen, 0);
+			objPictureFrame3[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * WALLSIZE),4.25f,72.0f - (y * WALLSIZE) }), lightSilen, 0);
+			objDesk3[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * WALLSIZE),2.0f,-0.5f + 72.0f - (y * WALLSIZE) }), lightSilen, 0);
 
-			objPictureFrame4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * wallSize),4.25f,80.0f - (y * wallSize) }), lightSilen, 0);
-			objDesk4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * wallSize),2.0f,+0.5f + 80.0f - (y * wallSize) }), lightSilen, 0);
+			objPictureFrame4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * WALLSIZE),4.25f,80.0f - (y * WALLSIZE) }), lightSilen, 0);
+			objDesk4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * WALLSIZE),2.0f,+0.5f + 80.0f - (y * WALLSIZE) }), lightSilen, 0);
 		}
 	}
 	//クリスタル入手したか
@@ -670,17 +670,17 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 int MapChip::ArrayValue(float x, float y)
 {
 	//指定した位置のマップの情報取得
-	int mapY = int((y / wallSize) + ((MapValue+1) / 2));
-	int mapX = int((x / wallSize) + ((MapValue+1) / 2));
+	int mapY = int((y / WALLSIZE) + ((MAPVALUE+1) / 2));
+	int mapX = int((x / WALLSIZE) + ((MAPVALUE+1) / 2));
 	return mapWall[mapY][mapX];
 }
 
 void MapChip::Draw()
 {
 	//壁
-	for (int x = 0; x < MapValue; x++)
+	for (int x = 0; x < MAPVALUE; x++)
 	{
-		for (int y = 0; y < MapValue; y++)
+		for (int y = 0; y < MAPVALUE; y++)
 		{
 			if (mapWall[y][x] == 1)
 			{
@@ -689,9 +689,9 @@ void MapChip::Draw()
 		}
 	}
 	//天井
-	for (int x = 0; x < MapValue; x++)
+	for (int x = 0; x < MAPVALUE; x++)
 	{
-		for (int y = 0; y < MapValue; y++)
+		for (int y = 0; y < MAPVALUE; y++)
 		{
 			if (mapWall[y][x] != 1)
 			{
@@ -700,9 +700,9 @@ void MapChip::Draw()
 		}
 	}
 	//床
-	for (int x = 0; x < MapValue; x++)
+	for (int x = 0; x < MAPVALUE; x++)
 	{
-		for (int y = 0; y < MapValue; y++)
+		for (int y = 0; y < MAPVALUE; y++)
 		{
 			if (mapWall[y][x] != 1)
 			{
@@ -762,9 +762,9 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 		spriteSpotEffect->Draw(1.0f);
 	}
 	//壁
-	for (int x = 0; x < MapValue; x++)
+	for (int x = 0; x < MAPVALUE; x++)
 	{
-		for (int y = 0; y < MapValue; y++)
+		for (int y = 0; y < MAPVALUE; y++)
 		{
 			if (mapWall[y][x] == 1 && spriteMapWall[y][x]->GetPosition().x < 420 && spriteMapWall[y][x]->GetPosition().x > 100
 				&& spriteMapWall[y][x]->GetPosition().y > 650 && spriteMapWall[y][x]->GetPosition().y < 986)

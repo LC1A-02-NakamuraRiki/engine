@@ -51,19 +51,18 @@ public:
 	bool GetShakeFlag() { return shakeFlag; }//シェイクフラグの取得
 	bool SetShakeFlag(bool ShakeFlag) { return shakeFlag = ShakeFlag; }//シェイクフラグの指定
 private:
-	const float wallSize = 8.0f;//壁の大きさ
-	const float mapWallSize = 16.0f;//ミニマップの壁の大きさ
-	const int MapValue = 21;//マップの最大サイズ
+	const float WALLSIZE = 8.0f;//壁の大きさ
+	const float MAPWALLSIZE = 16.0f;//ミニマップの壁の大きさ
+	const int MAPVALUE = 21;//マップの最大サイズ
+	const float MOVESPEED = 0.18f;//歩きの速度
 	std::unique_ptr<Sprite> spritePlayerDot;//ミニマップのドット
 	std::unique_ptr<Sprite> spritePlayerAngle;//ミニマップの見ている位置
 	std::unique_ptr<Sprite> spriteMoveUI;//移動のUI
 	std::unique_ptr<Sprite> spriteViewUI;//視点のUI
 	std::unique_ptr<Sprite> spriteOpenUI;//開けるUI
 	XMFLOAT3 pos = { -8.0f,0.0f,-40.0f };//プレイヤーの位置
-	XMFLOAT2 miniMapPos = { 100 + (mapWallSize * 10),650 + (mapWallSize * 8) };//ミニマップ初期値
+	XMFLOAT2 miniMapPos = { 100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 8) };//ミニマップ初期値
 	XMFLOAT2 mapPosValue = { 0,0 };//マップの座標
-	const float r = 0.5f;//プレイヤーの半径
-	const float moveSpeed = 0.18f;//歩きの速度
 	float viewSpeed = 4.0f;//視点の速さ
 	float mouseViewSpeed = 0.2f;//視点の速さ
 	XMFLOAT3 target = { 0,0.0f,0 };//注視点

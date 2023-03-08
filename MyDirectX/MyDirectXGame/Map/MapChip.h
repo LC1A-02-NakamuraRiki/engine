@@ -40,7 +40,10 @@ public:
 	bool LightAction();//ライト点滅
 	bool SetLightAction(bool actionFlag) {return this->lightAction = actionFlag;}//フラグセット
 private:
-	
+	const float WALLSIZE = 8.0f;//壁の大きさ
+	const float MAPWALLSIZE = 16.0f;//ミニマップの壁の大きさ
+	const int MAPVALUE = 21;//マップの最大サイズ
+
 	std::unique_ptr<Model> modelMapWall;//壁モデル
 	std::array < std::array < std::unique_ptr<Object3d>,21>,21> objMapWall;//壁オブジェクト
 	std::unique_ptr<Model> modelCeiling;//ライトモデル
@@ -57,27 +60,25 @@ private:
 	std::array<float, 4> doorAngle = {90, 270,90,270};//ドア角度
 	std::array < std::unique_ptr<Object3d>,4> objMapDoor;//ドアオブジェクト
 	bool gateOpenFlag = false;//ゲート空いたか
-	const float wallSize = 8;//壁の大きさ
-	const float mapWallSize = 16.0f;//ミニマップの壁の大きさ
-	const int MapValue = 21;//マップの最大サイズ
+	
 	//クリスタルの位置3D
-	std::array<XMFLOAT3, 11> crystalPos = { XMFLOAT3({ 1 * wallSize - (21 * wallSize / 2),  1.0f, 1 * wallSize - (21 * wallSize / 2)   }),
-	XMFLOAT3({ 10 * wallSize - (MapValue * wallSize / 2), 1.0f, 1 * wallSize - (MapValue * wallSize / 2)   }),
-	XMFLOAT3({ 19 * wallSize - (MapValue * wallSize / 2), 1.0f, 1 * wallSize - (MapValue * wallSize / 2)  }),
-	XMFLOAT3({ 1 * wallSize - (MapValue * wallSize / 2),  1.0f, 10 * wallSize - (MapValue * wallSize / 2)   }),
-	XMFLOAT3({ 10 * wallSize - (MapValue * wallSize / 2), 1.0f, 16 * wallSize - (MapValue * wallSize / 2)   }),
-	XMFLOAT3({ 19 * wallSize - (MapValue * wallSize / 2), 1.0f, 10 * wallSize - (MapValue * wallSize / 2)  }),
-	XMFLOAT3({ 1 * wallSize - (MapValue * wallSize / 2),  1.0f, 19 * wallSize - (MapValue * wallSize / 2)  }),
-	XMFLOAT3({ 10 * wallSize - (MapValue * wallSize / 2), 1.0f, 19 * wallSize - (MapValue * wallSize / 2)  }),
-	XMFLOAT3({ 19 * wallSize - (MapValue * wallSize / 2),1.0f, 19 * wallSize - (MapValue * wallSize / 2) }),
-	XMFLOAT3({ 10 * wallSize - (MapValue * wallSize / 2),1.0f, 7 * wallSize - (MapValue * wallSize / 2) }),
-	XMFLOAT3({ 10 * wallSize - (MapValue * wallSize / 2),1.0f, 13 * wallSize - (MapValue * wallSize / 2) }) };
+	std::array<XMFLOAT3, 11> crystalPos = { XMFLOAT3({ 1 * WALLSIZE - (21 * WALLSIZE / 2),  1.0f, 1 * WALLSIZE - (21 * WALLSIZE / 2)   }),
+	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 1.0f, 1 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)   }),
+	XMFLOAT3({ 19 * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 1.0f, 1 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)  }),
+	XMFLOAT3({ 1 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),  1.0f, 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)   }),
+	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 1.0f, 16 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)   }),
+	XMFLOAT3({ 19 * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 1.0f, 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)  }),
+	XMFLOAT3({ 1 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),  1.0f, 19 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)  }),
+	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 1.0f, 19 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)  }),
+	XMFLOAT3({ 19 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 19 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }),
+	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 7 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }),
+	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 13 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }) };
 	
 	//クリスタルの位置2D
-	std::array<XMFLOAT2, 11> mapCrystalPos = { XMFLOAT2{100 + (mapWallSize * 19),650 + (mapWallSize * 1)},XMFLOAT2{100 + (mapWallSize * 10),650 + (mapWallSize * 1)},
-	XMFLOAT2{100 + (mapWallSize * 1),650 + (mapWallSize * 1)}, XMFLOAT2{100 + (mapWallSize * 19),650 + (mapWallSize * 10)},XMFLOAT2{100 + (mapWallSize * 10),650 + (mapWallSize * 16)},
-	XMFLOAT2{100 + (mapWallSize * 1),650 + (mapWallSize * 10)},XMFLOAT2{100 + (mapWallSize * 19),650 + (mapWallSize * 19)},XMFLOAT2{100 + (mapWallSize * 10),650 + (mapWallSize * 19)},
-	XMFLOAT2{100 + (mapWallSize * 1),650 + (mapWallSize * 19)},XMFLOAT2{100 + (mapWallSize * 10),650 + (mapWallSize * 7)} ,XMFLOAT2{100 + (mapWallSize * 10),650 + (mapWallSize * 13)}, };
+	std::array<XMFLOAT2, 11> mapCrystalPos = { XMFLOAT2{100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 1)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 1)},
+	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 1)}, XMFLOAT2{100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 10)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 16)},
+	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 10)},XMFLOAT2{100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 19)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 19)},
+	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 19)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 7)} ,XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 13)}, };
 
 	std::array<bool, 11> crystalGetFlag = { false,false,false,false,false,false,false,false,false,false,false };//クリスタル取ったか
 	

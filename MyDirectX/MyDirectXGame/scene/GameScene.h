@@ -117,20 +117,20 @@ private: // メンバ変数
 	std::array<float, 3> lightDir4 = { -1,0,0 };
 
 	//アンビエント初期値
-	const float colorAmbient = 1.5f;
-	std::array<float, 3> ambientColor0 = { colorAmbient,colorAmbient,colorAmbient };
+	const float COLORAMBIENT = 1.5f;
+	std::array<float, 3> ambientColor0 = { COLORAMBIENT,COLORAMBIENT,COLORAMBIENT };
 	
 	//ライトの色縦初期値
-	const float colorUpDown = 5.0f;
-	std::array<float, 3> lightColor0 = { colorUpDown,colorUpDown,colorUpDown };
-	std::array<float, 3> lightColor5 = { colorUpDown,colorUpDown,colorUpDown };
+	const float COLORUPDOWN = 5.0f;
+	std::array<float, 3> lightColor0 = { COLORUPDOWN,COLORUPDOWN,COLORUPDOWN };
+	std::array<float, 3> lightColor5 = { COLORUPDOWN,COLORUPDOWN,COLORUPDOWN };
 
 	//ライトの色横初期値
-	const float colorSide = 4.0f;
-	std::array<float, 3> lightColor1 = { colorSide,colorSide,colorSide };
-	std::array<float, 3> lightColor2 = { colorSide,colorSide,colorSide };
-	std::array<float, 3> lightColor3 = { colorSide,colorSide,colorSide };
-	std::array<float, 3> lightColor4 = { colorSide,colorSide,colorSide };
+	const float COLORSIDE = 4.0f;
+	std::array<float, 3> lightColor1 = { COLORSIDE,COLORSIDE,COLORSIDE };
+	std::array<float, 3> lightColor2 = { COLORSIDE,COLORSIDE,COLORSIDE };
+	std::array<float, 3> lightColor3 = { COLORSIDE,COLORSIDE,COLORSIDE };
+	std::array<float, 3> lightColor4 = { COLORSIDE,COLORSIDE,COLORSIDE };
 
 	int titleTime;//タイトル遅延
 };
