@@ -27,45 +27,46 @@ PSOutput main(VSOutput input) : SV_TARGET
 			// ライトに向かうベクトルと法線の内積
 			float3 dotlightnormal = dot(dirLights[i].lightv, input.normal);
 			// 反射光ベクトル
-			float3 reflect = normalize(-dirLights[i].lightv + 2 * dotlightnormal * input.normal);
+			float3 reflect = normalize(-dirLights[i].lightv + 2.0f * dotlightnormal * input.normal);
 			// 拡散反射光
 			float3 diffuse = dotlightnormal * m_diffuse;
 			// 鏡面反射光
 			float3 specular = pow(saturate(dot(reflect, eyedir)), shininess) * float3(1.0f, 1.0f, 1.0f);
 
+			const float3 darkColor = float3(0.7f, 0.7f, 0.7f);
 			//丸陰
 			float bx = shadowPos1.x - input.worldpos.x;
-			float by = -0 - input.worldpos.y;
+			float by = 0 - input.worldpos.y;
 			float bz = shadowPos1.z - input.worldpos.z;
 			float bxyz = bx * bx + by * by + bz * bz;
 			float bxyzDistanse = sqrt(bxyz);
-			float bscalr = 1.0 - (bxyzDistanse / 1.6);
-			float3 darkColor = float3(0.7, 0.7, 0.7);
+			float bscalr = 1.0f - (bxyzDistanse / 1.6f);
+			
 			// 全て加算する
 			if (bscalr >= 0) {
 				shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor * bscalr);
 			}
 			float bx2 = shadowPos2.x - input.worldpos.x;
-			float by2 = -0 - input.worldpos.y;
+			float by2 = 0 - input.worldpos.y;
 			float bz2 = shadowPos2.z - input.worldpos.z;
 			float bxyz2 = bx2 * bx2 + by2 * by2 + bz2 * bz2;
 			float bxyzDistanse2 = sqrt(bxyz2);
-			float bscalr2 = 1.0 - (bxyzDistanse2 / 1.6);
-			float3 darkColor2 = float3(0.7, 0.7, 0.7);
+			float bscalr2 = 1.0f - (bxyzDistanse2 / 1.6f);
+			//const float3 darkColor2 = float3(0.7f, 0.7f, 0.7f);
 			// 全て加算する
 			if (bscalr2 >= 0) {
-				shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor2 * bscalr2);
+				shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor * bscalr2);
 			}
 			float bx3 = shadowPos3.x - input.worldpos.x;
-			float by3 = -0 - input.worldpos.y;
+			float by3 = 0 - input.worldpos.y;
 			float bz3 = shadowPos3.z - input.worldpos.z;
 			float bxyz3 = bx3 * bx3 + by3 * by3 + bz3 * bz3;
 			float bxyzDistanse3 = sqrt(bxyz3);
-			float bscalr3 = 1.0 - (bxyzDistanse3 / 1.6);
-			float3 darkColor3 = float3(0.7, 0.7, 0.7);
+			float bscalr3 = 1.0f - (bxyzDistanse3 / 1.6f);
+			//const float3 darkColor3 = float3(0.7f, 0.7f, 0.7f);
 			// 全て加算する
 			if (bscalr3 >= 0) {
-				shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor3 * bscalr3);
+				shadecolor.rgb -= ((diffuse + specular) * dirLights[i].lightcolor) * (darkColor * bscalr3);
 			}
 
 			//ポイントライト
@@ -82,7 +83,7 @@ PSOutput main(VSOutput input) : SV_TARGET
 				az = lightInfo.lightPos.z - input.worldpos.z;
 				axyz = ax * ax + ay * ay + az * az;
 				xyzDistanse = sqrt(axyz);
-				scalr = 1.0 - (xyzDistanse / 8);
+				scalr = 1.0f - (xyzDistanse / 8.0f);
 				// 全て加算する
 				if (scalr >= 0) {
 
@@ -96,12 +97,12 @@ PSOutput main(VSOutput input) : SV_TARGET
 				{
 					for (int y = 0; y < 7; y++)
 					{
-						ax = 68 + (-24 * x) - input.worldpos.x;
-						ay = 4 - input.worldpos.y;
-						az = -76 + (24 * y) - input.worldpos.z;
+						ax = 68.0f + (-24.0f * x) - input.worldpos.x;
+						ay = 4.0f - input.worldpos.y;
+						az = -76.0f + (24.0f * y) - input.worldpos.z;
 						axyz = ax * ax + ay * ay + az * az;
 						xyzDistanse = sqrt(axyz);
-						scalr = 1.0 - (xyzDistanse / 8);
+						scalr = 1.0f - (xyzDistanse / 8.0f);
 						// 全て加算する
 						if (scalr >= 0) {
 

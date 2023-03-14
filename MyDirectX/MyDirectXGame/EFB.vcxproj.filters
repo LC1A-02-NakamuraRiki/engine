@@ -155,7 +155,7 @@
     <ClCompile Include="Sound\Sound.cpp">
       <Filter>engine\Sound</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameScene.cpp">
+    <ClCompile Include="Scene\SceneManager.cpp">
       <Filter>App\Scene</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
@@ -185,6 +185,9 @@
     </ClCompile>
     <ClCompile Include="Player\SoundVector.cpp">
       <Filter>App\player</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Title.cpp">
+      <Filter>App\Scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -251,7 +254,7 @@
     <ClInclude Include="Sound\Sound.h">
       <Filter>engine\Sound</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\GameScene.h">
+    <ClInclude Include="Scene\SceneManager.h">
       <Filter>App\Scene</Filter>
     </ClInclude>
     <ClInclude Include="input\GamePad.h">
@@ -280,6 +283,9 @@
     </ClInclude>
     <ClInclude Include="Player\SoundVector.h">
       <Filter>App\player</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Title.h">
+      <Filter>App\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

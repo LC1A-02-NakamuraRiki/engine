@@ -1,7 +1,7 @@
 ﻿#include "../base/WinApp.h"
 #include "../base/DirectXCommon.h"
 #include "../Sound/Sound.h"
-#include "../Scene/GameScene.h"
+#include "../Scene/SceneManager.h"
 #include "../3d/LightGroop.h"
 #include "../3d/FbxLoader.h"
 #include "../2d/PostEffect.h"
@@ -14,7 +14,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	std::unique_ptr <WinApp> win;
 	std::unique_ptr <DirectXCommon> dxCommon;
 	std::unique_ptr <Sound>audio;
-	std::unique_ptr<GameScene> gameScene;
+	std::unique_ptr<SceneManager> sceneManager;
 	std::unique_ptr<PostEffect> postEffect;
 
 	// ゲームウィンドウの作成
@@ -51,8 +51,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma endregion
 
 	// ゲームシーンの初期化
-	gameScene = std::make_unique<GameScene>();
-	gameScene->Initialize(dxCommon.get(), audio.get());
+	sceneManager = std::make_unique<SceneManager>();
+	sceneManager->Initialize(dxCommon.get(), audio.get());
 
 	// メインループ
 	while (true)
@@ -63,23 +63,23 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 入力関連の毎フレーム処理
 		Input::GetInstance()->Update();
 		// ゲームシーンの毎フレーム処理
-		gameScene->Update();
+		sceneManager->Update();
 		if (Input::GetInstance()->KeybordTrigger(DIK_ESCAPE))
 		{
 			break;
 		}
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && gameScene->GetTitleButtonFlag() == 2)
+		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && sceneManager->GetTitleButtonFlag() == 2)
 		{
 			break;
 		}
 		postEffect->PreDrawScene(dxCommon->GetCommandList());
-		gameScene->Draw();
+		sceneManager->Draw();
 		postEffect->PostDrawScene(dxCommon->GetCommandList());
 
 		// 描画開始
 		dxCommon->PreDraw();
-		postEffect->Draw(dxCommon->GetCommandList(), gameScene->GetStopFlag());
-		gameScene->PostOffDraw();
+		postEffect->Draw(dxCommon->GetCommandList(), sceneManager->GetStopFlag());
+		sceneManager->PostOffDraw();
 		// ゲームシーンの描画
 		// 描画終了
 		dxCommon->PostDraw();

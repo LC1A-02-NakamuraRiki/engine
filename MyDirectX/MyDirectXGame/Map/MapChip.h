@@ -21,46 +21,51 @@ public:
 	void Initialize();//最初の初期化
 	void InitializeValue();//タイトル時の初期化
 	void MapCreate();//マップ作製
+	void MapRandam(int mapArea[7][7],int mapArea2[7][7], int X, int Z);
 	void MapMove(XMFLOAT2 mapPos);//ミニマップ移動
 	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);//アップデート
+	void StageUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);
+	void DoorOpen(XMFLOAT3 pos);
+	void PlayerPosConvertMap(XMFLOAT3 pos);
+	void CrystalUpdate(XMFLOAT3 pos);
 	int ArrayValue(float x, float y);//座標からマップチップ配列の算出
 	void Draw();//描画
 	void DrawSprite(XMFLOAT3 pos);//スプライト描画
 	void TimeStop();//時間停止
 	void EnemyDisplay();//敵スポット
 
-	int GetArrayValue(int x, int z) { return mapWall[z][x]; }//マップチップの情報取得
-	int GetPlayerArrayValue(int x, int z) { return mapPlayer[x][z]; }//マップチップで表したプレイヤーの位置取得
-	bool GetAllGetFlag() { return allGetFlag; }//クリスタルをすべて取ったかフラグ取得
-	bool GetStopFlag() { return stopFlag; }//ストップフラグ取得
-	bool GetDisplayFlag() { return displayFlag; }//スポットフラグ取得
-	bool GetCrystalGetFlag(int no) { return crystalGetFlag[no]; }//クリスタル取れているかフラグ取得
-	bool GetGateOpenFlag() { return gateOpenFlag; }//ゲートが開いたかフラグ取得
+	int GetArrayValue(int x, int z) { return mapWall[z][x]; }			//マップチップの情報取得
+	int GetPlayerArrayValue(int x, int z) { return mapPlayer[x][z]; }	//マップチップで表したプレイヤーの位置取得
+	bool GetAllGetFlag() { return allGetFlag; }							//クリスタルをすべて取ったかフラグ取得
+	bool GetStopFlag() { return stopFlag; }								//ストップフラグ取得
+	bool GetDisplayFlag() { return displayFlag; }						//スポットフラグ取得
+	bool GetCrystalGetFlag(int no) { return crystalGetFlag[no]; }		//クリスタル取れているかフラグ取得
+	bool GetGateOpenFlag() { return gateOpenFlag; }						//ゲートが開いたかフラグ取得
 
-	bool LightAction();//ライト点滅
-	bool SetLightAction(bool actionFlag) {return this->lightAction = actionFlag;}//フラグセット
+	bool LightAction();																	//ライト点滅
+	bool SetLightAction(bool actionFlag) { return this->lightAction = actionFlag; }		//フラグセット
 private:
-	const float WALLSIZE = 8.0f;//壁の大きさ
-	const float MAPWALLSIZE = 16.0f;//ミニマップの壁の大きさ
-	const int MAPVALUE = 21;//マップの最大サイズ
+	const float WALLSIZE = 8.0f;														//壁の大きさ
+	const float MAPWALLSIZE = 16.0f;													//ミニマップの壁の大きさ
+	const int MAPVALUE = 21;															//マップの最大サイズ
 
-	std::unique_ptr<Model> modelMapWall;//壁モデル
-	std::array < std::array < std::unique_ptr<Object3d>,21>,21> objMapWall;//壁オブジェクト
-	std::unique_ptr<Model> modelCeiling;//ライトモデル
-	std::unique_ptr<Model> modelFlat;//天井モデル
-	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objCeiling;//ライトオブジェクト
-	std::unique_ptr<Model> modelFloor;//床モデル
-	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objFloor;//床オブジェクト
-	std::unique_ptr<Model> modelCrystal;//クリスタルモデル
-	std::unique_ptr<Model> modelItemCrystal;//アイテムクリスタルモデル
+	std::unique_ptr<Model> modelMapWall;												//壁モデル
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objMapWall;			//壁オブジェクト
+	std::unique_ptr<Model> modelCeiling;												//ライトモデル
+	std::unique_ptr<Model> modelFlat;													//天井モデル
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objCeiling;			//ライトオブジェクト
+	std::unique_ptr<Model> modelFloor;													//床モデル
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objFloor;				//床オブジェクト
+	std::unique_ptr<Model> modelCrystal;												//クリスタルモデル
+	std::unique_ptr<Model> modelItemCrystal;											//アイテムクリスタルモデル
 	std::array <std::unique_ptr<Object3d>, 11> objCrystal;//クリスタルオブジェクト
 
 	std::unique_ptr<Sprite> spriteDoorOpen;//ドアUI
-	std::array < std::unique_ptr<Model>,4> modelDoor;//ドアモデル
-	std::array<float, 4> doorAngle = {90, 270,90,270};//ドア角度
-	std::array < std::unique_ptr<Object3d>,4> objMapDoor;//ドアオブジェクト
+	std::array < std::unique_ptr<Model>, 4> modelDoor;//ドアモデル
+	std::array<float, 4> doorAngle = { 90, 270,90,270 };//ドア角度
+	std::array < std::unique_ptr<Object3d>, 4> objMapDoor;//ドアオブジェクト
 	bool gateOpenFlag = false;//ゲート空いたか
-	
+
 	//クリスタルの位置3D
 	std::array<XMFLOAT3, 11> crystalPos = { XMFLOAT3({ 1 * WALLSIZE - (21 * WALLSIZE / 2),  1.0f, 1 * WALLSIZE - (21 * WALLSIZE / 2)   }),
 	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 1.0f, 1 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)   }),

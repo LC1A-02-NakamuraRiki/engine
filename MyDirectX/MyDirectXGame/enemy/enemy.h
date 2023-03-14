@@ -16,6 +16,19 @@ class Enemy
 		RIGHT,
 		LEFT
 	};
+
+	enum class AriaValue//移動方向
+	{
+		LEFTTOP = 2,
+		CENTERTOP = 3,
+		RIGHTTOP = 4,
+		LEFTMIDDLE = 5,
+		CENTERMIDDLE = 6,
+		RIGHTMIDDLE = 7,
+		LEFTBOTTOM = 8,
+		CENTERBOTTOM = 9,
+		RIGHTBOTTOM = 10,
+	};
 protected: // エイリアス
 
 	// DirectX::を省略
@@ -35,23 +48,45 @@ public:
 
 	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos,XMFLOAT2 plusValue, bool catchFlag1, bool catchFlag2);//アップデート
 
+	void ObjectUpdate(Player* player, MapChip* mapChip);
+
 	void Draw(Player* player, ID3D12GraphicsCommandList* cmdList);//3dの描画
 
 	void DrawSprite(MapChip* mapChip);//2dの描画
 
 	void AI(Player* player,MapChip* mapChip, XMFLOAT2 plusValue);//歩き
 
-	void Move(MapChip* mapChip, XMFLOAT2 mapPos);//歩き
+	void Move(Player* player,MapChip* mapChip, XMFLOAT2 mapPos);//歩き
+
+	void MoveValue(float spriteAngle, float objectAngle, float xSpeed, float zSpeed, float adjustX, float adjustZ);
 	
 	bool CatchCollision(Player* player);//プレイヤーと敵当たり判定
 
 	bool DeathAnimation(Player* player);//殴りアニメーション
+
+	bool StartFlag(Player* player, MapChip* mapChip, bool catchFlag1, bool catchFlag2);
+
+	bool AnimationStop(MapChip* mapChip);
+
+	void AiPriority(Player* player, XMFLOAT2 plusValue);
+
+	int NodeValue(MapChip* mapChip);
+
+	int CornerJudge(MoveVector vec, MoveVector result);
+
+	void ThreeWayJudge1();
+	void ThreeWayJudge2();
+	void ThreeWayJudge3();
+	void ThreeWayJudge4();
+	void FourWayJudge();
 
 	XMFLOAT3 GetPos() { return pos; };//座標
 	float GetRotation() { return angle; };//角度取得
 	int GetStartStopTime() {return startStopTime;}//スタートの硬直時間
 	
 private:
+	float vectorX = 0;
+	float vectorZ = 0;
 	const float WALLSIZE = 8;//壁の大きさ
 	const float MAPWALLSIZE = 16.0f;//ミニマップの壁の大きさ
 	const int MAPVALUE = 21;//マップの最大サイズ

@@ -6,7 +6,20 @@
 
 class Player
 {
-protected: // エイリアス
+	enum class CollisionDirection//移動方向
+	{
+		FRONT,
+		BACK,
+		RIGHT,
+		LEFT
+	};
+	enum class VerticalOrHorizontal//移動方向
+	{
+		VERTICAL,
+		HORIZONTAL
+	};
+
+private: // エイリアス
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -27,14 +40,26 @@ public:
 
 	void Move(MapChip* mapChip);//歩き
 
+	void MoveValue(float vec);
+
+	void MoveCollision(MapChip* mapChip, float vec);
+
+	bool TouchWall(MapChip* mapChip, CollisionDirection direction);
+
+	void PushBack(VerticalOrHorizontal VerOrHor, float vec);
+
 	void WalkShaking();//揺れ
 
 	void View(bool tutrialFlag, bool catchFlag,bool catchFlag2, bool catchFlag3);//視点の動き
 
 	void AngleSearch();//歩く方向の算出
 
+	bool ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z);
+
+	XMFLOAT2 ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos, float X, float Z);
+
 	XMFLOAT2 GetShortCut(MapChip* mapChip,XMFLOAT3 enemyPos);//プレイヤーの4マス先読み
-	
+
 	XMFLOAT3 GetPos() { return pos; }//3D座標の取得
 	XMFLOAT3 SetPos(XMFLOAT3 pos) { return this->pos = pos; }//3D座標の指定
 	XMFLOAT2 GetMapPos() { return mapPosValue; }//2D座標の取得
@@ -55,6 +80,10 @@ private:
 	const float MAPWALLSIZE = 16.0f;//ミニマップの壁の大きさ
 	const int MAPVALUE = 21;//マップの最大サイズ
 	const float MOVESPEED = 0.18f;//歩きの速度
+	const float PI = 3.141592f;
+	const float INVERSEVECTOR = 180;
+	const float R = 0.5f;//半径
+	const float CORNER = 0.35f;//角までの距離
 	std::unique_ptr<Sprite> spritePlayerDot;//ミニマップのドット
 	std::unique_ptr<Sprite> spritePlayerAngle;//ミニマップの見ている位置
 	std::unique_ptr<Sprite> spriteMoveUI;//移動のUI
