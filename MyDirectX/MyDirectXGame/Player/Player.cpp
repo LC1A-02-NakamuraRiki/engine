@@ -192,12 +192,12 @@ void Player::PushBack(VerticalOrHorizontal VerOrHor ,float vec)
 {
 	if (VerOrHor == VerticalOrHorizontal::VERTICAL)
 	{
-		pos.z += sin(((angle.y + vec + INVERSEVECTOR) * PI) / -INVERSEVECTOR) * MOVESPEED*2;      // z座標を更新
+		pos.z += sin(((angle.y + vec + INVERSEVECTOR) * PI) / -INVERSEVECTOR) * MOVESPEED;      // z座標を更新
 		mapPosValue.y += sin(((angle.y + vec) * PI) / -INVERSEVECTOR) * (MOVESPEED * 2);
 	}
 	else if (VerOrHor == VerticalOrHorizontal::HORIZONTAL)
 	{
-		pos.x += cos(((angle.y + vec + INVERSEVECTOR) * PI) / -INVERSEVECTOR) * MOVESPEED*2;      // x座標を更新
+		pos.x += cos(((angle.y + vec + INVERSEVECTOR) * PI) / -INVERSEVECTOR) * MOVESPEED;      // x座標を更新
 		mapPosValue.x += cos(((angle.y + vec + INVERSEVECTOR) * PI) / -INVERSEVECTOR) * (MOVESPEED * 2);
 	}
 }

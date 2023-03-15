@@ -101,6 +101,9 @@ void MapChip::Initialize()
 	}
 	objCrystal[3] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
 	objCrystal[5] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
+	objCrystal[3]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+	objCrystal[5]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+
 	for (int i = 0; i < 11; i++)
 	{
 		objCrystal[i]->SetPosition(crystalPos[i]);
@@ -593,7 +596,9 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 	
 	//ミニマップの裏
 	spriteMapBack->Draw(1.0f);//スポットしてない時
-	
+	if (displayFlag) {
+		spriteSpotEffect->Draw(1.0f);//スポット中
+	}
 	//壁
 	for (int x = 0; x < MAPVALUE; x++){
 		for (int y = 0; y < MAPVALUE; y++){
@@ -614,7 +619,11 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 			spriteCrystal[i]->Draw(1.0f);
 		}
 	}
-
+	//ミニマップのフレーム
+	if (!displayFlag) {
+		spriteMapFrame->Draw(1.0f);
+	}
+	
 	//数字
 	for (int i = 0; i < 9; i++)
 	{
@@ -632,14 +641,6 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 	{
 		spriteNumberNum1[0]->Draw(1.0f);
 		spriteNumberNum10[0]->Draw(1.0f);
-	}
-	
-	//ミニマップのフレーム
-	if (!displayFlag) {
-		spriteMapFrame->Draw(1.0f);
-	}
-	else {
-		spriteSpotEffect->Draw(1.0f);//スポット中
 	}
 
 	//スポットフォント

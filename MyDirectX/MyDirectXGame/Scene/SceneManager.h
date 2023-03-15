@@ -12,12 +12,12 @@
 #include "Collision.h"
 #include "ParticleManager.h"
 #include "DebugCamera.h"
-#include "DebugCamera.h"
 #include "Player.h"
 #include "MapChip.h"
 #include "enemy.h"
 #include "LightGroop.h"
 #include <array>
+#include "Title.h"
 
 /// <summary>
 /// ゲームシーン
@@ -84,6 +84,8 @@ private: // メンバ変数
 	DirectXCommon* dxCommon = nullptr;
 	Sound* audio = nullptr;
 	DebugText debugText;
+
+	std::unique_ptr <TitleScene> titleScene;
 
 	/// <summary>
 	/// ゲームシーン用
