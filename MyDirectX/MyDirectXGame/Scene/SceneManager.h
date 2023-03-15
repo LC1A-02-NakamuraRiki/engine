@@ -17,7 +17,8 @@
 #include "enemy.h"
 #include "LightGroop.h"
 #include <array>
-#include "Title.h"
+#include "TitleScene.h"
+#include "OptionScene.h"
 
 /// <summary>
 /// ゲームシーン
@@ -84,15 +85,15 @@ private: // メンバ変数
 	DirectXCommon* dxCommon = nullptr;
 	Sound* audio = nullptr;
 	DebugText debugText;
-
-	std::unique_ptr <TitleScene> titleScene;
-
+	
+	std::unique_ptr < TitleScene > titleScene;
+	std::unique_ptr < OptionScene > optionScene;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
 	std::unique_ptr <DebugCamera> camera;
 	std::array <std::unique_ptr<Sprite>,3> spriteTitle;//タイトル
-	std::array < std::unique_ptr<Sprite>,3> spriteOption ;//オプション
+
 	std::unique_ptr<Sprite> spriteClear;//クリア
 	std::unique_ptr<Sprite> spriteGAMEOVER;//ゲームオーバー
 	std::unique_ptr<Sprite> spriteGAMEOVER2;//ゲームオーバー
@@ -107,7 +108,6 @@ private: // メンバ変数
 	int scene = 0;//シーン
 	bool stopFlag;//停止フラグ
 	int buttonNo = 0;//タイトルの選択
-	int optionButtonNo = 0;//オプションの選択
 	bool tutrialFlag = true;//チュートリアルの表示
 	std::array<int, 3> soundTimer = { 0, 0 ,0 };//足音の歩行レートのタイマー
 	//光線方向初期値

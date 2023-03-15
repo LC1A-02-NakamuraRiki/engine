@@ -186,7 +186,13 @@
     <ClCompile Include="Player\SoundVector.cpp">
       <Filter>App\player</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\Title.cpp">
+    <ClCompile Include="Scene\TitleScene.cpp">
+      <Filter>App\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\OptionScene.cpp">
+      <Filter>App\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\PlayScene.cpp">
       <Filter>App\Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -284,7 +290,13 @@
     <ClInclude Include="Player\SoundVector.h">
       <Filter>App\player</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\Title.h">
+    <ClInclude Include="Scene\TitleScene.h">
+      <Filter>App\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\OptionScene.h">
+      <Filter>App\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\PlayScene.h">
       <Filter>App\Scene</Filter>
     </ClInclude>
   </ItemGroup>

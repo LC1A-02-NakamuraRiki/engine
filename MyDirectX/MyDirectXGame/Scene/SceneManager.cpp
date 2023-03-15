@@ -18,7 +18,7 @@ SceneManager::~SceneManager()
 {
 }
 
-void SceneManager::Initialize(DirectXCommon *dxCommon, Sound *audio)
+void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 {
 	// nullptrチェック
 	assert(dxCommon);
@@ -39,7 +39,7 @@ void SceneManager::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	// デバッグテキスト初期化
 	debugText.Initialize(debugTextTexNumber);
 	particle3d = std::unique_ptr<ParticleManager>(ParticleManager::Create(dxCommon->GetDevice(), camera.get()));
-	
+
 	//スプライト
 	// テクスチャ読み込み
 	if (!Sprite::LoadTexture(18, L"Resources/Title.png")) {
@@ -112,13 +112,7 @@ void SceneManager::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	}
 
 
-	//// 背景スプライト生成
-	spriteTitle[0] = std::unique_ptr<Sprite>(Sprite::Create(18, {0.0f,0.0f}));
-	spriteTitle[1] = std::unique_ptr<Sprite>(Sprite::Create(21, {0.0f,0.0f}));
-	spriteTitle[2] = std::unique_ptr<Sprite>(Sprite::Create(22, {0.0f,0.0f}));
-	spriteOption[0] = std::unique_ptr<Sprite>(Sprite::Create(23, {0.0f,0.0f}));
-	spriteOption[1] = std::unique_ptr<Sprite>(Sprite::Create(24, {0.0f,0.0f}));
-	spriteOption[2] = std::unique_ptr<Sprite>(Sprite::Create(25, {0.0f,0.0f}));
+	
 	spriteClear = std::unique_ptr<Sprite>(Sprite::Create(19, { 0.0f,0.0f }));
 	spriteGAMEOVER = std::unique_ptr<Sprite>(Sprite::Create(20, { 0.0f,0.0f }));
 	spriteRule = std::unique_ptr<Sprite>(Sprite::Create(30, { 0.0f,0.0f }));
@@ -137,7 +131,7 @@ void SceneManager::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	Object3d::SetLightGroup(light.get());
 
 	//ライト関連
-	light->SetAmbientColor(XMFLOAT3({ ambientColor0[0],ambientColor0[1] ,ambientColor0[2]}));
+	light->SetAmbientColor(XMFLOAT3({ ambientColor0[0],ambientColor0[1] ,ambientColor0[2] }));
 	light->SetDirLightDir(0, XMVECTOR({ lightDir0[0], lightDir0[1], lightDir0[2], 0 }));
 	light->SetDirLightColor(0, XMFLOAT3({ lightColor0[0],lightColor0[1] ,lightColor0[2] }));
 	light->SetDirLightDir(1, XMVECTOR({ lightDir1[0], lightDir1[1], lightDir1[2], 0 }));
@@ -151,130 +145,62 @@ void SceneManager::Initialize(DirectXCommon *dxCommon, Sound *audio)
 	light->SetDirLightDir(5, XMVECTOR({ lightDir5[0], lightDir5[1], lightDir5[2], 0 }));
 	light->SetDirLightColor(5, XMFLOAT3({ lightColor5[0],lightColor5[1] ,lightColor5[2] }));
 
+	titleScene = std::make_unique<TitleScene>();
+	titleScene->Initialize();
+
+	optionScene = std::make_unique<OptionScene>();
+	optionScene->Initialize();
+
 	//プレイヤー初期化
 	player = std::make_unique<Player>();
 	player->Initialize();
 	//マップ初期化
 	map = std::make_unique<MapChip>();
 	map->Initialize();
-	
+
 	//敵初期化
-	for (int i = 0; i < 3; i++){
-		enemy[i] = std::make_unique < Enemy>();
+	for (int i = 0; i < 3; i++) {
+		enemy[i] = std::make_unique <Enemy>();
 		enemy[i]->Initialize();
 	}
-	
-
 }
 
 void SceneManager::Update()
 {
+	//グレイン
+	grainCount++;
+	if (grainCount > 7)
+	{
+		grainCount = 0;
+	}
+
 	if (scene == TITLE)
 	{
-		//タイトルのディレイ初期化
-		titleTime = 0;
-		//マップ初期化
-		map->InitializeValue();
-		
-		//選択
-		if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != 0)
-		{
-			buttonNo--;
-		}
-		else if (Input::GetInstance()->KeybordTrigger(DIK_S) && buttonNo != 2 || Input::GetInstance()->KeybordTrigger(DIK_DOWN) && buttonNo != 2)
-		{
-			buttonNo++;
-		}
-		
-		//プレイへ
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE)&& buttonNo == 0)
-		{
-			player->InitializeValue();
-
-			map->InitializeValue();
+		titleScene->Update(player.get(), map.get(), enemy[0].get(),enemy[1].get(),enemy[2].get(),camera.get(),light.get(),tutrialFlag);
+		if (titleScene->GetPlayScene()){
 			scene = PLAY;
 		}
-		//オプションへ
-		else if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && buttonNo == 1)
-		{
+		else if (titleScene->GetOptionScene()){
+			optionScene->SetTitleScene();
 			scene = OPTION;
 		}
-
-		//グレイン
-		grainCount++;
-		if (grainCount > 7)
-		{
-			grainCount = 0;
-		}
-
-		//プレイヤーの初期化と反映
-		camera->SetEye(XMFLOAT3{ -4.0f,3.0f,4.0f });
-		camera->SetTarget(XMFLOAT3{ -4.0f,3.0f,-8.0f });
-		player->Update(map.get(), tutrialFlag, enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
-		camera->Update();
-		//マップの反映
-		light->Update();
-		map->Update(player->GetPos(), player->GetMapPos(), enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
-	
-		//エネミー初期化と反映
-		enemy[0]->InitializeValue();
-		enemy[1]->InitializeValue2();
-		enemy[2]->InitializeValue3();
-		enemy[0]->Update(player.get(), map.get(), player->GetMapPos(), XMFLOAT2(0, 0), enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
-		enemy[1]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(), enemy[1]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
-		enemy[2]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(), enemy[2]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()));
 	}
 	else if (scene == OPTION)
 	{
-		//選択
-		if (Input::GetInstance()->KeybordTrigger(DIK_W) && optionButtonNo != 0 || Input::GetInstance()->KeybordTrigger(DIK_UP) && optionButtonNo != 0)
-		{
-			optionButtonNo--;
-		}
-		else if (Input::GetInstance()->KeybordTrigger(DIK_S) && optionButtonNo != 2 || Input::GetInstance()->KeybordTrigger(DIK_DOWN) && optionButtonNo != 2)
-		{
-			optionButtonNo++;
-		}
-
-		//感度変更
-		if (Input::GetInstance()->KeybordTrigger(DIK_D) && optionButtonNo == 0)
-		{
-			player->SetViewSpeedPlus();
-		}
-		else if (Input::GetInstance()->KeybordTrigger(DIK_A) && optionButtonNo == 0&& player->GetViewSpeed() >= 0.05)
-		{
-			player->SetViewSpeedMinus();
-		}
-
-		//シェイクオフ
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 1 && player->GetShakeFlag()||
-			Input::GetInstance()->KeybordTrigger(DIK_A) && optionButtonNo == 1 && player->GetShakeFlag()||
-			Input::GetInstance()->KeybordTrigger(DIK_D) && optionButtonNo == 1 && player->GetShakeFlag())
-		{
-			player->SetShakeFlag(false);
-		}
-		//シェイクオン
-		else if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 1 && !player->GetShakeFlag() ||
-			Input::GetInstance()->KeybordTrigger(DIK_A) && optionButtonNo == 1 && !player->GetShakeFlag() ||
-			Input::GetInstance()->KeybordTrigger(DIK_D) && optionButtonNo == 1 && !player->GetShakeFlag())
-		{
-			player->SetShakeFlag(true);
-		}
-
-		//タイトルへ
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && optionButtonNo == 2)
-		{
+		optionScene->Update(player.get());
+		if (optionScene->GetTitleScene()) {
+			titleScene->SetOptionScene();
 			scene = TITLE;
 		}
 	}
 	else if (scene == PLAY)
 	{
-		titleTime++;//タイトルディレイ
-	
+		titleScene->SetPlayScene();
+
 		//プレイヤーのカメラと移動
 		camera->SetEye(player->GetPos());
 		camera->SetTarget(player->GetTarget());
-		
+
 		//チュートリアル
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true)
 		{
@@ -282,20 +208,20 @@ void SceneManager::Update()
 		}
 
 		//プレイヤーのアップデート
-		player->Update(map.get(),tutrialFlag,enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
-		
+		player->Update(map.get(), tutrialFlag, enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
+
 		//カメラアップデート
 		camera->Update();
-		
+
 		//ライトアップデート
 		light->Update();
-		
+
 		//マップアップデート
-		map->Update(player->GetPos(),player->GetMapPos(),enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
-		
+		map->Update(player->GetPos(), player->GetMapPos(), enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
+
 		//エネミーアップデート
-		enemy[0]->Update(player.get(), map.get(), player->GetMapPos(), XMFLOAT2(0,0),enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
-		enemy[1]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(),enemy[1]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
+		enemy[0]->Update(player.get(), map.get(), player->GetMapPos(), XMFLOAT2(0, 0), enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
+		enemy[1]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(), enemy[1]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
 		enemy[2]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(), enemy[2]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()));
 
 		//ライト点滅関連
@@ -377,7 +303,7 @@ void SceneManager::Update()
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
 			//タイトルに戻る
-			buttonNo = 0;
+		//	buttonNo = 0;
 			scene = TITLE;
 		}
 	}
@@ -386,7 +312,7 @@ void SceneManager::Update()
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
 			//タイトルに戻る
-			buttonNo = 0;
+		//	buttonNo = 0;
 			scene = TITLE;
 		}
 	}
@@ -395,7 +321,7 @@ void SceneManager::Update()
 void SceneManager::Draw()
 {
 	// コマンドリストの取得
-	ID3D12GraphicsCommandList *cmdList = dxCommon->GetCommandList();
+	ID3D12GraphicsCommandList* cmdList = dxCommon->GetCommandList();
 
 #pragma region 背景スプライト描画g
 	// 背景スプライト描画前処理
@@ -409,7 +335,7 @@ void SceneManager::Draw()
 	// 深度バッファクリア
 	dxCommon->ClearDepthBuffer();
 #pragma endregion
-	
+
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
@@ -418,14 +344,14 @@ void SceneManager::Draw()
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			if (titleTime > 5)
-			{
-				enemy[i]->Draw(player.get(),cmdList);//敵の3D描画
-			}
+			//if (titleTime > 5)
+			//{
+			enemy[i]->Draw(player.get(), cmdList);//敵の3D描画
+		//}
 		}
 		map->Draw();//マップの3D描画
 	}
-	
+
 	if (scene == TITLE)
 	{
 		map->Draw();//マップの3D描画
@@ -437,7 +363,7 @@ void SceneManager::Draw()
 	particle3d->Draw(cmdList);
 #pragma endregion
 
-	
+
 #pragma region 前景スプライト描画
 	//// 前景スプライト描画前処理
 	Sprite::PreDraw(cmdList);
@@ -504,13 +430,7 @@ void SceneManager::PostOffDraw()
 	if (scene == TITLE)
 	{
 		spriteGrain[grainCount]->Draw(0.75f);//テクスチャスプライト
-		for (int i = 0; i < 3; i++)
-		{
-			if (buttonNo == i)
-			{
-				spriteTitle[i]->Draw(1.0f);//タイトルのスプライト
-			}
-		}
+		titleScene->Draw();
 	}
 	if (scene == OPTION)
 	{
@@ -523,13 +443,7 @@ void SceneManager::PostOffDraw()
 		{
 			debugText.Print(1325, 490, 2.0f, "OFF");//OFFのスプライト
 		}
-		for (int i = 0; i < 3; i++)
-		{
-			if (optionButtonNo == i)
-			{
-				spriteOption[i]->Draw(1.0f);//オプションのスプライト
-			}
-		}
+		optionScene->Draw();
 	}
 	if (scene == CLEAR)
 	{
@@ -539,7 +453,7 @@ void SceneManager::PostOffDraw()
 	{
 		spriteGAMEOVER->Draw(1.0f);//ゲームオーバーのスプライト
 	}
-	
+
 	//-------------------------------------------------------------//
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);
