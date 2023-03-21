@@ -19,7 +19,6 @@ void Enemy::Initialize()
 	objectWalking->SetModel(modelWalking.get());//モデルと同期
 	objectWalking->PlayAnimation();//アニメーション
 
-
 	//敵初期化
 	modelAttack = std::unique_ptr<FbxModel>(FbxLoader::GetInstance()->LoadModelFromFile("Zombie Attack"));//モデル初期化
 	objectAttack = std::make_unique<FbxObject3d>();//object初期化
@@ -211,7 +210,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 	}
 	else if (!adjustmentFlag)//位置調整フラグ
 	{
-		if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 2)//上左角
+		if (NodeValue(mapChip) == static_cast<int>(AriaValue::LEFTTOP))//上左角
 		{
 			if (nowMove == static_cast<int>(MoveVector::UP))
 			{
@@ -224,7 +223,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				adjustmentFlag = true;
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 3)//上中心
+		else if (NodeValue(mapChip) == static_cast<int>(AriaValue::CENTERTOP))//上中心
 		{
 			if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && 0 < vectorX)
 			{
@@ -271,7 +270,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				}
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 4)//上右角
+		else if (NodeValue(mapChip) == static_cast<int>(AriaValue::RIGHTTOP))//上右角
 		{
 			if (nowMove == static_cast<int>(MoveVector::RIGHT))
 			{
@@ -284,7 +283,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				adjustmentFlag = true;
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 5)//中央左
+		else if (NodeValue(mapChip) == static_cast<int>(AriaValue::LEFTMIDDLE))//中央左
 		{
 			if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vectorZ < 0)
 			{
@@ -331,7 +330,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				}
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 6)//中央
+		else if (NodeValue(mapChip) == static_cast<int>(AriaValue::CENTERMIDDLE))//中央
 		{
 			if (nowMove == static_cast<int>(MoveVector::UP) && vectorZ > 0)
 			{
@@ -386,7 +385,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				}
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 7)//中央右
+		else if (NodeValue(mapChip) == static_cast<int>(AriaValue::RIGHTMIDDLE))//中央右
 		{
 			if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vectorZ < 0)
 			{
@@ -433,7 +432,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				}
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 8)//下左角
+		else if (NodeValue(mapChip) == static_cast<int>(AriaValue::LEFTBOTTOM))//下左角
 		{
 			if (nowMove == static_cast<int>(MoveVector::LEFT))
 			{
@@ -446,7 +445,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				adjustmentFlag = true;
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 9)//下中央
+		else if (NodeValue(mapChip) == static_cast<int>(AriaValue::CENTERBOTTOM))//下中央
 		{
 
 			if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vectorX < 0)
@@ -494,7 +493,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				}
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 10)//下右角
+		else if (NodeValue(mapChip) == static_cast<int>(AriaValue::RIGHTBOTTOM))//下右角
 		{
 			if (nowMove == static_cast<int>(MoveVector::DOWN))
 			{

@@ -1,7 +1,6 @@
 #include "DirectXCommon.h"
 #include <vector>
 #include <cassert>
-#include "SafeDelete.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")

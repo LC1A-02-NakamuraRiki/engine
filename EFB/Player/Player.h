@@ -2,7 +2,6 @@
 #include <DirectXMath.h>
 #include "MapChip.h"
 #include "Sprite.h"
-#include "SafeDelete.h"
 
 class Player
 {
@@ -38,7 +37,7 @@ public:
 	
 	void DrawSprite();//2D•`‰æ
 
-	void Move(MapChip* mapChip);//•à‚«
+	void Move(MapChip* mapChip, bool tutrialFlag, bool catchFlag, bool catchFlag2, bool catchFlag3);//•à‚«
 
 	void MoveValue(float vec);
 
@@ -53,6 +52,10 @@ public:
 	void View(bool tutrialFlag, bool catchFlag,bool catchFlag2, bool catchFlag3);//‹“_‚Ì“®‚«
 
 	void AngleSearch();//•à‚­•ûŒü‚ÌZo
+
+	void TutorialAlpha(MapChip* mapChip);
+
+	void UiUpdate();
 
 	bool ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z);
 

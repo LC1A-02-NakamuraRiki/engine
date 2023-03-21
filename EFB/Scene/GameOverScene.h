@@ -1,4 +1,5 @@
 #pragma once
+#pragma once
 #include "DirectXCommon.h"
 #include <DirectXMath.h>
 #include "Input.h"
@@ -10,7 +11,7 @@
 #include "DebugCamera.h"
 #include "LightGroop.h"
 
-class PlayScene
+class GameOverScene
 {
 private: // エイリアス
 // Microsoft::WRL::を省略
@@ -23,10 +24,8 @@ private: // エイリアス
 public:
 	void Initialize();
 
-	void Update();
-
 	void Draw();
 private:
-
+	std::unique_ptr<Sprite> spriteGAMEOVER;//ゲームオーバー
 };
 

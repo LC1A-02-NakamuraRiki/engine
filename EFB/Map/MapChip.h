@@ -3,12 +3,14 @@
 #include "Object3d.h"
 #include "Sprite.h"
 #include"LoadCSV.h"
-#include "SafeDelete.h"
 #include <memory>
 #include <array>
+
+#define AREAVALUE (7) //横の最大枚数
+
 class MapChip
 {
-protected: // エイリアス
+private: // エイリアス
 // DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
@@ -16,12 +18,19 @@ protected: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
+	const float WALLSIZE = 8.0f;														//壁の大きさ
+	const float MAPWALLSIZE = 16.0f;													//ミニマップの壁の大きさ
+	const int MAPVALUE = 21;															//マップの最大サイズ
+	const int MAPAREAVALUE = 7;
+	const int CRYSTALVALUE = 11;
+	const int DOORVALUE = 4;
+	const int MAXNUMBER = 10;
 public:
 	~MapChip();
 	void Initialize();//最初の初期化
 	void InitializeValue();//タイトル時の初期化
 	void MapCreate();//マップ作製
-	void MapRandam(int mapArea[7][7],int mapArea2[7][7], int X, int Z);
+	void MapRandam(int mapArea[AREAVALUE][AREAVALUE],int mapArea2[AREAVALUE][AREAVALUE], int X, int Z);
 	void MapMove(XMFLOAT2 mapPos);//ミニマップ移動
 	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);//アップデート
 	void StageUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);
@@ -45,10 +54,6 @@ public:
 	bool LightAction();																	//ライト点滅
 	bool SetLightAction(bool actionFlag) { return this->lightAction = actionFlag; }		//フラグセット
 private:
-	const float WALLSIZE = 8.0f;														//壁の大きさ
-	const float MAPWALLSIZE = 16.0f;													//ミニマップの壁の大きさ
-	const int MAPVALUE = 21;															//マップの最大サイズ
-
 	std::unique_ptr<Model> modelMapWall;												//壁モデル
 	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objMapWall;			//壁オブジェクト
 	std::unique_ptr<Model> modelCeiling;												//ライトモデル

@@ -4,7 +4,6 @@
 #include "Object3d.h"
 #include "Player.h"
 #include "Sprite.h"
-#include "SafeDelete.h"
 #include "FbxObject3d.h"
 
 class Enemy

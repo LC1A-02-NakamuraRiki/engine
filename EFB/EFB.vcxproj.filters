@@ -143,12 +143,6 @@
     <ClCompile Include="base\WinApp.cpp">
       <Filter>engine\base</Filter>
     </ClCompile>
-    <ClCompile Include="collision\Collision.cpp">
-      <Filter>engine\collision</Filter>
-    </ClCompile>
-    <ClCompile Include="collision\CollisionPrimitive.cpp">
-      <Filter>engine\collision</Filter>
-    </ClCompile>
     <ClCompile Include="input\Input.cpp">
       <Filter>engine\input</Filter>
     </ClCompile>
@@ -194,6 +188,15 @@
     </ClCompile>
     <ClCompile Include="Scene\PlayScene.cpp">
       <Filter>App\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ClearScene.cpp">
+      <Filter>App\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameOverScene.cpp">
+      <Filter>App\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="collision\Collision.cpp">
+      <Filter>engine\collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,17 +245,8 @@
     <ClInclude Include="base\DirectXCommon.h">
       <Filter>engine\base</Filter>
     </ClInclude>
-    <ClInclude Include="base\SafeDelete.h">
-      <Filter>engine\base</Filter>
-    </ClInclude>
     <ClInclude Include="base\WinApp.h">
       <Filter>engine\base</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\Collision.h">
-      <Filter>engine\collision</Filter>
-    </ClInclude>
-    <ClInclude Include="collision\CollisionPrimitive.h">
-      <Filter>engine\collision</Filter>
     </ClInclude>
     <ClInclude Include="input\Input.h">
       <Filter>engine\input</Filter>
@@ -298,6 +292,15 @@
     </ClInclude>
     <ClInclude Include="Scene\PlayScene.h">
       <Filter>App\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ClearScene.h">
+      <Filter>App\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameOverScene.h">
+      <Filter>App\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="collision\Collision.h">
+      <Filter>engine\collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -54,14 +54,6 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 		assert(0);
 		return;
 	}
-	if (!Sprite::LoadTexture(19, L"Resources/Clear.png")) {
-		assert(0);
-		return;
-	}
-	if (!Sprite::LoadTexture(20, L"Resources/GAMEOVER2.png")) {
-		assert(0);
-		return;
-	}
 	if (!Sprite::LoadTexture(23, L"Resources/Option.png")) {
 		assert(0);
 		return;
@@ -71,10 +63,6 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 		return;
 	}
 	if (!Sprite::LoadTexture(25, L"Resources/Option3.png")) {
-		assert(0);
-		return;
-	}
-	if (!Sprite::LoadTexture(30, L"Resources/tutrial.png")) {
 		assert(0);
 		return;
 	}
@@ -111,11 +99,6 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 		return;
 	}
 
-
-	
-	spriteClear = std::unique_ptr<Sprite>(Sprite::Create(19, { 0.0f,0.0f }));
-	spriteGAMEOVER = std::unique_ptr<Sprite>(Sprite::Create(20, { 0.0f,0.0f }));
-	spriteRule = std::unique_ptr<Sprite>(Sprite::Create(30, { 0.0f,0.0f }));
 	for (int i = 0; i < 8; i++)
 	{
 		spriteGrain[i] = std::unique_ptr<Sprite>(Sprite::Create(50 + i, { 0.0f,0.0f }));
@@ -151,6 +134,15 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	optionScene = std::make_unique<OptionScene>();
 	optionScene->Initialize();
 
+	playScene = std::make_unique<PlayScene>();
+	playScene->Initialize();
+
+	clearScene = std::make_unique<ClearScene>();
+	clearScene->Initialize();
+
+	gameOverScene = std::make_unique<GameOverScene>();
+	gameOverScene->Initialize();
+
 	//プレイヤー初期化
 	player = std::make_unique<Player>();
 	player->Initialize();
@@ -176,7 +168,7 @@ void SceneManager::Update()
 
 	if (scene == TITLE)
 	{
-		titleScene->Update(player.get(), map.get(), enemy[0].get(),enemy[1].get(),enemy[2].get(),camera.get(),light.get(),tutrialFlag);
+		titleScene->Update(player.get(), map.get(), enemy[0].get(),enemy[1].get(),enemy[2].get(),camera.get(),light.get(),playScene->GetTutrialFlag());
 		if (titleScene->GetPlayScene()){
 			scene = PLAY;
 		}
@@ -196,81 +188,16 @@ void SceneManager::Update()
 	else if (scene == PLAY)
 	{
 		titleScene->SetPlayScene();
-
-		//プレイヤーのカメラと移動
-		camera->SetEye(player->GetPos());
-		camera->SetTarget(player->GetTarget());
-
-		//チュートリアル
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true)
-		{
-			tutrialFlag = false;
+		playScene->Update(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get(), camera.get(), light.get(),audio);
+		
+		if (playScene->GetClearScene()) {
+			titleScene->SetPlayScene();
+			scene = CLEAR;
 		}
 
-		//プレイヤーのアップデート
-		player->Update(map.get(), tutrialFlag, enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
-
-		//カメラアップデート
-		camera->Update();
-
-		//ライトアップデート
-		light->Update();
-
-		//マップアップデート
-		map->Update(player->GetPos(), player->GetMapPos(), enemy[0]->GetPos(), enemy[1]->GetPos(), enemy[2]->GetPos());
-
-		//エネミーアップデート
-		enemy[0]->Update(player.get(), map.get(), player->GetMapPos(), XMFLOAT2(0, 0), enemy[1]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
-		enemy[1]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(), enemy[1]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[2]->CatchCollision(player.get()));
-		enemy[2]->Update(player.get(), map.get(), player->GetMapPos(), player->GetShortCut(map.get(), enemy[2]->GetPos()), enemy[0]->CatchCollision(player.get()), enemy[1]->CatchCollision(player.get()));
-
-		//ライト点滅関連
-		for (int i = 0; i < 3; i++)
-		{
-			if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player.get()) && !enemy[1]->CatchCollision(player.get()) && !enemy[2]->CatchCollision(player.get()))
-			{
-				float aX = enemy[i]->GetPos().x - player->GetPos().x;
-				float aZ = enemy[i]->GetPos().z - player->GetPos().z;
-				float aXZ = aX * aX + aZ * aZ;
-				float axzDistanse = float(sqrt(aXZ));
-				if (axzDistanse < 20.0f)
-				{
-					map->SetLightAction(true);
-					i = 3;
-				}
-				else
-				{
-					map->SetLightAction(false);
-				}
-			}
-		}
-
-		//音関連
-		if (map->GetGateOpenFlag() && !enemy[0]->CatchCollision(player.get()) && !enemy[1]->CatchCollision(player.get()) && !enemy[2]->CatchCollision(player.get()))
-		{
-			for (int i = 0; i < 3; i++)
-			{
-				soundTimer[i]++;
-				float vec = SoundVector::VectorSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z);
-				const float sideValue = 45;
-				if (SoundVector::DistanceSearch(enemy[i]->GetPos().x, enemy[i]->GetPos().z, player->GetPos().x, player->GetPos().z) && soundTimer[i] > 20 && !map->GetStopFlag())
-				{
-					if (-vec + player->GetAngle() - 90 < -90 + sideValue && -vec + player->GetAngle() - 90 > -90 - sideValue || -vec + player->GetAngle() - 90 > 270 - sideValue && -vec + player->GetAngle() - 90 < 270 + sideValue)
-					{
-						audio->PlaySE("Resources/seR.wav", false);
-					}
-					else if (-vec + player->GetAngle() - 90 > 90 - sideValue && -vec + player->GetAngle() - 90 < 90 + sideValue || -vec + player->GetAngle() - 90 < -270 + sideValue && -vec + player->GetAngle() - 90 > -270 - sideValue)
-					{
-						audio->PlaySE("Resources/seL.wav", false);
-					}
-					else
-					{
-						audio->PlaySE("Resources/seL.wav", false);
-						audio->PlaySE("Resources/seR.wav", false);
-					}
-					soundTimer[i] = 0;
-				}
-			}
+		if (playScene->GetGameOverScene()) {
+			titleScene->SetPlayScene();
+			scene = GAMEOVER;
 		}
 
 		//グレイン関連
@@ -279,40 +206,22 @@ void SceneManager::Update()
 		{
 			grainCount = 0;
 		}
-
-		//死亡アニメーション
-		for (int i = 0; i < 3; i++)
-		{
-			if (enemy[i]->DeathAnimation(player.get()))
-			{
-				scene = GAMEOVER;
-			}
-		}
-
-		//ストップフラグ
-		stopFlag = map->GetStopFlag();
-
-		//クリスタル全部入手
-		if (map->GetAllGetFlag())
-		{
-			scene = CLEAR;//クリアへ
-		}
 	}
 	else if (scene == CLEAR)
 	{
+		playScene->SetGameOverScene();
+		playScene->SetClearScene();
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
-			//タイトルに戻る
-		//	buttonNo = 0;
 			scene = TITLE;
 		}
 	}
 	else if (scene == GAMEOVER)
 	{
+		playScene->SetGameOverScene();
+		playScene->SetClearScene();
 		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
 		{
-			//タイトルに戻る
-		//	buttonNo = 0;
 			scene = TITLE;
 		}
 	}
@@ -342,14 +251,7 @@ void SceneManager::Draw()
 	//-------------------------------------------------------------//
 	if (scene == PLAY)
 	{
-		for (int i = 0; i < 3; i++)
-		{
-			//if (titleTime > 5)
-			//{
-			enemy[i]->Draw(player.get(), cmdList);//敵の3D描画
-		//}
-		}
-		map->Draw();//マップの3D描画
+		playScene->Draw(cmdList,player.get(), map.get(),enemy[0].get(), enemy[1].get(), enemy[2].get());
 	}
 
 	if (scene == TITLE)
@@ -415,15 +317,7 @@ void SceneManager::PostOffDraw()
 	//-------------------------------------------------------------//
 	if (scene == PLAY)
 	{
-		map->DrawSprite(player->GetPos());//マップ関連のスプライト
-		player->DrawSprite();//プレイヤーのスプライト
-		for (int i = 0; i < 3; i++)
-		{
-			enemy[i]->DrawSprite(map.get());//エネミースプライト
-		}
-		if (tutrialFlag == true) {
-			spriteRule->Draw(1.0f);//ルール表示スプライト
-		}
+		playScene->DrawSprite(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get());
 		spriteGrain[grainCount]->Draw(0.75f);//テクスチャスプライト
 	}
 
@@ -447,11 +341,12 @@ void SceneManager::PostOffDraw()
 	}
 	if (scene == CLEAR)
 	{
-		spriteClear->Draw(1.0f);//クリアのスプライト
+		clearScene->Draw();
+		
 	}
 	if (scene == GAMEOVER)
 	{
-		spriteGAMEOVER->Draw(1.0f);//ゲームオーバーのスプライト
+		gameOverScene->Draw();
 	}
 
 	//-------------------------------------------------------------//

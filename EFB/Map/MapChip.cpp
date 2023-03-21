@@ -94,7 +94,7 @@ void MapChip::Initialize()
 	}
 	modelCrystal = std::unique_ptr<Model>(Model::CreateFromObject("crystal", false));
 	modelItemCrystal = std::unique_ptr<Model>(Model::CreateFromObject("itemCrystal", false));
-	for (int i = 0; i < 11; i++){
+	for (int i = 0; i < CRYSTALVALUE; i++){
 		objCrystal[i] = std::unique_ptr<Object3d>(Object3d::Create(modelCrystal.get()));
 		objCrystal[i]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
 		crystalGetFlag[i] = false;
@@ -103,12 +103,10 @@ void MapChip::Initialize()
 	objCrystal[5] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
 	objCrystal[3]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
 	objCrystal[5]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-
-	for (int i = 0; i < 11; i++)
-	{
+	for (int i = 0; i < CRYSTALVALUE; i++){
 		objCrystal[i]->SetPosition(crystalPos[i]);
 	}
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < DOORVALUE; i++)
 	{
 		modelDoor[i] = std::unique_ptr<Model>(Model::CreateFromObject("door", false));
 		objMapDoor[i] = std::unique_ptr<Object3d>(Object3d::Create(modelDoor[i].get()));
@@ -199,13 +197,10 @@ void MapChip::Initialize()
 	spriteDoorOpen = std::unique_ptr<Sprite>(Sprite::Create(45, { 990, 850 }));
 	spriteDoorOpen->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < MAXNUMBER; i++)
 	{
 		spriteNumberNum1[i] = std::unique_ptr<Sprite>(Sprite::Create(71+i, { 260 - 10, 656 - MAPWALLSIZE - 96 }));
-			}
-	for (int i = 0; i < 10; i++)
-	{
-		spriteNumberNum10[i] = std::unique_ptr<Sprite>(Sprite::Create(71+i, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
+		spriteNumberNum10[i] = std::unique_ptr<Sprite>(Sprite::Create(71 + i, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
 	}
 
 	spriteEnemyStop = std::unique_ptr<Sprite>(Sprite::Create(31, { 990, 850 }));
@@ -217,17 +212,14 @@ void MapChip::Initialize()
 	 spriteEnemySpot->SetSize(XMFLOAT2(spotFontSize));
 
 	 spriteSpotEffect = std::unique_ptr<Sprite>(Sprite::Create(33, { 84,650 - 16 - 96 }));
-	for (int x = 0; x < MAPVALUE; x++)
-	{
-		for (int y = 0; y < MAPVALUE; y++)
-		{
+	for (int x = 0; x < MAPVALUE; x++){
+		for (int y = 0; y < MAPVALUE; y++){
 			spriteMapWall[y][x] = std::unique_ptr<Sprite>(Sprite::Create(2, {-16 + 100 + (MAPWALLSIZE * (MAPVALUE - x)),650 + (MAPWALLSIZE * y )}));
 		}
 	}
 	spriteMapBack =  std::unique_ptr<Sprite>(Sprite::Create(5, {-16 + 100,650 -16 - 96}));
 	spriteMapFrame = std::unique_ptr<Sprite>(Sprite::Create(26, { -16 + 100,650 - 16 - 96 }));
-	for (int i = 0; i < 11; i++)
-	{
+	for (int i = 0; i < CRYSTALVALUE; i++){
 		spriteCrystal[i] = std::unique_ptr<Sprite>(Sprite::Create(7, mapCrystalPos[i]));
 	}
 	spriteCrystal[3] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[3]));
@@ -259,13 +251,12 @@ void MapChip::Initialize()
 void MapChip::InitializeValue()
 {
 	//クリスタル初期化
-	for (int i = 0; i < 11; i++)
-	{
+	for (int i = 0; i < CRYSTALVALUE; i++){
 		crystalGetFlag[i] = false;
 	}
 	allGetFlag = false;
 	MapCreate();
-	number = 11;
+	number = CRYSTALVALUE;
 	stopTime = 0;
 	displayTime = 0;
 	displayFlag = false;
@@ -282,7 +273,7 @@ void MapChip::InitializeValue()
 	spotSprieteTime = 0;
 	spotAlpha = 1.0f;
 
-	number = 11;
+	number = CRYSTALVALUE;
 	gateOpenFlag = false;
 
 	lightAction = 0;
@@ -303,7 +294,7 @@ void MapChip::MapCreate()
 	MapRandam(mapWallRightDown, mapWallRightDown1, 2, 2);
 }
 
-void MapChip::MapRandam(int mapArea[7][7], int mapArea2[7][7],int X,int Z)
+void MapChip::MapRandam(int mapArea[AREAVALUE][AREAVALUE], int mapArea2[AREAVALUE][AREAVALUE],int X,int Z)
 {
 	//マップ選択
 	std::random_device rnd;
@@ -316,11 +307,11 @@ void MapChip::MapRandam(int mapArea[7][7], int mapArea2[7][7],int X,int Z)
 		for (int x = 0; x < MAPVALUE / 3; x++){
 			if (num == 0)
 			{
-				mapWall[z + (7 * Z)][x + (7 * X)] = mapArea[z][x];
+				mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea[z][x];
 			}
 			else if (num == 1)			
 			{
-				mapWall[z + (7 * Z)][x + (7 * X)] = mapArea2[z][x];
+				mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea2[z][x];
 			}
 		}
 	}
@@ -335,7 +326,7 @@ void MapChip::MapMove(XMFLOAT2 mapPos)
 		}
 	}
 	//ミニマップのクリスタル移動
-	for (int i = 0; i < 11; i++){
+	for (int i = 0; i < CRYSTALVALUE; i++){
 		spriteCrystal[i]->SetPosition({ mapPos.x + mapCrystalPos[i].x, mapPos.y + mapCrystalPos[i].y });
 	}
 }
@@ -369,9 +360,9 @@ void MapChip::StageUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemy
 	//ライトの値送り
 	bool lightSilen = LightAction();
 	//マップのオブジェクトのアップデート
-	for (int x = 0; x < 7; x++)
+	for (int x = 0; x < MAPAREAVALUE; x++)
 	{
-		for (int z = 0; z < 7; z++)
+		for (int z = 0; z < MAPAREAVALUE; z++)
 		{
 			//点滅関連
 			int lightFlag = lightSilen;
@@ -398,20 +389,20 @@ void MapChip::StageUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemy
 		}
 	}
 	//ドアのアップデート
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < DOORVALUE; i++)
 	{
 		objMapDoor[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
 	}
 	//クリスタルのアップデート
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < CRYSTALVALUE; i++)
 	{
 		objCrystal[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
 	}
 
 	//絵画と机のアップデート
-	for (int x = 0; x < 21; x += 2)
+	for (int x = 0; x < MAPVALUE; x += 2)
 	{
-		for (int y = 0; y < 21; y += 2)
+		for (int y = 0; y < MAPVALUE; y += 2)
 		{
 			objPictureFrame1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 80.0f - (x * WALLSIZE), 4.25f, 76.0f - (y * WALLSIZE) }), lightSilen, 0);
 			objDesk1[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ +0.5f + 80.0f - (x * WALLSIZE),2.0f,76.0f - (y * WALLSIZE) }), lightSilen, 0);
@@ -432,8 +423,8 @@ void MapChip::DoorOpen(XMFLOAT3 pos)
 {
 	//プレイヤーのマップの座標
 	XMFLOAT3 playerPos = pos;
-	int mapY = int((playerPos.z / 8) + ((21 + 1) / 2));
-	int mapX = int((playerPos.x / 8) + ((21 + 1) / 2));
+	int mapY = int((playerPos.z / 8) + ((MAPVALUE + 1) / 2));
+	int mapX = int((playerPos.x / 8) + ((MAPVALUE + 1) / 2));
 
 	//ドア関連
 	if (gateOpenFlag == true && doorAngle[0] > 0){
@@ -446,8 +437,7 @@ void MapChip::DoorOpen(XMFLOAT3 pos)
 	}
 
 	//ドアの角度をセット
-	for (int i = 0; i < 4; i++)
-	{
+	for (int i = 0; i < DOORVALUE; i++){
 		objMapDoor[i]->SetRotation(XMFLOAT3({ 0.0f,doorAngle[i],0.0f }));
 	}	
 
@@ -462,8 +452,8 @@ void MapChip::PlayerPosConvertMap(XMFLOAT3 pos)
 {
 	//プレイヤーの座標をマップチップに変換
 	XMFLOAT3 playerPos = pos;
-	int mapY = int((playerPos.z / 8) + ((21 + 1) / 2));
-	int mapX = int((playerPos.x / 8) + ((21 + 1) / 2));
+	int mapY = int((playerPos.z / 8) + ((MAPVALUE + 1) / 2));
+	int mapX = int((playerPos.x / 8) + ((MAPVALUE + 1) / 2));
 	mapPlayer[mapX][mapY] = 1;
 	mapPlayer[mapX + 1][mapY] = 0;
 	mapPlayer[mapX - 1][mapY] = 0;
@@ -474,15 +464,12 @@ void MapChip::PlayerPosConvertMap(XMFLOAT3 pos)
 void MapChip::CrystalUpdate(XMFLOAT3 pos)
 {
 	//クリスタル関連
-	for (int i = 0; i < 11; i++)
-	{
-		if (crystalGetFlag[i] == false)
-		{
+	for (int i = 0; i < CRYSTALVALUE; i++){
+		if (crystalGetFlag[i] == false){
 			XMFLOAT3 crystalAngle = objCrystal[i]->GetRotation();
 			crystalAngle.y++;
 			objCrystal[i]->SetRotation(crystalAngle);
-			if (crystalGetFlag[i] = Collision::ChenkSphere2Sphere(pos, crystalPos[i], 3.25f, 1.0f))
-			{
+			if (crystalGetFlag[i] = Collision::ChenkSphere2Sphere(pos, crystalPos[i], 3.25f, 1.0f)){
 				number--;
 			}
 		}
@@ -496,13 +483,13 @@ void MapChip::CrystalUpdate(XMFLOAT3 pos)
 	}
 
 	//数字のフォント
-	if (number >= 10) {
-		for (int i = 0; i < 10; i++) {
+	if (number >= MAXNUMBER) {
+		for (int i = 0; i < MAXNUMBER; i++) {
 			spriteNumberNum1[i]->SetPosition(XMFLOAT2(260 - 10, 656 - 16 - 96));
 		}
 	}
 	else {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < MAXNUMBER; i++) {
 			spriteNumberNum1[i]->SetPosition(XMFLOAT2(225, 656 - 16 - 96));
 		}
 	}
@@ -518,33 +505,19 @@ int MapChip::ArrayValue(float x, float y)
 
 void MapChip::Draw()
 {
-	//壁
-	for (int x = 0; x < MAPVALUE; x++)
-	{
-		for (int y = 0; y < MAPVALUE; y++)
-		{
+	for (int x = 0; x < MAPVALUE; x++){
+		for (int y = 0; y < MAPVALUE; y++){
+			//壁
 			if (mapWall[y][x] == 1)
 			{
 				objMapWall[y][x]->Draw();
 			}
-		}
-	}
-	//天井
-	for (int x = 0; x < MAPVALUE; x++)
-	{
-		for (int y = 0; y < MAPVALUE; y++)
-		{
+			//天井
 			if (mapWall[y][x] != 1)
 			{
 				objCeiling[y][x]->Draw();
 			}
-		}
-	}
-	//床
-	for (int x = 0; x < MAPVALUE; x++)
-	{
-		for (int y = 0; y < MAPVALUE; y++)
-		{
+			//床
 			if (mapWall[y][x] != 1)
 			{
 				objFloor[y][x]->Draw();
@@ -552,7 +525,7 @@ void MapChip::Draw()
 		}
 	}
 	//クリスタル
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < CRYSTALVALUE; i++)
 	{
 		if(crystalGetFlag[i] == false)
 		{
@@ -560,14 +533,14 @@ void MapChip::Draw()
 		}
 	}
 	//ドア
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < DOORVALUE; i++)
 	{
 		objMapDoor[i]->Draw();
 	}
 	//絵画
-	for (int x = 0; x < 21; x+=2)
+	for (int x = 0; x < MAPVALUE; x+=2)
 	{
-		for (int y = 0; y < 21; y+=2)
+		for (int y = 0; y < MAPVALUE; y+=2)
 		{
 			if (mapWall[y][x] == 1)
 			{
@@ -591,8 +564,8 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 {
 	//マップ内の座標系の取得
 	XMFLOAT3 playerPos = pos;
-	int mapY = int((playerPos.z / 8) + ((21 + 1) / 2));
-	int mapX = int((playerPos.x / 8) + ((21 + 1) / 2));
+	int mapY = int((playerPos.z / 8) + ((MAPVALUE + 1) / 2));
+	int mapX = int((playerPos.x / 8) + ((MAPVALUE + 1) / 2));
 	
 	//ミニマップの裏
 	spriteMapBack->Draw(1.0f);//スポットしてない時
@@ -611,7 +584,7 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 	}
 
 	//クリスタル
-	for (int i = 0; i < 11; i++)
+	for (int i = 0; i < CRYSTALVALUE; i++)
 	{
 		if (crystalGetFlag[i] == false && spriteCrystal[i]->GetPosition().x < 420 && spriteCrystal[i]->GetPosition().x > 100
 			&& spriteCrystal[i]->GetPosition().y > 650 && spriteCrystal[i]->GetPosition().y < 986)

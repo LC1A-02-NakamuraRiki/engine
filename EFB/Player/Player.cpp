@@ -58,45 +58,17 @@ void Player::InitializeValue()
 
 void Player::Update(MapChip* mapChip, bool tutrialFlag, bool catchFlag, bool catchFlag2, bool catchFlag3)
 {
-	//チュートリアル関連
-	if (moveTutorialFlag)
-	{
-		moveTutorial -= 0.025f;
-	}
-	if (viewTutorialFlag)
-	{
-		viewTutorial -= 0.025f;
-	}
-	if (openTutorialFlag)
-	{
-		openTutorial -= 0.025f;
-	}
-
-	//ゲートが開いたか
-	if (mapChip->GetGateOpenFlag())
-	{
-		openTutorialFlag = true;
-	}
-
+	TutorialAlpha(mapChip);
+	
 	AngleSearch();//プレイヤーの向きの算出
 
 	//移動関連
-	if (tutrialFlag == false && catchFlag == false && catchFlag2 == false && catchFlag3 == false)
-	{
-		Move(mapChip);
-	}
-
+	Move(mapChip,tutrialFlag,catchFlag,catchFlag2,catchFlag3);//移動	
 	WalkShaking();//歩きの揺れ
 	View(tutrialFlag, catchFlag, catchFlag2, catchFlag3);//視点制御
 
 	//スプライト関連のポジションとアングルセット
-	const float mapLeftValue = 100.0f;
-	const float mapTopValue = 650.0f;
-	const float angleConvertValue = 135;
-	const float enemyAngleAdjustValue = 8.0f;
-	spritePlayerDot->SetPosition({ mapLeftValue + (MAPWALLSIZE * 10), mapTopValue + (MAPWALLSIZE * 11) });
-	spritePlayerAngle->SetPosition({ mapLeftValue + (MAPWALLSIZE * 10) + enemyAngleAdjustValue, mapTopValue + (MAPWALLSIZE * 11) + enemyAngleAdjustValue });
-	spritePlayerAngle->SetRotation(angle.y + angleConvertValue);
+	UiUpdate();
 }
 
 void Player::DrawSprite()
@@ -111,27 +83,26 @@ void Player::DrawSprite()
 	spriteOpenUI->Draw(openTutorial);
 }
 
-void Player::Move(MapChip* mapChip)
+void Player::Move(MapChip* mapChip, bool tutrialFlag, bool catchFlag, bool catchFlag2, bool catchFlag3)
 {	
-	if (Input::GetInstance()->KeybordPush(DIK_W))
+	if (tutrialFlag == false && catchFlag == false && catchFlag2 == false && catchFlag3 == false)
 	{
-		MoveValue(0);
-		MoveCollision(mapChip, 0);
-	}
-	if (Input::GetInstance()->KeybordPush(DIK_A))
-	{
-		MoveValue(270);
-		MoveCollision(mapChip, 270);
-	}
-	if (Input::GetInstance()->KeybordPush(DIK_S))
-	{
-		MoveValue(180);
-		MoveCollision(mapChip, 180);
-	}
-	if (Input::GetInstance()->KeybordPush(DIK_D))
-	{
-		MoveValue(90);
-		MoveCollision(mapChip, 90);
+		if (Input::GetInstance()->KeybordPush(DIK_W)){
+			MoveValue(0);
+			MoveCollision(mapChip, 0);
+		}
+		if (Input::GetInstance()->KeybordPush(DIK_A)){
+			MoveValue(270);
+			MoveCollision(mapChip, 270);
+		}
+		if (Input::GetInstance()->KeybordPush(DIK_S)){
+			MoveValue(180);
+			MoveCollision(mapChip, 180);
+		}
+		if (Input::GetInstance()->KeybordPush(DIK_D)){
+			MoveValue(90);
+			MoveCollision(mapChip, 90);
+		}
 	}
 }
 
@@ -204,6 +175,8 @@ void Player::PushBack(VerticalOrHorizontal VerOrHor ,float vec)
 
 void Player::WalkShaking()
 {
+	//シェイク値
+	const float shakeValue = 0.05f;
 	if (!shakeFlag)//シェイクしない
 	{
 		pos.y = 2.5;
@@ -215,11 +188,11 @@ void Player::WalkShaking()
 			walkShakingTime++;
 			if (walkShakingTime <= 8)
 			{
-				walkShaking += 0.05f;
+				walkShaking += shakeValue;
 			}
 			else if (walkShakingTime >= 8 && walkShakingTime <= 16)
 			{
-				walkShaking -= 0.05f;
+				walkShaking -= shakeValue;
 			}
 			else if (walkShakingTime > 16)
 			{
@@ -278,12 +251,45 @@ void Player::AngleSearch()
 	angle.y = XMConvertToDegrees(atan2(pos.x - target.x, pos.z - target.z)) + 90;
 }
 
+void Player::TutorialAlpha(MapChip* mapChip)
+{
+	//ドアが開いたかどうか
+	if (mapChip->GetGateOpenFlag()) {
+		openTutorialFlag = true;
+	}
+	//チュートリアル関連
+	const float alphaSpeed = 0.025f;
+	if (moveTutorialFlag)
+	{
+		moveTutorial -= alphaSpeed;
+	}
+	if (viewTutorialFlag)
+	{
+		viewTutorial -= alphaSpeed;
+	}
+	if (openTutorialFlag)
+	{
+		openTutorial -= alphaSpeed;
+	}
+}
+
+void Player::UiUpdate()
+{
+	//UIの位置セット
+	const float mapLeftValue = 100.0f;
+	const float mapTopValue = 650.0f;
+	const float angleConvertValue = 135;
+	const float enemyAngleAdjustValue = 8.0f;
+	spritePlayerDot->SetPosition({ mapLeftValue + (MAPWALLSIZE * 10), mapTopValue + (MAPWALLSIZE * 11) });
+	spritePlayerAngle->SetPosition({ mapLeftValue + (MAPWALLSIZE * 10) + enemyAngleAdjustValue, mapTopValue + (MAPWALLSIZE * 11) + enemyAngleAdjustValue });
+	spritePlayerAngle->SetRotation(angle.y + angleConvertValue);
+}
+
 bool Player::ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z)
 {
 	//マップ内の座標の取得
 	int mapX = int((enemyPos.x / WALLSIZE) + ((MAPVALUE + 1) / 2));
 	int mapY = int((enemyPos.z / WALLSIZE) + ((MAPVALUE + 1) / 2));
-
 	for (int i = 1; i < 5; i++)
 	{
 		if (mapChip->GetArrayValue(mapX + X, mapY + Z) == 1)

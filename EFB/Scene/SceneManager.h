@@ -1,6 +1,5 @@
 #pragma once
 
-#include "SafeDelete.h"
 #include "DirectXCommon.h"
 #include <DirectXMath.h>
 #include "Input.h"
@@ -19,6 +18,9 @@
 #include <array>
 #include "TitleScene.h"
 #include "OptionScene.h"
+#include "PlayScene.h"
+#include "ClearScene.h"
+#include "GameOverScene.h"
 
 /// <summary>
 /// ゲームシーン
@@ -88,16 +90,15 @@ private: // メンバ変数
 	
 	std::unique_ptr < TitleScene > titleScene;
 	std::unique_ptr < OptionScene > optionScene;
+	std::unique_ptr < PlayScene > playScene;
+	std::unique_ptr < ClearScene > clearScene;
+	std::unique_ptr < GameOverScene > gameOverScene;
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
 	std::unique_ptr <DebugCamera> camera;
 	std::array <std::unique_ptr<Sprite>,3> spriteTitle;//タイトル
 
-	std::unique_ptr<Sprite> spriteClear;//クリア
-	std::unique_ptr<Sprite> spriteGAMEOVER;//ゲームオーバー
-	std::unique_ptr<Sprite> spriteGAMEOVER2;//ゲームオーバー
-	std::unique_ptr<Sprite> spriteRule;//ルール
 	std::array<std::unique_ptr<Sprite>,8> spriteGrain;//グレイン
 	int grainCount = 0;//グレインカウント
 	
@@ -108,8 +109,7 @@ private: // メンバ変数
 	int scene = 0;//シーン
 	bool stopFlag;//停止フラグ
 	int buttonNo = 0;//タイトルの選択
-	bool tutrialFlag = true;//チュートリアルの表示
-	std::array<int, 3> soundTimer = { 0, 0 ,0 };//足音の歩行レートのタイマー
+	
 	//光線方向初期値
 	std::array<float, 3> lightDir0 = { 0,1,0 };
 	std::array<float, 3> lightDir5 = { 0,-1,0 };
