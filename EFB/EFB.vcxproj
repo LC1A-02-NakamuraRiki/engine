@@ -79,13 +79,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)player;$(ProjectDir)Map;$(ProjectDir)enemy;$(ProjectDir)Sound;$(ProjectDir)Scene;$(ProjectDir)input;$(ProjectDir)helper;$(ProjectDir)collision;$(ProjectDir)base;$(ProjectDir)3d;$(ProjectDir)2d;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\DirectXTexDebug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)player;$(ProjectDir)Map;$(ProjectDir)enemy;$(ProjectDir)Sound;$(ProjectDir)Scene;$(ProjectDir)input;$(ProjectDir)helper;$(ProjectDir)collision;$(ProjectDir)base;$(ProjectDir)3d;$(ProjectDir)2d;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\DirectXTexDebug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)player;$(ProjectDir)Map;$(ProjectDir)enemy;$(ProjectDir)Sound;$(ProjectDir)Scene;$(ProjectDir)input;$(ProjectDir)helper;$(ProjectDir)collision;$(ProjectDir)base;$(ProjectDir)3d;$(ProjectDir)2d;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\DirectXTexRelease;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)player;$(ProjectDir)Map;$(ProjectDir)enemy;$(ProjectDir)Sound;$(ProjectDir)Scene;$(ProjectDir)input;$(ProjectDir)helper;$(ProjectDir)collision;$(ProjectDir)base;$(ProjectDir)3d;$(ProjectDir)2d;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\DirectXTexRelease;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -253,6 +253,7 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="collision\Collision.cpp" />
     <ClCompile Include="enemy\enemy.cpp" />
+    <ClCompile Include="helper\EditLoader.cpp" />
     <ClCompile Include="helper\LoadCSV.cpp" />
     <ClCompile Include="input\GamePad.cpp" />
     <ClCompile Include="input\Input.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="collision\Collision.h" />
     <ClInclude Include="enemy\enemy.h" />
+    <ClInclude Include="helper\EditLoader.h" />
     <ClInclude Include="helper\LoadCSV.h" />
     <ClInclude Include="input\GamePad.h" />
     <ClInclude Include="input\Input.h" />

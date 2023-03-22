@@ -206,6 +206,7 @@ void SceneManager::Update()
 		{
 			grainCount = 0;
 		}
+		stopFlag = playScene->GetStopFlag();
 	}
 	else if (scene == CLEAR)
 	{

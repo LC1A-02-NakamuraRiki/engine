@@ -198,6 +198,9 @@
     <ClCompile Include="collision\Collision.cpp">
       <Filter>engine\collision</Filter>
     </ClCompile>
+    <ClCompile Include="helper\EditLoader.cpp">
+      <Filter>engine\helper</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="collision\Collision.h">
       <Filter>engine\collision</Filter>
+    </ClInclude>
+    <ClInclude Include="helper\EditLoader.h">
+      <Filter>engine\helper</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
