@@ -210,7 +210,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 	}
 	else if (!adjustmentFlag)//à íuí≤êÆÉtÉâÉO
 	{
-		if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 2)//è„ç∂äp
+		if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTTOP))//è„ç∂äp
 		{
 			if (nowMove == static_cast<int>(MoveVector::UP))
 			{
@@ -223,7 +223,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				adjustmentFlag = true;
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 3)//è„íÜêS
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::CENTERTOP))//è„íÜêS
 		{
 			if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && 0 < vectorX)
 			{
@@ -270,7 +270,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				}
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 4)//è„âEäp
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::RIGHTTOP))//è„âEäp
 		{
 			if (nowMove == static_cast<int>(MoveVector::RIGHT))
 			{
@@ -283,7 +283,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				adjustmentFlag = true;
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 5)//íÜâõç∂
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTMIDDLE))//íÜâõç∂
 		{
 			if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vectorZ < 0)
 			{
@@ -330,7 +330,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				}
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 6)//íÜâõ
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::CENTERMIDDLE))//íÜâõ
 		{
 			if (nowMove == static_cast<int>(MoveVector::UP) && vectorZ > 0)
 			{
@@ -385,7 +385,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				}
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 7)//íÜâõâE
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::RIGHTMIDDLE))//íÜâõâE
 		{
 			if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vectorZ < 0)
 			{
@@ -432,7 +432,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				}
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 8)//â∫ç∂äp
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTBOTTOM))//â∫ç∂äp
 		{
 			if (nowMove == static_cast<int>(MoveVector::LEFT))
 			{
@@ -445,7 +445,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				adjustmentFlag = true;
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 9)//â∫íÜâõ
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::CENTERBOTTOM))//â∫íÜâõ
 		{
 
 			if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vectorX < 0)
@@ -493,7 +493,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				}
 			}
 		}
-		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == 10)//â∫âEäp
+		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::RIGHTBOTTOM))//â∫âEäp
 		{
 			if (nowMove == static_cast<int>(MoveVector::DOWN))
 			{

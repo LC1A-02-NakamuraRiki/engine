@@ -19,8 +19,7 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	camera->SetTarget(player->GetTarget());
 
 	//チュートリアル
-	if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true)
-	{
+	if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true){
 		tutrialFlag = false;
 	}
 
@@ -107,14 +106,18 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 		{
 			soundTimer[i]++;
 			
-			const float sideValue = 45;
-			if (soundFlag[i] && soundTimer[i] > 20 && !map->GetStopFlag())
+			const float sideValue = 45.0f;
+			const int MAXDELAYTIME = 20;
+			const float LEFTVALUE = 90.0f;
+			const float RIGHTVALUE = 270.0f;
+
+			if (soundFlag[i] && soundTimer[i] > MAXDELAYTIME && !map->GetStopFlag())
 			{
-				if (-vec[i] + player->GetAngle() - 90 < -90 + sideValue && -vec[i] + player->GetAngle() - 90 > -90 - sideValue || -vec[i] + player->GetAngle() - 90 > 270 - sideValue && -vec[i] + player->GetAngle() - 90 < 270 + sideValue)
+				if (-vec[i] + player->GetAngle() - LEFTVALUE < -LEFTVALUE + sideValue && -vec[i] + player->GetAngle() - LEFTVALUE > -LEFTVALUE - sideValue || -vec[i] + player->GetAngle() - LEFTVALUE > RIGHTVALUE - sideValue && -vec[i] + player->GetAngle() - LEFTVALUE < RIGHTVALUE + sideValue)
 				{
 					audio->PlaySE("Resources/seR.wav", false);
 				}
-				else if (-vec[i] + player->GetAngle() - 90 > 90 - sideValue && -vec[i] + player->GetAngle() - 90 < 90 + sideValue || -vec[i] + player->GetAngle() - 90 < -270 + sideValue && -vec[i] + player->GetAngle() - 90 > -270 - sideValue)
+				else if (-vec[i] + player->GetAngle() - LEFTVALUE > LEFTVALUE - sideValue && -vec[i] + player->GetAngle() - LEFTVALUE < LEFTVALUE + sideValue || -vec[i] + player->GetAngle() - LEFTVALUE < -RIGHTVALUE + sideValue && -vec[i] + player->GetAngle() - LEFTVALUE > -RIGHTVALUE - sideValue)
 				{
 					audio->PlaySE("Resources/seL.wav", false);
 				}
@@ -153,17 +156,18 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	}
 
 	const float MAXALARTBALUE = 0.3f;
+	const float ALARTSPEED = 0.04f;
 	if (!map->GetGateOpenFlag())
 	{
 		alartValue = 0.0f;
 	}
 	else if (player->AlartFlag(map, enemy1->GetPos())&& alartValue < MAXALARTBALUE || player->AlartFlag(map, enemy2->GetPos()) && alartValue < MAXALARTBALUE || player->AlartFlag(map, enemy3->GetPos()) && alartValue < MAXALARTBALUE) {
 		
-		alartValue += 0.04f;
+		alartValue += ALARTSPEED;
 	}
 	else if (!player->AlartFlag(map,enemy1->GetPos()) && 0 < alartValue || !player->AlartFlag(map, enemy2->GetPos()) && 0 < alartValue|| !player->AlartFlag(map, enemy3->GetPos()) && 0 < alartValue)
 	{
-		alartValue -= 0.04f;
+		alartValue -= ALARTSPEED;
 	}
 }
 

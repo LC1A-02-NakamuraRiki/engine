@@ -189,7 +189,8 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	map->Initialize();
 
 	//“G‰Šú‰»
-	for (int i = 0; i < 3; i++) {
+	const int MAXENEMYNUM = 3;
+	for (int i = 0; i < MAXENEMYNUM; i++) {
 		enemy[i] = std::make_unique <Enemy>();
 		enemy[i]->Initialize();
 	}
