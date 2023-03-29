@@ -14,6 +14,7 @@ float4 main(VSOutput input) :SV_TARGET
 {
 	//テクスチャの色
 	float4 color = tex0.Sample(smp, input.uv);
+	float alartColorValue = alartColor.g;
 	//輝度算出
 	float whiteValue = color.r * 0.299f + color.g * 0.587f + color.b * 0.114f;
 
@@ -32,7 +33,7 @@ float4 main(VSOutput input) :SV_TARGET
 	}
 	color2 = color2 / totalWeight;
 	color.rgb = color.rgb + color2.rgb;
-	
+	color.r += alartColorValue;
 	//トーンマップ
 	float brightNess = 0.27 * color.r + 0.67 * color.g + 0.06 * color.b;
 	float brightNess1 = exp((1 / 2073600) * (log(0.01f + brightNess)));
@@ -44,9 +45,9 @@ float4 main(VSOutput input) :SV_TARGET
 	float distanceY = 0.5f - input.uv.y;
 	float distanceAXY = distanceX * distanceX + distanceY * distanceY;
 	float distanceXY = sqrt(distanceAXY);
-	float blackColor = 0.2f;
-	float value = distanceXY * 2;
-	float4 vinetColor = float4(blackColor * value, (blackColor + alartColor.g) * value , (blackColor + alartColor.g) * value, 0);
+	float blackColor = 0.15f;
+	float value = (distanceXY + (alartColorValue*2)) * 2;
+	float4 vinetColor = float4(blackColor * value, blackColor * value , blackColor * value, 0);
 	color = float4((color.rgb * brightNess3) - vinetColor, color.a);
 
 	//グレイスケール

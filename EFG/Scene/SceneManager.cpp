@@ -99,10 +99,47 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 		return;
 	}
 
-	for (int i = 0; i < 8; i++)
+	if (!Sprite::LoadTexture(100, L"Resources/alartGrain.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(101, L"Resources/alartGrain2.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(102, L"Resources/alartGrain3.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(103, L"Resources/alartGrain4.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(104, L"Resources/alartGrain5.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(105, L"Resources/alartGrain6.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(106, L"Resources/alartGrain7.png")) {
+		assert(0);
+		return;
+	}
+	if (!Sprite::LoadTexture(107, L"Resources/alartGrain8.png")) {
+		assert(0);
+		return;
+	}
+	const int MAXGRAINVALUE = 8;
+	for (int i = 0; i < MAXGRAINVALUE; i++)
 	{
 		spriteGrain[i] = std::unique_ptr<Sprite>(Sprite::Create(50 + i, { 0.0f,0.0f }));
 		spriteGrain[i]->SetSize(XMFLOAT2{ 1920.0f * 1.5f,1080.0f * 1.5f });
+		spriteAlartGrain1[i] = std::unique_ptr<Sprite>(Sprite::Create(100 + i, { 0.0f,0.0f }));
+		spriteAlartGrain1[i]->SetSize(XMFLOAT2{ 1920.0f * 4.0f,1080.0f * 4.0f });
+		spriteAlartGrain2[i] = std::unique_ptr<Sprite>(Sprite::Create(100 + i, { 0.0f,0.0f }));
+		spriteAlartGrain2[i]->SetSize(XMFLOAT2{ 1920.0f * 5.0f,1080.0f * 5.0f });
 	}
 	// デバイスをセット
 	FbxObject3d::SetDevice(dxCommon->GetDevice());
@@ -161,13 +198,24 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 void SceneManager::Update()
 {
 	//グレイン
-	grainCount++;
+	
 	const int MAXGARAIN = 7;
+	grainCount++;
 	if (grainCount > MAXGARAIN)
 	{
 		grainCount = 0;
 	}
 
+	grainCount2++;
+	if (grainCount2 > MAXGARAIN)
+	{
+		grainCount2 = 0;
+	}
+	grainCount3++;
+	if (grainCount3 > MAXGARAIN)
+	{
+		grainCount3 = 0;
+	}
 	if (scene == TITLE)
 	{
 		titleScene->Update(player.get(), map.get(), enemy[0].get(),enemy[1].get(),enemy[2].get(),camera.get(),light.get(),playScene->GetTutrialFlag());
@@ -178,6 +226,7 @@ void SceneManager::Update()
 			optionScene->SetTitleScene();
 			scene = OPTION;
 		}
+		alartValue = 0;
 	}
 	else if (scene == OPTION)
 	{
@@ -201,13 +250,6 @@ void SceneManager::Update()
 		if (playScene->GetGameOverScene()) {
 			titleScene->SetPlayScene();
 			scene = GAMEOVER;
-		}
-
-		//グレイン関連
-		grainCount++;
-		if (grainCount > 7)
-		{
-			grainCount = 0;
 		}
 		stopFlag = playScene->GetStopFlag();
 	}
@@ -321,13 +363,17 @@ void SceneManager::PostOffDraw()
 	//-------------------------------------------------------------//
 	if (scene == PLAY)
 	{
+		if (!alartValue == 0){
+			spriteAlartGrain2[grainCount]->Draw(1.0f);//テクスチャスプライト
+			spriteAlartGrain1[grainCount2]->Draw(1.0f);//テクスチャスプライト
+		}
+		spriteGrain[grainCount3]->Draw(1.0f);//テクスチャスプライト
 		playScene->DrawSprite(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get());
-		spriteGrain[grainCount]->Draw(0.75f);//テクスチャスプライト
 	}
 
 	if (scene == TITLE)
 	{
-		spriteGrain[grainCount]->Draw(0.75f);//テクスチャスプライト
+		spriteGrain[grainCount3]->Draw(1.0f);//テクスチャスプライト
 		titleScene->Draw();
 	}
 	if (scene == OPTION)

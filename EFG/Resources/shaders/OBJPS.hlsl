@@ -91,7 +91,7 @@ PSOutput main(VSOutput input) : SV_TARGET
 
 				}
 			}
-			else if (lightInfo.allActive == 1)
+			else if (lightInfo.allActive == 1 && lightInfo.lightActive)
 			{
 				for (int x = 0; x < 7; x++)
 				{

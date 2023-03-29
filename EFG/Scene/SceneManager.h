@@ -103,8 +103,12 @@ private: // メンバ変数
 	std::array <std::unique_ptr<Sprite>,3> spriteTitle;//タイトル
 
 	std::array<std::unique_ptr<Sprite>,8> spriteGrain;//グレイン
+	std::array<std::unique_ptr<Sprite>, 8> spriteAlartGrain1;//グレイン
+	std::array<std::unique_ptr<Sprite>, 8> spriteAlartGrain2;//グレイン
 	int grainCount = 0;//グレインカウント
-	
+	int grainCount2 = 3;//グレインカウント
+	int grainCount3 = 6;//グレインカウント
+
 	std::unique_ptr<ParticleManager> particle3d;//パーティクル
 	std::unique_ptr<Player> player = nullptr;//プレイヤー
 	std::array <std::unique_ptr<Enemy>,3> enemy = { nullptr,nullptr,nullptr };//エネミー

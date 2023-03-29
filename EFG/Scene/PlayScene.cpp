@@ -45,14 +45,15 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	
 	if (map->GetGateOpenFlag() && !enemy1->CatchCollision(player) && !enemy2->CatchCollision(player) && !enemy3->CatchCollision(player))
 	{
-		const float MAXDISTANCE = 20.0f;
+		bool ACTIONFLAG = false;
+		const float MAXDISTANCE = 32.0f;
 		float aX = enemy1->GetPos().x - player->GetPos().x;
 		float aZ = enemy1->GetPos().z - player->GetPos().z;
 		float aXZ = aX * aX + aZ * aZ;
 		float axzDistanse = float(sqrt(aXZ));
 		if (axzDistanse < MAXDISTANCE)
 		{
-			map->SetLightAction(true);
+			ACTIONFLAG = true;
 		}
 		else
 		{
@@ -65,7 +66,7 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 		float axzDistanse2 = float(sqrt(aXZ2));
 		if (axzDistanse2 < MAXDISTANCE)
 		{
-			map->SetLightAction(true);
+			ACTIONFLAG = true;
 		}
 		else
 		{
@@ -78,11 +79,15 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 		float axzDistanse3 = float(sqrt(aXZ3));
 		if (axzDistanse3 < MAXDISTANCE)
 		{
-			map->SetLightAction(true);
+			ACTIONFLAG = true;
 		}
 		else
 		{
 			map->SetLightAction(false);
+		}
+		if(ACTIONFLAG == true)
+		{
+			map->SetLightAction(true);
 		}
 	}
 	
@@ -147,11 +152,12 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 		clearFlag = true;//ƒNƒŠƒA‚Ö
 	}
 
+	const float MAXALARTBALUE = 0.3f;
 	if (!map->GetGateOpenFlag())
 	{
 		alartValue = 0.0f;
 	}
-	else if (player->AlartFlag(map, enemy1->GetPos())&& alartValue < 0.4 || player->AlartFlag(map, enemy2->GetPos()) && alartValue < 0.4 || player->AlartFlag(map, enemy3->GetPos()) && alartValue < 0.4) {
+	else if (player->AlartFlag(map, enemy1->GetPos())&& alartValue < MAXALARTBALUE || player->AlartFlag(map, enemy2->GetPos()) && alartValue < MAXALARTBALUE || player->AlartFlag(map, enemy3->GetPos()) && alartValue < MAXALARTBALUE) {
 		
 		alartValue += 0.04f;
 	}
