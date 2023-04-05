@@ -198,7 +198,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 	{
 		vReserveFlag = false;
 	}
-
+	
 	if (adjustmentFlag)//位置調整フラグ
 	{
 		adjustmentTime++;
@@ -215,12 +215,10 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			if (nowMove == static_cast<int>(MoveVector::UP))
 			{
 				nowMove = static_cast<int>(MoveVector::RIGHT);
-				adjustmentFlag = true;
 			}
 			if (nowMove == static_cast<int>(MoveVector::LEFT))
 			{
 				nowMove = static_cast<int>(MoveVector::DOWN);
-				adjustmentFlag = true;
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::CENTERTOP))//上中心
@@ -228,29 +226,24 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && 0 < vectorX)
 			{
 				nowMove = static_cast<int>(MoveVector::RIGHT);
-				adjustmentFlag = true;
 			}
 			else if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vectorX < 0)
 			{
 				nowMove = static_cast<int>(MoveVector::LEFT);
-				adjustmentFlag = true;
 			}
 			else if (nowMove != static_cast<int>(MoveVector::UP) && vReserveFlag == true && vectorZ >= 0)
 			{
 				nowMove = static_cast<int>(MoveVector::DOWN);
-				adjustmentFlag = true;
 			}
 			else if (nowMove == static_cast<int>(MoveVector::UP))
 			{
 				if (vectorX <= 0)
 				{
 					nowMove = static_cast<int>(MoveVector::LEFT);
-					adjustmentFlag = true;
 				}
 				if (vectorX > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::RIGHT);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::LEFT))
@@ -258,7 +251,6 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorZ > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::DOWN);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::RIGHT))
@@ -266,7 +258,6 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorZ > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::DOWN);
-					adjustmentFlag = true;
 				}
 			}
 		}
@@ -275,12 +266,10 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			if (nowMove == static_cast<int>(MoveVector::RIGHT))
 			{
 				nowMove = static_cast<int>(MoveVector::DOWN);
-				adjustmentFlag = true;
 			}
 			if (nowMove == static_cast<int>(MoveVector::UP))
 			{
 				nowMove = static_cast<int>(MoveVector::LEFT);
-				adjustmentFlag = true;
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTMIDDLE))//中央左
@@ -288,29 +277,24 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vectorZ < 0)
 			{
 				nowMove = static_cast<int>(MoveVector::UP);
-				adjustmentFlag = true;
 			}
 			else if (nowMove != static_cast<int>(MoveVector::UP) && vReserveFlag == true && 0 < vectorZ)
 			{
 				nowMove = static_cast<int>(MoveVector::DOWN);
-				adjustmentFlag = true;
 			}
 			else if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && vectorX >= 0)
 			{
 				nowMove = static_cast<int>(MoveVector::RIGHT);
-				adjustmentFlag = true;
 			}
 			else if (nowMove == static_cast<int>(MoveVector::LEFT))
 			{
 				if (vectorZ <= 0)
 				{
 					nowMove = static_cast<int>(MoveVector::UP);
-					adjustmentFlag = true;
 				}
 				else if (vectorZ > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::DOWN);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::UP))
@@ -318,7 +302,6 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorX > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::RIGHT);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::DOWN))
@@ -326,7 +309,6 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorX > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::RIGHT);
-					adjustmentFlag = true;
 				}
 			}
 		}
@@ -337,12 +319,10 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorX <= 0)
 				{
 					nowMove = static_cast<int>(MoveVector::LEFT);
-					adjustmentFlag = true;
 				}
 				if (vectorX > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::RIGHT);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::DOWN) && vectorZ < 0)
@@ -350,12 +330,10 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorX <= 0)
 				{
 					nowMove = static_cast<int>(MoveVector::LEFT);
-					adjustmentFlag = true;
 				}
 				if (vectorX > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::RIGHT);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::RIGHT) && vectorX < 0)
@@ -363,12 +341,10 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorZ <= 0)
 				{
 					nowMove = static_cast<int>(MoveVector::UP);
-					adjustmentFlag = true;
 				}
 				if (vectorZ > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::DOWN);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::LEFT) && vectorX > 0)
@@ -376,12 +352,10 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorZ <= 0)
 				{
 					nowMove = static_cast<int>(MoveVector::UP);
-					adjustmentFlag = true;
 				}
 				if (vectorZ > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::DOWN);
-					adjustmentFlag = true;
 				}
 			}
 		}
@@ -390,29 +364,24 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vectorZ < 0)
 			{
 				nowMove = static_cast<int>(MoveVector::UP);
-				adjustmentFlag = true;
 			}
 			else if (nowMove != static_cast<int>(MoveVector::UP) && vReserveFlag == true && 0 < vectorZ)
 			{
 				nowMove = static_cast<int>(MoveVector::DOWN);
-				adjustmentFlag = true;
 			}
 			else if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vectorX <= 0)
 			{
 				nowMove = static_cast<int>(MoveVector::LEFT);
-				adjustmentFlag = true;
 			}
 			else if (nowMove == static_cast<int>(MoveVector::RIGHT))
 			{
 				if (vectorZ <= 0)
 				{
 					nowMove = static_cast<int>(MoveVector::UP);
-					adjustmentFlag = true;
 				}
 				if (vectorZ > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::DOWN);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::UP))
@@ -420,7 +389,6 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorX < 0)
 				{
 					nowMove = static_cast<int>(MoveVector::LEFT);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::DOWN))
@@ -428,7 +396,6 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorX < 0)
 				{
 					nowMove = static_cast<int>(MoveVector::LEFT);
-					adjustmentFlag = true;
 				}
 			}
 		}
@@ -437,12 +404,10 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			if (nowMove == static_cast<int>(MoveVector::LEFT))
 			{
 				nowMove = static_cast<int>(MoveVector::UP);
-				adjustmentFlag = true;
 			}
 			if (nowMove == static_cast<int>(MoveVector::DOWN))
 			{
 				nowMove = static_cast<int>(MoveVector::RIGHT);
-				adjustmentFlag = true;
 			}
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::CENTERBOTTOM))//下中央
@@ -451,29 +416,24 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vectorX < 0)
 			{
 				nowMove = static_cast<int>(MoveVector::LEFT);
-				adjustmentFlag = true;
 			}
 			else if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && 0 < vectorX)
 			{
 				nowMove = static_cast<int>(MoveVector::RIGHT);
-				adjustmentFlag = true;
 			}
 			else if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vectorZ <= 0)
 			{
 				nowMove = static_cast<int>(MoveVector::UP);
-				adjustmentFlag = true;
 			}
 			else if (nowMove == static_cast<int>(MoveVector::DOWN))
 			{
 				if (vectorX <= 0)
 				{
 					nowMove = static_cast<int>(MoveVector::LEFT);
-					adjustmentFlag = true;
 				}
 				if (vectorX > 0)
 				{
 					nowMove = static_cast<int>(MoveVector::RIGHT);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::LEFT))
@@ -481,7 +441,6 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorZ < 0)
 				{
 					nowMove = static_cast<int>(MoveVector::UP);
-					adjustmentFlag = true;
 				}
 			}
 			else if (nowMove == static_cast<int>(MoveVector::RIGHT))
@@ -489,7 +448,6 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 				if (vectorZ < 0)
 				{
 					nowMove = static_cast<int>(MoveVector::UP);
-					adjustmentFlag = true;
 				}
 			}
 		}
@@ -498,14 +456,13 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			if (nowMove == static_cast<int>(MoveVector::DOWN))
 			{
 				nowMove = static_cast<int>(MoveVector::LEFT);
-				adjustmentFlag = true;
 			}
 			if (nowMove == static_cast<int>(MoveVector::RIGHT))
 			{
 				nowMove = static_cast<int>(MoveVector::UP);
-				adjustmentFlag = true;
 			}
 		}
+		adjustmentFlag = true;
 	}
 }
 

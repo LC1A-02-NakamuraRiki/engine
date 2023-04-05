@@ -31,6 +31,19 @@ float4 main(VSOutput input) :SV_TARGET
 			totalWeight += weight;
 		}
 	}
+	if (alartColorValue != 0)
+	{
+		float totalWeight2 = 0, sigma2 = 0.001f, stepWidth2 = 0.0005f;
+		for (float py = -sigma2 * 2; py <= sigma2 * 2; py += stepWidth2) {
+			for (float px = -sigma2 * 2; px <= sigma2 * 2; px += stepWidth2) {
+				float2 pickUV = input.uv + float2(px, py);
+				float weight = Gaussian(input.uv, pickUV, sigma2);
+				color += tex0.Sample(smp, pickUV) * weight;
+				totalWeight2 += weight;
+			}
+		}
+		color = color / totalWeight2;
+	}
 	color2 = color2 / totalWeight;
 	color.rgb = color.rgb + color2.rgb;
 	color.r += alartColorValue;
