@@ -61,13 +61,14 @@ void MapChip::Initialize()
 	modelFloor = std::unique_ptr<Model>(Model::CreateFromObject("floor", false));
 	modelCrystal = std::unique_ptr<Model>(Model::CreateFromObject("crystal", false));
 	modelItemCrystal = std::unique_ptr<Model>(Model::CreateFromObject("itemCrystal", false));
+	modelItemCrystal2 = std::unique_ptr<Model>(Model::CreateFromObject("itemCrystal2", false));
 	for (int i = 0; i < CRYSTALVALUE; i++){
 		objCrystal[i] = std::unique_ptr<Object3d>(Object3d::Create(modelCrystal.get()));
 		objCrystal[i]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
 		crystalGetFlag[i] = false;
 	}
 	objCrystal[3] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
-	objCrystal[5] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
+	objCrystal[5] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal2.get()));
 	objCrystal[3]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
 	objCrystal[5]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
 	for (int i = 0; i < CRYSTALVALUE; i++){
@@ -134,6 +135,10 @@ void MapChip::Initialize()
 		assert(0);
 		return;
 	}
+	if (!Sprite::LoadTexture(130, L"Resources/crystal3.png")) {
+		assert(0);
+		return;
+	}
 	if (!Sprite::LoadTexture(26, L"Resources/miniMapFrame.png")) {
 		assert(0);
 		return;
@@ -190,7 +195,7 @@ void MapChip::Initialize()
 		spriteCrystal[i] = std::unique_ptr<Sprite>(Sprite::Create(7, mapCrystalPos[i]));
 	}
 	spriteCrystal[3] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[3]));
-	spriteCrystal[5] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[5]));
+	spriteCrystal[5] = std::unique_ptr<Sprite>(Sprite::Create(130, mapCrystalPos[5]));
 
 	//É}ÉbÉvì«Ç›çûÇ›
 	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");

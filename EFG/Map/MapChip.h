@@ -62,6 +62,7 @@ private:
 	std::unique_ptr<Model> modelFloor;													//床モデル
 	std::unique_ptr<Model> modelCrystal;												//クリスタルモデル
 	std::unique_ptr<Model> modelItemCrystal;											//アイテムクリスタルモデル
+	std::unique_ptr<Model> modelItemCrystal2;											//アイテムクリスタルモデル
 	std::array <std::unique_ptr<Object3d>, 11> objCrystal;//クリスタルオブジェクト
 
 	std::unique_ptr<Sprite> spriteDoorOpen;//ドアUI

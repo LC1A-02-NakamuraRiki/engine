@@ -18,6 +18,13 @@ class Player
 		HORIZONTAL
 	};
 
+	enum class CHECKVECTOR//移動方向
+	{
+		ZPLUS,
+		ZMINUS,
+		XPLUS,
+		XMINUS,
+	};
 private: // エイリアス
 	// DirectX::を省略
 	using XMFLOAT2 = DirectX::XMFLOAT2;
@@ -61,7 +68,7 @@ public:
 
 	bool ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z);
 
-	XMFLOAT2 ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos, float X, float Z);
+	XMFLOAT2 ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos, float X, float Z,CHECKVECTOR vector);
 
 	XMFLOAT2 GetShortCut(MapChip* mapChip,XMFLOAT3 enemyPos);//プレイヤーの4マス先読み
 

@@ -343,26 +343,28 @@ bool Player::AlartFlag(MapChip* mapChip, XMFLOAT3 enemyPos)
 bool Player::ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z)
 {
 	//マップ内の座標の取得
-	int mapX = int((enemyPos.x / WALLSIZE) + ((MAPVALUE + 1) / 2));
-	int mapY = int((enemyPos.z / WALLSIZE) + ((MAPVALUE + 1) / 2));
+	int mapX = int((enemyPos.x / 8) + ((MAPVALUE + 1) / 2));
+	int mapY = int((enemyPos.z / 8) + ((MAPVALUE + 1) / 2));
 	const int ALARTMAXSEARCH = 5;
 	const int PLAYER = 1;
 	const int WALL = 1;
+	//近くに壁があるか
 	for (int i = 1; i < ALARTMAXSEARCH; i++)
 	{
-		if (mapChip->GetArrayValue(mapX + X, mapY + Z) == 1)
+		if (mapChip->GetArrayValue(mapX + (i * X), mapY + (i * Z)) == WALL)
 		{
 			i = ALARTMAXSEARCH;
 		}
-		else if (mapChip->GetArrayValue(mapX + (i * X), mapY + (i * Z)) != WALL && mapChip->GetPlayerArrayValue(mapX + (i * X), mapY + (i * X)) == PLAYER)
+		else if (mapChip->GetArrayValue(mapX + (i * X), mapY + (i * Z)) != WALL && mapChip->GetPlayerArrayValue(mapX + (i * X), mapY + (i * Z)) == WALL)
 		{
 			return true;
 		}
 	}
+
 	return false;
 }
 
-XMFLOAT2 Player::ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos,float X ,float Z)
+XMFLOAT2 Player::ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos, float X, float Z, CHECKVECTOR vector)
 {
 	//何マス先を見るかの調整
 	XMFLOAT2 plusValue = { 0,0 };
@@ -370,26 +372,27 @@ XMFLOAT2 Player::ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos,float X ,floa
 	float vectorZ = pos.z - enemyPos.z;
 	const int ALARTMAXSEARCH = 5;
 	const int WALL = 1;
-	for (int i = 1; i < ALARTMAXSEARCH+1; i++)
+
+	for (int i = 1; i < ALARTMAXSEARCH + 1; i++)
 	{
 		if (mapChip->ArrayValue(pos.x + (WALLSIZE * (i * X)), pos.z + (WALLSIZE * (i * Z))) == WALL || i == ALARTMAXSEARCH)
 		{
-			if (Z == -1)
+			if (vector == CHECKVECTOR::ZMINUS)
 			{
 				plusValue.x = 0;
 				plusValue.y = -WALLSIZE * (i - 1);
 			}
-			else if (Z == 1)
+			else if (vector == CHECKVECTOR::ZPLUS)
 			{
 				plusValue.x = 0;
 				plusValue.y = WALLSIZE * (i - 1);
 			}
-			else if (X == -1)
+			else if (vector == CHECKVECTOR::XMINUS)
 			{
 				plusValue.y = 0;
 				plusValue.x = -WALLSIZE * (i - 1);
 			}
-			else if (X == 1)
+			else if (vector == CHECKVECTOR::XPLUS)
 			{
 				plusValue.y = 0;
 				plusValue.x = WALLSIZE * (i - 1);
@@ -408,50 +411,10 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	const int PLAYER = 1;
 	const int WALL = 1;
 	//近くに壁があるか
-	for (int i = 1; i < ALARTMAXSEARCH; i++)
-	{
-		if (mapChip->GetArrayValue(mapX, mapY - i) == WALL)
-		{
-			i = ALARTMAXSEARCH;
-		}
-		else if (mapChip->GetArrayValue(mapX, mapY - i) != WALL && mapChip->GetPlayerArrayValue(mapX, mapY - i) == WALL)
-		{
-			return XMFLOAT2{ 0,0 };
-		}
-	}
-	for (int i = 1; i < ALARTMAXSEARCH; i++)
-	{
-		if (mapChip->GetArrayValue(mapX, mapY + i) == WALL)
-		{
-			i = ALARTMAXSEARCH;
-		}
-		else if (mapChip->GetArrayValue(mapX, mapY + i) != WALL && mapChip->GetPlayerArrayValue(mapX, mapY + i) == WALL)
-		{
-			return XMFLOAT2{ 0,0 };
-		}
-	}
-	for (int i = 1; i < ALARTMAXSEARCH; i++)
-	{
-		if (mapChip->GetArrayValue(mapX - 1, mapY) == WALL)
-		{
-			i = ALARTMAXSEARCH;
-		}
-		else if (mapChip->GetArrayValue(mapX - i, mapY) != WALL && mapChip->GetPlayerArrayValue(mapX - i, mapY) == WALL)
-		{
-			return XMFLOAT2{ 0,0 };
-		}
-	}
-	for (int i = 1; i < ALARTMAXSEARCH; i++)
-	{
-		if (mapChip->GetArrayValue(mapX + 1, mapY) == WALL)
-		{
-			i = ALARTMAXSEARCH;
-		}
-		else if (mapChip->GetArrayValue(mapX + i, mapY) != WALL && mapChip->GetPlayerArrayValue(mapX + i, mapY) == WALL)
-		{
-			return XMFLOAT2{ 0,0 };
-		}
-	}
+	if (ShortCutFlag(mapChip, enemyPos, 1, -1)) { return XMFLOAT2{ 0,0 }; }
+	if (ShortCutFlag(mapChip, enemyPos, 1, +1)) { return XMFLOAT2{ 0,0 }; }
+	if (ShortCutFlag(mapChip, enemyPos, -1, 1)) { return XMFLOAT2{ 0,0 }; }
+	if (ShortCutFlag(mapChip, enemyPos, +1, 1)) { return XMFLOAT2{ 0,0 }; }
 
 	//何マス先を見るかの調整
 	XMFLOAT2 plusValue = { 0,0 };
@@ -459,52 +422,19 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	float vectorZ = pos.z - enemyPos.z;
 	if (-45 < angleY && angleY < 45)
 	{
-		for (int i = 1; i < ALARTMAXSEARCH+1; i++)
-		{
-			if (mapChip->ArrayValue(pos.x, pos.z + (-8 * i)) == WALL || i == ALARTMAXSEARCH)
-			{
-				plusValue.x = 0;
-				plusValue.y = -8.0f * (i - 1);
-				return plusValue;
-			}
-		}
+		plusValue = ShortCutValue(mapChip, enemyPos, 1.0f, -1.0f, CHECKVECTOR::ZMINUS);
 	}
 	else if (135 < angleY || angleY < -135)
 	{
-		for (int i = 1; i < ALARTMAXSEARCH + 1; i++)
-		{
-			if (mapChip->ArrayValue(pos.x, pos.z + (8 * i)) == WALL || i == ALARTMAXSEARCH)
-			{
-				plusValue.x = 0;
-				plusValue.y = 8.0f * (i - 1);
-				return plusValue;
-			}
-		}
+		plusValue = ShortCutValue(mapChip, enemyPos, 1.0f, 1.0f, CHECKVECTOR::ZPLUS);
 	}
 	else if (-135 < angleY && angleY < -45)
 	{
-		for (int i = 1; i < ALARTMAXSEARCH + 1; i++)
-		{
-			if (mapChip->ArrayValue(pos.x + (8 * i), pos.z) == WALL || i == ALARTMAXSEARCH)
-			{
-				plusValue.y = 0;
-				plusValue.x = 8.0f * (i - 1);
-				return plusValue;
-			}
-		}
+		plusValue = ShortCutValue(mapChip, enemyPos, 1.0f, 1.0f, CHECKVECTOR::XPLUS);
 	}
 	else if (45 < angleY && angleY < 135)
 	{
-		for (int i = 1; i < ALARTMAXSEARCH + 1; i++)
-		{
-			if (mapChip->ArrayValue(pos.x + (-8 * i), pos.z) == WALL || i == ALARTMAXSEARCH)
-			{
-				plusValue.y = 0;
-				plusValue.x = -8.0f * (i - 1);
-				return plusValue;
-			}
-		}
+		plusValue = ShortCutValue(mapChip, enemyPos, -1.0f, 1.0f, CHECKVECTOR::XMINUS);
 	}
-
 	return plusValue;
 }

@@ -180,6 +180,7 @@ void Enemy::DrawSprite(MapChip* mapChip)
 		deadAlpha += 0.01f;
 		spriteDeadEffect->Draw(deadAlpha);
 	}
+	spriteEnemyDot->Draw(1.0f);//エネミーのドット描画
 }
 
 void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
@@ -220,6 +221,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			{
 				nowMove = static_cast<int>(MoveVector::DOWN);
 			}
+			adjustmentFlag = true;
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::CENTERTOP))//上中心
 		{
@@ -260,6 +262,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 					nowMove = static_cast<int>(MoveVector::DOWN);
 				}
 			}
+			adjustmentFlag = true;
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::RIGHTTOP))//上右角
 		{
@@ -271,6 +274,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			{
 				nowMove = static_cast<int>(MoveVector::LEFT);
 			}
+			adjustmentFlag = true;
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTMIDDLE))//中央左
 		{
@@ -311,6 +315,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 					nowMove = static_cast<int>(MoveVector::RIGHT);
 				}
 			}
+			adjustmentFlag = true;
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::CENTERMIDDLE))//中央
 		{
@@ -358,6 +363,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 					nowMove = static_cast<int>(MoveVector::DOWN);
 				}
 			}
+			adjustmentFlag = true;
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::RIGHTMIDDLE))//中央右
 		{
@@ -398,6 +404,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 					nowMove = static_cast<int>(MoveVector::LEFT);
 				}
 			}
+			adjustmentFlag = true;
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTBOTTOM))//下左角
 		{
@@ -450,6 +457,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 					nowMove = static_cast<int>(MoveVector::UP);
 				}
 			}
+			adjustmentFlag = true;
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::RIGHTBOTTOM))//下右角
 		{
@@ -461,8 +469,8 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			{
 				nowMove = static_cast<int>(MoveVector::UP);
 			}
+			adjustmentFlag = true;
 		}
-		adjustmentFlag = true;
 	}
 }
 
@@ -617,13 +625,12 @@ int Enemy::NodeValue(MapChip* mapChip)
 int Enemy::CornerJudge(MoveVector vecP1, MoveVector resultP1 , MoveVector vecP2, MoveVector resultP2)
 {
 	if (nowMove == static_cast<int>(vecP1)) {
-		adjustmentFlag = true;
 		return static_cast<int>(resultP1);
 	}
 	if (nowMove == static_cast<int>(vecP2)) {
-		adjustmentFlag = true;
 		return static_cast<int>(resultP2);
 	}
+	adjustmentFlag = true;
 	return -1;
 }
 
@@ -631,29 +638,24 @@ int Enemy::ThreeWayJudge1(float vecValueX, float vecValueZ)
 {
 	if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && 0 < vecValueX)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::RIGHT);
 	}
 	else if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vecValueX < 0)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::LEFT);
 	}
 	else if (nowMove != static_cast<int>(MoveVector::UP) && vReserveFlag == true && vecValueZ >= 0)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::DOWN);
 	}
 	else if (nowMove == static_cast<int>(MoveVector::UP))
 	{
 		if (vecValueX <= 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::LEFT);
 		}
 		if (vecValueX > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::RIGHT);
 		}
 	}
@@ -661,7 +663,6 @@ int Enemy::ThreeWayJudge1(float vecValueX, float vecValueZ)
 	{
 		if (vecValueZ > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::DOWN);
 		}
 	}
@@ -669,10 +670,10 @@ int Enemy::ThreeWayJudge1(float vecValueX, float vecValueZ)
 	{
 		if (vecValueZ > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::DOWN);
 		}
 	}
+	adjustmentFlag = true;
 	return -1;
 }
 
@@ -680,29 +681,24 @@ int Enemy::ThreeWayJudge2(float vecValueX, float vecValueZ)
 {
 	if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vecValueZ < 0)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::UP);
 	}
 	else if (nowMove != static_cast<int>(MoveVector::UP) && vReserveFlag == true && 0 < vecValueZ)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::DOWN);
 	}
 	else if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && vecValueX >= 0)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::RIGHT);
 	}
 	else if (nowMove == static_cast<int>(MoveVector::LEFT))
 	{
 		if (vecValueZ <= 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::UP);
 		}
 		else if (vecValueZ > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::DOWN);
 		}
 	}
@@ -710,7 +706,6 @@ int Enemy::ThreeWayJudge2(float vecValueX, float vecValueZ)
 	{
 		if (vecValueX > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::RIGHT);
 		}
 	}
@@ -718,10 +713,10 @@ int Enemy::ThreeWayJudge2(float vecValueX, float vecValueZ)
 	{
 		if (vecValueX > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::RIGHT);
 		}
 	}
+	adjustmentFlag = true;
 	return -1;
 }
 
@@ -729,29 +724,24 @@ int Enemy::ThreeWayJudge3(float vecValueX, float vecValueZ)
 {
 	if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vecValueZ < 0)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::UP);
 	}
 	else if (nowMove != static_cast<int>(MoveVector::UP) && vReserveFlag == true && 0 < vecValueZ)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::DOWN);
 	}
 	else if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vecValueX <= 0)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::LEFT);
 	}
 	else if (nowMove == static_cast<int>(MoveVector::RIGHT))
 	{
 		if (vecValueZ <= 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::UP);
 		}
 		if (vecValueZ > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::DOWN);
 		}
 	}
@@ -759,7 +749,6 @@ int Enemy::ThreeWayJudge3(float vecValueX, float vecValueZ)
 	{
 		if (vecValueX < 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::LEFT);
 		}
 	}
@@ -767,10 +756,10 @@ int Enemy::ThreeWayJudge3(float vecValueX, float vecValueZ)
 	{
 		if (vecValueX < 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::LEFT);
 		}
 	}
+	adjustmentFlag = true;
 	return -1;
 }
 
@@ -778,29 +767,24 @@ int Enemy::ThreeWayJudge4(float vecValueX, float vecValueZ)
 {
 	if (nowMove != static_cast<int>(MoveVector::RIGHT) && vReserveFlag == false && vecValueX < 0)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::LEFT);
 	}
 	else if (nowMove != static_cast<int>(MoveVector::LEFT) && vReserveFlag == false && 0 < vecValueX)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::RIGHT);
 	}
 	else if (nowMove != static_cast<int>(MoveVector::DOWN) && vReserveFlag == true && vecValueZ <= 0)
 	{
-		adjustmentFlag = true;
 		return static_cast<int>(MoveVector::UP);
 	}
 	else if (nowMove == static_cast<int>(MoveVector::DOWN))
 	{
 		if (vecValueX <= 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::LEFT);
 		}
 		if (vecValueX > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::RIGHT);
 		}
 	}
@@ -808,7 +792,6 @@ int Enemy::ThreeWayJudge4(float vecValueX, float vecValueZ)
 	{
 		if (vecValueZ < 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::UP);
 		}
 	}
@@ -816,10 +799,10 @@ int Enemy::ThreeWayJudge4(float vecValueX, float vecValueZ)
 	{
 		if (vecValueZ < 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::UP);
 		}
 	}
+	adjustmentFlag = true;
 	return -1;
 }
 
@@ -829,12 +812,10 @@ int Enemy::FourWayJudge(float vecValueX, float vecValueZ)
 	{
 		if (vecValueX <= 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::LEFT);
 		}
 		if (vecValueX > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::RIGHT);
 		}
 	}
@@ -842,12 +823,10 @@ int Enemy::FourWayJudge(float vecValueX, float vecValueZ)
 	{
 		if (vecValueX <= 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::LEFT);
 		}
 		if (vecValueX > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::RIGHT);
 		}
 	}
@@ -855,12 +834,10 @@ int Enemy::FourWayJudge(float vecValueX, float vecValueZ)
 	{
 		if (vecValueZ <= 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::UP);
 		}
 		if (vecValueZ > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::DOWN);
 		}
 	}
@@ -868,14 +845,13 @@ int Enemy::FourWayJudge(float vecValueX, float vecValueZ)
 	{
 		if (vecValueZ <= 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::UP);
 		}
 		if (vecValueZ > 0)
 		{
-			adjustmentFlag = true;
 			return static_cast<int>(MoveVector::DOWN);
 		}
 	}
+	adjustmentFlag = true;
 	return -1;
 }
