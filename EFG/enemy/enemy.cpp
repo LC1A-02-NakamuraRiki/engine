@@ -180,7 +180,6 @@ void Enemy::DrawSprite(MapChip* mapChip)
 		deadAlpha += 0.01f;
 		spriteDeadEffect->Draw(deadAlpha);
 	}
-	spriteEnemyDot->Draw(1.0f);//エネミーのドット描画
 }
 
 void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
