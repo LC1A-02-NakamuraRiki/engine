@@ -71,7 +71,7 @@ public:
 
 	int NodeValue(MapChip* mapChip);
 
-	int CornerJudge(MoveVector vecP1, MoveVector resultP1, MoveVector vecP2, MoveVector resultP2);
+	void CornerJudge(MoveVector vecP1, MoveVector resultP1, MoveVector vecP2, MoveVector resultP2);
 
 	int ThreeWayJudge1(float vecValueX, float vecValueZ);
 	int ThreeWayJudge2(float vecValueX, float vecValueZ);

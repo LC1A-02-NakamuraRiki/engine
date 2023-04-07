@@ -180,6 +180,7 @@ void Enemy::DrawSprite(MapChip* mapChip)
 		deadAlpha += 0.01f;
 		spriteDeadEffect->Draw(deadAlpha);
 	}
+	spriteEnemyDot->Draw(1.0f);//エネミーのドット描画
 }
 
 void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
@@ -198,7 +199,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 	{
 		vReserveFlag = false;
 	}
-	
+
 	if (adjustmentFlag)//位置調整フラグ
 	{
 		adjustmentTime++;
@@ -212,15 +213,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 	{
 		if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTTOP))//上左角
 		{
-			if (nowMove == static_cast<int>(MoveVector::UP))
-			{
-				nowMove = static_cast<int>(MoveVector::RIGHT);
-			}
-			if (nowMove == static_cast<int>(MoveVector::LEFT))
-			{
-				nowMove = static_cast<int>(MoveVector::DOWN);
-			}
-			adjustmentFlag = true;
+			CornerJudge(MoveVector::UP, MoveVector::RIGHT, MoveVector::LEFT, MoveVector::DOWN);
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::CENTERTOP))//上中心
 		{
@@ -265,15 +258,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::RIGHTTOP))//上右角
 		{
-			if (nowMove == static_cast<int>(MoveVector::RIGHT))
-			{
-				nowMove = static_cast<int>(MoveVector::DOWN);
-			}
-			if (nowMove == static_cast<int>(MoveVector::UP))
-			{
-				nowMove = static_cast<int>(MoveVector::LEFT);
-			}
-			adjustmentFlag = true;
+			CornerJudge(MoveVector::RIGHT, MoveVector::DOWN, MoveVector::UP, MoveVector::LEFT);
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTMIDDLE))//中央左
 		{
@@ -407,14 +392,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTBOTTOM))//下左角
 		{
-			if (nowMove == static_cast<int>(MoveVector::LEFT))
-			{
-				nowMove = static_cast<int>(MoveVector::UP);
-			}
-			if (nowMove == static_cast<int>(MoveVector::DOWN))
-			{
-				nowMove = static_cast<int>(MoveVector::RIGHT);
-			}
+			CornerJudge(MoveVector::LEFT, MoveVector::UP, MoveVector::DOWN, MoveVector::RIGHT);
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::CENTERBOTTOM))//下中央
 		{
@@ -460,15 +438,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 		}
 		else if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::RIGHTBOTTOM))//下右角
 		{
-			if (nowMove == static_cast<int>(MoveVector::DOWN))
-			{
-				nowMove = static_cast<int>(MoveVector::LEFT);
-			}
-			if (nowMove == static_cast<int>(MoveVector::RIGHT))
-			{
-				nowMove = static_cast<int>(MoveVector::UP);
-			}
-			adjustmentFlag = true;
+			CornerJudge(MoveVector::DOWN, MoveVector::LEFT, MoveVector::RIGHT, MoveVector::UP);
 		}
 	}
 }
@@ -621,16 +591,16 @@ int Enemy::NodeValue(MapChip* mapChip)
 	return mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ);
 }
 
-int Enemy::CornerJudge(MoveVector vecP1, MoveVector resultP1 , MoveVector vecP2, MoveVector resultP2)
+void Enemy::CornerJudge(MoveVector vecP1, MoveVector resultP1, MoveVector vecP2, MoveVector resultP2)
 {
 	if (nowMove == static_cast<int>(vecP1)) {
-		return static_cast<int>(resultP1);
+		nowMove = static_cast<int>(resultP1);
+		adjustmentFlag = true;
 	}
-	if (nowMove == static_cast<int>(vecP2)) {
-		return static_cast<int>(resultP2);
+	else if (nowMove == static_cast<int>(vecP2)) {
+		nowMove = static_cast<int>(resultP2);
+		adjustmentFlag = true;
 	}
-	adjustmentFlag = true;
-	return -1;
 }
 
 int Enemy::ThreeWayJudge1(float vecValueX, float vecValueZ)

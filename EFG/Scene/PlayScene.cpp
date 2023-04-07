@@ -155,8 +155,8 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 		clearFlag = true;//ƒNƒŠƒA‚Ö
 	}
 
-	const float MAXALARTBALUE = 0.3f;
-	const float ALARTSPEED = 0.04f;
+	const float MAXALARTBALUE = 0.2f;
+	const float ALARTSPEED = 0.02f;
 	if (!map->GetGateOpenFlag())
 	{
 		alartValue = 0.0f;
