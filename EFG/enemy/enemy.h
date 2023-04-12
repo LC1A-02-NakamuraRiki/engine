@@ -72,12 +72,9 @@ public:
 	int NodeValue(MapChip* mapChip);
 
 	void CornerJudge(MoveVector vecP1, MoveVector resultP1, MoveVector vecP2, MoveVector resultP2);
-
-	int ThreeWayJudge1(float vecValueX, float vecValueZ);
-	int ThreeWayJudge2(float vecValueX, float vecValueZ);
-	int ThreeWayJudge3(float vecValueX, float vecValueZ);
-	int ThreeWayJudge4(float vecValueX, float vecValueZ);
-	int FourWayJudge(float vecValueX, float vecValueZ);
+	void ThreeWayJudgeVertical(float vecValueX, float vecValueZ , AriaValue ariaNo);
+	void ThreeWayJudgeHorizontal(float vecValueX, float vecValueZ, AriaValue ariaNo);
+	void FourWayJudge(float vecValueX, float vecValueZ);
 
 	XMFLOAT3 GetPos() { return pos; };//ç¿ïW
 	float GetRotation() { return angle; };//äpìxéÊìæ

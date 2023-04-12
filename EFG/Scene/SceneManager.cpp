@@ -198,8 +198,10 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 
 void SceneManager::Update()
 {
+	int mapY = int((player->GetPos().z / 8) + ((21 + 1) / 2));
+	int mapX = int((player->GetPos().x / 8) + ((21 + 1) / 2));
+	debugText.Print(20.0f, 20.0f, 2.0f, "%d", map->GetArrayValue(mapX, mapY));
 	//ƒOƒŒƒCƒ“
-	
 	const int MAXGARAIN = 7;
 	grainCount++;
 	if (grainCount > MAXGARAIN)
