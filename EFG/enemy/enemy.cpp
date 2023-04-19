@@ -129,9 +129,11 @@ void Enemy::ObjectUpdate(Player* player, MapChip* mapChip)
 		objectWalking->playAnimation();
 	}
 
+	//FBXアニメーション歩き
 	objectWalking->SetPosition(XMFLOAT3(pos.x, pos.y - 2.8f, pos.z));
 	objectWalking->SetRotation(XMFLOAT3(0, angle, 0));
 
+	//FBXアニメーション攻撃
 	if (CatchCollision(player)) {
 		objectAttack->SetPosition(XMFLOAT3(pos.x, pos.y - 2.8f, pos.z));
 		objectAttack->SetRotation(XMFLOAT3(0, (XMConvertToDegrees(atan2(pos.x - player->GetPos().x, pos.z - player->GetPos().z)) + 270) - 90, 0));
@@ -149,12 +151,11 @@ void Enemy::ObjectUpdate(Player* player, MapChip* mapChip)
 
 void Enemy::Draw(Player* player, ID3D12GraphicsCommandList* cmdList)
 {
-	if (!CatchCollision(player))//捕まってないとき
-	{
+	//捕まってないとき
+	if (!CatchCollision(player)){
 		objectWalking->Draw(cmdList);//エネミー歩き描画
 	}
-	else//捕まった時
-	{
+	else{
 		objectAttack->Draw(cmdList);//エネミーアタック描画
 	}
 }
@@ -163,17 +164,16 @@ void Enemy::DrawSprite(MapChip* mapChip)
 {
 	//スタートしたかどうか
 	if (mapChip->GetDisplayFlag() && spriteEnemyDot->GetPosition().x < 420 && spriteEnemyDot->GetPosition().x > 100
-		&& spriteEnemyDot->GetPosition().y > 650 && spriteEnemyDot->GetPosition().y < 986)
-	{
+		&& spriteEnemyDot->GetPosition().y > 650 && spriteEnemyDot->GetPosition().y < 986){
 		spriteEnemyAngle->Draw(1.0f);//見ている方向描画
 		spriteEnemyDot->Draw(1.0f);//エネミーのドット描画
 	}
-	if (killTime > 45)
-	{
-		deadAlpha += 0.01f;
+	const int MAXKILLTIME = 45;
+	const float alphaValue = 0.01f;
+	if (killTime > MAXKILLTIME){
+		deadAlpha += alphaValue;
 		spriteDeadEffect->Draw(deadAlpha);
 	}
-	spriteEnemyDot->Draw(1.0f);//エネミーのドット描画
 }
 
 void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
@@ -184,17 +184,14 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 	float vectorX = playerPos.x + plusValue.x - pos.x;
 	float vectorZ = playerPos.z + plusValue.y - pos.z;
 	//優先度調べ
-	if ((vectorX * vectorX) < (vectorZ * vectorZ))
-	{
+	if ((vectorX * vectorX) < (vectorZ * vectorZ)){
 		vReserveFlag = true;
 	}
-	else if ((vectorX * vectorX) >= (vectorZ * vectorZ))
-	{
+	else if ((vectorX * vectorX) >= (vectorZ * vectorZ)){
 		vReserveFlag = false;
 	}
-
-	if (adjustmentFlag)//位置調整フラグ
-	{
+	//位置調整フラグ
+	if (adjustmentFlag){
 		adjustmentTime++;
 		if (adjustmentTime >= maxAdjustmentTime)
 		{
@@ -202,8 +199,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			adjustmentFlag = false;
 		}
 	}
-	else if (!adjustmentFlag)//位置調整フラグ
-	{
+	else if (!adjustmentFlag){
 		if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTTOP)){//上左角
 			CornerJudge(MoveVector::UP, MoveVector::RIGHT, MoveVector::LEFT, MoveVector::DOWN);
 		}
@@ -282,16 +278,16 @@ bool Enemy::CatchCollision(Player* player)
 
 bool Enemy::DeathAnimation(Player* player)
 {
-	if (CatchCollision(player))//捕まったか
-	{
+	//捕まったか
+	if (CatchCollision(player)){
 		//角度調べ
 		float aX = player->GetPos().x - pos.x;//xのベクトル
 		float aZ = player->GetPos().z - pos.z;//zのベクトル
 		float aXZ = XMConvertToDegrees(float(atan2(aX, aZ)));//角度算出
 		XMFLOAT3 playerPos = { 0,0,0 };
 		playerPos = player->GetPos();
-		if (player->GetViewAngle() < aXZ + 30 && player->GetViewAngle() > aXZ - 30)//敵の方向ききった
-		{
+		//敵の方向ききった
+		if (player->GetViewAngle() < aXZ + 30 && player->GetViewAngle() > aXZ - 30){
 			player->SetViewAngleY2(aXZ);
 			player->SetViewAngleX2(10);
 
@@ -306,8 +302,8 @@ bool Enemy::DeathAnimation(Player* player)
 			player->SetViewAngleY(-15);
 		}
 
-		if (killTime > 45)//モーション終わったか
-		{
+		//モーション終わったか
+		if (killTime > 45){
 			if (killTime > 50)//モーション終わったか
 			{
 				player->SetViewAngleX2(70.0f);

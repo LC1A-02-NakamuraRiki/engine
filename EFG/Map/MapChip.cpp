@@ -13,193 +13,9 @@ MapChip::~MapChip()
 
 void MapChip::Initialize()
 {
-	//モデル読み込み
-	modelPictureFrame = std::unique_ptr<Model>(Model::CreateFromObject("pictureFrame", false));
-	modelDesk = std::unique_ptr<Model>(Model::CreateFromObject("desk", false));
-	modelMapWall = std::unique_ptr<Model>(Model::CreateFromObject("wall", false));
-	for (int x = 0; x < MAPVALUE; x++){
-		for (int y = 0; y < MAPVALUE; y++){
-			objPictureFrame1[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
-			objPictureFrame1[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame1[y][x]->SetPosition(XMFLOAT3({ 80.0f - (x * WALLSIZE),4.25f,76.0f - (y * WALLSIZE)}));
-
-			objDesk1[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
-			objDesk1[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk1[y][x]->SetPosition(XMFLOAT3({ +0.5f + 80.0f - (x * WALLSIZE),2.0f,76.0f - (y * WALLSIZE) }));
-
-			objPictureFrame2[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
-			objPictureFrame2[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame2[y][x]->SetPosition(XMFLOAT3({ 72.0f - (x * WALLSIZE),4.25f,76.0f - (y * WALLSIZE) }));
-
-			objDesk2[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
-			objDesk2[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk2[y][x]->SetPosition(XMFLOAT3({ -0.5f + 72.0f - (x * WALLSIZE),2.0f,76.0f - (y * WALLSIZE) }));
-
-			objPictureFrame3[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
-			objPictureFrame3[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),4.25f,72.0f - (y * WALLSIZE) }));
-			objPictureFrame3[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
-
-			objDesk3[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
-			objDesk3[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),2.0f,-0.5f + 72.0f - (y * WALLSIZE) }));
-			objDesk3[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
-
-			objPictureFrame4[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
-			objPictureFrame4[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-			objPictureFrame4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),4.25f,80.0f - (y * WALLSIZE) }));
-			objPictureFrame4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
-
-			objDesk4[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
-			objDesk4[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
-			objDesk4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),2.0f,+0.5f + 80.0f - (y * WALLSIZE) }));
-			objDesk4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
-		}
-	}
-	modelCeiling = std::unique_ptr<Model>(Model::CreateFromObject("ceiling", false));
-	modelFlat = std::unique_ptr<Model>(Model::CreateFromObject("roof", false));
-	modelFloor = std::unique_ptr<Model>(Model::CreateFromObject("floor", false));
-	modelCrystal = std::unique_ptr<Model>(Model::CreateFromObject("crystal", false));
-	modelItemCrystal = std::unique_ptr<Model>(Model::CreateFromObject("itemCrystal", false));
-	modelItemCrystal2 = std::unique_ptr<Model>(Model::CreateFromObject("itemCrystal2", false));
-	for (int i = 0; i < CRYSTALVALUE; i++){
-		objCrystal[i] = std::unique_ptr<Object3d>(Object3d::Create(modelCrystal.get()));
-		objCrystal[i]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-		crystalGetFlag[i] = false;
-	}
-	objCrystal[3] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
-	objCrystal[5] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal2.get()));
-	objCrystal[3]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-	objCrystal[5]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
-	for (int i = 0; i < CRYSTALVALUE; i++){
-		objCrystal[i]->SetPosition(crystalPos[i]);
-	}
-	for (int i = 0; i < DOORVALUE; i++)
-	{
-		modelDoor[i] = std::unique_ptr<Model>(Model::CreateFromObject("door", false));
-		objMapDoor[i] = std::unique_ptr<Object3d>(Object3d::Create(modelDoor[i].get()));
-		objMapDoor[i]->SetRotation(XMFLOAT3({ 0.0f,doorAngle[i],0.0f}));
-		objMapDoor[i]->SetScale(XMFLOAT3({ 1.0f,1.5f,2.0f }));
-	}
-	objMapDoor[0]->SetPosition(XMFLOAT3({ -0.2f,0.2f,-16.0f }));
-	objMapDoor[1]->SetPosition(XMFLOAT3({ -7.8f,0.2f,-16.0f }));
-	objMapDoor[2]->SetPosition(XMFLOAT3({ -0.2f,0.2f,8.0f }));
-	objMapDoor[3]->SetPosition(XMFLOAT3({ -7.8f,0.2f,8.0f }));
+	InitMapObject();
 	
-	//画像の読み込み
-	Sprite::LoadTexture(2, L"Resources/mapWall.png");
-	Sprite::LoadTexture(5, L"Resources/miniMapBack.png");
-	Sprite::LoadTexture(7, L"Resources/crystal.png");
-	Sprite::LoadTexture(71, L"Resources/number/1.png");
-	Sprite::LoadTexture(72, L"Resources/number/2.png");
-	Sprite::LoadTexture(73, L"Resources/number/3.png");
-	Sprite::LoadTexture(74, L"Resources/number/4.png");
-	Sprite::LoadTexture(75, L"Resources/number/5.png");
-	Sprite::LoadTexture(76, L"Resources/number/6.png");
-	Sprite::LoadTexture(77, L"Resources/number/7.png");
-	Sprite::LoadTexture(78, L"Resources/number/8.png");
-	Sprite::LoadTexture(79, L"Resources/number/9.png");
-	Sprite::LoadTexture(80, L"Resources/number/0.png");
-	Sprite::LoadTexture(17, L"Resources/crystal2.png");
-	Sprite::LoadTexture(130, L"Resources/crystal3.png");
-	Sprite::LoadTexture(26, L"Resources/miniMapFrame.png");
-	Sprite::LoadTexture(31, L"Resources/EnemyStop.png");
-	Sprite::LoadTexture(32, L"Resources/EnemySpotted.png");
-	Sprite::LoadTexture(33, L"Resources/MiniMapBack2.png");
-	Sprite::LoadTexture(45, L"Resources/Open.png");
-	
-
-	//スプライトの初期化
-	for (int x = 0; x < MAPVALUE; x++){
-		for (int y = 0; y < MAPVALUE; y++)	{
-			spriteMapWall[y][x] = nullptr;}}
-
-	
-	for (int i = 0; i < MAXNUMBER; i++){
-		spriteNumberNum1[i] = std::unique_ptr<Sprite>(Sprite::Create(71+i, { 260 - 10, 656 - MAPWALLSIZE - 96 }));
-		spriteNumberNum10[i] = std::unique_ptr<Sprite>(Sprite::Create(71 + i, { 260 - 58, 656 - MAPWALLSIZE - 96 }));}
-
-	 spriteEnemyStop = std::unique_ptr<Sprite>(Sprite::Create(31, { 990, 850 }));
-	 spriteEnemyStop->SetAnchorPoint(XMFLOAT2(0.5f,0.5f));
-	 spriteEnemyStop->SetSize(XMFLOAT2(stopFontSize));
-
-	 spriteEnemySpot = std::unique_ptr<Sprite>(Sprite::Create(32, { 990, 850 }));
-	 spriteEnemySpot->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
-	 spriteEnemySpot->SetSize(XMFLOAT2(spotFontSize));
-
-	 for (int x = 0; x < MAPVALUE; x++){
-		for (int y = 0; y < MAPVALUE; y++){
-			spriteMapWall[y][x] = std::unique_ptr<Sprite>(Sprite::Create(2, {-16 + 100 + (MAPWALLSIZE * (MAPVALUE - x)),650 + (MAPWALLSIZE * y )}));}}
-	
-	for (int i = 0; i < CRYSTALVALUE; i++){
-		spriteCrystal[i] = std::unique_ptr<Sprite>(Sprite::Create(7, mapCrystalPos[i]));}
-	spriteCrystal[3] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[3]));
-	spriteCrystal[5] = std::unique_ptr<Sprite>(Sprite::Create(130, mapCrystalPos[5]));
-	spriteSpotEffect = std::unique_ptr<Sprite>(Sprite::Create(33, { 84,650 - 16 - 96 }));
-	spriteDoorOpen = std::unique_ptr<Sprite>(Sprite::Create(45, { 990, 850 }));
-	spriteDoorOpen->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
-	spriteMapBack = std::unique_ptr<Sprite>(Sprite::Create(5, { -16 + 100,650 - 16 - 96 }));
-	spriteMapFrame = std::unique_ptr<Sprite>(Sprite::Create(26, { -16 + 100,650 - 16 - 96 }));
-	allGetFlag = false;
-
-	//// レベルデータの読み込み
-	editData = EditLoader::LoadFile("centerMap1");
-	randamEditData = EditLoader::LoadFile("centerMap3");
-
-	models.insert(std::make_pair("wall", modelMapWall.get()));
-	models.insert(std::make_pair("floor", modelFloor.get()));
-	models.insert(std::make_pair("roof", modelFlat.get()));
-	models.insert(std::make_pair("ceiling", modelCeiling.get()));
-	
-	// レベルデータからオブジェクトを生成、配置
-	for (auto& objectData : editData->objects) {
-		// ファイル名から登録済みモデルを検索
-		Model* model = nullptr;
-		decltype(models)::iterator it = models.find(objectData.fileName);
-		if (it != models.end()) {
-			model = it->second;
-		}
-		// モデルを指定して3Dオブジェクトを生成
-		Object3d* newObject = Object3d::Create(model);
-		// 座標
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMStoreFloat3(&pos, objectData.translation);
-		newObject->SetPosition(pos);
-		// 回転角
-		DirectX::XMFLOAT3 rot;
-		DirectX::XMStoreFloat3(&rot, objectData.rotation);
-		newObject->SetRotation(rot);
-		// 大きさ
-		DirectX::XMFLOAT3 scale;
-		DirectX::XMStoreFloat3(&scale, objectData.scaling);
-		newObject->SetScale(scale);
-		// 配列に登録
-		objects.push_back(newObject);
-	}
-	for (auto& objectData : randamEditData->objects) {
-		// ファイル名から登録済みモデルを検索
-		Model* model = nullptr;
-		decltype(models)::iterator it = models.find(objectData.fileName);
-		if (it != models.end()) {
-			model = it->second;
-		}
-		// モデルを指定して3Dオブジェクトを生成
-		Object3d* newObject = Object3d::Create(model);
-		// 座標
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMStoreFloat3(&pos, objectData.translation);
-		newObject->SetPosition(pos);
-		// 回転角
-		DirectX::XMFLOAT3 rot;
-		DirectX::XMStoreFloat3(&rot, objectData.rotation);
-		newObject->SetRotation(rot);
-		// 大きさ
-		DirectX::XMFLOAT3 scale;
-		DirectX::XMStoreFloat3(&scale, objectData.scaling);
-		newObject->SetScale(scale);
-		// 配列に登録
-		objects.push_back(newObject);
-	}
+	InitSprite();
 }
 
 void MapChip::InitializeValue()
@@ -260,12 +76,10 @@ void MapChip::MapRandam(int mapArea[AREAVALUE][AREAVALUE], int mapArea2[AREAVALU
 	const int MAXAREA = 3;
 	for (int z = 0; z < MAPVALUE / MAXAREA; z++){
 		for (int x = 0; x < MAPVALUE / MAXAREA; x++){
-			if (num == 0)
-			{
+			if (num == 0){
 				mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea2[z][x];
 			}
-			else if (num == 1)			
-			{
+			else if (num == 1){
 				mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea2[z][x];
 			}
 		}
@@ -598,6 +412,205 @@ void MapChip::EnemyDisplay()
 		spotFontSize.y -= 200;
 		spriteEnemySpot->SetSize(spotFontSize);
 	}
+}
+
+void MapChip::InitMapObject()
+{
+	//モデル読み込み
+	modelPictureFrame = std::unique_ptr<Model>(Model::CreateFromObject("pictureFrame", false));
+	modelDesk = std::unique_ptr<Model>(Model::CreateFromObject("desk", false));
+	modelMapWall = std::unique_ptr<Model>(Model::CreateFromObject("wall", false));
+	for (int x = 0; x < MAPVALUE; x++) {
+		for (int y = 0; y < MAPVALUE; y++) {
+			objPictureFrame1[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
+			objPictureFrame1[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+			objPictureFrame1[y][x]->SetPosition(XMFLOAT3({ 80.0f - (x * WALLSIZE),4.25f,76.0f - (y * WALLSIZE) }));
+
+			objDesk1[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
+			objDesk1[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }
+				
+			));
+			objDesk1[y][x]->SetPosition(XMFLOAT3({ +0.5f + 80.0f - (x * WALLSIZE),2.0f,76.0f - (y * WALLSIZE) }));
+
+			objPictureFrame2[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
+			objPictureFrame2[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+			objPictureFrame2[y][x]->SetPosition(XMFLOAT3({ 72.0f - (x * WALLSIZE),4.25f,76.0f - (y * WALLSIZE) }));
+
+			objDesk2[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
+			objDesk2[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
+			objDesk2[y][x]->SetPosition(XMFLOAT3({ -0.5f + 72.0f - (x * WALLSIZE),2.0f,76.0f - (y * WALLSIZE) }));
+
+			objPictureFrame3[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
+			objPictureFrame3[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+			objPictureFrame3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),4.25f,72.0f - (y * WALLSIZE) }));
+			objPictureFrame3[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
+
+			objDesk3[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
+			objDesk3[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
+			objDesk3[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),2.0f,-0.5f + 72.0f - (y * WALLSIZE) }));
+			objDesk3[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
+
+			objPictureFrame4[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelPictureFrame.get()));
+			objPictureFrame4[y][x]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+			objPictureFrame4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),4.25f,80.0f - (y * WALLSIZE) }));
+			objPictureFrame4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
+
+			objDesk4[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelDesk.get()));
+			objDesk4[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
+			objDesk4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),2.0f,+0.5f + 80.0f - (y * WALLSIZE) }));
+			objDesk4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
+		}
+	}
+	modelCeiling = std::unique_ptr<Model>(Model::CreateFromObject("ceiling", false));
+	modelFlat = std::unique_ptr<Model>(Model::CreateFromObject("roof", false));
+	modelFloor = std::unique_ptr<Model>(Model::CreateFromObject("floor", false));
+	modelCrystal = std::unique_ptr<Model>(Model::CreateFromObject("crystal", false));
+	modelItemCrystal = std::unique_ptr<Model>(Model::CreateFromObject("itemCrystal", false));
+	modelItemCrystal2 = std::unique_ptr<Model>(Model::CreateFromObject("itemCrystal2", false));
+	for (int i = 0; i < CRYSTALVALUE; i++) {
+		objCrystal[i] = std::unique_ptr<Object3d>(Object3d::Create(modelCrystal.get()));
+		objCrystal[i]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+		crystalGetFlag[i] = false;
+	}
+	objCrystal[3] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get()));
+	objCrystal[5] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal2.get()));
+	objCrystal[3]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+	objCrystal[5]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
+	for (int i = 0; i < CRYSTALVALUE; i++) {
+		objCrystal[i]->SetPosition(crystalPos[i]);
+	}
+	for (int i = 0; i < DOORVALUE; i++)
+	{
+		modelDoor[i] = std::unique_ptr<Model>(Model::CreateFromObject("door", false));
+		objMapDoor[i] = std::unique_ptr<Object3d>(Object3d::Create(modelDoor[i].get()));
+		objMapDoor[i]->SetRotation(XMFLOAT3({ 0.0f,doorAngle[i],0.0f }));
+		objMapDoor[i]->SetScale(XMFLOAT3({ 1.0f,1.5f,2.0f }));
+	}
+	objMapDoor[0]->SetPosition(XMFLOAT3({ -0.2f,0.2f,-16.0f }));
+	objMapDoor[1]->SetPosition(XMFLOAT3({ -7.8f,0.2f,-16.0f }));
+	objMapDoor[2]->SetPosition(XMFLOAT3({ -0.2f,0.2f,8.0f }));
+	objMapDoor[3]->SetPosition(XMFLOAT3({ -7.8f,0.2f,8.0f }));
+
+	//// レベルデータの読み込み
+	editData = EditLoader::LoadFile("centerMap1");
+	randamEditData = EditLoader::LoadFile("centerMap3");
+
+	models.insert(std::make_pair("wall", modelMapWall.get()));
+	models.insert(std::make_pair("floor", modelFloor.get()));
+	models.insert(std::make_pair("roof", modelFlat.get()));
+	models.insert(std::make_pair("ceiling", modelCeiling.get()));
+
+	// レベルデータからオブジェクトを生成、配置
+	for (auto& objectData : editData->objects) {
+		// ファイル名から登録済みモデルを検索
+		Model* model = nullptr;
+		decltype(models)::iterator it = models.find(objectData.fileName);
+		if (it != models.end()) {
+			model = it->second;
+		}
+		// モデルを指定して3Dオブジェクトを生成
+		Object3d* newObject = Object3d::Create(model);
+		// 座標
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMStoreFloat3(&pos, objectData.translation);
+		newObject->SetPosition(pos);
+		// 回転角
+		DirectX::XMFLOAT3 rot;
+		DirectX::XMStoreFloat3(&rot, objectData.rotation);
+		newObject->SetRotation(rot);
+		// 大きさ
+		DirectX::XMFLOAT3 scale;
+		DirectX::XMStoreFloat3(&scale, objectData.scaling);
+		newObject->SetScale(scale);
+		// 配列に登録
+		objects.push_back(newObject);
+	}
+	for (auto& objectData : randamEditData->objects) {
+		// ファイル名から登録済みモデルを検索
+		Model* model = nullptr;
+		decltype(models)::iterator it = models.find(objectData.fileName);
+		if (it != models.end()) {
+			model = it->second;
+		}
+		// モデルを指定して3Dオブジェクトを生成
+		Object3d* newObject = Object3d::Create(model);
+		// 座標
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMStoreFloat3(&pos, objectData.translation);
+		newObject->SetPosition(pos);
+		// 回転角
+		DirectX::XMFLOAT3 rot;
+		DirectX::XMStoreFloat3(&rot, objectData.rotation);
+		newObject->SetRotation(rot);
+		// 大きさ
+		DirectX::XMFLOAT3 scale;
+		DirectX::XMStoreFloat3(&scale, objectData.scaling);
+		newObject->SetScale(scale);
+		// 配列に登録
+		objects.push_back(newObject);
+	}
+}
+
+void MapChip::InitSprite()
+{
+	//画像の読み込み
+	Sprite::LoadTexture(2, L"Resources/mapWall.png");
+	Sprite::LoadTexture(5, L"Resources/miniMapBack.png");
+	Sprite::LoadTexture(7, L"Resources/crystal.png");
+	Sprite::LoadTexture(71, L"Resources/number/1.png");
+	Sprite::LoadTexture(72, L"Resources/number/2.png");
+	Sprite::LoadTexture(73, L"Resources/number/3.png");
+	Sprite::LoadTexture(74, L"Resources/number/4.png");
+	Sprite::LoadTexture(75, L"Resources/number/5.png");
+	Sprite::LoadTexture(76, L"Resources/number/6.png");
+	Sprite::LoadTexture(77, L"Resources/number/7.png");
+	Sprite::LoadTexture(78, L"Resources/number/8.png");
+	Sprite::LoadTexture(79, L"Resources/number/9.png");
+	Sprite::LoadTexture(80, L"Resources/number/0.png");
+	Sprite::LoadTexture(17, L"Resources/crystal2.png");
+	Sprite::LoadTexture(130, L"Resources/crystal3.png");
+	Sprite::LoadTexture(26, L"Resources/miniMapFrame.png");
+	Sprite::LoadTexture(31, L"Resources/EnemyStop.png");
+	Sprite::LoadTexture(32, L"Resources/EnemySpotted.png");
+	Sprite::LoadTexture(33, L"Resources/MiniMapBack2.png");
+	Sprite::LoadTexture(45, L"Resources/Open.png");
+
+	//スプライトの初期化
+	for (int x = 0; x < MAPVALUE; x++) {
+		for (int y = 0; y < MAPVALUE; y++) {
+			spriteMapWall[y][x] = nullptr;
+		}
+	}
+
+	for (int i = 0; i < MAXNUMBER; i++) {
+		spriteNumberNum1[i] = std::unique_ptr<Sprite>(Sprite::Create(71 + i, { 260 - 10, 656 - MAPWALLSIZE - 96 }));
+		spriteNumberNum10[i] = std::unique_ptr<Sprite>(Sprite::Create(71 + i, { 260 - 58, 656 - MAPWALLSIZE - 96 }));
+	}
+
+	spriteEnemyStop = std::unique_ptr<Sprite>(Sprite::Create(31, { 990, 850 }));
+	spriteEnemyStop->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+	spriteEnemyStop->SetSize(XMFLOAT2(stopFontSize));
+
+	spriteEnemySpot = std::unique_ptr<Sprite>(Sprite::Create(32, { 990, 850 }));
+	spriteEnemySpot->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+	spriteEnemySpot->SetSize(XMFLOAT2(spotFontSize));
+
+	for (int x = 0; x < MAPVALUE; x++) {
+		for (int y = 0; y < MAPVALUE; y++) {
+			spriteMapWall[y][x] = std::unique_ptr<Sprite>(Sprite::Create(2, { -16 + 100 + (MAPWALLSIZE * (MAPVALUE - x)),650 + (MAPWALLSIZE * y) }));
+		}
+	}
+
+	for (int i = 0; i < CRYSTALVALUE; i++) {
+		spriteCrystal[i] = std::unique_ptr<Sprite>(Sprite::Create(7, mapCrystalPos[i]));
+	}
+	spriteCrystal[3] = std::unique_ptr<Sprite>(Sprite::Create(17, mapCrystalPos[3]));
+	spriteCrystal[5] = std::unique_ptr<Sprite>(Sprite::Create(130, mapCrystalPos[5]));
+	spriteSpotEffect = std::unique_ptr<Sprite>(Sprite::Create(33, { 84,650 - 16 - 96 }));
+	spriteDoorOpen = std::unique_ptr<Sprite>(Sprite::Create(45, { 990, 850 }));
+	spriteDoorOpen->SetAnchorPoint(XMFLOAT2(0.5f, 0.5f));
+	spriteMapBack = std::unique_ptr<Sprite>(Sprite::Create(5, { -16 + 100,650 - 16 - 96 }));
+	spriteMapFrame = std::unique_ptr<Sprite>(Sprite::Create(26, { -16 + 100,650 - 16 - 96 }));
 }
 
 bool MapChip::LightAction()

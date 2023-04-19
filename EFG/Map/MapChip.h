@@ -44,7 +44,8 @@ public:
 	void DrawSprite(XMFLOAT3 pos);//スプライト描画
 	void TimeStop();//時間停止
 	void EnemyDisplay();//敵スポット
-
+	void InitMapObject();
+	void InitSprite();
 	int GetArrayValue(int x, int z) { return mapWall[z][x]; }			//マップチップの情報取得
 	int GetPlayerArrayValue(int x, int z) { return mapPlayer[x][z]; }	//マップチップで表したプレイヤーの位置取得
 	bool GetAllGetFlag() { return allGetFlag; }							//クリスタルをすべて取ったかフラグ取得
