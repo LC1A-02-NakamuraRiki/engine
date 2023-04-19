@@ -27,15 +27,8 @@ void Enemy::Initialize()
 	objectAttack->PlayAnimation();//アニメーション
 
 	//画像読み込み
-	if (!Sprite::LoadTexture(4, L"Resources/enemyDot.png")) {
-		assert(0);
-		return;
-	}
-	//画像読み込み
-	if (!Sprite::LoadTexture(99, L"Resources/DeadEf.png")) {
-		assert(0);
-		return;
-	}
+	Sprite::LoadTexture(4, L"Resources/enemyDot.png");
+	Sprite::LoadTexture(99, L"Resources/DeadEf.png");
 	//スプライト読み込み
 	spriteEnemyDot = std::unique_ptr<Sprite>(Sprite::Create(4, miniMapPos));
 	spriteEnemyAngle = std::unique_ptr<Sprite>(Sprite::Create(6, miniMapPos));
@@ -359,8 +352,7 @@ bool Enemy::StartFlag(Player* player, MapChip* mapChip, bool catchFlag1, bool ca
 
 bool Enemy::AnimationStop(MapChip* mapChip)
 {
-	if (mapChip->GetStopFlag() || startStopTime < 90)
-	{
+	if (mapChip->GetStopFlag() || startStopTime < 90){
 		return true;
 	}
 	return false;

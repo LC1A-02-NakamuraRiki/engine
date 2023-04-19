@@ -12,30 +12,16 @@ Player::~Player()
 void Player::Initialize()
 {
 	//スプライトの初期化
-	if (!Sprite::LoadTexture(3, L"Resources/PlayerDot.png")) {
-		assert(0);
-		return;
-	}
+	Sprite::LoadTexture(3, L"Resources/PlayerDot.png");
+	Sprite::LoadTexture(6, L"Resources/angle.png");
+	Sprite::LoadTexture(100, L"Resources/MoveUI.png");
+	Sprite::LoadTexture(101, L"Resources/ViewUI.png");
+	Sprite::LoadTexture(102, L"Resources/OpenUI.png");
+	//スプライトの作成
 	spritePlayerDot = std::unique_ptr<Sprite>(Sprite::Create(3, miniMapPos));
-	if (!Sprite::LoadTexture(6, L"Resources/angle.png")) {
-		assert(0);
-		return;
-	}
 	spritePlayerAngle = std::unique_ptr<Sprite>(Sprite::Create(6, miniMapPos));
-	if (!Sprite::LoadTexture(100, L"Resources/MoveUI.png")) {
-		assert(0);
-		return;
-	}
 	spriteMoveUI = std::unique_ptr<Sprite>(Sprite::Create(100, { 0,0 }));
-	if (!Sprite::LoadTexture(101, L"Resources/ViewUI.png")) {
-		assert(0);
-		return;
-	}
 	spriteViewUI = std::unique_ptr<Sprite>(Sprite::Create(101, { 0,0 }));
-	if (!Sprite::LoadTexture(102, L"Resources/OpenUI.png")) {
-		assert(0);
-		return;
-	}
 	spriteOpenUI = std::unique_ptr<Sprite>(Sprite::Create(102, { 0,0 }));
 }
 

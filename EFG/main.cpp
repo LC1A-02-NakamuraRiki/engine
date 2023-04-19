@@ -84,7 +84,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		// 描画終了
 		dxCommon->PostDraw();
 		//ESCでの終了
-
 	}
 	FbxLoader::GetInstance()->Finalize();
 	// ゲームウィンドウの破棄

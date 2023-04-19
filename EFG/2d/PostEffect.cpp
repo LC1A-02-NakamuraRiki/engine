@@ -4,6 +4,7 @@
 #include <d3dcompiler.h>
 #include "Input.h"
 #pragma comment(lib,"d3dcompiler.lib")
+
 using namespace DirectX;
 
 const float PostEffect::clearColor[4] = {1.0f,1.0f,1.0f,1.0f};
@@ -211,9 +212,6 @@ void PostEffect::Draw(ID3D12GraphicsCommandList* cmdList, bool stopFlag,float al
 	cmdList->SetGraphicsRootDescriptorTable(2, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV->GetGPUDescriptorHandleForHeapStart(), 1,
 		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
 	);
-	/*cmdList->SetGraphicsRootDescriptorTable(3, CD3DX12_GPU_DESCRIPTOR_HANDLE(descHeapSRV->GetGPUDescriptorHandleForHeapStart(), 2,
-		device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV))
-	);*/
 	cmdList->DrawInstanced(4, 1, 0, 0);
 }
 
@@ -303,7 +301,6 @@ void PostEffect::CreateGraphicsPipelineState()
 		D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, // デバッグ用設定
 		0,
 		&psBlob, &errorBlob);
-
 	
 	// 頂点レイアウト
 	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
