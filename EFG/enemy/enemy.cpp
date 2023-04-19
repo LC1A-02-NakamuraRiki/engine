@@ -13,26 +13,26 @@ Enemy::~Enemy()
 void Enemy::Initialize()
 {
 	//敵初期化
-	modelWalking = std::unique_ptr<FbxModel>(FbxLoader::GetInstance()->LoadModelFromFile("Walking"));//モデル初期化
-	objectWalking = std::make_unique<FbxObject3d>();//object初期化
-	objectWalking->Initialize();//初期化
-	objectWalking->SetModel(modelWalking.get());//モデルと同期
-	objectWalking->PlayAnimation();//アニメーション
+	modelWalking = std::unique_ptr<FbxModel>(FbxLoader::GetInstance()->LoadModelFromFile("Walking"));		//モデル初期化
+	objectWalking = std::make_unique<FbxObject3d>();														//object初期化
+	objectWalking->Initialize();																			//初期化
+	objectWalking->SetModel(modelWalking.get());															//モデルと同期
+	objectWalking->PlayAnimation();																			//アニメーション
 
 	//敵初期化
-	modelAttack = std::unique_ptr<FbxModel>(FbxLoader::GetInstance()->LoadModelFromFile("Zombie Attack"));//モデル初期化
-	objectAttack = std::make_unique<FbxObject3d>();//object初期化
-	objectAttack->Initialize();//初期化
-	objectAttack->SetModel(modelAttack.get());//モデルと同期
-	objectAttack->PlayAnimation();//アニメーション
+	modelAttack = std::unique_ptr<FbxModel>(FbxLoader::GetInstance()->LoadModelFromFile("Zombie Attack"));	//モデル初期化
+	objectAttack = std::make_unique<FbxObject3d>();															//object初期化
+	objectAttack->Initialize();																				//初期化
+	objectAttack->SetModel(modelAttack.get());																//モデルと同期
+	objectAttack->PlayAnimation();																			//アニメーション
 
 	//画像読み込み
-	Sprite::LoadTexture(4, L"Resources/enemyDot.png");
-	Sprite::LoadTexture(99, L"Resources/DeadEf.png");
+	Sprite::LoadTexture(4, L"Resources/enemyDot.png");														//敵の点
+	Sprite::LoadTexture(99, L"Resources/DeadEf.png");														//倒れた時のエフェクト
 	//スプライト読み込み
-	spriteEnemyDot = std::unique_ptr<Sprite>(Sprite::Create(4, miniMapPos));
-	spriteEnemyAngle = std::unique_ptr<Sprite>(Sprite::Create(6, miniMapPos));
-	spriteDeadEffect = std::unique_ptr<Sprite>(Sprite::Create(99, { 0,0 }));
+	spriteEnemyDot = std::unique_ptr<Sprite>(Sprite::Create(4, miniMapPos));	//敵の点
+	spriteEnemyAngle = std::unique_ptr<Sprite>(Sprite::Create(6, miniMapPos));	//プレイヤーの向いてる方向
+	spriteDeadEffect = std::unique_ptr<Sprite>(Sprite::Create(99, { 0,0 }));	//倒れた時のエフェクト
 }
 
 //鬼ごとの初期化
@@ -42,23 +42,22 @@ void Enemy::InitializeValue()
 	objectAttack->AnimationReset();
 
 	//鬼ごとの初期化
-	pos = { -4.0f,3.0f,-28.0f };//位置
-	angle = 360;//向き
-	nowMove = static_cast<int>(MoveVector::UP);//進む向き
-	adjustValueX = 0;//調整値X
-	adjustValueZ = 0;//調整値Z
-	speed = 0.2f;//スピード
-	vReserveFlag = false;//優先度
-	miniMapPos = { 100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 7) };//ミニマップ位置
-	maxAdjustmentTime = 40;//調整タイム
-
-	wallHitFlag = false;//先読みの座標が壁に当たっているか
-	adjustmentFlag = false;//位置調整フラグ
-	killTime = 0;//殴りモーションの時間
-	startStopTime = 0;//スタートまでの硬直時間
-	deadPos = { 0.0f,2.5f,0.0f };
-	deadView = 0.0f;
-	deadAlpha = 0.0f;
+	pos = { -4.0f,3.0f,-28.0f };										//位置
+	angle = 360;														//向き
+	nowMove = static_cast<int>(MoveVector::UP);							//進む向き
+	adjustValueX = 0;													//調整値X
+	adjustValueZ = 0;													//調整値Z
+	speed = 0.2f;														//スピード
+	vReserveFlag = false;												//優先度
+	miniMapPos = { 100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 7) };	//ミニマップ位置
+	maxAdjustmentTime = 40;												//調整タイム
+	wallHitFlag = false;												//先読みの座標が壁に当たっているか
+	adjustmentFlag = false;												//位置調整フラグ
+	killTime = 0;														//殴りモーションの時間
+	startStopTime = 0;													//スタートまでの硬直時間
+	deadPos = { 0.0f,2.5f,0.0f };										//倒された時の座標
+	deadView = 0.0f;													//倒された時の視点
+	deadAlpha = 0.0f;													//倒された時のアルファ
 }
 
 void Enemy::InitializeValue2()
@@ -66,21 +65,21 @@ void Enemy::InitializeValue2()
 	objectWalking->AnimationReset();
 	objectAttack->AnimationReset();
 	//鬼ごとの初期化
-	pos = { 4.0f,3.0f,68.0f };//位置
-	nowMove = static_cast<int>(MoveVector::LEFT);//進む向き
-	adjustValueX = 0;//調整値X
-	adjustValueZ = 0;//調整値Z
-	speed = 0.16f;//スピード
-	vReserveFlag = false;//優先度
-	miniMapPos = { 100 + (MAPWALLSIZE * 9),650 + (MAPWALLSIZE * 19) };//ミニマップ位置
-	maxAdjustmentTime = 49;//調整タイム
-	wallHitFlag = false;//先読みの座標が壁に当たっているか
-	adjustmentFlag = false;//位置調整フラグ
-	killTime = 0;//殴りモーションの時間
-	startStopTime = 0;//スタートまでの硬直時間
-	deadPos = { 0.0f,2.5f,0.0f };
-	deadView = 0.0f;
-	deadAlpha = 0.0f;
+	pos = { 4.0f,3.0f,68.0f };											//位置
+	nowMove = static_cast<int>(MoveVector::LEFT);						//進む向き
+	adjustValueX = 0;													//調整値X
+	adjustValueZ = 0;													//調整値Z
+	speed = 0.16f;														//スピード
+	vReserveFlag = false;												//優先度
+	miniMapPos = { 100 + (MAPWALLSIZE * 9),650 + (MAPWALLSIZE * 19) };	//ミニマップ位置
+	maxAdjustmentTime = 49;												//調整タイム
+	wallHitFlag = false;												//先読みの座標が壁に当たっているか
+	adjustmentFlag = false;												//位置調整フラグ
+	killTime = 0;														//殴りモーションの時間
+	startStopTime = 0;													//スタートまでの硬直時間
+	deadPos = { 0.0f,2.5f,0.0f };										//倒された時の座標
+	deadView = 0.0f;													//倒された時の視点
+	deadAlpha = 0.0f;													//倒された時のアルファ
 }
 
 void Enemy::InitializeValue3()
@@ -88,21 +87,21 @@ void Enemy::InitializeValue3()
 	objectWalking->AnimationReset();
 	objectAttack->AnimationReset();
 	//鬼ごとの初期化
-	pos = { -76.0f,3.0f,-12.0f };//位置
-	nowMove = static_cast<int>(MoveVector::UP);//進む向き
-	adjustValueX = 0;//調整値X
-	adjustValueZ = 0;//調整値Z
-	speed = 0.16f;//スピード
-	vReserveFlag = false;//優先度
-	miniMapPos = { 100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 9) };//ミニマップ位置
-	maxAdjustmentTime = 49;//調整タイム
-	wallHitFlag = false;//先読みの座標が壁に当たっているか
-	adjustmentFlag = false;//位置調整フラグ
-	killTime = 0;//殴りモーションの時間
-	startStopTime = 0;//スタートまでの硬直時間
-	deadPos = { 0.0f,2.5f,0.0f };
-	deadView = 0.0f;
-	deadAlpha = 0.0f;
+	pos = { -76.0f,3.0f,-12.0f };										//位置
+	nowMove = static_cast<int>(MoveVector::UP);							//進む向き
+	adjustValueX = 0;													//調整値X
+	adjustValueZ = 0;													//調整値Z
+	speed = 0.16f;														//スピード
+	vReserveFlag = false;												//優先度
+	miniMapPos = { 100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 9) };	//ミニマップ位置
+	maxAdjustmentTime = 49;												//調整タイム
+	wallHitFlag = false;												//先読みの座標が壁に当たっているか
+	adjustmentFlag = false;												//位置調整フラグ
+	killTime = 0;														//殴りモーションの時間
+	startStopTime = 0;													//スタートまでの硬直時間
+	deadPos = { 0.0f,2.5f,0.0f };										//倒された時の座標
+	deadView = 0.0f;													//倒された時の視点
+	deadAlpha = 0.0f;													//倒された時のアルファ
 }
 
 void Enemy::Update(Player* player, MapChip* mapChip, XMFLOAT2 mapPos, XMFLOAT2 plusValue, bool catchFlag1, bool catchFlag2)
@@ -168,6 +167,8 @@ void Enemy::DrawSprite(MapChip* mapChip)
 		spriteEnemyAngle->Draw(1.0f);//見ている方向描画
 		spriteEnemyDot->Draw(1.0f);//エネミーのドット描画
 	}
+
+	//倒された時のアルファ
 	const int MAXKILLTIME = 45;
 	const float alphaValue = 0.01f;
 	if (killTime > MAXKILLTIME){
@@ -199,7 +200,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 			adjustmentFlag = false;
 		}
 	}
-	else if (!adjustmentFlag){
+	else if (!adjustmentFlag){//判別
 		if (mapChip->ArrayValue(pos.x + adjustValueX, pos.z + adjustValueZ) == static_cast<int>(AriaValue::LEFTTOP)){//上左角
 			CornerJudge(MoveVector::UP, MoveVector::RIGHT, MoveVector::LEFT, MoveVector::DOWN);
 		}

@@ -12,41 +12,43 @@ Player::~Player()
 void Player::Initialize()
 {
 	//スプライトの初期化
-	Sprite::LoadTexture(3, L"Resources/PlayerDot.png");
-	Sprite::LoadTexture(6, L"Resources/angle.png");
-	Sprite::LoadTexture(100, L"Resources/MoveUI.png");
-	Sprite::LoadTexture(101, L"Resources/ViewUI.png");
-	Sprite::LoadTexture(102, L"Resources/OpenUI.png");
+	Sprite::LoadTexture(3, L"Resources/PlayerDot.png");	//プレイヤーの点
+	Sprite::LoadTexture(6, L"Resources/angle.png");		//プレイヤーの向いてる方向
+	Sprite::LoadTexture(100, L"Resources/MoveUI.png");	//チュートリアルMoveのUI
+	Sprite::LoadTexture(101, L"Resources/ViewUI.png");	//チュートリアルViewのUI
+	Sprite::LoadTexture(102, L"Resources/OpenUI.png");	//チュートリアルOpenのUI
 	//スプライトの作成
-	spritePlayerDot = std::unique_ptr<Sprite>(Sprite::Create(3, miniMapPos));
-	spritePlayerAngle = std::unique_ptr<Sprite>(Sprite::Create(6, miniMapPos));
-	spriteMoveUI = std::unique_ptr<Sprite>(Sprite::Create(100, { 0,0 }));
-	spriteViewUI = std::unique_ptr<Sprite>(Sprite::Create(101, { 0,0 }));
-	spriteOpenUI = std::unique_ptr<Sprite>(Sprite::Create(102, { 0,0 }));
+	spritePlayerDot = std::unique_ptr<Sprite>(Sprite::Create(3, miniMapPos));	//プレイヤーの点
+	spritePlayerAngle = std::unique_ptr<Sprite>(Sprite::Create(6, miniMapPos));	//プレイヤーの向いてる方向
+	spriteMoveUI = std::unique_ptr<Sprite>(Sprite::Create(100, { 0,0 }));		//チュートリアルMoveのUI
+	spriteViewUI = std::unique_ptr<Sprite>(Sprite::Create(101, { 0,0 }));		//チュートリアルViewのUI
+	spriteOpenUI = std::unique_ptr<Sprite>(Sprite::Create(102, { 0,0 }));		//チュートリアルOpenのUI
 }
 
 void Player::InitializeValue()
 {
 	miniMapPos = { 100 + (MAPWALLSIZE * 11),650 + (MAPWALLSIZE * 11) };//ミニマップ初期値
-	pos = { -4.0f,0.0f,4.0f };//プレイヤーの位置
-	mapPosValue = { 0,0 };//マップの座標
-	viewSpeed = 4.0f;//視点の速さ
-	target = { 0,0.0f,0 };//注視点
-	targetY = 0;//揺れの調整
-	angle = { 0,0,0 };//歩く方向
-	walkShaking = 2.5;//歩きの揺れる値
-	isWalkShaking = false;//歩きの揺れのフラグ
-	walkShakingTime = 0;//歩きの揺れのタイム
-	angleX = 0; //カメラX軸
-	angleY = 0; //カメラY軸
+	pos = { -4.0f,0.0f,4.0f };	//プレイヤーの位置
+	mapPosValue = { 0,0 };		//マップの座標
+	viewSpeed = 4.0f;			//視点の速さ
+	target = { 0,0.0f,0 };		//注視点
+	targetY = 0;				//揺れの調整
+	angle = { 0,0,0 };			//歩く方向
+	walkShaking = 2.5;			//歩きの揺れる値
+	isWalkShaking = false;		//歩きの揺れのフラグ
+	walkShakingTime = 0;		//歩きの揺れのタイム
+	angleX = 0;					//カメラX軸
+	angleY = 0;					//カメラY軸
 
 }
 
 void Player::Update(MapChip* mapChip, bool tutrialFlag, bool catchFlag, bool catchFlag2, bool catchFlag3)
 {
+	//チュートリアルの演出
 	TutorialAlpha(mapChip);
 	
-	AngleSearch();//プレイヤーの向きの算出
+	//プレイヤーの向きの算出
+	AngleSearch();
 
 	//移動関連
 	Move(mapChip,tutrialFlag,catchFlag,catchFlag2,catchFlag3);//移動	
@@ -71,7 +73,8 @@ void Player::DrawSprite()
 
 void Player::Move(MapChip* mapChip, bool tutrialFlag, bool catchFlag, bool catchFlag2, bool catchFlag3)
 {	
-	if (tutrialFlag == false && catchFlag == false && catchFlag2 == false && catchFlag3 == false)
+	//移動
+	if (tutrialFlag == false && catchFlag == false && catchFlag2 == false && catchFlag3 == false)//演出に入っていないか
 	{
 		if (Input::GetInstance()->KeybordPush(DIK_W)){
 			MoveValue(0);
@@ -98,8 +101,8 @@ void Player::MoveValue(float vec)
 	pos.x += cos(((angle.y + vec) * PI) / -INVERSEVECTOR) * MOVESPEED;      // x座標を更新
 	pos.z += sin(((angle.y + vec) * PI) / -INVERSEVECTOR) * MOVESPEED;      // z座標を更新
 
-	mapPosValue.x += cos(((angle.y + vec) * PI) / -INVERSEVECTOR) * (MOVESPEED * 2);
-	mapPosValue.y += sin((((angle.y + vec) + INVERSEVECTOR) * PI) / -INVERSEVECTOR) * (MOVESPEED * 2);
+	mapPosValue.x += cos(((angle.y + vec) * PI) / -INVERSEVECTOR) * (MOVESPEED * 2);				   // x座標を更新
+	mapPosValue.y += sin((((angle.y + vec) + INVERSEVECTOR) * PI) / -INVERSEVECTOR) * (MOVESPEED * 2); // y座標を更新
 
 	target.x += cos(((angle.y + vec) * PI) / -INVERSEVECTOR) * MOVESPEED;      // x座標を更新
 	target.z += sin(((angle.y + vec) * PI) / -INVERSEVECTOR) * MOVESPEED;      // z座標を更新
@@ -132,14 +135,14 @@ void Player::MoveCollision(MapChip* mapChip, float vec)
 
 bool Player::TouchWall(MapChip* mapChip, CollisionDirection direction)
 {
+	//壁に触れているか
 	float XR = 0.0f;
 	float ZR = 0.0f;
 	if (direction == CollisionDirection::FRONT) { ZR = R; }
 	else if (direction == CollisionDirection::BACK) { ZR = -R; }
 	else if (direction == CollisionDirection::RIGHT) { XR = R; }
 	else if (direction == CollisionDirection::LEFT) { XR = -R; }
-	if (mapChip->ArrayValue(pos.x + XR, pos.z + ZR) == 1 || mapChip->ArrayValue(pos.x + XR, pos.z + ZR) == 11)
-	{
+	if (mapChip->ArrayValue(pos.x + XR, pos.z + ZR) == 1 || mapChip->ArrayValue(pos.x + XR, pos.z + ZR) == 11){
 		return true;
 	}
 	return false;
@@ -147,6 +150,7 @@ bool Player::TouchWall(MapChip* mapChip, CollisionDirection direction)
 
 void Player::PushBack(VerticalOrHorizontal VerOrHor ,float vec)
 {
+	//押し戻し
 	if (VerOrHor == VerticalOrHorizontal::VERTICAL)
 	{
 		pos.z += sin(((angle.y + vec + INVERSEVECTOR) * PI) / -INVERSEVECTOR) * MOVESPEED;      // z座標を更新

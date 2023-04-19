@@ -165,6 +165,8 @@ void MapChip::StageUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemy
 			objDesk4[y][x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3({ 76.0f - (x * WALLSIZE),2.0f,+0.5f + 80.0f - (y * WALLSIZE) }), lightSilen, 0);
 		}
 	}
+
+	//壁、床、天井のアップデート
 	for (auto& object : objects) {
 		object->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
 	}
@@ -287,6 +289,7 @@ void MapChip::Draw()
 			}
 		}
 	}
+	//壁、床、天井
 	for (auto& object : objects) {
 		object->Draw();
 	}
