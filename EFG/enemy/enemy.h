@@ -10,23 +10,23 @@ class Enemy
 {
 	enum class MoveVector//移動方向
 	{
-		UP,
-		DOWN,
-		RIGHT,
-		LEFT
+		UP,		//上
+		DOWN,	//下
+		RIGHT,	//右
+		LEFT	//左
 	};
 
 	enum class AriaValue//移動方向
 	{
-		LEFTTOP = 2,
-		CENTERTOP = 3,
-		RIGHTTOP = 4,
-		LEFTMIDDLE = 5,
-		CENTERMIDDLE = 6,
-		RIGHTMIDDLE = 7,
-		LEFTBOTTOM = 8,
-		CENTERBOTTOM = 9,
-		RIGHTBOTTOM = 10,
+		LEFTTOP = 2,		//左上
+		CENTERTOP = 3,		//中央上
+		RIGHTTOP = 4,		//右上
+		LEFTMIDDLE = 5,		//左中
+		CENTERMIDDLE = 6,	//中心
+		RIGHTMIDDLE = 7,	//右中
+		LEFTBOTTOM = 8,		//左下
+		CENTERBOTTOM = 9,	//中央下
+		RIGHTBOTTOM = 10,	//右下
 	};
 protected: // エイリアス
 

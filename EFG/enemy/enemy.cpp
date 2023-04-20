@@ -30,9 +30,9 @@ void Enemy::Initialize()
 	Sprite::LoadTexture(4, L"Resources/enemyDot.png");														//敵の点
 	Sprite::LoadTexture(99, L"Resources/DeadEf.png");														//倒れた時のエフェクト
 	//スプライト読み込み
-	spriteEnemyDot = std::unique_ptr<Sprite>(Sprite::Create(4, miniMapPos));	//敵の点
-	spriteEnemyAngle = std::unique_ptr<Sprite>(Sprite::Create(6, miniMapPos));	//プレイヤーの向いてる方向
-	spriteDeadEffect = std::unique_ptr<Sprite>(Sprite::Create(99, { 0,0 }));	//倒れた時のエフェクト
+	spriteEnemyDot = std::unique_ptr<Sprite>(Sprite::Create(4, miniMapPos));								//敵の点
+	spriteEnemyAngle = std::unique_ptr<Sprite>(Sprite::Create(6, miniMapPos));								//プレイヤーの向いてる方向
+	spriteDeadEffect = std::unique_ptr<Sprite>(Sprite::Create(99, { 0,0 }));								//倒れた時のエフェクト
 }
 
 //鬼ごとの初期化
@@ -437,7 +437,7 @@ void Enemy::ThreeWayJudgeVertical(float vecValueX, float vecValueZ, AriaValue ar
 			nowMove = static_cast<int>(MoveVector::UP);
 			adjustmentFlag = true;
 		}
-	}
+	} 
 }
 
 void Enemy::ThreeWayJudgeHorizontal(float vecValueX, float vecValueZ, AriaValue ariaNo)

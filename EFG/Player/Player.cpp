@@ -400,6 +400,7 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	const int ALARTMAXSEARCH = 5;
 	const int PLAYER = 1;
 	const int WALL = 1;
+
 	//‹ß‚­‚É•Ç‚ª‚ ‚é‚©
 	if (ShortCutFlag(mapChip, enemyPos, 1, -1)) { return XMFLOAT2{ 0,0 }; }
 	if (ShortCutFlag(mapChip, enemyPos, 1, +1)) { return XMFLOAT2{ 0,0 }; }

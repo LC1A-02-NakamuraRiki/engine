@@ -16,7 +16,7 @@ void MapChip::Initialize()
 	InitMapObject();
 	
 	InitSprite();
-}
+} 
 
 void MapChip::InitializeValue()
 {
