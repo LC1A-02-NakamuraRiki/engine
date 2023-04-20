@@ -400,12 +400,51 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	const int ALARTMAXSEARCH = 5;
 	const int PLAYER = 1;
 	const int WALL = 1;
-
 	//ãﬂÇ≠Ç…ï«Ç™Ç†ÇÈÇ©
-	if (ShortCutFlag(mapChip, enemyPos, 1, -1)) { return XMFLOAT2{ 0,0 }; }
-	if (ShortCutFlag(mapChip, enemyPos, 1, +1)) { return XMFLOAT2{ 0,0 }; }
-	if (ShortCutFlag(mapChip, enemyPos, -1, 1)) { return XMFLOAT2{ 0,0 }; }
-	if (ShortCutFlag(mapChip, enemyPos, +1, 1)) { return XMFLOAT2{ 0,0 }; }
+	for (int i = 1; i < ALARTMAXSEARCH; i++)
+	{
+		if (mapChip->GetArrayValue(mapX, mapY - i) == WALL)
+		{
+			i = ALARTMAXSEARCH;
+		}
+		else if (mapChip->GetArrayValue(mapX, mapY - i) != WALL && mapChip->GetPlayerArrayValue(mapX, mapY - i) == WALL)
+		{
+			return XMFLOAT2{ 0,0 };
+		}
+	}
+	for (int i = 1; i < ALARTMAXSEARCH; i++)
+	{
+		if (mapChip->GetArrayValue(mapX, mapY + i) == WALL)
+		{
+			i = ALARTMAXSEARCH;
+		}
+		else if (mapChip->GetArrayValue(mapX, mapY + i) != WALL && mapChip->GetPlayerArrayValue(mapX, mapY + i) == WALL)
+		{
+			return XMFLOAT2{ 0,0 };
+		}
+	}
+	for (int i = 1; i < ALARTMAXSEARCH; i++)
+	{
+		if (mapChip->GetArrayValue(mapX - 1, mapY) == WALL)
+		{
+			i = ALARTMAXSEARCH;
+		}
+		else if (mapChip->GetArrayValue(mapX - i, mapY) != WALL && mapChip->GetPlayerArrayValue(mapX - i, mapY) == WALL)
+		{
+			return XMFLOAT2{ 0,0 };
+		}
+	}
+	for (int i = 1; i < ALARTMAXSEARCH; i++)
+	{
+		if (mapChip->GetArrayValue(mapX + 1, mapY) == WALL)
+		{
+			i = ALARTMAXSEARCH;
+		}
+		else if (mapChip->GetArrayValue(mapX + i, mapY) != WALL && mapChip->GetPlayerArrayValue(mapX + i, mapY) == WALL)
+		{
+			return XMFLOAT2{ 0,0 };
+		}
+	}
 
 	//âΩÉ}ÉXêÊÇå©ÇÈÇ©ÇÃí≤êÆ
 	XMFLOAT2 plusValue = { 0,0 };
@@ -413,19 +452,52 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	float vectorZ = pos.z - enemyPos.z;
 	if (-45 < angleY && angleY < 45)
 	{
-		plusValue = ShortCutValue(mapChip, enemyPos, 1.0f, -1.0f, CHECKVECTOR::ZMINUS);
+		for (int i = 1; i < ALARTMAXSEARCH + 1; i++)
+		{
+			if (mapChip->ArrayValue(pos.x, pos.z + (-8 * i)) == WALL || i == ALARTMAXSEARCH)
+			{
+				plusValue.x = 0;
+				plusValue.y = -8.0f * (i - 1);
+				return plusValue;
+			}
+		}
 	}
 	else if (135 < angleY || angleY < -135)
 	{
-		plusValue = ShortCutValue(mapChip, enemyPos, 1.0f, 1.0f, CHECKVECTOR::ZPLUS);
+		for (int i = 1; i < ALARTMAXSEARCH + 1; i++)
+		{
+			if (mapChip->ArrayValue(pos.x, pos.z + (8 * i)) == WALL || i == ALARTMAXSEARCH)
+			{
+				plusValue.x = 0;
+				plusValue.y = 8.0f * (i - 1);
+				return plusValue;
+			}
+		}
 	}
 	else if (-135 < angleY && angleY < -45)
 	{
-		plusValue = ShortCutValue(mapChip, enemyPos, 1.0f, 1.0f, CHECKVECTOR::XPLUS);
+		for (int i = 1; i < ALARTMAXSEARCH + 1; i++)
+		{
+			if (mapChip->ArrayValue(pos.x + (8 * i), pos.z) == WALL || i == ALARTMAXSEARCH)
+			{
+				plusValue.y = 0;
+				plusValue.x = 8.0f * (i - 1);
+				return plusValue;
+			}
+		}
 	}
 	else if (45 < angleY && angleY < 135)
 	{
-		plusValue = ShortCutValue(mapChip, enemyPos, -1.0f, 1.0f, CHECKVECTOR::XMINUS);
+		for (int i = 1; i < ALARTMAXSEARCH + 1; i++)
+		{
+			if (mapChip->ArrayValue(pos.x + (-8 * i), pos.z) == WALL || i == ALARTMAXSEARCH)
+			{
+				plusValue.y = 0;
+				plusValue.x = -8.0f * (i - 1);
+				return plusValue;
+			}
+		}
 	}
+
 	return plusValue;
 }

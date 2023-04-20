@@ -58,9 +58,12 @@ public:
 	bool SetLightAction(bool actionFlag) { return this->lightAction = actionFlag; }		//フラグセット
 private:
 	std::unique_ptr<Model> modelMapWall;												//壁モデル
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objMapWall;			//壁オブジェクト
 	std::unique_ptr<Model> modelCeiling;												//ライトモデル
 	std::unique_ptr<Model> modelFlat;													//天井モデル
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objCeiling;			//ライトオブジェクト
 	std::unique_ptr<Model> modelFloor;													//床モデル
+	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objFloor;
 	std::unique_ptr<Model> modelCrystal;												//クリスタルモデル
 	std::unique_ptr<Model> modelItemCrystal;											//アイテムクリスタルモデル
 	std::unique_ptr<Model> modelItemCrystal2;											//アイテムクリスタルモデル

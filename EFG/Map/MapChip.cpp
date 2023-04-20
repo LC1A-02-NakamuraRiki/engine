@@ -53,15 +53,15 @@ void MapChip::InitializeValue()
 void MapChip::MapCreate()
 {
 	//マップの生成
-	MapRandam(mapWallLeftUp1, mapWallLeftUp1, 0, 0);
-	MapRandam(mapWallLeftCenter1, mapWallLeftCenter1, 0, 1);
-	MapRandam(mapWallLeftDown1, mapWallLeftDown1, 0, 2);
-	MapRandam(mapWallCenterUp1, mapWallCenterUp1, 1, 0);
-	MapRandam(mapWallCenterCenter1, mapWallCenterCenter1, 1, 1);
-	MapRandam(mapWallCenterDown1, mapWallCenterDown1, 1, 2);
-	MapRandam(mapWallRightUp1, mapWallRightUp1, 2, 0);
-	MapRandam(mapWallRightCenter1, mapWallRightCenter1, 2, 1);
-	MapRandam(mapWallRightDown1, mapWallRightDown1, 2, 2);
+	MapRandam(mapWallLeftUp, mapWallLeftUp1, 0, 0);
+	MapRandam(mapWallLeftCenter, mapWallLeftCenter1, 0, 1);
+	MapRandam(mapWallLeftDown, mapWallLeftDown1, 0, 2);
+	MapRandam(mapWallCenterUp, mapWallCenterUp1, 1, 0);
+	MapRandam(mapWallCenterCenter, mapWallCenterCenter1, 1, 1);
+	MapRandam(mapWallCenterDown, mapWallCenterDown1, 1, 2);
+	MapRandam(mapWallRightUp, mapWallRightUp1, 2, 0);
+	MapRandam(mapWallRightCenter, mapWallRightCenter1, 2, 1);
+	MapRandam(mapWallRightDown, mapWallRightDown1, 2, 2);
 }
 
 void MapChip::MapRandam(int mapArea[AREAVALUE][AREAVALUE], int mapArea2[AREAVALUE][AREAVALUE],int X,int Z)
@@ -80,7 +80,7 @@ void MapChip::MapRandam(int mapArea[AREAVALUE][AREAVALUE], int mapArea2[AREAVALU
 				mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea2[z][x];
 			}
 			else if (num == 1){
-				mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea2[z][x];
+				mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea[z][x];
 			}
 		}
 	}
@@ -166,12 +166,34 @@ void MapChip::StageUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemy
 		}
 	}
 
-	//壁、床、天井のアップデート
-	for (auto& object : objects) {
-		object->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
-	}
-	for (auto& object : randamObjects) {
-		object->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
+	//マップのオブジェクトのアップデート
+	for (int x = 0; x < 7; x++)
+	{
+		for (int z = 0; z < 7; z++)
+		{
+			//点滅関連
+			int lightFlag = lightSilen;
+			if (ArrayValue(68.0f + (-24.0f * (6 - x)), -76.0f + (24.0f * z)) == 1) {
+				lightFlag = 0;
+			}
+			for (int j = 0; j < 3; j++)
+			{
+				//壁のアップデート
+				objMapWall[j + 3 * z][0 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * z)), lightFlag, 0);
+				objMapWall[j + 3 * z][1 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * z)), lightFlag, 0);
+				objMapWall[j + 3 * z][2 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * z)), lightFlag, 0);
+
+				//天井のアップデート	
+				objCeiling[j + 3 * z][0 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * z)), lightFlag, 0);
+				objCeiling[j + 3 * z][1 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * z)), lightFlag, 0);
+				objCeiling[j + 3 * z][2 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * z)), lightFlag, 0);
+
+				//床のアップデート
+				objFloor[j + 3 * z][0 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * z)), lightFlag, 0);
+				objFloor[j + 3 * z][1 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * z)), lightFlag, 0);
+				objFloor[j + 3 * z][2 + 3 * x]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(68.0f + (-24.0f * (6 - x)), 4.0f, -76.0f + (24.0f * z)), lightFlag, 0);
+			}
+		}
 	}
 }
 
@@ -289,12 +311,38 @@ void MapChip::Draw()
 			}
 		}
 	}
-	//壁、床、天井
-	for (auto& object : objects) {
-		object->Draw();
+	////壁
+	for (int x = 0; x < MAPVALUE; x++)
+	{
+		for (int y = 0; y < MAPVALUE; y++)
+		{
+			if (mapWall[y][x] == 1)
+			{
+				objMapWall[y][x]->Draw();
+			}
+		}
 	}
-	for (auto& object : randamObjects) {
-		object->Draw();
+	//天井
+	for (int x = 0; x < MAPVALUE; x++)
+	{
+		for (int y = 0; y < MAPVALUE; y++)
+		{
+			if (mapWall[y][x] != 1)
+			{
+				objCeiling[y][x]->Draw();
+			}
+		}
+	}
+	//床
+	for (int x = 0; x < MAPVALUE; x++)
+	{
+		for (int y = 0; y < MAPVALUE; y++)
+		{
+			if (mapWall[y][x] != 1)
+			{
+				objFloor[y][x]->Draw();
+			}
+		}
 	}
 }
 
@@ -462,6 +510,10 @@ void MapChip::InitMapObject()
 			objDesk4[y][x]->SetScale(XMFLOAT3({ 0.02f, 0.065f, 0.05f }));
 			objDesk4[y][x]->SetPosition(XMFLOAT3({ 76.0f - (x * WALLSIZE),2.0f,+0.5f + 80.0f - (y * WALLSIZE) }));
 			objDesk4[y][x]->SetRotation(XMFLOAT3({ 0.0f, 90.0f, 0.0f }));
+
+			objMapWall[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelMapWall.get()));
+			objMapWall[y][x]->SetScale(XMFLOAT3({ 4, 4, 4 }));
+			objMapWall[y][x]->SetPosition(XMFLOAT3({ x * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 0.0f, y * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }));
 		}
 	}
 	modelCeiling = std::unique_ptr<Model>(Model::CreateFromObject("ceiling", false));
@@ -470,6 +522,40 @@ void MapChip::InitMapObject()
 	modelCrystal = std::unique_ptr<Model>(Model::CreateFromObject("crystal", false));
 	modelItemCrystal = std::unique_ptr<Model>(Model::CreateFromObject("itemCrystal", false));
 	modelItemCrystal2 = std::unique_ptr<Model>(Model::CreateFromObject("itemCrystal2", false));
+	for (int x = 0; x < MAPVALUE; x++)
+	{
+		for (int y = 0; y < MAPVALUE; y++)
+		{
+			if (x % 3 == 1)
+			{
+				if (y % 3 == 1)
+				{
+					objCeiling[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelCeiling.get()));
+
+				}
+				else
+				{
+					objCeiling[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelFlat.get()));
+				}
+			}
+			else
+			{
+				objCeiling[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelFlat.get()));
+			}
+			objCeiling[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
+			objCeiling[y][x]->SetPosition(XMFLOAT3({ x * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 2.0f, y * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }));
+		}
+	}
+
+	modelFloor = std::unique_ptr<Model>(Model::CreateFromObject("floor", false));
+	for (int x = 0; x < MAPVALUE; x++) {
+		for (int y = 0; y < MAPVALUE; y++) {
+			objFloor[y][x] = std::unique_ptr<Object3d>(Object3d::Create(modelFloor.get()));
+			objFloor[y][x]->SetScale(XMFLOAT3({ 4.05f, 4.05f, 4.05f }));
+			objFloor[y][x]->SetPosition(XMFLOAT3({ x * WALLSIZE - (MAPVALUE * WALLSIZE / 2), -3.8f, y * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }));
+
+		}
+	}
 	for (int i = 0; i < CRYSTALVALUE; i++) {
 		objCrystal[i] = std::unique_ptr<Object3d>(Object3d::Create(modelCrystal.get()));
 		objCrystal[i]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
@@ -494,64 +580,85 @@ void MapChip::InitMapObject()
 	objMapDoor[2]->SetPosition(XMFLOAT3({ -0.2f,0.2f,8.0f }));
 	objMapDoor[3]->SetPosition(XMFLOAT3({ -7.8f,0.2f,8.0f }));
 
-	//// レベルデータの読み込み
-	editData = EditLoader::LoadFile("centerMap1");
-	randamEditData = EditLoader::LoadFile("centerMap3");
+	//マップ読み込み
+	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");
+	LoadCSV(mapWallLeftCenter, "Resources/map/a2.csv");
+	LoadCSV(mapWallLeftDown, "Resources/map/a3.csv");
+	LoadCSV(mapWallCenterUp, "Resources/map/a4.csv");
+	LoadCSV(mapWallCenterCenter, "Resources/map/a5.csv");
+	LoadCSV(mapWallCenterDown, "Resources/map/a6.csv");
+	LoadCSV(mapWallRightUp, "Resources/map/a7.csv");
+	LoadCSV(mapWallRightCenter, "Resources/map/a8.csv");
+	LoadCSV(mapWallRightDown, "Resources/map/a9.csv");
 
-	models.insert(std::make_pair("wall", modelMapWall.get()));
-	models.insert(std::make_pair("floor", modelFloor.get()));
-	models.insert(std::make_pair("roof", modelFlat.get()));
-	models.insert(std::make_pair("ceiling", modelCeiling.get()));
+	LoadCSV(mapWallLeftUp1, "Resources/map/b1.csv");
+	LoadCSV(mapWallLeftCenter1, "Resources/map/b2.csv");
+	LoadCSV(mapWallLeftDown1, "Resources/map/b3.csv");
+	LoadCSV(mapWallCenterUp1, "Resources/map/b4.csv");
+	LoadCSV(mapWallCenterCenter1, "Resources/map/b5.csv");
+	LoadCSV(mapWallCenterDown1, "Resources/map/b6.csv");
+	LoadCSV(mapWallRightUp1, "Resources/map/b7.csv");
+	LoadCSV(mapWallRightCenter1, "Resources/map/b8.csv");
+	LoadCSV(mapWallRightDown1, "Resources/map/b9.csv");
 
-	// レベルデータからオブジェクトを生成、配置
-	for (auto& objectData : editData->objects) {
-		// ファイル名から登録済みモデルを検索
-		Model* model = nullptr;
-		decltype(models)::iterator it = models.find(objectData.fileName);
-		if (it != models.end()) {
-			model = it->second;
-		}
-		// モデルを指定して3Dオブジェクトを生成
-		Object3d* newObject = Object3d::Create(model);
-		// 座標
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMStoreFloat3(&pos, objectData.translation);
-		newObject->SetPosition(pos);
-		// 回転角
-		DirectX::XMFLOAT3 rot;
-		DirectX::XMStoreFloat3(&rot, objectData.rotation);
-		newObject->SetRotation(rot);
-		// 大きさ
-		DirectX::XMFLOAT3 scale;
-		DirectX::XMStoreFloat3(&scale, objectData.scaling);
-		newObject->SetScale(scale);
-		// 配列に登録
-		objects.push_back(newObject);
-	}
-	for (auto& objectData : randamEditData->objects) {
-		// ファイル名から登録済みモデルを検索
-		Model* model = nullptr;
-		decltype(models)::iterator it = models.find(objectData.fileName);
-		if (it != models.end()) {
-			model = it->second;
-		}
-		// モデルを指定して3Dオブジェクトを生成
-		Object3d* newObject = Object3d::Create(model);
-		// 座標
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMStoreFloat3(&pos, objectData.translation);
-		newObject->SetPosition(pos);
-		// 回転角
-		DirectX::XMFLOAT3 rot;
-		DirectX::XMStoreFloat3(&rot, objectData.rotation);
-		newObject->SetRotation(rot);
-		// 大きさ
-		DirectX::XMFLOAT3 scale;
-		DirectX::XMStoreFloat3(&scale, objectData.scaling);
-		newObject->SetScale(scale);
-		// 配列に登録
-		objects.push_back(newObject);
-	}
+	////// レベルデータの読み込み
+	//editData = EditLoader::LoadFile("centerMap1");
+	//randamEditData = EditLoader::LoadFile("centerMap3");
+
+	//models.insert(std::make_pair("wall", modelMapWall.get()));
+	//models.insert(std::make_pair("floor", modelFloor.get()));
+	//models.insert(std::make_pair("roof", modelFlat.get()));
+	//models.insert(std::make_pair("ceiling", modelCeiling.get()));
+
+	//// レベルデータからオブジェクトを生成、配置
+	//for (auto& objectData : editData->objects) {
+	//	// ファイル名から登録済みモデルを検索
+	//	Model* model = nullptr;
+	//	decltype(models)::iterator it = models.find(objectData.fileName);
+	//	if (it != models.end()) {
+	//		model = it->second;
+	//	}
+	//	// モデルを指定して3Dオブジェクトを生成
+	//	Object3d* newObject = Object3d::Create(model);
+	//	// 座標
+	//	DirectX::XMFLOAT3 pos;
+	//	DirectX::XMStoreFloat3(&pos, objectData.translation);
+	//	newObject->SetPosition(pos);
+	//	// 回転角
+	//	DirectX::XMFLOAT3 rot;
+	//	DirectX::XMStoreFloat3(&rot, objectData.rotation);
+	//	newObject->SetRotation(rot);
+	//	// 大きさ
+	//	DirectX::XMFLOAT3 scale;
+	//	DirectX::XMStoreFloat3(&scale, objectData.scaling);
+	//	newObject->SetScale(scale);
+	//	// 配列に登録
+	//	objects.push_back(newObject);
+	//}
+	//for (auto& objectData : randamEditData->objects) {
+	//	// ファイル名から登録済みモデルを検索
+	//	Model* model = nullptr;
+	//	decltype(models)::iterator it = models.find(objectData.fileName);
+	//	if (it != models.end()) {
+	//		model = it->second;
+	//	}
+	//	// モデルを指定して3Dオブジェクトを生成
+	//	Object3d* newObject = Object3d::Create(model);
+	//	// 座標
+	//	DirectX::XMFLOAT3 pos;
+	//	DirectX::XMStoreFloat3(&pos, objectData.translation);
+	//	newObject->SetPosition(pos);
+	//	// 回転角
+	//	DirectX::XMFLOAT3 rot;
+	//	DirectX::XMStoreFloat3(&rot, objectData.rotation);
+	//	newObject->SetRotation(rot);
+	//	// 大きさ
+	//	DirectX::XMFLOAT3 scale;
+	//	DirectX::XMStoreFloat3(&scale, objectData.scaling);
+	//	newObject->SetScale(scale);
+	//	// 配列に登録
+	//	objects.push_back(newObject);
+	//}
 }
 
 void MapChip::InitSprite()
