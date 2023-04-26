@@ -167,7 +167,6 @@ void Enemy::DrawSprite(MapChip* mapChip)
 		spriteEnemyAngle->Draw(1.0f);//見ている方向描画
 		spriteEnemyDot->Draw(1.0f);//エネミーのドット描画
 	}
-	spriteEnemyDot->Draw(1.0f);//エネミーのドット描画5
 	//倒された時のアルファ
 	const int MAXKILLTIME = 45;
 	const float alphaValue = 0.01f;
