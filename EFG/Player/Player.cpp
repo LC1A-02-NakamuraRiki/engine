@@ -330,7 +330,7 @@ bool Player::AlartFlag(MapChip* mapChip, XMFLOAT3 enemyPos)
 	return false;
 }
 
-bool Player::ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z)
+int Player::ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z)
 {
 	//マップ内の座標の取得
 	int mapX = int((enemyPos.x / 8) + ((MAPVALUE + 1) / 2));
@@ -343,15 +343,15 @@ bool Player::ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z)
 	{
 		if (mapChip->GetArrayValue(mapX + (i * X), mapY + (i * Z)) == WALL)
 		{
-			i = ALARTMAXSEARCH;
+			return i;
 		}
-		else if (mapChip->GetArrayValue(mapX + (i * X), mapY + (i * Z)) != WALL && mapChip->GetPlayerArrayValue(mapX + (i * X), mapY + (i * Z)) == WALL)
+		if (mapChip->GetArrayValue(mapX + (i * X), mapY + (i * Z)) != WALL && mapChip->GetPlayerArrayValue(mapX + (i * X), mapY + (i * Z)) == WALL)
 		{
-			return true;
-		}
+			return i;
+		}	
 	}
 
-	return false;
+	return 0;
 }
 
 XMFLOAT2 Player::ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos, float X, float Z, CHECKVECTOR vector)
@@ -406,6 +406,7 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	if (ShortCutFlag(mapChip, enemyPos, 1, +1)) { return XMFLOAT2{ 0,0 }; }
 	if (ShortCutFlag(mapChip, enemyPos, -1, 1)) { return XMFLOAT2{ 0,0 }; }
 	if (ShortCutFlag(mapChip, enemyPos, +1, 1)) { return XMFLOAT2{ 0,0 }; }
+	
 
 	//何マス先を見るかの調整
 	XMFLOAT2 plusValue = { 0,0 };

@@ -66,7 +66,7 @@ public:
 
 	bool AlartFlag(MapChip* mapChip, XMFLOAT3 enemyPos);
 
-	bool ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z);
+	int ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z);
 
 	XMFLOAT2 ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos, float X, float Z,CHECKVECTOR vector);
 

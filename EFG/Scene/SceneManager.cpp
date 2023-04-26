@@ -198,6 +198,11 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 
 void SceneManager::Update()
 {
+	float mapY = player->GetShortCut(map.get(), enemy[1]->GetPos()).y;
+	float mapX = player->GetShortCut(map.get(), enemy[1]->GetPos()).x;
+	debugText.Print(20.0f, 20.0f, 2.0f, "%f", mapX);
+	debugText.Print(20.0f, 60.0f, 2.0f, "%f", mapY);
+
 	//ƒOƒŒƒCƒ“
 	const int MAXGARAIN = 7;
 	grainCount++;
