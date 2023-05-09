@@ -201,6 +201,9 @@
     <ClCompile Include="Player\SoundVector.cpp">
       <Filter>engine\helper</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\BaseScene.cpp">
+      <Filter>App\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -307,6 +310,9 @@
     </ClInclude>
     <ClInclude Include="Player\SoundVector.h">
       <Filter>engine\helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\BaseScene.h">
+      <Filter>App\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

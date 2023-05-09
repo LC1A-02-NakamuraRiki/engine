@@ -16,7 +16,7 @@ void OptionScene::Initialize()
 	spriteOption[2] = std::unique_ptr<Sprite>(Sprite::Create(25, { 0.0f,0.0f }));
 }
 
-void OptionScene::Update(Player* player)
+void OptionScene::Update()
 {
 	//選択
 	if (Input::GetInstance()->KeybordTrigger(DIK_W) && optionButtonNo != FIRST || Input::GetInstance()->KeybordTrigger(DIK_UP) && optionButtonNo != FIRST)
@@ -60,7 +60,7 @@ void OptionScene::Update(Player* player)
 	}
 }
 
-void OptionScene::Draw()
+void OptionScene::Draw(ID3D12GraphicsCommandList* cmdList)
 {
 	const int MAXBUTTON = 3;
 	for (int i = 0; i < MAXBUTTON; i++)
@@ -70,4 +70,12 @@ void OptionScene::Draw()
 			spriteOption[i]->Draw(1.0f);//オプションのスプライト
 		}
 	}
+}
+
+void OptionScene::SpriteDraw()
+{
+}
+
+void OptionScene::Finalize()
+{
 }

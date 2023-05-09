@@ -9,6 +9,8 @@
 #include "enemy.h"
 #include "DebugCamera.h"
 #include "LightGroop.h"
+#include"BaseScene.h"
+#include "Sound.h"
 
 enum Mode
 {
@@ -19,7 +21,7 @@ enum Mode
 	FIFTH
 };
 
-class TitleScene
+class TitleScene :public BaseScene
 {
 private: // エイリアス
 // Microsoft::WRL::を省略
@@ -28,6 +30,7 @@ private: // エイリアス
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
 
@@ -35,11 +38,15 @@ public:
 
 	~TitleScene();
 
-	void Initialize();
+	void Initialize()override;
 
-	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light, bool tutrialFlag);
+	void Update()override;
 
-	void Draw();
+	void Draw(ID3D12GraphicsCommandList* cmdList)override;
+
+	void SpriteDraw()override;
+
+	void Finalize()override;
 
 	bool GetPlayScene() { return playFlag; }
 	void SetPlayScene() { playFlag = false; }
@@ -53,5 +60,6 @@ private: // メンバ変数
 	int buttonNo = 0;//タイトルの選択
 	bool playFlag = false;
 	bool optionFlag = false;
+
 };
 

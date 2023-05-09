@@ -21,6 +21,7 @@
 #include "PlayScene.h"
 #include "ClearScene.h"
 #include "GameOverScene.h"
+#include"BaseScene.h"
 
 /// <summary>
 /// ゲームシーン
@@ -76,6 +77,9 @@ public: // メンバ関数
 	void Draw();
 
 	void PostOffDraw();
+
+	void SetNextScene(BaseScene* nextScene) { nextScene_ = nextScene; }
+
 	/// <summary>
 	/// パーティクル生成
 	/// </summary>
@@ -117,31 +121,13 @@ private: // メンバ変数
 	bool stopFlag;//停止フラグ
 	int buttonNo = 0;//タイトルの選択
 	
-	//光線方向初期値
-	std::array<float, 3> lightDir0 = { 0,1,0 };
-	std::array<float, 3> lightDir5 = { 0,-1,0 };
-	std::array<float, 3> lightDir1 = { 0,0,1 };
-	std::array<float, 3> lightDir2 = { 0,0,-1 };
-	std::array<float, 3> lightDir3 = { 1,0,0 };
-	std::array<float, 3> lightDir4 = { -1,0,0 };
-
-	//アンビエント初期値
-	const float COLORAMBIENT = 1.5f;
-	std::array<float, 3> ambientColor0 = { COLORAMBIENT,COLORAMBIENT,COLORAMBIENT };
 	
-	//ライトの色縦初期値
-	const float COLORUPDOWN = 5.0f;
-	std::array<float, 3> lightColor0 = { COLORUPDOWN,COLORUPDOWN,COLORUPDOWN };
-	std::array<float, 3> lightColor5 = { COLORUPDOWN,COLORUPDOWN,COLORUPDOWN };
-
-	//ライトの色横初期値
-	const float COLORSIDE = 4.0f;
-	std::array<float, 3> lightColor1 = { COLORSIDE,COLORSIDE,COLORSIDE };
-	std::array<float, 3> lightColor2 = { COLORSIDE,COLORSIDE,COLORSIDE };
-	std::array<float, 3> lightColor3 = { COLORSIDE,COLORSIDE,COLORSIDE };
-	std::array<float, 3> lightColor4 = { COLORSIDE,COLORSIDE,COLORSIDE };
-
 	int titleTime;//タイトル遅延
 
 	float alartValue = 0;
+
+	//今のシーン
+	BaseScene* scene_ = nullptr;
+	//次のシーン
+	BaseScene* nextScene_ = nullptr;
 };
