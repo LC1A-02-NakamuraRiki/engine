@@ -62,11 +62,6 @@ void TitleScene::Initialize()
 
 void TitleScene::Update()
 {
-	////タイトルのディレイ初期化
-	//titleTime = 0;
-	////マップ初期化
-	//map->InitializeValue();
-
 	////選択
 	if (Input::GetInstance()->KeybordTrigger(DIK_W) && buttonNo != FIRST || Input::GetInstance()->KeybordTrigger(DIK_UP) && buttonNo != FIRST)
 	{

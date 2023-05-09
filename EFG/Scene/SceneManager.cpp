@@ -34,10 +34,6 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	this->dxCommon = dxCommon;
 	this->audio = audio;
 
-	camera = std::make_unique<DebugCamera>(DebugCamera(WinApp::window_width, WinApp::window_height));
-	// 3Dオブジェクトにカメラをセット
-	Object3d::SetCamera(camera.get());
-
 	// デバッグテキスト用テクスチャ読み込み
 	if (!Sprite::LoadTexture(debugTextTexNumber, L"Resources/debugfont.png")) {
 		assert(0);
@@ -45,7 +41,6 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	}
 	// デバッグテキスト初期化
 	debugText.Initialize(debugTextTexNumber);
-	particle3d = std::unique_ptr<ParticleManager>(ParticleManager::Create(dxCommon->GetDevice(), camera.get()));
 
 	//スプライト
 	// テクスチャ読み込み
@@ -154,23 +149,6 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	FbxObject3d::SetCamera(camera.get());
 	// グラフィックスパイプライン生成
 	FbxObject3d::CreateGraphicsPipeline();
-	
-	titleScene = std::make_unique<TitleScene>();
-	titleScene->Initialize();
-
-	optionScene = std::make_unique<OptionScene>();
-	optionScene->Initialize();
-
-	playScene = std::make_unique<PlayScene>();
-	playScene->Initialize();
-
-	clearScene = std::make_unique<ClearScene>();
-	clearScene->Initialize();
-
-	gameOverScene = std::make_unique<GameOverScene>();
-	gameOverScene->Initialize();
-
-
 
 	//シーンをタイトルに設定
 	BaseScene* scene = new PlayScene();
@@ -179,11 +157,6 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 
 void SceneManager::Update()
 {
-	/*float mapY = player->GetShortCut(map.get(), enemy[1]->GetPos()).y;
-	float mapX = player->GetShortCut(map.get(), enemy[1]->GetPos()).x;
-	debugText.Print(20.0f, 20.0f, 2.0f, "%f", mapX);
-	debugText.Print(20.0f, 60.0f, 2.0f, "%f", mapY);*/
-
 	//グレイン
 	const int MAXGARAIN = 7;
 	grainCount++;
@@ -222,65 +195,6 @@ void SceneManager::Update()
 
 	//更新
 	scene_->Update();
-	
-	//scene_->Update(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get(), camera.get(), light.get(), playScene->GetTutrialFlag(), audio);
-	
-
-	/*if (scene == TITLE)
-	{
-		titleScene->Update(player.get(), map.get(), enemy[0].get(),enemy[1].get(),enemy[2].get(),camera.get(),light.get(),playScene->GetTutrialFlag(), audio);
-		if (titleScene->GetPlayScene()){
-			scene = PLAY;
-		}
-		else if (titleScene->GetOptionScene()){
-			optionScene->SetTitleScene();
-			scene = OPTION;
-		}
-		alartValue = 0;
-	}
-	else if (scene == OPTION)
-	{
-		optionScene->Update(player.get());
-		if (optionScene->GetTitleScene()) {
-			titleScene->SetOptionScene();
-			scene = TITLE;
-		}
-	}
-	else if (scene == PLAY)
-	{
-		alartValue = playScene->GetArartValue();
-		titleScene->SetPlayScene();
-		playScene->Update(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get(), camera.get(), light.get(), playScene->GetTutrialFlag(), audio);
-		
-		if (playScene->GetClearScene()) {
-			titleScene->SetPlayScene();
-			scene = CLEAR;
-		}
-
-		if (playScene->GetGameOverScene()) {
-			titleScene->SetPlayScene();
-			scene = GAMEOVER;
-		}
-		stopFlag = playScene->GetStopFlag();
-	}
-	else if (scene == CLEAR)
-	{
-		playScene->SetGameOverScene();
-		playScene->SetClearScene();
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
-		{
-			scene = TITLE;
-		}
-	}
-	else if (scene == GAMEOVER)
-	{
-		playScene->SetGameOverScene();
-		playScene->SetClearScene();
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
-		{
-			scene = TITLE;
-		}
-	}*/
 }
 
 void SceneManager::Draw()
@@ -305,15 +219,6 @@ void SceneManager::Draw()
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-	//if (scene == PLAY)
-	//{
-	//	playScene->Draw(cmdList,player.get(), map.get(),enemy[0].get(), enemy[1].get(), enemy[2].get());
-	//}
-
-	//if (scene == TITLE)
-	//{
-	//	map->Draw();//マップの3D描画
-	//}
 	scene_->Draw(cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
@@ -374,46 +279,6 @@ void SceneManager::PostOffDraw()
 	//-------------------------------------------------------------//
 	spriteGrain[grainCount3]->Draw(1.0f);//テクスチャスプライト
 	scene_->SpriteDraw();
-
-	//if (scene == PLAY)
-	//{
-	//	if (!alartValue == 0){
-	//		spriteAlartGrain2[grainCount]->Draw(1.0f);//テクスチャスプライト
-	//		spriteAlartGrain1[grainCount2]->Draw(1.0f);//テクスチャスプライト
-	//	}
-	//	spriteGrain[grainCount3]->Draw(1.0f);//テクスチャスプライト
-	//	playScene->DrawSprite(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get());
-	//}
-
-	//if (scene == TITLE)
-	//{
-	//	spriteGrain[grainCount3]->Draw(1.0f);//テクスチャスプライト
-	//	titleScene->Draw();
-	//}
-	//if (scene == OPTION)
-	//{
-	//	debugText.Print(1300, 390, 2.0f, "%f", player->GetViewSpeed());//スピードのスプライト
-	//	if (player->GetShakeFlag())
-	//	{
-	//		debugText.Print(1335, 490, 2.0f, "ON");//ONのスプライト
-	//	}
-	//	else if (!player->GetShakeFlag())
-	//	{
-	//		debugText.Print(1325, 490, 2.0f, "OFF");//OFFのスプライト
-	//	}
-	//	optionScene->Draw();
-	//}
-	//if (scene == CLEAR)
-	//{
-	//	clearScene->Draw();
-	//	
-	//}
-	//if (scene == GAMEOVER)
-	//{
-	//	gameOverScene->Draw();
-	//}
-	
-
 	//-------------------------------------------------------------//
 	// デバッグテキストの描画
 	debugText.DrawAll(cmdList);

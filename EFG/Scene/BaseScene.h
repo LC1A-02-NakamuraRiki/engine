@@ -20,8 +20,6 @@ public:
 	virtual void Initialize() = 0;
 
 	/// XV
-	//Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light, bool tutrialFlag, Sound* audio
-	
 	virtual void Update() = 0;
 
 	/// •`‰æ
