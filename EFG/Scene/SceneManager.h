@@ -116,4 +116,9 @@ private: // メンバ変数
 	int titleTime;//タイトル遅延
 
 	float alartValue = 0;
+
+	//シーン
+	BaseScene* scene = nullptr;
+	//次のシーン
+	BaseScene* nextScene = nullptr;
 };
