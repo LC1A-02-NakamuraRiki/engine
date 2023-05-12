@@ -248,7 +248,6 @@
     <ClCompile Include="3d\Mesh.cpp" />
     <ClCompile Include="3d\Model.cpp" />
     <ClCompile Include="3d\Object3d.cpp" />
-    <ClCompile Include="3d\ParticleManager.cpp" />
     <ClCompile Include="base\DirectXCommon.cpp" />
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="collision\Collision.cpp" />
@@ -263,7 +262,6 @@
     <ClCompile Include="Map\MapChip.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\SoundVector.cpp" />
-    <ClCompile Include="Scene\BaseScene.cpp" />
     <ClCompile Include="Scene\ClearScene.cpp" />
     <ClCompile Include="Scene\GameOverScene.cpp" />
     <ClCompile Include="Scene\OptionScene.cpp" />
@@ -287,7 +285,6 @@
     <ClInclude Include="3d\Mesh.h" />
     <ClInclude Include="3d\Model.h" />
     <ClInclude Include="3d\Object3d.h" />
-    <ClInclude Include="3d\ParticleManager.h" />
     <ClInclude Include="base\DirectXCommon.h" />
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="collision\Collision.h" />
@@ -301,7 +298,6 @@
     <ClInclude Include="Map\MapChip.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\SoundVector.h" />
-    <ClInclude Include="Scene\BaseScene.h" />
     <ClInclude Include="Scene\ClearScene.h" />
     <ClInclude Include="Scene\GameOverScene.h" />
     <ClInclude Include="Scene\OptionScene.h" />

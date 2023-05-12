@@ -134,9 +134,6 @@
     <ClCompile Include="3d\Object3d.cpp">
       <Filter>engine\3d</Filter>
     </ClCompile>
-    <ClCompile Include="3d\ParticleManager.cpp">
-      <Filter>engine\3d</Filter>
-    </ClCompile>
     <ClCompile Include="base\DirectXCommon.cpp">
       <Filter>engine\base</Filter>
     </ClCompile>
@@ -201,9 +198,6 @@
     <ClCompile Include="Player\SoundVector.cpp">
       <Filter>engine\helper</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\BaseScene.cpp">
-      <Filter>App\Scene</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="2d\DebugText.h">
@@ -243,9 +237,6 @@
       <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="3d\Object3d.h">
-      <Filter>engine\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\ParticleManager.h">
       <Filter>engine\3d</Filter>
     </ClInclude>
     <ClInclude Include="base\DirectXCommon.h">
@@ -310,9 +301,6 @@
     </ClInclude>
     <ClInclude Include="Player\SoundVector.h">
       <Filter>engine\helper</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\BaseScene.h">
-      <Filter>App\Scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -82,29 +82,19 @@ void LightGroop::TransferConstBuffer()
 
 void LightGroop::DefaultLightSetting()
 {
-	dirLights[0].SetActive(true);
-	dirLights[0].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[0].SetLightDir({ 0.0f, -1.0f, 0.0f, 0 });
-
-	dirLights[1].SetActive(true);
-	dirLights[1].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[1].SetLightDir({ +0.5f, +0.1f, +0.2f, 0 });
-
-	dirLights[2].SetActive(true);
-	dirLights[2].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[2].SetLightDir({ -0.5f, +0.1f, -0.2f, 0 });
-
-	dirLights[3].SetActive(true);
-	dirLights[3].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[3].SetLightDir({ +0.5f, +0.1f, +0.2f, 0 });
-
-	dirLights[4].SetActive(true);
-	dirLights[4].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[4].SetLightDir({ -0.5f, +0.1f, -0.2f, 0 });
-
-	dirLights[5].SetActive(true);
-	dirLights[5].SetLightColor({ 1.0f, 1.0f, 1.0f });
-	dirLights[5].SetLightDir({ -0.5f, +0.1f, -0.2f, 0 });
+	for (int i = 0; i < 6; i++)
+	{
+		if (i == 0 || i == 5){//ライトの向きが上下だった時
+			dirLights[i].SetActive(true);
+			dirLights[i].SetLightColor(lightColorUpDown);
+			dirLights[i].SetLightDir(lightDir[i]);
+		}
+		else{//ライトの向きが横向きだった時
+			dirLights[i].SetActive(true);
+			dirLights[i].SetLightColor(lightColorSide);
+			dirLights[i].SetLightDir(lightDir[i]);
+		}
+	}
 }
 
 void LightGroop::SetAmbientColor(const XMFLOAT3& color)

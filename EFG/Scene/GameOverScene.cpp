@@ -1,13 +1,5 @@
 #include "GameOverScene.h"
 
-GameOverScene::GameOverScene()
-{
-}
-
-GameOverScene::~GameOverScene()
-{
-}
-
 void GameOverScene::Initialize()
 {
 	if (!Sprite::LoadTexture(20, L"Resources/GAMEOVER2.png")) {
@@ -17,19 +9,7 @@ void GameOverScene::Initialize()
 	spriteGAMEOVER = std::unique_ptr<Sprite>(Sprite::Create(20, { 0.0f,0.0f }));
 }
 
-void GameOverScene::Update()
-{
-}
-
-void GameOverScene::Draw(ID3D12GraphicsCommandList* cmdList)
-{
-}
-
-void GameOverScene::SpriteDraw()
+void GameOverScene::Draw()
 {
 	spriteGAMEOVER->Draw(1.0f);//ゲームオーバーのスプライト
-}
-
-void GameOverScene::Finalize()
-{
 }

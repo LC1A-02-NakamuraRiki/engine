@@ -10,9 +10,8 @@
 #include "DebugCamera.h"
 #include "LightGroop.h"
 #include "Sound.h"
-#include"BaseScene.h"
 
-class PlayScene :public BaseScene
+class PlayScene
 {
 private: // エイリアス
 // Microsoft::WRL::を省略
@@ -21,23 +20,15 @@ private: // エイリアス
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
+	void Initialize();
 
-	PlayScene();
+	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light, Sound* audio);
 
-	~PlayScene();
+	void Draw(ID3D12GraphicsCommandList* cmdList, Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
 
-	void Initialize()override;
-
-	void Update()override;
-
-	void Draw(ID3D12GraphicsCommandList* cmdList)override;
-
-	void SpriteDraw()override;
-
-	void Finalize()override;
+	void DrawSprite(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
 
 	bool GetClearScene() { return clearFlag; }
 	void SetClearScene() { clearFlag = false; }

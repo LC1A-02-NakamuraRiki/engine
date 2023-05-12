@@ -5,9 +5,8 @@
 #include "Sprite.h"
 #include <array>
 #include "Player.h"
-#include"BaseScene.h"
 
-class OptionScene :public BaseScene
+class OptionScene
 {
 	enum Mode
 	{
@@ -30,15 +29,11 @@ public:
 
 	~OptionScene();
 
-	void Initialize()override;
+	void Initialize();
 
-	void Update()override;
+	void Update(Player* player);
 
-	void Draw(ID3D12GraphicsCommandList* cmdList)override;
-
-	void SpriteDraw()override;
-
-	void Finalize()override;
+	void Draw();
 
 	bool GetTitleScene() { return titleFlag; }
 	void SetTitleScene() { titleFlag = false; }

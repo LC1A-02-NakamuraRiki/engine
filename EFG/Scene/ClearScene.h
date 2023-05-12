@@ -10,9 +10,8 @@
 #include "enemy.h"
 #include "DebugCamera.h"
 #include "LightGroop.h"
-#include"BaseScene.h"
 
-class ClearScene :public BaseScene
+class ClearScene
 {
 private: // エイリアス
 // Microsoft::WRL::を省略
@@ -23,20 +22,9 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
+	void Initialize();
 
-	ClearScene();
-
-	~ClearScene();
-
-	void Initialize()override;
-
-	void Update()override;
-
-	void Draw(ID3D12GraphicsCommandList* cmdList)override;
-
-	void SpriteDraw()override;
-
-	void Finalize()override;
+	void Draw();
 private:
 	std::unique_ptr<Sprite> spriteClear;//クリア
 };

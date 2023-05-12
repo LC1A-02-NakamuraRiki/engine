@@ -256,7 +256,7 @@ void MapChip::CrystalUpdate(XMFLOAT3 pos)
 	//クリスタル入手したか
 	if (crystalGetFlag[0] && crystalGetFlag[1] && crystalGetFlag[2] && crystalGetFlag[3] && crystalGetFlag[4] &&
 		crystalGetFlag[5] && crystalGetFlag[6] && crystalGetFlag[7] && crystalGetFlag[8] && crystalGetFlag[9] && 
-		crystalGetFlag[10]){
+		crystalGetFlag[10] && crystalGetFlag[11] && crystalGetFlag[12] && crystalGetFlag[13] && crystalGetFlag[14]){
 		allGetFlag = true;
 	}
 
@@ -393,10 +393,27 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 		spriteNumberNum10[0]->Draw(1.0f);
 		spriteNumberNum1[9]->Draw(1.0f);
 	}
-	if (number == MAXNUMUBERNUM){
-		spriteNumberNum1[0]->Draw(1.0f);
+	else if (number == 11) {
 		spriteNumberNum10[0]->Draw(1.0f);
+		spriteNumberNum1[0]->Draw(1.0f);
 	}
+	else if (number == 12) {
+		spriteNumberNum10[0]->Draw(1.0f);
+		spriteNumberNum1[1]->Draw(1.0f);
+	}
+	else if (number == 13) {
+		spriteNumberNum10[0]->Draw(1.0f);
+		spriteNumberNum1[2]->Draw(1.0f);
+	}
+	else if (number == 14) {
+		spriteNumberNum10[0]->Draw(1.0f);
+		spriteNumberNum1[3]->Draw(1.0f);
+	}
+	else if (number == 15) {
+		spriteNumberNum10[0]->Draw(1.0f);
+		spriteNumberNum1[4]->Draw(1.0f);
+	}
+	
 
 	//スポットフォント
 	if (spotSprieteTime < 80 && displayFlag){	

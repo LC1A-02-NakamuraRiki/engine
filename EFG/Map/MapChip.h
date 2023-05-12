@@ -24,7 +24,7 @@ private: // エイリアス
 	const float MAPWALLSIZE = 16.0f;													//ミニマップの壁の大きさ
 	const int MAPVALUE = 21;															//マップの最大サイズ
 	const int MAPAREAVALUE = 7;
-	const int CRYSTALVALUE = 11;
+	const int CRYSTALVALUE = 15;
 	const int DOORVALUE = 4;
 	const int MAXNUMBER = 10;
 public:
@@ -67,7 +67,7 @@ private:
 	std::unique_ptr<Model> modelCrystal;												//クリスタルモデル
 	std::unique_ptr<Model> modelItemCrystal;											//アイテムクリスタルモデル
 	std::unique_ptr<Model> modelItemCrystal2;											//アイテムクリスタルモデル
-	std::array <std::unique_ptr<Object3d>, 11> objCrystal;//クリスタルオブジェクト
+	std::array <std::unique_ptr<Object3d>, 15> objCrystal;//クリスタルオブジェクト
 
 	std::unique_ptr<Sprite> spriteDoorOpen;//ドアUI
 	std::array < std::unique_ptr<Model>, 4> modelDoor;//ドアモデル
@@ -76,7 +76,7 @@ private:
 	bool gateOpenFlag = false;//ゲート空いたか
 
 	//クリスタルの位置3D
-	std::array<XMFLOAT3, 11> crystalPos = { XMFLOAT3({ 1 * WALLSIZE - (21 * WALLSIZE / 2),  1.0f, 1 * WALLSIZE - (21 * WALLSIZE / 2)   }),
+	std::array<XMFLOAT3, 15> crystalPos = { XMFLOAT3({ 1 * WALLSIZE - (21 * WALLSIZE / 2),  1.0f, 1 * WALLSIZE - (21 * WALLSIZE / 2)   }),
 	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 1.0f, 1 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)   }),
 	XMFLOAT3({ 19 * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 1.0f, 1 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)  }),
 	XMFLOAT3({ 1 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),  1.0f, 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)   }),
@@ -86,15 +86,20 @@ private:
 	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2), 1.0f, 19 * WALLSIZE - (MAPVALUE * WALLSIZE / 2)  }),
 	XMFLOAT3({ 19 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 19 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }),
 	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 7 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }),
-	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 13 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }) };
+	XMFLOAT3({ 10 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 13 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }),
+	XMFLOAT3({ 7 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 13 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }),
+	XMFLOAT3({ 13 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 13 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }), 
+	XMFLOAT3({ 7 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 7 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }), 
+	XMFLOAT3({ 13 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 7 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }), };
 	
 	//クリスタルの位置2D
-	std::array<XMFLOAT2, 11> mapCrystalPos = { XMFLOAT2{100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 1)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 1)},
+	std::array<XMFLOAT2, 15> mapCrystalPos = { XMFLOAT2{100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 1)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 1)},
 	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 1)}, XMFLOAT2{100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 10)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 16)},
 	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 10)},XMFLOAT2{100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 19)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 19)},
-	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 19)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 7)} ,XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 13)}, };
+	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 19)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 7)} ,XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 13)},
+	XMFLOAT2{100 + (MAPWALLSIZE * 13),650 + (MAPWALLSIZE * 13)},XMFLOAT2{100 + (MAPWALLSIZE * 7),650 + (MAPWALLSIZE * 13)}, XMFLOAT2{100 + (MAPWALLSIZE * 13),650 + (MAPWALLSIZE * 7)}, XMFLOAT2{100 + (MAPWALLSIZE * 7),650 + (MAPWALLSIZE * 7)}, };
 
-	std::array<bool, 11> crystalGetFlag = { false,false,false,false,false,false,false,false,false,false,false };//クリスタル取ったか
+	std::array<bool, 15> crystalGetFlag = { false,false,false,false,false,false,false,false,false,false,false,false,false,false,false };//クリスタル取ったか
 	
 	
 	//マップ情報
@@ -114,7 +119,7 @@ private:
 	std::unique_ptr<Sprite> spriteMapBack;//ミニマップの背景
 	std::unique_ptr<Sprite> spriteMapFrame;//ミニマップのフレーム
 					
-	std::array <std::unique_ptr<Sprite>,11> spriteCrystal;//ミニマップのクリスタル
+	std::array <std::unique_ptr<Sprite>,15> spriteCrystal;//ミニマップのクリスタル
 	std::array <std::unique_ptr<Sprite>,10> spriteNumberNum1;//ナンバー1のくらい
 	std::array <std::unique_ptr<Sprite>,10> spriteNumberNum10;//ナンバー10のくらい
 

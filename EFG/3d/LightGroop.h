@@ -5,6 +5,7 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include"Light.h"
+#include<array>
 
 class LightGroop
 {
@@ -107,13 +108,25 @@ private: // メンバ変数
 	// 定数バッファ
 	ComPtr<ID3D12Resource> constBuff;
 
-	// 環境光の色
-	XMFLOAT3 ambientColor = { 1,1,1 };
-
 	// 平行光源の配列
 	Light dirLights[DirLightNum];
 
 	// ダーティフラグ
 	bool dirty = false;
+
+	//光線方向初期値
+	XMVECTOR lightDir[6] = { { 0,1,0,0 } ,{ 0,0,1,0 } ,{ 0,0,-1,0 }, { 1,0,0,0 } ,{ -1,0,0,0 } ,{ 0,-1,0,0 } };
+
+	//アンビエント初期値
+	const float COLORAMBIENT = 1.5f;
+	XMFLOAT3 ambientColor = { COLORAMBIENT,COLORAMBIENT,COLORAMBIENT };
+
+	//ライトの色縦初期値
+	const float COLORUPDOWN = 5.0f;
+	XMFLOAT3 lightColorUpDown = { COLORUPDOWN,COLORUPDOWN,COLORUPDOWN };
+
+	//ライトの色横初期値
+	const float COLORSIDE = 4.0f;
+	XMFLOAT3 lightColorSide = { COLORSIDE,COLORSIDE,COLORSIDE };
 };
 
