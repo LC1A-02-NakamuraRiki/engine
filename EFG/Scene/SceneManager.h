@@ -20,7 +20,7 @@
 #include "PlayScene.h"
 #include "ClearScene.h"
 #include "GameOverScene.h"
-
+#include "BaseScene.h"
 /// ゲームシーン
 enum SceneMode
 {
@@ -78,6 +78,9 @@ public: //メンバ関数
 	//グレインのアップデート
 	void UpdateGrain();
 
+	//次のシーン予約
+	void SetNextScene(BaseScene* changeScene) { nextScene = changeScene; }
+
 	bool GetStopFlag() { return stopFlag; }
 
 	int GetTitleButtonFlag() { return buttonNo; }
@@ -90,11 +93,12 @@ private: // メンバ変数
 
 	DebugText debugText;
 	
-	std::unique_ptr < TitleScene > titleScene;
+	/*std::unique_ptr < TitleScene > titleScene;
 	std::unique_ptr < OptionScene > optionScene;
 	std::unique_ptr < PlayScene > playScene;
 	std::unique_ptr < ClearScene > clearScene;
-	std::unique_ptr < GameOverScene > gameOverScene;
+	std::unique_ptr < GameOverScene > gameOverScene;*/
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
@@ -118,7 +122,7 @@ private: // メンバ変数
 	float alartValue = 0;
 
 	//シーン
-	BaseScene* scene = nullptr;
+	BaseScene* nowScene = nullptr;
 	//次のシーン
 	BaseScene* nextScene = nullptr;
 };

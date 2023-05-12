@@ -9,6 +9,7 @@
 #include "enemy.h"
 #include "DebugCamera.h"
 #include "LightGroop.h"
+#include "BaseScene.h"
 
 enum Mode
 {
@@ -19,7 +20,7 @@ enum Mode
 	FIFTH
 };
 
-class TitleScene
+class TitleScene : public BaseScene
 {
 private: // エイリアス
 // Microsoft::WRL::を省略
@@ -35,11 +36,19 @@ public:
 
 	~TitleScene();
 
-	void Initialize();
+	void Initialize()override;
 
-	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light, bool tutrialFlag);
+	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)override;
 
-	void Draw();
+	void Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
+
+	void DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
+
+	void Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
+
+	void Finalize();
+
+	//void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light, bool tutrialFlag);
 
 	bool GetPlayScene() { return playFlag; }
 	void SetPlayScene() { playFlag = false; }

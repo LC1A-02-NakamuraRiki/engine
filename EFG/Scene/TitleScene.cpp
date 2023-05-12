@@ -17,7 +17,7 @@ void TitleScene::Initialize()
 	spriteTitle[2] = std::unique_ptr<Sprite>(Sprite::Create(22, { 0.0f,0.0f }));
 }
 
-void TitleScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light, bool tutrialFlag)
+void TitleScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)
 {
 	//タイトルのディレイ初期化
 	titleTime = 0;
@@ -64,7 +64,16 @@ void TitleScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enem
 	enemy3->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy3->GetPos()), enemy1->CatchCollision(player), enemy2->CatchCollision(player));
 }
 
-void TitleScene::Draw()
+void TitleScene::Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+{
+	map->Draw();
+}
+
+void TitleScene::DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+{
+}
+
+void TitleScene::Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
 {
 	const int MAXBUTTON = 3;
 	for (int i = 0; i < MAXBUTTON; i++)
@@ -74,4 +83,8 @@ void TitleScene::Draw()
 			spriteTitle[i]->Draw(1.0f);//タイトルのスプライト
 		}
 	}
+}
+
+void TitleScene::Finalize()
+{
 }
