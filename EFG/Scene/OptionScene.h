@@ -5,8 +5,9 @@
 #include "Sprite.h"
 #include <array>
 #include "Player.h"
+#include "BaseScene.h"
 
-class OptionScene
+class OptionScene : public BaseScene
 {
 	enum Mode
 	{
@@ -29,11 +30,17 @@ public:
 
 	~OptionScene();
 
-	void Initialize();
+	void Initialize()override;
 
-	void Update(Player* player);
+	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)override;
 
-	void Draw();
+	void Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, ID3D12GraphicsCommandList* cmdList)override;
+
+	void DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
+
+	void Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
+
+	void Finalize()override;
 
 	bool GetTitleScene() { return titleFlag; }
 	void SetTitleScene() { titleFlag = false; }

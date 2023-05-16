@@ -64,7 +64,7 @@ void TitleScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enem
 	enemy3->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy3->GetPos()), enemy1->CatchCollision(player), enemy2->CatchCollision(player));
 }
 
-void TitleScene::Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+void TitleScene::Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, ID3D12GraphicsCommandList* cmdList)
 {
 	map->Draw();
 }

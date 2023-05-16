@@ -2,6 +2,14 @@
 #include "Input.h"
 #include "SoundVector.h"
 
+PlayScene::PlayScene()
+{
+}
+
+PlayScene::~PlayScene()
+{
+}
+
 void PlayScene::Initialize()
 {
 	if (!Sprite::LoadTexture(30, L"Resources/tutrial.png")) {
@@ -11,15 +19,14 @@ void PlayScene::Initialize()
 	spriteRule = std::unique_ptr<Sprite>(Sprite::Create(30, { 0.0f,0.0f }));
 }
 
-void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light, Sound* audio)
+void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)
 {
-
 	//プレイヤーのカメラと移動
 	camera->SetEye(player->GetPos());
 	camera->SetTarget(player->GetTarget());
 
 	//チュートリアル
-	if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true){
+	if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true) {
 		tutrialFlag = false;
 	}
 
@@ -41,7 +48,7 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	enemy3->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy3->GetPos()), enemy1->CatchCollision(player), enemy2->CatchCollision(player));
 
 	//ライト点滅関連
-	
+
 	if (map->GetGateOpenFlag() && !enemy1->CatchCollision(player) && !enemy2->CatchCollision(player) && !enemy3->CatchCollision(player))
 	{
 		bool ACTIONFLAG = false;
@@ -84,12 +91,12 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 		{
 			map->SetLightAction(false);
 		}
-		if(ACTIONFLAG == true)
+		if (ACTIONFLAG == true)
 		{
 			map->SetLightAction(true);
 		}
 	}
-	
+
 	//音関連
 	float vec[3];
 	vec[0] = SoundVector::VectorSearch(enemy1->GetPos().x, enemy1->GetPos().z, player->GetPos().x, player->GetPos().z);
@@ -98,14 +105,14 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	bool soundFlag[3];
 	soundFlag[0] = SoundVector::DistanceSearch(enemy1->GetPos().x, enemy1->GetPos().z, player->GetPos().x, player->GetPos().z);
 	soundFlag[1] = SoundVector::DistanceSearch(enemy2->GetPos().x, enemy2->GetPos().z, player->GetPos().x, player->GetPos().z);
-	soundFlag[2] = SoundVector::DistanceSearch(enemy3->GetPos().x, enemy3->GetPos().z, player->GetPos().x, player->GetPos().z) ;
+	soundFlag[2] = SoundVector::DistanceSearch(enemy3->GetPos().x, enemy3->GetPos().z, player->GetPos().x, player->GetPos().z);
 	const float MAXENEMYVALUE = 3;
 	if (map->GetGateOpenFlag() && !enemy1->CatchCollision(player) && !enemy2->CatchCollision(player) && !enemy3->CatchCollision(player))
 	{
 		for (int i = 0; i < MAXENEMYVALUE; i++)
 		{
 			soundTimer[i]++;
-			
+
 			const float sideValue = 45.0f;
 			const int MAXDELAYTIME = 20;
 			const float LEFTVALUE = 90.0f;
@@ -115,16 +122,16 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 			{
 				if (-vec[i] + player->GetAngle() - LEFTVALUE < -LEFTVALUE + sideValue && -vec[i] + player->GetAngle() - LEFTVALUE > -LEFTVALUE - sideValue || -vec[i] + player->GetAngle() - LEFTVALUE > RIGHTVALUE - sideValue && -vec[i] + player->GetAngle() - LEFTVALUE < RIGHTVALUE + sideValue)
 				{
-					audio->PlaySE("Resources/seR.wav", false);
+					//audio->PlaySE("Resources/seR.wav", false);
 				}
 				else if (-vec[i] + player->GetAngle() - LEFTVALUE > LEFTVALUE - sideValue && -vec[i] + player->GetAngle() - LEFTVALUE < LEFTVALUE + sideValue || -vec[i] + player->GetAngle() - LEFTVALUE < -RIGHTVALUE + sideValue && -vec[i] + player->GetAngle() - LEFTVALUE > -RIGHTVALUE - sideValue)
 				{
-					audio->PlaySE("Resources/seL.wav", false);
+					//audio->PlaySE("Resources/seL.wav", false);
 				}
 				else
 				{
-					audio->PlaySE("Resources/seL.wav", false);
-					audio->PlaySE("Resources/seR.wav", false);
+					//audio->PlaySE("Resources/seL.wav", false);
+					//audio->PlaySE("Resources/seR.wav", false);
 				}
 				soundTimer[i] = 0;
 			}
@@ -132,7 +139,7 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	}
 
 	//死亡アニメーション
-	
+
 	if (enemy1->DeathAnimation(player))
 	{
 		gameOverFlag = true;
@@ -145,7 +152,7 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	{
 		gameOverFlag = true;
 	}
-	
+
 	//ストップフラグ
 	stopFlag = map->GetStopFlag();
 
@@ -161,38 +168,44 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	{
 		alartValue = 0.0f;
 	}
-	else if (player->AlartFlag(map, enemy1->GetPos())&& alartValue < MAXALARTBALUE || player->AlartFlag(map, enemy2->GetPos()) && alartValue < MAXALARTBALUE || player->AlartFlag(map, enemy3->GetPos()) && alartValue < MAXALARTBALUE) {
-		
+	else if (player->AlartFlag(map, enemy1->GetPos()) && alartValue < MAXALARTBALUE || player->AlartFlag(map, enemy2->GetPos()) && alartValue < MAXALARTBALUE || player->AlartFlag(map, enemy3->GetPos()) && alartValue < MAXALARTBALUE) {
+
 		alartValue += ALARTSPEED;
 	}
-	else if (!player->AlartFlag(map,enemy1->GetPos()) && 0 < alartValue || !player->AlartFlag(map, enemy2->GetPos()) && 0 < alartValue|| !player->AlartFlag(map, enemy3->GetPos()) && 0 < alartValue)
+	else if (!player->AlartFlag(map, enemy1->GetPos()) && 0 < alartValue || !player->AlartFlag(map, enemy2->GetPos()) && 0 < alartValue || !player->AlartFlag(map, enemy3->GetPos()) && 0 < alartValue)
 	{
 		alartValue -= ALARTSPEED;
 	}
 }
 
-void PlayScene::Draw(ID3D12GraphicsCommandList* cmdList,Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+void PlayScene::Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, ID3D12GraphicsCommandList* cmdList)
 {
-	
 	enemy1->Draw(player, cmdList);//敵の3D描画
 	enemy2->Draw(player, cmdList);//敵の3D描画
 	enemy3->Draw(player, cmdList);//敵の3D描画
 
 	map->Draw();//マップの3D描画
-
 }
 
-void PlayScene::DrawSprite(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+void PlayScene::DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+{
+}
+
+void PlayScene::Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
 {
 	map->DrawSprite(player->GetPos());//マップ関連のスプライト
 	player->DrawSprite();//プレイヤーのスプライト
-	
+
 	enemy1->DrawSprite(map);//エネミースプライト
 	enemy2->DrawSprite(map);//エネミースプライト
 	enemy3->DrawSprite(map);//エネミースプライト
 	if (tutrialFlag == true) {
 		spriteRule->Draw(1.0f);//ルール表示スプライト
 	}
+}
+
+void PlayScene::Finalize()
+{
 }
 
 float PlayScene::GetShVa1(Player* player, MapChip* map, Enemy* enemy2)

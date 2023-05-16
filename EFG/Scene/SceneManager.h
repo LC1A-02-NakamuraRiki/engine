@@ -6,7 +6,6 @@
 #include "Sprite.h"
 #include "Object3d.h"
 #include "FbxObject3d.h"
-#include "DebugText.h"
 #include "Sound.h"
 #include "Collision.h"
 #include "DebugCamera.h"
@@ -39,9 +38,6 @@ private://エイリアス
 	using XMFLOAT3 = DirectX::XMFLOAT3;
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
-
-private: //静的メンバ変数
-	static const int debugTextTexNumber = 0;
 
 public: //メンバ関数
 
@@ -91,13 +87,7 @@ private: // メンバ変数
 	Sound* audio = nullptr;
 	std::unique_ptr<LightGroop> light;
 
-	DebugText debugText;
 	
-	/*std::unique_ptr < TitleScene > titleScene;
-	std::unique_ptr < OptionScene > optionScene;
-	std::unique_ptr < PlayScene > playScene;
-	std::unique_ptr < ClearScene > clearScene;
-	std::unique_ptr < GameOverScene > gameOverScene;*/
 
 	/// <summary>
 	/// ゲームシーン用

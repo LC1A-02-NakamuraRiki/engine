@@ -29,10 +29,6 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	// 3Dオブジェクトにカメラをセット
 	Object3d::SetCamera(camera.get());
 
-	// デバッグテキスト初期化
-	Sprite::LoadTexture(debugTextTexNumber, L"Resources/debugfont.png");
-	debugText.Initialize(debugTextTexNumber);
-
 	// テクスチャ読み込み
 	InitializeTexture();
 
@@ -48,33 +44,25 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	//Objectにライトのセット
 	Object3d::SetLightGroup(light.get());
 
-	/*titleScene = std::make_unique<TitleScene>();
-	titleScene->Initialize();
-
-	optionScene = std::make_unique<OptionScene>();
-	optionScene->Initialize();
-
-	playScene = std::make_unique<PlayScene>();
-	playScene->Initialize();
-
-	clearScene = std::make_unique<ClearScene>();
-	clearScene->Initialize();
-
-	gameOverScene = std::make_unique<GameOverScene>();
-	gameOverScene->Initialize();*/
-
 	//アプリ部の初期化
 	InitializeAppli();
 
 	//シーンをタイトルに設定
-	BaseScene* nowScene = new TitleScene();
+	BaseScene* nowScene = new ClearScene();
 	SetNextScene(nowScene);
 }
 
 void SceneManager::Update()
 {
+	//グレインのアップデート
 	UpdateGrain();
 
+	if (Input::GetInstance()->KeybordTrigger(DIK_5))
+	{
+		BaseScene* nowScene = new OptionScene();
+		nowScene->InitializeBase();
+		SetNextScene(nowScene);
+	}
 	//次のシーンの予約があるなら
 	if (nextScene)
 	{
@@ -94,62 +82,6 @@ void SceneManager::Update()
 
 	//更新
 	nowScene->Update(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get(),camera.get(),light.get());
-
-	/*if (scene == TITLE)
-	{
-		titleScene->Update(player.get(), map.get(), enemy[0].get(),enemy[1].get(),enemy[2].get(),camera.get(),light.get(),playScene->GetTutrialFlag());
-		if (titleScene->GetPlayScene()){
-			scene = PLAY;
-		}
-		else if (titleScene->GetOptionScene()){
-			optionScene->SetTitleScene();
-			scene = OPTION;
-		}
-		alartValue = 0;
-	}
-	else if (scene == OPTION)
-	{
-		optionScene->Update(player.get());
-		if (optionScene->GetTitleScene()) {
-			titleScene->SetOptionScene();
-			scene = TITLE;
-		}
-	}
-	else if (scene == PLAY)
-	{
-		alartValue = playScene->GetArartValue();
-		titleScene->SetPlayScene();
-		playScene->Update(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get(), camera.get(), light.get(),audio);
-		
-		if (playScene->GetClearScene()) {
-			titleScene->SetPlayScene();
-			scene = CLEAR;
-		}
-
-		if (playScene->GetGameOverScene()) {
-			titleScene->SetPlayScene();
-			scene = GAMEOVER;
-		}
-		stopFlag = playScene->GetStopFlag();
-	}
-	else if (scene == CLEAR)
-	{
-		playScene->SetGameOverScene();
-		playScene->SetClearScene();
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
-		{
-			scene = TITLE;
-		}
-	}
-	else if (scene == GAMEOVER)
-	{
-		playScene->SetGameOverScene();
-		playScene->SetClearScene();
-		if (Input::GetInstance()->KeybordTrigger(DIK_SPACE))
-		{
-			scene = TITLE;
-		}
-	}*/
 }
 
 void SceneManager::Draw()
@@ -172,16 +104,7 @@ void SceneManager::Draw()
 	// 3Dオブジェクト描画前処理
 	Object3d::PreDraw(cmdList);
 	//-------------------------------------------------------------//
-	nowScene->Draw3D(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get());
-	//if (scene == PLAY)
-	//{
-	//	playScene->Draw(cmdList,player.get(), map.get(),enemy[0].get(), enemy[1].get(), enemy[2].get());
-	//}
-
-	//if (scene == TITLE)
-	//{
-		//map->Draw();//マップの3D描画
-	//}
+	nowScene->Draw3D(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get(),cmdList);
 	//-------------------------------------------------------------//
 	// 3Dオブジェクト描画後処理
 	Object3d::PostDraw();
@@ -191,8 +114,6 @@ void SceneManager::Draw()
 	Sprite::PreDraw(cmdList);
 	//-------------------------------------------------------------//
 	//-------------------------------------------------------------//
-	// デバッグテキストの描画
-	debugText.DrawAll(cmdList);
 	// スプライト描画後処理
 	Sprite::PostDraw();
 #pragma endregion
@@ -228,47 +149,9 @@ void SceneManager::PostOffDraw()
 	Sprite::PreDraw(cmdList);
 	//-------------------------------------------------------------//
 	nowScene->Draw2D(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get());
-	//if (scene == PLAY)
-	//{
-	//	if (!alartValue == 0){
-	//		spriteAlartGrain2[grainCount[0]]->Draw(1.0f);//テクスチャスプライト
-	//		spriteAlartGrain1[grainCount[1]]->Draw(1.0f);//テクスチャスプライト
-	//	}
-	//	spriteGrain[grainCount[2]]->Draw(1.0f);//テクスチャスプライト
-	//	playScene->DrawSprite(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get());
-	//}
-
-	//if (scene == TITLE)
-	//{
-	//	spriteGrain[grainCount[2]]->Draw(1.0f);//テクスチャスプライト
-	//	titleScene->Draw();
-	//}
-	//if (scene == OPTION)
-	//{
-	//	debugText.Print(1300, 390, 2.0f, "%f", player->GetViewSpeed());//スピードのスプライト
-	//	if (player->GetShakeFlag())
-	//	{
-	//		debugText.Print(1335, 490, 2.0f, "ON");//ONのスプライト
-	//	}
-	//	else if (!player->GetShakeFlag())
-	//	{
-	//		debugText.Print(1325, 490, 2.0f, "OFF");//OFFのスプライト
-	//	}
-	//	optionScene->Draw();
-	//}
-	//if (scene == CLEAR)
-	//{
-	//	clearScene->Draw();
-	//	
-	//}
-	//if (scene == GAMEOVER)
-	//{
-	//	gameOverScene->Draw();
-	//}
-
 	//-------------------------------------------------------------//
 	// デバッグテキストの描画
-	debugText.DrawAll(cmdList);
+	nowScene->DrawDebugText(cmdList);
 	// スプライト描画後処理
 	Sprite::PostDraw();
 }

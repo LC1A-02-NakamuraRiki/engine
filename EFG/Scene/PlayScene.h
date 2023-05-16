@@ -10,8 +10,9 @@
 #include "DebugCamera.h"
 #include "LightGroop.h"
 #include "Sound.h"
+#include "BaseScene.h"
 
-class PlayScene
+class PlayScene : public BaseScene
 {
 private: // エイリアス
 // Microsoft::WRL::を省略
@@ -22,13 +23,23 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
-	void Initialize();
 
-	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light, Sound* audio);
+	PlayScene();
 
-	void Draw(ID3D12GraphicsCommandList* cmdList, Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
+	~PlayScene();
 
-	void DrawSprite(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
+	void Initialize()override;
+
+	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)override;
+
+	void Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, ID3D12GraphicsCommandList* cmdList)override;
+
+	void DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
+
+	void Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
+
+	void Finalize()override;
+
 
 	bool GetClearScene() { return clearFlag; }
 	void SetClearScene() { clearFlag = false; }
