@@ -24,7 +24,7 @@
     <ProjectGuid>{a47b6fbf-5f22-4c3f-8750-9cda160fdc3e}</ProjectGuid>
     <RootNamespace>MyDirectXGame</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>MyDirectX</ProjectName>
+    <ProjectName>EFB</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -79,13 +79,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)App\player;$(ProjectDir)App\Map;$(ProjectDir)App\enemy;$(ProjectDir)App\Scene;$(ProjectDir)engine\Sound;$(ProjectDir)engine\input;$(ProjectDir)engine\helper;$(ProjectDir)engine\collision;$(ProjectDir)engine\base;$(ProjectDir)engine\3d;$(ProjectDir)engine\2d;$(ProjectDir)engine;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\DirectXTexDebug;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)App;$(ProjectDir)App\player;$(ProjectDir)App\Map;$(ProjectDir)App\enemy;$(ProjectDir)App\Scene;$(ProjectDir)engine;$(ProjectDir)engine\Sound;$(ProjectDir)engine\input;$(ProjectDir)engine\helper;$(ProjectDir)engine\collision;$(ProjectDir)engine\base;$(ProjectDir)engine\3d;$(ProjectDir)engine\2d;$(ProjectDir)engine\lib;$(ProjectDir)engine\lib\DirectXTex\inc;$(ProjectDir)engine\lib\fbx_sdk\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)engine\lib;$(ProjectDir)engine\lib\fbx_sdk\lib;$(ProjectDir)engine\lib\DirectXTex\DirectXTexDebug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)App\player;$(ProjectDir)App\Map;$(ProjectDir)App\enemy;$(ProjectDir)App\Scene;$(ProjectDir)engine\Sound;$(ProjectDir)engine\input;$(ProjectDir)engine\helper;$(ProjectDir)engine\collision;$(ProjectDir)engine\base;$(ProjectDir)engine\3d;$(ProjectDir)engine\2d;$(ProjectDir)engine;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\DirectXTexRelease;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)App;$(ProjectDir)App\player;$(ProjectDir)App\Map;$(ProjectDir)App\enemy;$(ProjectDir)App\Scene;$(ProjectDir)engine;$(ProjectDir)engine\Sound;$(ProjectDir)engine\input;$(ProjectDir)engine\helper;$(ProjectDir)engine\collision;$(ProjectDir)engine\base;$(ProjectDir)engine\3d;$(ProjectDir)engine\2d;$(ProjectDir)engine\lib;$(ProjectDir)engine\lib\DirectXTex\inc;$(ProjectDir)engine\lib\fbx_sdk\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)engine\lib;$(ProjectDir)engine\lib\fbx_sdk\lib;$(ProjectDir)engine\lib\DirectXTex\DirectXTexRelease;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
