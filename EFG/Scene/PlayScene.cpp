@@ -10,7 +10,7 @@ PlayScene::~PlayScene()
 {
 }
 
-void PlayScene::Initialize()
+void PlayScene::Initialize(DebugCamera* camera)
 {
 	if (!Sprite::LoadTexture(30, L"Resources/tutrial.png")) {
 		assert(0);
@@ -19,7 +19,7 @@ void PlayScene::Initialize()
 	spriteRule = std::unique_ptr<Sprite>(Sprite::Create(30, { 0.0f,0.0f }));
 }
 
-void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)
+void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, LightGroop* light)
 {
 	//プレイヤーのカメラと移動
 	camera->SetEye(player->GetPos());
@@ -142,15 +142,15 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 
 	if (enemy1->DeathAnimation(player))
 	{
-		gameOverFlag = true;
+		//gameOverFlag = true;
 	}
 	if (enemy2->DeathAnimation(player))
 	{
-		gameOverFlag = true;
+		//gameOverFlag = true;
 	}
 	if (enemy3->DeathAnimation(player))
 	{
-		gameOverFlag = true;
+		//gameOverFlag = true;
 	}
 
 	//ストップフラグ
@@ -159,7 +159,7 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	//クリスタル全部入手
 	if (map->GetAllGetFlag())
 	{
-		clearFlag = true;//クリアへ
+		//clearFlag = true;//クリアへ
 	}
 
 	const float MAXALARTBALUE = 0.2f;

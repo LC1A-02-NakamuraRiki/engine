@@ -8,7 +8,7 @@ GameOverScene::~GameOverScene()
 {
 }
 
-void GameOverScene::Initialize()
+void GameOverScene::Initialize(DebugCamera* camera)
 {
 	if (!Sprite::LoadTexture(20, L"Resources/GAMEOVER2.png")) {
 		assert(0);
@@ -17,7 +17,7 @@ void GameOverScene::Initialize()
 	spriteGAMEOVER = std::unique_ptr<Sprite>(Sprite::Create(20, { 0.0f,0.0f }));
 }
 
-void GameOverScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)
+void GameOverScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, LightGroop* light)
 {
 }
 

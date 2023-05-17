@@ -7,6 +7,7 @@
 #include "../2d/PostEffect.h"
 #include"../input/Input.h"
 #include"../input/GamePad.h"
+
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
@@ -68,11 +69,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 
 		// 入力関連の毎フレーム処理
 		Input::GetInstance()->Update();
+
 		// ゲームシーンの毎フレーム処理
 		sceneManager->Update();
 		
-		
-		// 描画開始
+		//////// 描画開始 ////////
 		//通常の描画
 		postEffect->PreDrawScene(dxCommon->GetCommandList());
 		sceneManager->Draw();
@@ -83,7 +84,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 		postEffect->Draw(dxCommon->GetCommandList(), sceneManager->GetStopFlag(),sceneManager->GetArartValue());
 		sceneManager->PostOffDraw();
 
-		// 描画終了
+		//////// 描画終了 ////////
 		dxCommon->PostDraw();
 
 		//ゲームの終了処理

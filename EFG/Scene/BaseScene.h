@@ -19,33 +19,36 @@ private: //静的メンバ変数
 public:
 	virtual ~BaseScene() = default;
 
-	//ベース部分の初期化
+	// ベース部分の初期化
 	void InitializeBase();
 
 	//デバッグテキストの描画
 	void DrawDebugText(ID3D12GraphicsCommandList* cmdList);
 
-	/// 初期化
-	virtual void Initialize() = 0;
+	//初期化
+	virtual void Initialize(DebugCamera* camera) = 0;
 
-	/// 更新
-	virtual void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light) = 0;
+	//更新
+	virtual void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, LightGroop* light) = 0;
 
-	/// 描画
+	//3D描画
 	virtual void Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, ID3D12GraphicsCommandList* cmdList) = 0;
 
+	//2D描画(ポストエフェクトあり)
 	virtual void DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3) = 0;
 
+	//2D描画(ポストエフェクト無し)
 	virtual void Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3) = 0;
 
+	//終了処理
 	virtual void Finalize() = 0;
 
+	//シーンのセット
 	virtual void SetSceneManager(SceneManager* sceneManager) { sceneManager_ = sceneManager; }
 protected:
-	SceneManager* sceneManager_ = nullptr;
-	Sound* audio = nullptr;
-	DebugText debugText;
-
-	bool tutrialFlag;
-
+	
+	SceneManager* sceneManager_ = nullptr;        //シーン
+	Sound* audio = nullptr;                       //サウンド
+	DebugText debugText;                          //デバッグテキスト
+	bool tutrialFlag;                             //チュートリアル
 };

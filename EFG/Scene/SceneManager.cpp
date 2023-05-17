@@ -48,8 +48,10 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	InitializeAppli();
 
 	//シーンをタイトルに設定
-	BaseScene* nowScene = new ClearScene();
+	BaseScene* nowScene = new TitleScene();
+	nowScene->InitializeBase();
 	SetNextScene(nowScene);
+	
 }
 
 void SceneManager::Update()
@@ -57,15 +59,10 @@ void SceneManager::Update()
 	//グレインのアップデート
 	UpdateGrain();
 
-	if (Input::GetInstance()->KeybordTrigger(DIK_5))
-	{
-		BaseScene* nowScene = new OptionScene();
-		nowScene->InitializeBase();
-		SetNextScene(nowScene);
-	}
 	//次のシーンの予約があるなら
 	if (nextScene)
 	{
+		
 		if (nowScene)
 		{
 			nowScene->Finalize();
@@ -78,6 +75,7 @@ void SceneManager::Update()
 		nowScene->SetSceneManager(this);
 		//次のシーンを初期化する
 		nowScene->Initialize();
+		nowScene->InitializeBase();
 	}
 
 	//更新

@@ -27,16 +27,22 @@ public:
 	
 	~GameOverScene();
 
-	void Initialize()override;
+	//初期化
+	void Initialize(DebugCamera* camera)override;
 
-	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)override;
+	//更新
+	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, LightGroop* light)override;
 
+	//3D描画
 	void Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, ID3D12GraphicsCommandList* cmdList)override;
 
+	//2D描画(ポストエフェクトあり)
 	void DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
 
+	//2D描画(ポストエフェクト無し)
 	void Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
 
+	//終了処理
 	void Finalize()override;
 
 private:

@@ -10,6 +10,7 @@
 #include "DebugCamera.h"
 #include "LightGroop.h"
 #include "BaseScene.h"
+#include <vector>
 
 enum Mode
 {
@@ -36,29 +37,34 @@ public:
 
 	~TitleScene();
 
-	void Initialize()override;
+	//初期化
+	void Initialize(DebugCamera* camera)override;
 
-	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)override;
+	//更新
+	void Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, LightGroop* light)override;
 
+	//3D描画
 	void Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, ID3D12GraphicsCommandList* cmdList)override;
 
+	//2D描画(ポストエフェクトあり)
 	void DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
 
+	//2D描画(ポストエフェクト無し)
 	void Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)override;
 
+	//終了処理
 	void Finalize()override;
 
-	bool GetPlayScene() { return playFlag; }
-	void SetPlayScene() { playFlag = false; }
-	bool GetOptionScene() { return optionFlag; }
-	void SetOptionScene() { optionFlag = false;}
-
+	//タイトルのボタン
 	int GetTitleButtonFlag() { return buttonNo; }
+
+	bool ButtonUp();
+	bool ButtonDown();
+	void ButtonSelect(Player* player, MapChip* map);
+	void InitializeEnemyStatus(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
 private: // メンバ変数
 	std::array <std::unique_ptr<Sprite>, 3> spriteTitle;//タイトル
 	int titleTime;//タイトル遅延
 	int buttonNo = 0;//タイトルの選択
-	bool playFlag = false;
-	bool optionFlag = false;
 };
 

@@ -9,5 +9,6 @@ void BaseScene::InitializeBase()
 
 void BaseScene::DrawDebugText(ID3D12GraphicsCommandList* cmdList)
 {
+	//全テキスト描画
 	debugText.DrawAll(cmdList);
 }
