@@ -6,7 +6,6 @@
 #include <DirectXMath.h>
 #include <d3dx12.h>
 #include <string>
-
 #include "Model.h"
 #include "Camera.h"
 #include "LightGroop.h"
