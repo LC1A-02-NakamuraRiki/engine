@@ -98,215 +98,217 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="2d\DebugText.cpp">
-      <Filter>engin\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="2d\PostEffect.cpp">
-      <Filter>engin\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="2d\Sprite.cpp">
-      <Filter>engin\2d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Camera.cpp">
-      <Filter>engin\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\DebugCamera.cpp">
-      <Filter>engin\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\FbxLoader.cpp">
-      <Filter>engin\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\FbxModel.cpp">
-      <Filter>engin\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\FbxObject3d.cpp">
-      <Filter>engin\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Material.cpp">
-      <Filter>engin\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Mesh.cpp">
-      <Filter>engin\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Model.cpp">
-      <Filter>engin\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="3d\Object3d.cpp">
-      <Filter>engin\3d</Filter>
-    </ClCompile>
-    <ClCompile Include="base\DirectXCommon.cpp">
-      <Filter>engin\base</Filter>
-    </ClCompile>
-    <ClCompile Include="base\WinApp.cpp">
-      <Filter>engin\base</Filter>
-    </ClCompile>
-    <ClCompile Include="input\Input.cpp">
-      <Filter>engin\input</Filter>
-    </ClCompile>
-    <ClCompile Include="Sound\Sound.cpp">
-      <Filter>engin\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene\SceneManager.cpp">
-      <Filter>app\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="input\GamePad.cpp">
-      <Filter>engin\input</Filter>
-    </ClCompile>
-    <ClCompile Include="input\KeyBoard.cpp">
-      <Filter>engin\input</Filter>
-    </ClCompile>
-    <ClCompile Include="input\Mouse.cpp">
-      <Filter>engin\input</Filter>
-    </ClCompile>
-    <ClCompile Include="Player\Player.cpp">
-      <Filter>app\player</Filter>
-    </ClCompile>
-    <ClCompile Include="Map\MapChip.cpp">
-      <Filter>app\Map</Filter>
-    </ClCompile>
-    <ClCompile Include="enemy\enemy.cpp">
+    <ClCompile Include="App\enemy\enemy.cpp">
       <Filter>app\enemy</Filter>
     </ClCompile>
-    <ClCompile Include="helper\LoadCSV.cpp">
-      <Filter>engin\helper</Filter>
+    <ClCompile Include="App\Map\MapChip.cpp">
+      <Filter>app\Map</Filter>
     </ClCompile>
-    <ClCompile Include="3d\LightGroop.cpp">
+    <ClCompile Include="App\Player\Player.cpp">
+      <Filter>app\player</Filter>
+    </ClCompile>
+    <ClCompile Include="App\Player\SoundVector.cpp">
+      <Filter>app\player</Filter>
+    </ClCompile>
+    <ClCompile Include="App\Scene\BaseScene.cpp">
+      <Filter>app\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="App\Scene\ClearScene.cpp">
+      <Filter>app\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="App\Scene\GameOverScene.cpp">
+      <Filter>app\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="App\Scene\OptionScene.cpp">
+      <Filter>app\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="App\Scene\PlayScene.cpp">
+      <Filter>app\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="App\Scene\SceneManager.cpp">
+      <Filter>app\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="App\Scene\TitleScene.cpp">
+      <Filter>app\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\2d\DebugText.cpp">
+      <Filter>engin\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\2d\PostEffect.cpp">
+      <Filter>engin\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\2d\Sprite.cpp">
+      <Filter>engin\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\Camera.cpp">
       <Filter>engin\3d</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\TitleScene.cpp">
-      <Filter>app\Scene</Filter>
+    <ClCompile Include="engine\3d\DebugCamera.cpp">
+      <Filter>engin\3d</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\OptionScene.cpp">
-      <Filter>app\Scene</Filter>
+    <ClCompile Include="engine\3d\FbxLoader.cpp">
+      <Filter>engin\3d</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\PlayScene.cpp">
-      <Filter>app\Scene</Filter>
+    <ClCompile Include="engine\3d\FbxModel.cpp">
+      <Filter>engin\3d</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\ClearScene.cpp">
-      <Filter>app\Scene</Filter>
+    <ClCompile Include="engine\3d\FbxObject3d.cpp">
+      <Filter>engin\3d</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\GameOverScene.cpp">
-      <Filter>app\Scene</Filter>
+    <ClCompile Include="engine\3d\LightGroop.cpp">
+      <Filter>engin\3d</Filter>
     </ClCompile>
-    <ClCompile Include="collision\Collision.cpp">
+    <ClCompile Include="engine\3d\Material.cpp">
+      <Filter>engin\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\Mesh.cpp">
+      <Filter>engin\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\Model.cpp">
+      <Filter>engin\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\3d\Object3d.cpp">
+      <Filter>engin\3d</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\base\DirectXCommon.cpp">
+      <Filter>engin\base</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\base\WinApp.cpp">
+      <Filter>engin\base</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\collision\Collision.cpp">
       <Filter>engin\collision</Filter>
     </ClCompile>
-    <ClCompile Include="helper\EditLoader.cpp">
+    <ClCompile Include="engine\helper\EditLoader.cpp">
       <Filter>engin\helper</Filter>
     </ClCompile>
-    <ClCompile Include="Player\SoundVector.cpp">
+    <ClCompile Include="engine\helper\LoadCSV.cpp">
       <Filter>engin\helper</Filter>
     </ClCompile>
-    <ClCompile Include="Scene\BaseScene.cpp">
-      <Filter>app\Scene</Filter>
+    <ClCompile Include="engine\input\GamePad.cpp">
+      <Filter>engin\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\Input.cpp">
+      <Filter>engin\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\KeyBoard.cpp">
+      <Filter>engin\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\input\Mouse.cpp">
+      <Filter>engin\input</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\Sound\Sound.cpp">
+      <Filter>engin\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="engine\main.cpp">
+      <Filter>engin</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="2d\DebugText.h">
-      <Filter>engin\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="2d\PostEffect.h">
-      <Filter>engin\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="2d\Sprite.h">
-      <Filter>engin\2d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Camera.h">
-      <Filter>engin\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\DebugCamera.h">
-      <Filter>engin\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\FbxLoader.h">
-      <Filter>engin\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\FbxModel.h">
-      <Filter>engin\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\FbxObject3d.h">
-      <Filter>engin\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Light.h">
-      <Filter>engin\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Material.h">
-      <Filter>engin\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Mesh.h">
-      <Filter>engin\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Model.h">
-      <Filter>engin\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="3d\Object3d.h">
-      <Filter>engin\3d</Filter>
-    </ClInclude>
-    <ClInclude Include="base\DirectXCommon.h">
-      <Filter>engin\base</Filter>
-    </ClInclude>
-    <ClInclude Include="base\WinApp.h">
-      <Filter>engin\base</Filter>
-    </ClInclude>
-    <ClInclude Include="input\Input.h">
-      <Filter>engin\input</Filter>
-    </ClInclude>
-    <ClInclude Include="Sound\Sound.h">
-      <Filter>engin\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\SceneManager.h">
-      <Filter>app\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="input\GamePad.h">
-      <Filter>engin\input</Filter>
-    </ClInclude>
-    <ClInclude Include="input\Mouse.h">
-      <Filter>engin\input</Filter>
-    </ClInclude>
-    <ClInclude Include="input\KeyBoard.h">
-      <Filter>engin\input</Filter>
-    </ClInclude>
-    <ClInclude Include="Player\Player.h">
-      <Filter>app\player</Filter>
-    </ClInclude>
-    <ClInclude Include="Map\MapChip.h">
-      <Filter>app\Map</Filter>
-    </ClInclude>
-    <ClInclude Include="enemy\enemy.h">
+    <ClInclude Include="App\enemy\enemy.h">
       <Filter>app\enemy</Filter>
     </ClInclude>
-    <ClInclude Include="helper\LoadCSV.h">
-      <Filter>engin\helper</Filter>
+    <ClInclude Include="App\Map\MapChip.h">
+      <Filter>app\Map</Filter>
     </ClInclude>
-    <ClInclude Include="3d\LightGroop.h">
+    <ClInclude Include="App\Player\Player.h">
+      <Filter>app\player</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Player\SoundVector.h">
+      <Filter>app\player</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Scene\BaseScene.h">
+      <Filter>app\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Scene\ClearScene.h">
+      <Filter>app\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Scene\GameOverScene.h">
+      <Filter>app\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Scene\OptionScene.h">
+      <Filter>app\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Scene\PlayScene.h">
+      <Filter>app\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Scene\SceneManager.h">
+      <Filter>app\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Scene\TitleScene.h">
+      <Filter>app\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\DebugText.h">
+      <Filter>engin\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\PostEffect.h">
+      <Filter>engin\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\Sprite.h">
+      <Filter>engin\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\Camera.h">
       <Filter>engin\3d</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\TitleScene.h">
-      <Filter>app\Scene</Filter>
+    <ClInclude Include="engine\3d\DebugCamera.h">
+      <Filter>engin\3d</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\OptionScene.h">
-      <Filter>app\Scene</Filter>
+    <ClInclude Include="engine\3d\FbxLoader.h">
+      <Filter>engin\3d</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\PlayScene.h">
-      <Filter>app\Scene</Filter>
+    <ClInclude Include="engine\3d\FbxModel.h">
+      <Filter>engin\3d</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\ClearScene.h">
-      <Filter>app\Scene</Filter>
+    <ClInclude Include="engine\3d\FbxObject3d.h">
+      <Filter>engin\3d</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\GameOverScene.h">
-      <Filter>app\Scene</Filter>
+    <ClInclude Include="engine\3d\Light.h">
+      <Filter>engin\3d</Filter>
     </ClInclude>
-    <ClInclude Include="collision\Collision.h">
+    <ClInclude Include="engine\3d\LightGroop.h">
+      <Filter>engin\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\Material.h">
+      <Filter>engin\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\Mesh.h">
+      <Filter>engin\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\Model.h">
+      <Filter>engin\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\3d\Object3d.h">
+      <Filter>engin\3d</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\base\DirectXCommon.h">
+      <Filter>engin\base</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\base\WinApp.h">
+      <Filter>engin\base</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\collision\Collision.h">
       <Filter>engin\collision</Filter>
     </ClInclude>
-    <ClInclude Include="helper\EditLoader.h">
+    <ClInclude Include="engine\helper\EditLoader.h">
       <Filter>engin\helper</Filter>
     </ClInclude>
-    <ClInclude Include="Player\SoundVector.h">
+    <ClInclude Include="engine\helper\LoadCSV.h">
       <Filter>engin\helper</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\BaseScene.h">
-      <Filter>app\Scene</Filter>
+    <ClInclude Include="engine\input\GamePad.h">
+      <Filter>engin\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\Input.h">
+      <Filter>engin\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\KeyBoard.h">
+      <Filter>engin\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\input\Mouse.h">
+      <Filter>engin\input</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\Sound\Sound.h">
+      <Filter>engin\Sound</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -79,12 +79,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)player;$(ProjectDir)Map;$(ProjectDir)enemy;$(ProjectDir)Sound;$(ProjectDir)Scene;$(ProjectDir)input;$(ProjectDir)helper;$(ProjectDir)collision;$(ProjectDir)base;$(ProjectDir)3d;$(ProjectDir)2d;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)App\player;$(ProjectDir)App\Map;$(ProjectDir)App\enemy;$(ProjectDir)App\Scene;$(ProjectDir)engine\Sound;$(ProjectDir)engine\input;$(ProjectDir)engine\helper;$(ProjectDir)engine\collision;$(ProjectDir)engine\base;$(ProjectDir)engine\3d;$(ProjectDir)engine\2d;$(ProjectDir)engine;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\DirectXTexDebug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)player;$(ProjectDir)Map;$(ProjectDir)enemy;$(ProjectDir)Sound;$(ProjectDir)Scene;$(ProjectDir)input;$(ProjectDir)helper;$(ProjectDir)collision;$(ProjectDir)base;$(ProjectDir)3d;$(ProjectDir)2d;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)App\player;$(ProjectDir)App\Map;$(ProjectDir)App\enemy;$(ProjectDir)App\Scene;$(ProjectDir)engine\Sound;$(ProjectDir)engine\input;$(ProjectDir)engine\helper;$(ProjectDir)engine\collision;$(ProjectDir)engine\base;$(ProjectDir)engine\3d;$(ProjectDir)engine\2d;$(ProjectDir)engine;$(ProjectDir)lib\DirectXTex\inc;$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)lib;$(ProjectDir)lib\fbx_sdk\lib;$(ProjectDir)lib\DirectXTex\DirectXTexRelease;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -235,78 +235,78 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="2d\DebugText.cpp" />
-    <ClCompile Include="2d\PostEffect.cpp" />
-    <ClCompile Include="2d\Sprite.cpp" />
-    <ClCompile Include="3d\Camera.cpp" />
-    <ClCompile Include="3d\DebugCamera.cpp" />
-    <ClCompile Include="3d\FbxLoader.cpp" />
-    <ClCompile Include="3d\FbxModel.cpp" />
-    <ClCompile Include="3d\FbxObject3d.cpp" />
-    <ClCompile Include="3d\LightGroop.cpp" />
-    <ClCompile Include="3d\Material.cpp" />
-    <ClCompile Include="3d\Mesh.cpp" />
-    <ClCompile Include="3d\Model.cpp" />
-    <ClCompile Include="3d\Object3d.cpp" />
-    <ClCompile Include="base\DirectXCommon.cpp" />
-    <ClCompile Include="base\WinApp.cpp" />
-    <ClCompile Include="collision\Collision.cpp" />
-    <ClCompile Include="enemy\enemy.cpp" />
-    <ClCompile Include="helper\EditLoader.cpp" />
-    <ClCompile Include="helper\LoadCSV.cpp" />
-    <ClCompile Include="input\GamePad.cpp" />
-    <ClCompile Include="input\Input.cpp" />
-    <ClCompile Include="input\KeyBoard.cpp" />
-    <ClCompile Include="input\Mouse.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Map\MapChip.cpp" />
-    <ClCompile Include="Player\Player.cpp" />
-    <ClCompile Include="Player\SoundVector.cpp" />
-    <ClCompile Include="Scene\BaseScene.cpp" />
-    <ClCompile Include="Scene\ClearScene.cpp" />
-    <ClCompile Include="Scene\GameOverScene.cpp" />
-    <ClCompile Include="Scene\OptionScene.cpp" />
-    <ClCompile Include="Scene\PlayScene.cpp" />
-    <ClCompile Include="Scene\SceneManager.cpp" />
-    <ClCompile Include="Scene\TitleScene.cpp" />
-    <ClCompile Include="Sound\Sound.cpp" />
+    <ClCompile Include="App\enemy\enemy.cpp" />
+    <ClCompile Include="App\Map\MapChip.cpp" />
+    <ClCompile Include="App\Player\Player.cpp" />
+    <ClCompile Include="App\Player\SoundVector.cpp" />
+    <ClCompile Include="App\Scene\BaseScene.cpp" />
+    <ClCompile Include="App\Scene\ClearScene.cpp" />
+    <ClCompile Include="App\Scene\GameOverScene.cpp" />
+    <ClCompile Include="App\Scene\OptionScene.cpp" />
+    <ClCompile Include="App\Scene\PlayScene.cpp" />
+    <ClCompile Include="App\Scene\SceneManager.cpp" />
+    <ClCompile Include="App\Scene\TitleScene.cpp" />
+    <ClCompile Include="engine\2d\DebugText.cpp" />
+    <ClCompile Include="engine\2d\PostEffect.cpp" />
+    <ClCompile Include="engine\2d\Sprite.cpp" />
+    <ClCompile Include="engine\3d\Camera.cpp" />
+    <ClCompile Include="engine\3d\DebugCamera.cpp" />
+    <ClCompile Include="engine\3d\FbxLoader.cpp" />
+    <ClCompile Include="engine\3d\FbxModel.cpp" />
+    <ClCompile Include="engine\3d\FbxObject3d.cpp" />
+    <ClCompile Include="engine\3d\LightGroop.cpp" />
+    <ClCompile Include="engine\3d\Material.cpp" />
+    <ClCompile Include="engine\3d\Mesh.cpp" />
+    <ClCompile Include="engine\3d\Model.cpp" />
+    <ClCompile Include="engine\3d\Object3d.cpp" />
+    <ClCompile Include="engine\base\DirectXCommon.cpp" />
+    <ClCompile Include="engine\base\WinApp.cpp" />
+    <ClCompile Include="engine\collision\Collision.cpp" />
+    <ClCompile Include="engine\helper\EditLoader.cpp" />
+    <ClCompile Include="engine\helper\LoadCSV.cpp" />
+    <ClCompile Include="engine\input\GamePad.cpp" />
+    <ClCompile Include="engine\input\Input.cpp" />
+    <ClCompile Include="engine\input\KeyBoard.cpp" />
+    <ClCompile Include="engine\input\Mouse.cpp" />
+    <ClCompile Include="engine\main.cpp" />
+    <ClCompile Include="engine\Sound\Sound.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="2d\DebugText.h" />
-    <ClInclude Include="2d\PostEffect.h" />
-    <ClInclude Include="2d\Sprite.h" />
-    <ClInclude Include="3d\Camera.h" />
-    <ClInclude Include="3d\DebugCamera.h" />
-    <ClInclude Include="3d\FbxLoader.h" />
-    <ClInclude Include="3d\FbxModel.h" />
-    <ClInclude Include="3d\FbxObject3d.h" />
-    <ClInclude Include="3d\Light.h" />
-    <ClInclude Include="3d\LightGroop.h" />
-    <ClInclude Include="3d\Material.h" />
-    <ClInclude Include="3d\Mesh.h" />
-    <ClInclude Include="3d\Model.h" />
-    <ClInclude Include="3d\Object3d.h" />
-    <ClInclude Include="base\DirectXCommon.h" />
-    <ClInclude Include="base\WinApp.h" />
-    <ClInclude Include="collision\Collision.h" />
-    <ClInclude Include="enemy\enemy.h" />
-    <ClInclude Include="helper\EditLoader.h" />
-    <ClInclude Include="helper\LoadCSV.h" />
-    <ClInclude Include="input\GamePad.h" />
-    <ClInclude Include="input\Input.h" />
-    <ClInclude Include="input\KeyBoard.h" />
-    <ClInclude Include="input\Mouse.h" />
-    <ClInclude Include="Map\MapChip.h" />
-    <ClInclude Include="Player\Player.h" />
-    <ClInclude Include="Player\SoundVector.h" />
-    <ClInclude Include="Scene\BaseScene.h" />
-    <ClInclude Include="Scene\ClearScene.h" />
-    <ClInclude Include="Scene\GameOverScene.h" />
-    <ClInclude Include="Scene\OptionScene.h" />
-    <ClInclude Include="Scene\PlayScene.h" />
-    <ClInclude Include="Scene\SceneManager.h" />
-    <ClInclude Include="Scene\TitleScene.h" />
-    <ClInclude Include="Sound\Sound.h" />
+    <ClInclude Include="App\enemy\enemy.h" />
+    <ClInclude Include="App\Map\MapChip.h" />
+    <ClInclude Include="App\Player\Player.h" />
+    <ClInclude Include="App\Player\SoundVector.h" />
+    <ClInclude Include="App\Scene\BaseScene.h" />
+    <ClInclude Include="App\Scene\ClearScene.h" />
+    <ClInclude Include="App\Scene\GameOverScene.h" />
+    <ClInclude Include="App\Scene\OptionScene.h" />
+    <ClInclude Include="App\Scene\PlayScene.h" />
+    <ClInclude Include="App\Scene\SceneManager.h" />
+    <ClInclude Include="App\Scene\TitleScene.h" />
+    <ClInclude Include="engine\2d\DebugText.h" />
+    <ClInclude Include="engine\2d\PostEffect.h" />
+    <ClInclude Include="engine\2d\Sprite.h" />
+    <ClInclude Include="engine\3d\Camera.h" />
+    <ClInclude Include="engine\3d\DebugCamera.h" />
+    <ClInclude Include="engine\3d\FbxLoader.h" />
+    <ClInclude Include="engine\3d\FbxModel.h" />
+    <ClInclude Include="engine\3d\FbxObject3d.h" />
+    <ClInclude Include="engine\3d\Light.h" />
+    <ClInclude Include="engine\3d\LightGroop.h" />
+    <ClInclude Include="engine\3d\Material.h" />
+    <ClInclude Include="engine\3d\Mesh.h" />
+    <ClInclude Include="engine\3d\Model.h" />
+    <ClInclude Include="engine\3d\Object3d.h" />
+    <ClInclude Include="engine\base\DirectXCommon.h" />
+    <ClInclude Include="engine\base\WinApp.h" />
+    <ClInclude Include="engine\collision\Collision.h" />
+    <ClInclude Include="engine\helper\EditLoader.h" />
+    <ClInclude Include="engine\helper\LoadCSV.h" />
+    <ClInclude Include="engine\input\GamePad.h" />
+    <ClInclude Include="engine\input\Input.h" />
+    <ClInclude Include="engine\input\KeyBoard.h" />
+    <ClInclude Include="engine\input\Mouse.h" />
+    <ClInclude Include="engine\Sound\Sound.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
