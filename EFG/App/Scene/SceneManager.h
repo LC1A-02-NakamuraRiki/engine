@@ -20,16 +20,8 @@
 #include "ClearScene.h"
 #include "GameOverScene.h"
 #include "BaseScene.h"
-/// ゲームシーン
-enum SceneMode
-{
-	TITLE,
-	PLAY,
-	CLEAR,
-	GAMEOVER,
-	OPTION
-};
 
+//シーン管理
 class SceneManager
 {
 private://エイリアス
@@ -58,9 +50,6 @@ public: //メンバ関数
 
 	//ポストエフェクトOFF描画
 	void PostOffDraw();
-
-	//テクスチャ初期化
-	void InitializeTexture();
 
 	//グレインの初期化
 	void InitializeGrain();

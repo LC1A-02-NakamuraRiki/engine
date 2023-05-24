@@ -21,6 +21,7 @@ enum Mode
 	FIFTH
 };
 
+//タイトルシーン
 class TitleScene : public BaseScene
 {
 private: // エイリアス
@@ -32,9 +33,10 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
-
+	//コンストラクタ
 	TitleScene();
 
+	//デスストラクタ
 	~TitleScene();
 
 	//初期化
@@ -58,10 +60,18 @@ public:
 	//タイトルのボタン
 	int GetTitleButtonFlag() { return buttonNo; }
 
+	//ボタンアップ
 	bool ButtonUp();
+
+	//ボタンダウン
 	bool ButtonDown();
+	
+	//決定ボタン
 	void ButtonSelect(Player* player, MapChip* map);
+	
+	//敵ステータス初期化
 	void InitializeEnemyStatus(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
+
 private: // メンバ変数
 	std::array <std::unique_ptr<Sprite>, 3> spriteTitle;//タイトル
 	int titleTime;//タイトル遅延

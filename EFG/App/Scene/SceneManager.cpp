@@ -7,7 +7,9 @@
 #include "FbxObject3d.h"
 #include "Input.h"
 #include "SoundVector.h"
-#include"TitleScene.h"
+#include "TitleScene.h"
+#include "TextureManager.h"
+
 using namespace DirectX;
 
 SceneManager::SceneManager()
@@ -30,7 +32,7 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	Object3d::SetCamera(camera.get());
 
 	// テクスチャ読み込み
-	InitializeTexture();
+	TextureManager::LoadTexture();
 
 	//グレインの初期化
 	InitializeGrain();
@@ -152,32 +154,6 @@ void SceneManager::PostOffDraw()
 	nowScene->DrawDebugText(cmdList);
 	// スプライト描画後処理
 	Sprite::PostDraw();
-}
-
-void SceneManager::InitializeTexture()
-{
-	Sprite::LoadTexture(18, L"Resources/Title.png");
-	Sprite::LoadTexture(21, L"Resources/Title2.png");
-	Sprite::LoadTexture(22, L"Resources/Title3.png");
-	Sprite::LoadTexture(23, L"Resources/Option.png");
-	Sprite::LoadTexture(24, L"Resources/Option2.png");
-	Sprite::LoadTexture(25, L"Resources/Option3.png");
-	Sprite::LoadTexture(50, L"Resources/grain.png");
-	Sprite::LoadTexture(51, L"Resources/grain2.png");
-	Sprite::LoadTexture(52, L"Resources/grain3.png");
-	Sprite::LoadTexture(53, L"Resources/grain4.png");
-	Sprite::LoadTexture(54, L"Resources/grain5.png");
-	Sprite::LoadTexture(55, L"Resources/grain6.png");
-	Sprite::LoadTexture(56, L"Resources/grain7.png");
-	Sprite::LoadTexture(57, L"Resources/grain8.png");
-	Sprite::LoadTexture(100, L"Resources/alartGrain.png");
-	Sprite::LoadTexture(101, L"Resources/alartGrain2.png");
-	Sprite::LoadTexture(102, L"Resources/alartGrain3.png");
-	Sprite::LoadTexture(103, L"Resources/alartGrain4.png");
-	Sprite::LoadTexture(104, L"Resources/alartGrain5.png");
-	Sprite::LoadTexture(105, L"Resources/alartGrain6.png");
-	Sprite::LoadTexture(106, L"Resources/alartGrain7.png");
-	Sprite::LoadTexture(107, L"Resources/alartGrain8.png");
 }
 
 void SceneManager::InitializeGrain()

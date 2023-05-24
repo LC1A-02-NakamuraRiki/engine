@@ -12,6 +12,7 @@
 #include "Sound.h"
 #include "BaseScene.h"
 
+//プレイシーン
 class PlayScene : public BaseScene
 {
 private: // エイリアス
@@ -23,9 +24,10 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
-
+	//コンストラクタ
 	PlayScene();
 
+	//デスストラクタ
 	~PlayScene();
 
 	//初期化
@@ -46,6 +48,22 @@ public:
 	//終了処理
 	void Finalize()override;
 
+	void TutorialUpdate();
+
+	void LightCalculationFlag(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
+
+	void LightCalculation(Player* player, MapChip* map, Enemy* enemy);
+
+	void FootStepAudio(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
+
+	void DeathAnimation(Player* player, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
+
+	void GameOverChange();
+
+	void ClearFlag(MapChip* map);
+
+	void MapGimmick(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
+
 	bool GetStopFlag() { return stopFlag; }
 	void SetStopFlag() { stopFlag = false; }
 
@@ -64,5 +82,8 @@ private:
 	bool stopFlag;//停止フラグ
 	bool tutrialFlag = true;//チュートリアルの表示
 	float alartValue = 0.0f;
+	bool ACTIONFLAG = false;
+	const float MAXDISTANCE = 32.0f;
+
 };
 

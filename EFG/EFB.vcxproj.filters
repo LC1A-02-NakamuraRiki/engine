@@ -203,6 +203,9 @@
     <ClCompile Include="engine\main.cpp">
       <Filter>engin</Filter>
     </ClCompile>
+    <ClCompile Include="engine\2d\TextureManager.cpp">
+      <Filter>engin\2d</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\enemy\enemy.h">
@@ -309,6 +312,9 @@
     </ClInclude>
     <ClInclude Include="engine\Sound\Sound.h">
       <Filter>engin\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="engine\2d\TextureManager.h">
+      <Filter>engin\2d</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

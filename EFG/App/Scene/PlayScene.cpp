@@ -1,6 +1,9 @@
 #include "PlayScene.h"
 #include "Input.h"
 #include "SoundVector.h"
+#include "ClearScene.h"
+#include "GameOverScene.h"
+#include"SceneManager.h"
 
 PlayScene::PlayScene()
 {
@@ -12,10 +15,7 @@ PlayScene::~PlayScene()
 
 void PlayScene::Initialize(DebugCamera* camera)
 {
-	if (!Sprite::LoadTexture(30, L"Resources/tutrial.png")) {
-		assert(0);
-		return;
-	}
+	//ルールスプライト生成
 	spriteRule = std::unique_ptr<Sprite>(Sprite::Create(30, { 0.0f,0.0f }));
 }
 
@@ -26,9 +26,7 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	camera->SetTarget(player->GetTarget());
 
 	//チュートリアル
-	if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true) {
-		tutrialFlag = false;
-	}
+	TutorialUpdate();
 
 	//プレイヤーのアップデート
 	player->Update(map, tutrialFlag, enemy1->CatchCollision(player), enemy2->CatchCollision(player), enemy3->CatchCollision(player));
@@ -48,56 +46,97 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	enemy3->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy3->GetPos()), enemy1->CatchCollision(player), enemy2->CatchCollision(player));
 
 	//ライト点滅関連
-
-	if (map->GetGateOpenFlag() && !enemy1->CatchCollision(player) && !enemy2->CatchCollision(player) && !enemy3->CatchCollision(player))
-	{
-		bool ACTIONFLAG = false;
-		const float MAXDISTANCE = 32.0f;
-		float aX = enemy1->GetPos().x - player->GetPos().x;
-		float aZ = enemy1->GetPos().z - player->GetPos().z;
-		float aXZ = aX * aX + aZ * aZ;
-		float axzDistanse = float(sqrt(aXZ));
-		if (axzDistanse < MAXDISTANCE)
-		{
-			ACTIONFLAG = true;
-		}
-		else
-		{
-			map->SetLightAction(false);
-		}
-
-		float aX2 = enemy2->GetPos().x - player->GetPos().x;
-		float aZ2 = enemy2->GetPos().z - player->GetPos().z;
-		float aXZ2 = aX2 * aX2 + aZ2 * aZ2;
-		float axzDistanse2 = float(sqrt(aXZ2));
-		if (axzDistanse2 < MAXDISTANCE)
-		{
-			ACTIONFLAG = true;
-		}
-		else
-		{
-			map->SetLightAction(false);
-		}
-
-		float aX3 = enemy3->GetPos().x - player->GetPos().x;
-		float aZ3 = enemy3->GetPos().z - player->GetPos().z;
-		float aXZ3 = aX3 * aX3 + aZ3 * aZ3;
-		float axzDistanse3 = float(sqrt(aXZ3));
-		if (axzDistanse3 < MAXDISTANCE)
-		{
-			ACTIONFLAG = true;
-		}
-		else
-		{
-			map->SetLightAction(false);
-		}
-		if (ACTIONFLAG == true)
-		{
-			map->SetLightAction(true);
-		}
-	}
+	LightCalculationFlag(player, map, enemy1, enemy2, enemy3);
 
 	//音関連
+	FootStepAudio(player, map, enemy1, enemy2, enemy3);
+
+	//死亡アニメーション
+	DeathAnimation(player, enemy1, enemy2, enemy3);
+	
+	//ストップフラグ
+	stopFlag = map->GetStopFlag();
+
+	//クリスタル全部入手
+	ClearFlag(map);
+
+	//マップギミック関連
+	MapGimmick(player, map, enemy1, enemy2, enemy3);
+}
+
+void PlayScene::Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, ID3D12GraphicsCommandList* cmdList)
+{
+	enemy1->Draw(player, cmdList);//敵の3D描画
+	enemy2->Draw(player, cmdList);//敵の3D描画
+	enemy3->Draw(player, cmdList);//敵の3D描画
+
+	map->Draw();//マップの3D描画
+}
+
+void PlayScene::DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+{
+}
+
+void PlayScene::Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+{
+	map->DrawSprite(player->GetPos());//マップ関連のスプライト
+	player->DrawSprite();//プレイヤーのスプライト
+
+	enemy1->DrawSprite(map);//エネミースプライト
+	enemy2->DrawSprite(map);//エネミースプライト
+	enemy3->DrawSprite(map);//エネミースプライト
+	if (tutrialFlag == true) {
+		spriteRule->Draw(1.0f);//ルール表示スプライト
+	}
+}
+
+void PlayScene::Finalize()
+{
+}
+
+void PlayScene::TutorialUpdate()
+{
+	if (Input::GetInstance()->KeybordTrigger(DIK_SPACE) && tutrialFlag == true) {
+		tutrialFlag = false;
+	}
+}
+
+void PlayScene::LightCalculationFlag(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+{
+	//点滅する条件を満たしていないときに省略
+	if (!map->GetGateOpenFlag() || enemy1->CatchCollision(player) || enemy2->CatchCollision(player) || enemy3->CatchCollision(player)){
+		return;
+	}
+
+	//点滅するかどうかの計算
+	LightCalculation(player, map, enemy1);
+	LightCalculation(player, map, enemy2);
+	LightCalculation(player, map, enemy3);
+	
+	//結果を反映
+	if (ACTIONFLAG == true){
+		map->SetLightAction(true);
+	}
+}
+
+void PlayScene::LightCalculation(Player* player, MapChip* map, Enemy* enemy)
+{
+	float aX = enemy->GetPos().x - player->GetPos().x;
+	float aZ = enemy->GetPos().z - player->GetPos().z;
+	float aXZ = aX * aX + aZ * aZ;
+	float axzDistanse = float(sqrt(aXZ));
+	if (axzDistanse < MAXDISTANCE)
+	{
+		ACTIONFLAG = true;
+	}
+	else
+	{
+		map->SetLightAction(false);
+	}
+}
+
+void PlayScene::FootStepAudio(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+{
 	float vec[3];
 	vec[0] = SoundVector::VectorSearch(enemy1->GetPos().x, enemy1->GetPos().z, player->GetPos().x, player->GetPos().z);
 	vec[1] = SoundVector::VectorSearch(enemy2->GetPos().x, enemy2->GetPos().z, player->GetPos().x, player->GetPos().z);
@@ -137,31 +176,40 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 			}
 		}
 	}
+}
 
-	//死亡アニメーション
-
+void PlayScene::DeathAnimation(Player* player, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+{
 	if (enemy1->DeathAnimation(player))
 	{
-		//gameOverFlag = true;
+		GameOverChange();
 	}
 	if (enemy2->DeathAnimation(player))
 	{
-		//gameOverFlag = true;
+		GameOverChange();
 	}
 	if (enemy3->DeathAnimation(player))
 	{
-		//gameOverFlag = true;
+		GameOverChange();
 	}
+}
 
-	//ストップフラグ
-	stopFlag = map->GetStopFlag();
+void PlayScene::GameOverChange()
+{
+	BaseScene* scene = new GameOverScene();//ゲームオーバーへ
+	sceneManager_->SetNextScene(scene);	
+}
 
-	//クリスタル全部入手
-	if (map->GetAllGetFlag())
-	{
-		//clearFlag = true;//クリアへ
+void PlayScene::ClearFlag(MapChip* map)
+{
+	if (map->GetAllGetFlag()){
+		BaseScene* scene = new ClearScene();//クリアへ
+		sceneManager_->SetNextScene(scene);
 	}
+}
 
+void PlayScene::MapGimmick(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
+{
 	const float MAXALARTBALUE = 0.2f;
 	const float ALARTSPEED = 0.02f;
 	if (!map->GetGateOpenFlag())
@@ -176,36 +224,6 @@ void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy
 	{
 		alartValue -= ALARTSPEED;
 	}
-}
-
-void PlayScene::Draw3D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, ID3D12GraphicsCommandList* cmdList)
-{
-	enemy1->Draw(player, cmdList);//敵の3D描画
-	enemy2->Draw(player, cmdList);//敵の3D描画
-	enemy3->Draw(player, cmdList);//敵の3D描画
-
-	map->Draw();//マップの3D描画
-}
-
-void PlayScene::DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
-{
-}
-
-void PlayScene::Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
-{
-	map->DrawSprite(player->GetPos());//マップ関連のスプライト
-	player->DrawSprite();//プレイヤーのスプライト
-
-	enemy1->DrawSprite(map);//エネミースプライト
-	enemy2->DrawSprite(map);//エネミースプライト
-	enemy3->DrawSprite(map);//エネミースプライト
-	if (tutrialFlag == true) {
-		spriteRule->Draw(1.0f);//ルール表示スプライト
-	}
-}
-
-void PlayScene::Finalize()
-{
 }
 
 float PlayScene::GetShVa1(Player* player, MapChip* map, Enemy* enemy2)

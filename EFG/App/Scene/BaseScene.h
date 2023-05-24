@@ -9,17 +9,19 @@
 #include "DebugText.h"
 
 class SceneManager;
-/// <summary>
-/// シーンチェンジベース
-/// </summary>
+
+//シーンチェンジベース
 class BaseScene
 {
 private: //静的メンバ変数
+	//デバッグテキストのロードナンバー
 	static const int debugTextTexNumber = 0;
+
 public:
+	//デスストラクタ
 	virtual ~BaseScene() = default;
 
-	// ベース部分の初期化
+	//ベース部分の初期化
 	void InitializeBase();
 
 	//デバッグテキストの描画
@@ -45,10 +47,10 @@ public:
 
 	//シーンのセット
 	virtual void SetSceneManager(SceneManager* sceneManager) { sceneManager_ = sceneManager; }
+
 protected:
-	
-	SceneManager* sceneManager_ = nullptr;        //シーン
-	Sound* audio = nullptr;                       //サウンド
-	DebugText debugText;                          //デバッグテキスト
-	bool tutrialFlag;                             //チュートリアル
+	SceneManager* sceneManager_ = nullptr;					//シーン
+	Sound* audio = nullptr;									//サウンド
+	DebugText debugText;									//デバッグテキスト
+	bool tutrialFlag;							            //チュートリアル
 };

@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "BaseScene.h"
 
+//オプションシーン
 class OptionScene : public BaseScene
 {
 	enum Mode
@@ -26,8 +27,10 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
+	//コンストラクタ
 	OptionScene();
 
+	//デスストラクタ
 	~OptionScene();
 
 	//初期化
@@ -48,6 +51,20 @@ public:
 	//終了処理
 	void Finalize()override;
 
+	//ボタンアップ
+	bool ButtonUp();
+
+	//ボタンダウン
+	bool ButtonDown();
+
+	//決定ボタン
+	void ButtonSelect(Player* player, MapChip* map);
+
+	void ViewChage(Player* player );
+
+	void ShakeSelect(Player* player);
+
+	void TitleSlect();
 	bool GetTitleScene() { return titleFlag; }
 	void SetTitleScene() { titleFlag = false; }
 private:

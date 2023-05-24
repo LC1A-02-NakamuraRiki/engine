@@ -3,12 +3,10 @@
 #include "PlayScene.h"
 #include"SceneManager.h"
 
-TitleScene::TitleScene()
-{
+TitleScene::TitleScene(){
 }
 
-TitleScene::~TitleScene()
-{
+TitleScene::~TitleScene(){
 }
 
 void TitleScene::Initialize(DebugCamera* camera)
@@ -60,14 +58,7 @@ void TitleScene::DrawPost2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* 
 
 void TitleScene::Draw2D(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
 {
-	const int MAXBUTTON = 3;
-	for (int i = 0; i < MAXBUTTON; i++)
-	{
-		if (buttonNo == i)
-		{
-			spriteTitle[i]->Draw(1.0f);//タイトルのスプライト
-		}
-	}
+	spriteTitle[buttonNo]->Draw(1.0f);//タイトルのスプライト	
 }
 
 void TitleScene::Finalize()
@@ -100,9 +91,9 @@ void TitleScene::ButtonSelect(Player* player, MapChip* map)
 		buttonNo++;
 	}
 
+	//決定
 	if (Input::GetInstance()->KeybordTrigger(DIK_SPACE)) {
-		if (buttonNo == FIRST)
-		{
+		if (buttonNo == FIRST){
 			player->InitializeValue();
 			map->InitializeValue();
 			BaseScene* scene = new PlayScene();//プレイへ
@@ -112,15 +103,17 @@ void TitleScene::ButtonSelect(Player* player, MapChip* map)
 			BaseScene* scene = new OptionScene();//オプションへ
 			sceneManager_->SetNextScene(scene);
 		}
-		
 	}
 }
 
 void TitleScene::InitializeEnemyStatus(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3)
 {
+	//鬼ごとにステータス初期化
 	enemy1->InitializeValue();
 	enemy2->InitializeValue2();
 	enemy3->InitializeValue3();
+	
+	//鬼ごとにステータス反映
 	enemy1->Update(player, map, player->GetMapPos(), XMFLOAT2(0, 0), enemy2->CatchCollision(player), enemy3->CatchCollision(player));
 	enemy2->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy2->GetPos()), enemy1->CatchCollision(player), enemy3->CatchCollision(player));
 	enemy3->Update(player, map, player->GetMapPos(), player->GetShortCut(map, enemy3->GetPos()), enemy1->CatchCollision(player), enemy2->CatchCollision(player));

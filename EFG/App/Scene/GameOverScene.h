@@ -12,6 +12,7 @@
 #include "LightGroop.h"
 #include "BaseScene.h"
 
+//ゲームオーバーシーン
 class GameOverScene : public BaseScene
 {
 private: // エイリアス
@@ -23,8 +24,10 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
+	//コンストラクタ
 	GameOverScene();
 	
+	//デスストラクタ
 	~GameOverScene();
 
 	//初期化
@@ -46,6 +49,7 @@ public:
 	void Finalize()override;
 
 private:
-	std::unique_ptr<Sprite> spriteGAMEOVER;//ゲームオーバー
+	//ゲームオーバーのスプライト
+	std::unique_ptr<Sprite> spriteGAMEOVER;
 };
 

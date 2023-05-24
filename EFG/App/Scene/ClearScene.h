@@ -12,6 +12,7 @@
 #include "LightGroop.h"
 #include "BaseScene.h"
 
+//クリアシーン
 class ClearScene : public BaseScene
 {
 private: // エイリアス
@@ -23,8 +24,10 @@ private: // エイリアス
 	using XMFLOAT4 = DirectX::XMFLOAT4;
 	using XMMATRIX = DirectX::XMMATRIX;
 public:
+	//コンストラクタ
 	ClearScene();
 
+	//デスストラクタ
 	~ClearScene();
 	
 	//初期化
@@ -46,6 +49,6 @@ public:
 	void Finalize()override;
 
 private:
-	std::unique_ptr<Sprite> spriteClear;//クリア
+	std::unique_ptr<Sprite> spriteClear;//クリアのスプライト
 };
 
