@@ -13,6 +13,12 @@ class SceneManager;
 //シーンチェンジベース
 class BaseScene
 {
+private://エイリアス
+	template <class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMFLOAT3 = DirectX::XMFLOAT3;
+	using XMFLOAT4 = DirectX::XMFLOAT4;
+	using XMMATRIX = DirectX::XMMATRIX;
 private: //静的メンバ変数
 	//デバッグテキストのロードナンバー
 	static const int debugTextTexNumber = 0;
@@ -45,12 +51,28 @@ public:
 	//終了処理
 	virtual void Finalize() = 0;
 
+	//グレインの初期化
+	void InitializeGrain();
+
+	//グレインのアップデート
+	void UpdateGrain();
+
+	//グレインのアップデート
+	void DrawGrain();
+
 	//シーンのセット
 	virtual void SetSceneManager(SceneManager* sceneManager) { sceneManager_ = sceneManager; }
 
 protected:
-	SceneManager* sceneManager_ = nullptr;					//シーン
-	Sound* audio = nullptr;									//サウンド
-	DebugText debugText;									//デバッグテキスト
-	bool tutrialFlag;							            //チュートリアル
+	std::unique_ptr <Sound>audio;								//サウンド
+	SceneManager* sceneManager_ = nullptr;						//シーン
+	DebugText debugText;										//デバッグテキスト
+	bool tutrialFlag;											//チュートリアル
+
+	std::array<std::unique_ptr<Sprite>, 8> spriteGrain;			//グレイン
+	std::array<std::unique_ptr<Sprite>, 8> spriteAlartGrain1;	//グレイン
+	std::array<std::unique_ptr<Sprite>, 8> spriteAlartGrain2;	//グレイン
+	std::array<int, 3>grainCount = { 0,3,6 };					//グレインのカウント
+	bool grainFlag = false;
+	bool alartGrainFlag = false;
 };

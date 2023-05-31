@@ -14,6 +14,12 @@ void ClearScene::Initialize(DebugCamera* camera)
 {
 	//クリアスプライト生成
 	spriteClear = std::unique_ptr<Sprite>(Sprite::Create(19, { 0.0f,0.0f }));
+
+	//グレインのOFF
+	grainFlag = false;
+
+	//追われている際のグレインのOFF
+	alartGrainFlag = false;
 }
 
 void ClearScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)

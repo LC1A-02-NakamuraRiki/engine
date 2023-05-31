@@ -30,4 +30,10 @@ void TextureManager::LoadTexture()
 	Sprite::LoadTexture(20, L"Resources/GAMEOVER2.png");
 
 	Sprite::LoadTexture(19, L"Resources/Clear.png");
+
+	Sprite::LoadTexture(3, L"Resources/PlayerDot.png");	//プレイヤーの点
+	Sprite::LoadTexture(6, L"Resources/angle.png");		//プレイヤーの向いてる方向
+	Sprite::LoadTexture(100, L"Resources/MoveUI.png");	//チュートリアルMoveのUI
+	Sprite::LoadTexture(101, L"Resources/ViewUI.png");	//チュートリアルViewのUI
+	Sprite::LoadTexture(102, L"Resources/OpenUI.png");	//チュートリアルOpenのUI
 }

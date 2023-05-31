@@ -20,11 +20,10 @@ SceneManager::~SceneManager()
 {
 }
 
-void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
+void SceneManager::Initialize(DirectXCommon* dxCommon)
 {
 	//値渡し
 	this->dxCommon = dxCommon;
-	this->audio = audio;
 
 	//カメラのステータス初期化
 	camera = std::make_unique<DebugCamera>(DebugCamera(WinApp::window_width, WinApp::window_height));
@@ -34,8 +33,7 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 	// テクスチャ読み込み
 	TextureManager::LoadTexture();
 
-	//グレインの初期化
-	InitializeGrain();
+	
 
 	//FBXの初期化
 	InitializeFBX();
@@ -58,13 +56,9 @@ void SceneManager::Initialize(DirectXCommon* dxCommon, Sound* audio)
 
 void SceneManager::Update()
 {
-	//グレインのアップデート
-	UpdateGrain();
-
 	//次のシーンの予約があるなら
 	if (nextScene)
 	{
-		
 		if (nowScene)
 		{
 			nowScene->Finalize();
@@ -82,6 +76,8 @@ void SceneManager::Update()
 
 	//更新
 	nowScene->Update(player.get(), map.get(), enemy[0].get(), enemy[1].get(), enemy[2].get(),camera.get(),light.get());
+	//グレインのアップデート
+	nowScene->UpdateGrain();
 }
 
 void SceneManager::Draw()
@@ -129,6 +125,7 @@ void SceneManager::PostOffDraw()
 	Sprite::PreDraw(cmdList);
 	// 背景スプライト描画
 	//-------------------------------------------------------------//
+	nowScene->DrawGrain();
 	//-------------------------------------------------------------//
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -156,20 +153,6 @@ void SceneManager::PostOffDraw()
 	Sprite::PostDraw();
 }
 
-void SceneManager::InitializeGrain()
-{
-	//グレインテクスチャのステータス初期化
-	const int MAXGRAINVALUE = 8;
-	for (int i = 0; i < MAXGRAINVALUE; i++){
-		spriteGrain[i] = std::unique_ptr<Sprite>(Sprite::Create(50 + i, { 0.0f,0.0f }));
-		spriteGrain[i]->SetSize(XMFLOAT2{ 1920.0f * 1.5f,1080.0f * 1.5f });
-		spriteAlartGrain1[i] = std::unique_ptr<Sprite>(Sprite::Create(100 + i, { 0.0f,0.0f }));
-		spriteAlartGrain1[i]->SetSize(XMFLOAT2{ 1920.0f * 4.0f,1080.0f * 4.0f });
-		spriteAlartGrain2[i] = std::unique_ptr<Sprite>(Sprite::Create(100 + i, { 0.0f,0.0f }));
-		spriteAlartGrain2[i]->SetSize(XMFLOAT2{ 1920.0f * 5.0f,1080.0f * 5.0f });
-	}
-}
-
 void SceneManager::InitializeFBX()
 {
 	// デバイスをセット
@@ -195,17 +178,5 @@ void SceneManager::InitializeAppli()
 	for (int i = 0; i < MAXENEMYNUM; i++) {
 		enemy[i] = std::make_unique <Enemy>();
 		enemy[i]->Initialize();
-	}
-}
-
-void SceneManager::UpdateGrain()
-{
-	//グレイン
-	const int MAXGARAIN = 7;
-	for (int i = 0; i < 3; i++){
-		grainCount[i]++;
-		if (grainCount[i] > MAXGARAIN){
-			grainCount[i] = 0;
-		}
 	}
 }

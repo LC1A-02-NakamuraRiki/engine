@@ -11,12 +11,6 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	//スプライトの初期化
-	Sprite::LoadTexture(3, L"Resources/PlayerDot.png");	//プレイヤーの点
-	Sprite::LoadTexture(6, L"Resources/angle.png");		//プレイヤーの向いてる方向
-	Sprite::LoadTexture(100, L"Resources/MoveUI.png");	//チュートリアルMoveのUI
-	Sprite::LoadTexture(101, L"Resources/ViewUI.png");	//チュートリアルViewのUI
-	Sprite::LoadTexture(102, L"Resources/OpenUI.png");	//チュートリアルOpenのUI
 	//スプライトの作成
 	spritePlayerDot = std::unique_ptr<Sprite>(Sprite::Create(3, miniMapPos));	//プレイヤーの点
 	spritePlayerAngle = std::unique_ptr<Sprite>(Sprite::Create(6, miniMapPos));	//プレイヤーの向いてる方向
@@ -50,10 +44,14 @@ void Player::Update(MapChip* mapChip, bool tutrialFlag, bool catchFlag, bool cat
 	//プレイヤーの向きの算出
 	AngleSearch();
 
-	//移動関連
-	Move(mapChip,tutrialFlag,catchFlag,catchFlag2,catchFlag3);//移動	
-	WalkShaking();//歩きの揺れ
-	View(tutrialFlag, catchFlag, catchFlag2, catchFlag3);//視点制御
+	//移動
+	Move(mapChip,tutrialFlag,catchFlag,catchFlag2,catchFlag3);
+
+	//歩きの揺れ
+	WalkShaking();
+
+	//視点
+	View(tutrialFlag, catchFlag, catchFlag2, catchFlag3);
 
 	//スプライト関連のポジションとアングルセット
 	UiUpdate();
@@ -61,14 +59,11 @@ void Player::Update(MapChip* mapChip, bool tutrialFlag, bool catchFlag, bool cat
 
 void Player::DrawSprite()
 {
-	//プレイヤーのミニマップの情報
-	spritePlayerAngle->Draw(1.0f);
-	spritePlayerDot->Draw(1.0f);
+	//マップの描画
+	MapDraw();
 
-	//チュートリアルの描画
-	spriteViewUI->Draw(viewTutorial);
-	spriteMoveUI->Draw(moveTutorial);
-	spriteOpenUI->Draw(openTutorial);
+	//UIの描画
+	UiDraw();
 }
 
 void Player::Move(MapChip* mapChip, bool tutrialFlag, bool catchFlag, bool catchFlag2, bool catchFlag3)
@@ -273,6 +268,21 @@ void Player::UiUpdate()
 	spritePlayerDot->SetPosition({ mapLeftValue + (MAPWALLSIZE * 10), mapTopValue + (MAPWALLSIZE * 11) });
 	spritePlayerAngle->SetPosition({ mapLeftValue + (MAPWALLSIZE * 10) + enemyAngleAdjustValue, mapTopValue + (MAPWALLSIZE * 11) + enemyAngleAdjustValue });
 	spritePlayerAngle->SetRotation(angle.y + angleConvertValue);
+}
+
+void Player::MapDraw()
+{
+	//プレイヤーのミニマップの情報
+	spritePlayerAngle->Draw(1.0f);
+	spritePlayerDot->Draw(1.0f);
+}
+
+void Player::UiDraw()
+{
+	//チュートリアルの描画
+	spriteViewUI->Draw(viewTutorial);
+	spriteMoveUI->Draw(moveTutorial);
+	spriteOpenUI->Draw(openTutorial);
 }
 
 bool Player::AlartFlag(MapChip* mapChip, XMFLOAT3 enemyPos)

@@ -1,6 +1,5 @@
 ﻿#include "../base/WinApp.h"
 #include "../base/DirectXCommon.h"
-#include "../Sound/Sound.h"
 #include "../Scene/SceneManager.h"
 #include "../3d/LightGroop.h"
 #include "../3d/FbxLoader.h"
@@ -16,7 +15,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 汎用機能
 	std::unique_ptr <WinApp> win;
 	std::unique_ptr <DirectXCommon> dxCommon;
-	std::unique_ptr <Sound>audio;
+	
 	std::unique_ptr<SceneManager> sceneManager;
 	std::unique_ptr<PostEffect> postEffect;
 
@@ -33,9 +32,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 	// 入力の初期化
 	Input::GetInstance()->Initialize(win.get());
 
-	// オーディオの初期化
-	audio = std::make_unique<Sound>();
-	audio->Initialize();
 
 	// スプライト静的初期化
 	Sprite::StaticInitialize(dxCommon->GetDevice(), WinApp::window_width, WinApp::window_height);
@@ -57,7 +53,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 #pragma region シーンマネージャーの初期化
 	// ゲームシーンの初期化
 	sceneManager = std::make_unique<SceneManager>();
-	sceneManager->Initialize(dxCommon.get(), audio.get());
+	sceneManager->Initialize(dxCommon.get());
 #pragma endregion
 
 #pragma region ゲームループ

@@ -50,6 +50,8 @@ public:
 
 	void MoveCollision(MapChip* mapChip, float vec);
 
+	
+
 	bool TouchWall(MapChip* mapChip, CollisionDirection direction);
 
 	void PushBack(VerticalOrHorizontal VerOrHor, float vec);
@@ -63,6 +65,10 @@ public:
 	void TutorialAlpha(MapChip* mapChip);
 
 	void UiUpdate();
+
+	void MapDraw();
+
+	void UiDraw();
 
 	bool AlartFlag(MapChip* mapChip, XMFLOAT3 enemyPos);
 

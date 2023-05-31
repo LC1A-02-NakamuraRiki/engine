@@ -20,6 +20,11 @@ void TitleScene::Initialize(DebugCamera* camera)
 	camera->SetEye(XMFLOAT3{ -4.0f,3.0f,4.0f });
 	camera->SetTarget(XMFLOAT3{ -4.0f,3.0f,-8.0f });
 	
+	//グレインのON
+	grainFlag = true;
+	
+	//追われている際のグレインのOFF
+	alartGrainFlag = false;
 }
 
 void TitleScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)

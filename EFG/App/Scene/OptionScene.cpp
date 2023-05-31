@@ -14,6 +14,12 @@ void OptionScene::Initialize(DebugCamera* camera)
 	spriteOption[0] = std::unique_ptr<Sprite>(Sprite::Create(23, { 0.0f,0.0f }));
 	spriteOption[1] = std::unique_ptr<Sprite>(Sprite::Create(24, { 0.0f,0.0f }));
 	spriteOption[2] = std::unique_ptr<Sprite>(Sprite::Create(25, { 0.0f,0.0f }));
+	
+	//グレインのOFF
+	grainFlag = false;
+
+	//追われている際のグレインのOFF
+	alartGrainFlag = false;
 }
 
 void OptionScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)

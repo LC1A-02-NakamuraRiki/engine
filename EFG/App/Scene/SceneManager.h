@@ -40,7 +40,7 @@ public: //メンバ関数
 	~SceneManager();
 
 	//初期化
-	void Initialize(DirectXCommon* dxCommon, Sound* audio);
+	void Initialize(DirectXCommon* dxCommon);
 
 	//毎フレーム処理
 	void Update();
@@ -51,17 +51,11 @@ public: //メンバ関数
 	//ポストエフェクトOFF描画
 	void PostOffDraw();
 
-	//グレインの初期化
-	void InitializeGrain();
-
 	//FBXの初期化
 	void InitializeFBX();
 
 	//アプリ部の初期化
 	void InitializeAppli();
-
-	//グレインのアップデート
-	void UpdateGrain();
 
 	//次のシーン予約
 	void SetNextScene(BaseScene* changeScene) { nextScene = changeScene; }
@@ -83,11 +77,6 @@ private: // メンバ変数
 	/// </summary>
 	std::unique_ptr <DebugCamera> camera;
 	std::array <std::unique_ptr<Sprite>,3> spriteTitle;//タイトル
-
-	std::array<std::unique_ptr<Sprite>,8> spriteGrain;//グレイン
-	std::array<std::unique_ptr<Sprite>, 8> spriteAlartGrain1;//グレイン
-	std::array<std::unique_ptr<Sprite>, 8> spriteAlartGrain2;//グレイン
-	std::array<int, 3>grainCount = {0,3,6};
 
 	std::unique_ptr<Player> player = nullptr;//プレイヤー
 	std::array <std::unique_ptr<Enemy>,3> enemy = { nullptr,nullptr,nullptr };//エネミー

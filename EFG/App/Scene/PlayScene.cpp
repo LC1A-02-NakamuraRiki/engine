@@ -17,6 +17,9 @@ void PlayScene::Initialize(DebugCamera* camera)
 {
 	//ルールスプライト生成
 	spriteRule = std::unique_ptr<Sprite>(Sprite::Create(30, { 0.0f,0.0f }));
+
+	//グレインのON
+	grainFlag = true;
 }
 
 void PlayScene::Update(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3, DebugCamera* camera, LightGroop* light)
@@ -161,16 +164,16 @@ void PlayScene::FootStepAudio(Player* player, MapChip* map, Enemy* enemy1, Enemy
 			{
 				if (-vec[i] + player->GetAngle() - LEFTVALUE < -LEFTVALUE + sideValue && -vec[i] + player->GetAngle() - LEFTVALUE > -LEFTVALUE - sideValue || -vec[i] + player->GetAngle() - LEFTVALUE > RIGHTVALUE - sideValue && -vec[i] + player->GetAngle() - LEFTVALUE < RIGHTVALUE + sideValue)
 				{
-					//audio->PlaySE("Resources/seR.wav", false);
+					audio->PlaySE("Resources/seR.wav", false);
 				}
 				else if (-vec[i] + player->GetAngle() - LEFTVALUE > LEFTVALUE - sideValue && -vec[i] + player->GetAngle() - LEFTVALUE < LEFTVALUE + sideValue || -vec[i] + player->GetAngle() - LEFTVALUE < -RIGHTVALUE + sideValue && -vec[i] + player->GetAngle() - LEFTVALUE > -RIGHTVALUE - sideValue)
 				{
-					//audio->PlaySE("Resources/seL.wav", false);
+					audio->PlaySE("Resources/seL.wav", false);
 				}
 				else
 				{
-					//audio->PlaySE("Resources/seL.wav", false);
-					//audio->PlaySE("Resources/seR.wav", false);
+					audio->PlaySE("Resources/seL.wav", false);
+					audio->PlaySE("Resources/seR.wav", false);
 				}
 				soundTimer[i] = 0;
 			}
@@ -212,6 +215,8 @@ void PlayScene::MapGimmick(Player* player, MapChip* map, Enemy* enemy1, Enemy* e
 {
 	const float MAXALARTBALUE = 0.2f;
 	const float ALARTSPEED = 0.02f;
+	//追われている際のグレインのOFF
+	alartGrainFlag = false;
 	if (!map->GetGateOpenFlag())
 	{
 		alartValue = 0.0f;
@@ -219,10 +224,14 @@ void PlayScene::MapGimmick(Player* player, MapChip* map, Enemy* enemy1, Enemy* e
 	else if (player->AlartFlag(map, enemy1->GetPos()) && alartValue < MAXALARTBALUE || player->AlartFlag(map, enemy2->GetPos()) && alartValue < MAXALARTBALUE || player->AlartFlag(map, enemy3->GetPos()) && alartValue < MAXALARTBALUE) {
 
 		alartValue += ALARTSPEED;
+		//追われている際のグレインのON
+		alartGrainFlag = true;
 	}
 	else if (!player->AlartFlag(map, enemy1->GetPos()) && 0 < alartValue || !player->AlartFlag(map, enemy2->GetPos()) && 0 < alartValue || !player->AlartFlag(map, enemy3->GetPos()) && 0 < alartValue)
 	{
 		alartValue -= ALARTSPEED;
+		//追われている際のグレインのON
+		alartGrainFlag = true;
 	}
 }
 
