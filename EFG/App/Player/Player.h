@@ -105,6 +105,12 @@ public:
 	//先回りフラグ
 	int ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z);
 
+	//マスごとに調べる
+	bool SarchWall(MapChip* mapChip, int mapX, int mapY ,int X, int Z ,int count);
+
+	//マスごとに調べる
+	bool SarchEnemy(MapChip* mapChip, int mapX, int mapY, int X, int Z, int count);
+
 	//どの量先回りするか
 	XMFLOAT2 ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos, float X, float Z,CHECKVECTOR vector);
 
@@ -168,6 +174,9 @@ private:
 	const float INVERSEVECTOR = 180;
 	const float R = 0.5f;														//半径
 	const float CORNER = 0.35f;													//角までの距離
+	const int ALARTMAXSEARCH = 5;
+	const int PLAYER = 1;
+	const int WALL = 1;
 	std::unique_ptr<Sprite> spritePlayerDot;									//ミニマップのドット
 	std::unique_ptr<Sprite> spritePlayerAngle;									//ミニマップの見ている位置
 	std::unique_ptr<Sprite> spriteMoveUI;										//移動のUI

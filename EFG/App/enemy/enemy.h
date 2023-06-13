@@ -41,14 +41,12 @@ public:
 	~Enemy();
 	void Initialize();//最初の初期化
 
-	void InitializeValue();//タイトル時の初期化
-	void InitializeValue2();//タイトル時の初期化
-	void InitializeValue3();//タイトル時の初期化
-
 	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos,XMFLOAT2 plusValue, bool catchFlag1, bool catchFlag2);//アップデート
 
 	void ObjectUpdate(Player* player, MapChip* mapChip);
-
+	
+	void FbxUpdate(Player* player, MapChip* mapChip);
+	
 	void Draw(Player* player, ID3D12GraphicsCommandList* cmdList);//3dの描画
 
 	void DrawSprite(MapChip* mapChip);//2dの描画
@@ -75,6 +73,10 @@ public:
 	void ThreeWayJudgeVertical(float vecValueX, float vecValueZ , AriaValue ariaNo);
 	void ThreeWayJudgeHorizontal(float vecValueX, float vecValueZ, AriaValue ariaNo);
 	void FourWayJudge(float vecValueX, float vecValueZ);
+
+	void InitializeValue();//タイトル時の初期化
+	void InitializeValue2();//タイトル時の初期化
+	void InitializeValue3();//タイトル時の初期化
 
 	XMFLOAT3 GetPos() { return pos; };//座標
 	float GetRotation() { return angle; };//角度取得

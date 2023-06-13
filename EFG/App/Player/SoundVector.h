@@ -12,7 +12,10 @@ protected: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
-	static bool DistanceSearch(float playerX, float playerZ, float enemyX, float enemyZ);//距離を見る
-	static float VectorSearch(float playerX, float playerZ, float enemyX, float enemyZ);//角度を見る
+	//距離を見る
+	static bool DistanceSearch(float playerX, float playerZ, float enemyX, float enemyZ);
+
+	//角度を見る
+	static float VectorSearch(float playerX, float playerZ, float enemyX, float enemyZ);
 };
 

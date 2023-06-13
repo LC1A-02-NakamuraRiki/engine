@@ -331,14 +331,12 @@ void Player::UiDraw()
 
 bool Player::AlartCalculation(MapChip* mapChip, int mapX, int mapY, int X, int Z)
 {
-	const int ALARTMAXSEARCH = 5;
-	const int WALL = 1;
 	//近くに壁があるか
 	for (int i = 1; i < ALARTMAXSEARCH; i++) {
-		if (mapChip->GetArrayValue(mapX + (i * X), mapY + (i * Z)) == WALL) {
+		if (SarchWall(mapChip, mapX, mapY, X, Z, i)) {
 			i = ALARTMAXSEARCH;
 		}
-		if (mapChip->GetArrayValue(mapX + (i * X), mapY + (i * Z)) != WALL && mapChip->GetPlayerArrayValue(mapX + (i * X), mapY + (i * Z)) == WALL) {
+		if (SarchEnemy(mapChip, mapX, mapY, X, Z, i)) {
 			return true;
 		}
 	}
@@ -365,20 +363,34 @@ int Player::ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z)
 	//マップ内の座標の取得
 	int mapX = int((enemyPos.x / 8) + ((MAPVALUE + 1) / 2));
 	int mapY = int((enemyPos.z / 8) + ((MAPVALUE + 1) / 2));
-	const int ALARTMAXSEARCH = 5;
-	const int PLAYER = 1;
-	const int WALL = 1;
+	
 	//近くに壁があるか
 	for (int i = 1; i < ALARTMAXSEARCH; i++){
-		if (mapChip->GetArrayValue(mapX + (i * X), mapY + (i * Z)) == WALL){
+		if (SarchWall(mapChip, mapX, mapY, X, Z, i)){
 			return i;
 		}
-		if (mapChip->GetArrayValue(mapX + (i * X), mapY + (i * Z)) != WALL && mapChip->GetPlayerArrayValue(mapX + (i * X), mapY + (i * Z)) == WALL){
+		if (SarchEnemy(mapChip, mapX, mapY, X, Z, i)){
 			return i;
 		}	
 	}
 
 	return 0;
+}
+
+bool Player::SarchWall(MapChip* mapChip, int mapX, int mapY, int X, int Z, int count)
+{
+	if (mapChip->GetArrayValue(mapX + (count * X), mapY + (count * Z)) == WALL) {
+		return true;
+	}
+	return false;
+}
+
+bool Player::SarchEnemy(MapChip* mapChip, int mapX, int mapY, int X, int Z, int count)
+{
+	if (mapChip->GetArrayValue(mapX + (count * X), mapY + (count * Z)) != WALL && mapChip->GetPlayerArrayValue(mapX + (count * X), mapY + (count * Z)) == WALL) {
+		return true;
+	}
+	return false;
 }
 
 XMFLOAT2 Player::ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos, float X, float Z, CHECKVECTOR vector)

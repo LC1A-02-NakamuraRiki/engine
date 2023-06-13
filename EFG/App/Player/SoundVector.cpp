@@ -3,6 +3,7 @@ using namespace DirectX;
 
 bool SoundVector::DistanceSearch(float playerX, float playerZ, float enemyX, float enemyZ)
 {
+	//‹——£ŒvŽZ
 	float aX = enemyX - playerX;
 	float aZ = enemyZ - playerZ;
 	float aXZ = aX * aX + aZ * aZ;
@@ -16,6 +17,7 @@ bool SoundVector::DistanceSearch(float playerX, float playerZ, float enemyX, flo
 
 float SoundVector::VectorSearch(float playerX, float playerZ, float enemyX, float enemyZ)
 {
+	//Šp“xŒvŽZ
 	float aX = enemyX - playerX;
 	float aZ = enemyZ - playerZ;
 	return XMConvertToDegrees(float(atan2(aX, aZ)));

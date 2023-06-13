@@ -36,6 +36,9 @@ public:
 	void MapMove(XMFLOAT2 mapPos);//ミニマップ移動
 	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);//アップデート
 	void StageUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);
+	void MapObjUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3,int x, int z,int lightFlag);
+	void MapUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);
+	void DeskAndFrameUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3, int lightFlag);
 	void DoorOpen(XMFLOAT3 pos);
 	void PlayerPosConvertMap(XMFLOAT3 pos);
 	void CrystalUpdate(XMFLOAT3 pos);
@@ -45,6 +48,13 @@ public:
 	void TimeStop();//時間停止
 	void EnemyDisplay();//敵スポット
 	void InitMapObject();
+	void LoadModel();
+	void InitObject();
+	void InitRoof();
+	void InitFloor();
+	void InitCrystal();
+	void InitDoor();
+	void LoadMap();
 	void InitSprite();
 	int GetArrayValue(int x, int z) { return mapWall[z][x]; }			//マップチップの情報取得
 	int GetPlayerArrayValue(int x, int z) { return mapPlayer[x][z]; }	//マップチップで表したプレイヤーの位置取得
@@ -159,168 +169,26 @@ private:
 	EditData* randamEditData = nullptr;
 	std::map<std::string, Model*> randamModels;
 	std::vector<Object3d*> randamObjects;
-
+	bool lightSilen = true;
 	//ランダムのためのマップ1
-	int mapWallLeftUp[7][7] = {
-		1,1,1,1,1,1,1,
-		1,2,0,0,0,3,0,
-		1,0,1,1,1,0,1,
-		1,0,1,1,1,0,1,
-		1,0,1,1,1,5,0,
-		1,5,0,0,3,10,1,
-		1,0,1,1,0,1,1
-	};
-	int mapWallLeftCenter[7][7] = {
-		1,8,4,1,0,1,1,
-		1,1,5,0,7,1,1,
-		1,2,10,1,5,0,0,
-		1,0,1,1,0,1,1,
-		1,8,4,1,5,0,0,
-		1,1,5,0,7,1,1,
-		1,2,10,1,0,1,1
-	};
-	int mapWallLeftDown[7][7] = {
-		1,0,1,1,0,1,1,
-		1,5,0,0,9,4,1,
-		1,0,1,1,1,5,0,
-		1,0,1,1,1,0,1,
-		1,0,1,1,1,0,1,
-		1,8,0,0,0,9,0,
-		1,1,1,1,1,1,1
-	};
-	int mapWallCenterUp[7][7] = {
-		1,1,1,1,1,1,1,
-		4,1,2,0,4,1,2,
-		8,3,10,1,8,3,10,
-		1,0,1,1,1,0,1,
-		0,9,3,0,3,9,0,
-		1,1,0,1,0,1,1,
-		1,1,0,1,0,1,1 };
-	int mapWallCenterCenter[7][7] = {
-		2,0,9,3,9,0,4,
-		0,1,1,11,1,1,0,
-		7,1,1,0,1,1,5,
-		0,1,1,0,1,1,0,
-		7,1,1,0,1,1,5,
-		0,1,1,11,1,1,0,
-		8,0,3,9,3,0,10
-	};
-	int mapWallCenterDown[7][7] = {
-		1,1,0,1,0,1,1,
-		1,1,0,1,0,1,1,
-		0,3,9,0,9,3,0,
-		1,0,1,1,1,0,1,
-		2,9,4,1,2,9,4,
-		10,1,8,0,10,1,8,
-		1,1,1,1,1,1,1
-	};
-	int mapWallRightUp[7][7] = {
-		1,1,1,1,1,1,1,
-		0,3,0,0,0,4,1,
-		1,0,1,1,1,0,1,
-		1,0,1,1,1,0,1,
-		0,7,1,1,1,0,1,
-		1,8,3,0,0,7,1,
-		1,1,0,1,1,0,1
-	};
-	int mapWallRightCenter[7][7] = {
-		1,1,0,1,2,10,1,
-		1,1,5,0,7,1,1,
-		0,0,7,1,8,4,1,
-		1,1,0,1,1,0,1,
-		0,0,7,1,2,10,1,
-		1,1,5,0,7,1,1,
-		1,1,0,1,8,4,1
-	};
-	int mapWallRightDown[7][7] = {
-		1,1,0,1,1,0,1,
-		1,2,9,0,0,7,1,
-		0,7,1,1,1,0,1,
-		1,0,1,1,1,0,1,
-		1,0,1,1,1,0,1,
-		0,9,0,0,0,10,1,
-		1,1,1,1,1,1,1
-	};
+	int mapWallLeftUp[7][7] = {};
+	int mapWallLeftCenter[7][7] = {};
+	int mapWallLeftDown[7][7] = {};
+	int mapWallCenterUp[7][7] = {};
+	int mapWallCenterCenter[7][7] = {};
+	int mapWallCenterDown[7][7] = {};
+	int mapWallRightUp[7][7] = {};
+	int mapWallRightCenter[7][7] = {};
+	int mapWallRightDown[7][7] = {};
 
 	//ランダムのためのマップ2
-	int mapWallLeftUp1[7][7] = {
-		1,1,1,1,1,1,1,
-		1,2,0,0,0,3,0,
-		1,0,1,1,1,0,1,
-		1,0,1,1,1,0,1,
-		1,0,1,1,1,5,0,
-		1,5,0,0,3,10,1,
-		1,0,1,1,0,1,1
-	};
-	int mapWallLeftCenter1[7][7] = {
-		1,8,4,1,0,1,1,
-		1,1,5,0,7,1,1,
-		1,2,10,1,5,0,0,
-		1,0,1,1,0,1,1,
-		1,8,4,1,5,0,0,
-		1,1,5,0,7,1,1,
-		1,2,10,1,0,1,1
-	};
-	int mapWallLeftDown1[7][7] = {
-		1,0,1,1,0,1,1,
-		1,5,0,0,9,4,1,
-		1,0,1,1,1,5,0,
-		1,0,1,1,1,0,1,
-		1,0,1,1,1,0,1,
-		1,8,0,0,0,9,0,
-		1,1,1,1,1,1,1
-	};
-	int mapWallCenterUp1[7][7] = {
-		1,1,1,1,1,1,1,
-		4,1,2,0,4,1,2,
-		8,3,10,1,8,3,10,
-		1,0,1,1,1,0,1,
-		0,9,3,0,3,9,0,
-		1,1,0,1,0,1,1,
-		1,1,0,1,0,1,1 };
-	int mapWallCenterCenter1[7][7] = {
-		2,0,9,3,9,0,4,
-		0,1,1,11,1,1,0,
-		7,1,1,0,1,1,5,
-		0,1,1,0,1,1,0,
-		7,1,1,0,1,1,5,
-		0,1,1,11,1,1,0,
-		8,0,3,9,3,0,10
-	};
-	int mapWallCenterDown1[7][7] = {
-		1,1,0,1,0,1,1,
-		1,1,0,1,0,1,1,
-		0,3,9,0,9,3,0,
-		1,0,1,1,1,0,1,
-		2,9,4,1,2,9,4,
-		10,1,8,0,10,1,8,
-		1,1,1,1,1,1,1
-	};
-	int mapWallRightUp1[7][7] = {
-		1,1,1,1,1,1,1,
-		0,3,0,0,0,4,1,
-		1,0,1,1,1,0,1,
-		1,0,1,1,1,0,1,
-		0,7,1,1,1,0,1,
-		1,8,3,0,0,7,1,
-		1,1,0,1,1,0,1
-	};
-	int mapWallRightCenter1[7][7] = {
-		1,1,0,1,2,10,1,
-		1,1,5,0,7,1,1,
-		0,0,7,1,8,4,1,
-		1,1,0,1,1,0,1,
-		0,0,7,1,2,10,1,
-		1,1,5,0,7,1,1,
-		1,1,0,1,8,4,1
-	};
-	int mapWallRightDown1[7][7] = {
-		1,1,0,1,1,0,1,
-		1,2,9,0,0,7,1,
-		0,7,1,1,1,0,1,
-		1,0,1,1,1,0,1,
-		1,0,1,1,1,0,1,
-		0,9,0,0,0,10,1,
-		1,1,1,1,1,1,1
-	};
+	int mapWallLeftUp1[7][7] = {};
+	int mapWallLeftCenter1[7][7] = {};
+	int mapWallLeftDown1[7][7] = {};
+	int mapWallCenterUp1[7][7] = {};
+	int mapWallCenterCenter1[7][7] = {};
+	int mapWallCenterDown1[7][7] = {};
+	int mapWallRightUp1[7][7] = {};
+	int mapWallRightCenter1[7][7] = {};
+	int mapWallRightDown1[7][7] = {};
 };
