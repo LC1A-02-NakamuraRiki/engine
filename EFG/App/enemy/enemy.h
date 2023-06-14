@@ -39,9 +39,12 @@ protected: // エイリアス
 
 public:
 	~Enemy();
-	void Initialize();//最初の初期化
 
-	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos,XMFLOAT2 plusValue, bool catchFlag1, bool catchFlag2);//アップデート
+	//最初の初期化
+	void Initialize();
+
+	//アップデート
+	void Update(Player* player,MapChip* mapChip,XMFLOAT2 mapPos,XMFLOAT2 plusValue, bool catchFlag1, bool catchFlag2);
 
 	void ObjectUpdate(Player* player, MapChip* mapChip);
 	
