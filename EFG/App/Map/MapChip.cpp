@@ -13,41 +13,37 @@ MapChip::~MapChip()
 
 void MapChip::Initialize()
 {
+	//マップ初期化
 	InitMapObject();
 	
+	//スプライト初期化
 	InitSprite();
 } 
 
 void MapChip::InitializeValue()
 {
-	//クリスタル初期化
+	
 	for (int i = 0; i < CRYSTALVALUE; i++){
-		crystalGetFlag[i] = false;
-	}
-	allGetFlag = false;
-	MapCreate();
-	number = CRYSTALVALUE;
-	stopTime = 0;
-	displayTime = 0;
-	displayFlag = false;
-	doorAngle[0] = 90;
-	doorAngle[1] = 270;
-	doorAngle[2] = 90;
-	doorAngle[3] = 270;
-
-	stopFontSize = { 1200.0f * 10, 200.0f * 10 };
-	stopSprieteTime = 0;
-	stopAlpha = 1.0f;
-
-	spotFontSize = { 1200.0f * 10, 200.0f * 10 };
-	spotSprieteTime = 0;
-	spotAlpha = 1.0f;
-
-	number = CRYSTALVALUE;
-	gateOpenFlag = false;
-
-	lightAction = 0;
-	lightCount = 0; 
+		crystalGetFlag[i] = false;	}								//クリスタルゲットフラグ
+	allGetFlag = false;												//全部とったか
+	MapCreate();													//マップ生成
+	number = CRYSTALVALUE;											//クリスタルの数を最大値に
+	stopTime = 0;													//ストップの時間
+	displayTime = 0;												//スポットの時間
+	displayFlag = false;											//スポットのフラグ
+	doorAngle[0] = 90;												//ドアの角度
+	doorAngle[1] = 270;												//ドアの角度
+	doorAngle[2] = 90;												//ドアの角度
+	doorAngle[3] = 270;												//ドアの角度
+	stopFontSize = { 1200.0f * 10, 200.0f * 10 };					//フォントのサイズ
+	stopSprieteTime = 0;											//フォントの出る時間
+	stopAlpha = 1.0f;												//アルファ値
+	spotFontSize = { 1200.0f * 10, 200.0f * 10 };					//フォントのサイズ
+	spotSprieteTime = 0;											//フォントの出る時間
+	spotAlpha = 1.0f;												//アルファ値
+	gateOpenFlag = false;											//ゲート開くフラグ
+	lightAction = 0;												//ライトのアクション
+	lightCount = 0;													//ライトのカウント
 }
 
 void MapChip::MapCreate()
@@ -182,8 +178,10 @@ void MapChip::MapUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPo
 				lightFlag = 0;
 			}
 			
+			//オブジェクトのアップデート
 			MapObjUpdate(enemyPos1, enemyPos2, enemyPos3, x, z, lightFlag);
 			
+			//机と額縁のアップデート
 			DeskAndFrameUpdate(enemyPos1, enemyPos2, enemyPos3, lightFlag);
 		}
 	}
@@ -300,10 +298,12 @@ void MapChip::Draw()
 			objCrystal[i]->Draw();
 		}
 	}
+
 	//ドア
 	for (int i = 0; i < DOORVALUE; i++){
 		objMapDoor[i]->Draw();
 	}
+
 	//絵画
 	for (int x = 0; x < MAPVALUE; x+=2){
 		for (int y = 0; y < MAPVALUE; y+=2){
@@ -322,6 +322,7 @@ void MapChip::Draw()
 			}
 		}
 	}
+
 	////壁
 	for (int x = 0; x < MAPVALUE; x++)
 	{
@@ -333,6 +334,7 @@ void MapChip::Draw()
 			}
 		}
 	}
+
 	//天井
 	for (int x = 0; x < MAPVALUE; x++)
 	{
@@ -344,6 +346,7 @@ void MapChip::Draw()
 			}
 		}
 	}
+
 	//床
 	for (int x = 0; x < MAPVALUE; x++)
 	{
@@ -369,6 +372,7 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 	if (displayFlag) {
 		spriteSpotEffect->Draw(1.0f);//スポット中
 	}
+
 	//壁
 	for (int x = 0; x < MAPVALUE; x++){
 		for (int y = 0; y < MAPVALUE; y++){
@@ -386,6 +390,7 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 			spriteCrystal[i]->Draw(1.0f);
 		}
 	}
+
 	//ミニマップのフレーム
 	if (!displayFlag) {
 		spriteMapFrame->Draw(1.0f);
@@ -582,6 +587,7 @@ void MapChip::InitObject()
 
 void MapChip::InitRoof()
 {
+	//天井初期化
 	for (int x = 0; x < MAPVALUE; x++) {
 		for (int y = 0; y < MAPVALUE; y++) {
 			if (x % 3 == 1) {

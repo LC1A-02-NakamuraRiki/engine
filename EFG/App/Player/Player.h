@@ -5,18 +5,19 @@
 
 class Player
 {
-	enum class CollisionDirection{//ˆÚ“®•ûŒü
+	enum class CollisionDirection{			//ˆÚ“®•ûŒü
 		FRONT,
 		BACK,
 		RIGHT,
 		LEFT
 	};
-	enum class VerticalOrHorizontal{//ˆÚ“®•ûŒü
+
+	enum class VerticalOrHorizontal{		//ˆÚ“®•ûŒü
 		VERTICAL,
 		HORIZONTAL
 	};
 
-	enum class CHECKVECTOR{//ˆÚ“®•ûŒü
+	enum class CHECKVECTOR{					//ˆÚ“®•ûŒü
 		ZPLUS,
 		ZMINUS,
 		XPLUS,
