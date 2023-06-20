@@ -24,15 +24,36 @@ private: // エイリアス
 	const float MAPWALLSIZE = 16.0f;													//ミニマップの壁の大きさ
 	const int MAPVALUE = 21;															//マップの最大サイズ
 	const int MAPAREAVALUE = 7;															//1エリアのサイズ
+	const int MAXAREA = 3;																//エリアの数
 	const int CRYSTALVALUE = 15;														//クリスタルの数
 	const int DOORVALUE = 4;															//ドアの数
 	const int MAXNUMBER = 10;															//ナンバー最大
+	const int MAXSTOPTAIME = 300;														//マックスストップタイム
+	const int MAXSPOTTIME = 600;														//マックススポットタイム
 public:
 	//
 	~MapChip();
 	
 	//最初の初期化
 	void Initialize();
+
+	//マップ初期化
+	void InitMapObject();
+
+	//モデルの読み込み
+	void LoadModel();
+
+	//マップの読み込み
+	void LoadMap();
+
+	//クリスタル初期化
+	void InitCrystal();
+
+	//ドア初期化
+	void InitDoor();
+
+	//スプライト初期化
+	void InitSprite();
 
 	//タイトル時の初期化
 	void InitializeValue();
@@ -43,21 +64,21 @@ public:
 	//マップのランダム排出
 	void MapRandam(int mapArea[AREAVALUE][AREAVALUE],int mapArea2[AREAVALUE][AREAVALUE], int X, int Z);
 	
-	//ミニマップ移動
-	void MapMove(XMFLOAT2 mapPos);
-	
 	//全体アップデート
 	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);
 
+	//ミニマップ移動
+	void MapUIUpdate(XMFLOAT2 mapPos);
+
 	//ステージアップデート
-	void StageUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);
-	
-	//OBJアップデート
-	void MapObjUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3,int x, int z,int lightFlag);
+	void StageUpdate(XMFLOAT3 pos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);
 	
 	//マップアップデート
 	void MapUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);
 	
+	//OBJアップデート
+	void MapObjUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3, int x, int z, int lightFlag);
+
 	//クリスタルアップデート
 	void CrystalUpdate(XMFLOAT3 pos);
 	
@@ -84,33 +105,6 @@ public:
 
 	//敵スポット
 	void EnemyDisplay();
-	
-	//モデルの読み込み
-	void LoadModel();
-
-	//マップの読み込み
-	void LoadMap();
-	
-	//マップ初期化
-	void InitMapObject();
-	
-	//オブジェクト初期化
-	void InitObject();
-
-	//天井初期化
-	void InitRoof();
-	
-	//床初期化
-	void InitFloor();
-	
-	//クリスタル初期化
-	void InitCrystal();
-	
-	//ドア初期化
-	void InitDoor();
-	
-	//スプライト初期化
-	void InitSprite();
 
 	//マップチップの情報取得
 	int GetArrayValue(int x, int z) { return mapWall[z][x]; }			
@@ -197,6 +191,7 @@ private:
 	std::map<std::string, Model*> randamModels;											//ランダムのモデルデータ
 	std::vector<Object3d*> randamObjects;												//ランダムのオブジェクトデータ
 	bool lightSilen = true;																//ライト点滅フラグ
+	int lightDelayTime = 20;
 
 	//ランダムのためのマップ1
 	int mapWallLeftUp[7][7] = {};
@@ -244,8 +239,15 @@ private:
 	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 19)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 7)} ,XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 13)},
 	XMFLOAT2{100 + (MAPWALLSIZE * 13),650 + (MAPWALLSIZE * 13)},XMFLOAT2{100 + (MAPWALLSIZE * 7),650 + (MAPWALLSIZE * 13)}, XMFLOAT2{100 + (MAPWALLSIZE * 13),650 + (MAPWALLSIZE * 7)}, XMFLOAT2{100 + (MAPWALLSIZE * 7),650 + (MAPWALLSIZE * 7)}, };
 
+	//ドアオブジェクトポジション
+	std::array <XMFLOAT3,4> mapDoorPos = { XMFLOAT3({ -0.2f,0.2f,-16.0f }),
+	XMFLOAT3({ -7.8f,0.2f,-16.0f }),
+	XMFLOAT3({ -0.2f,0.2f,8.0f   }),
+	XMFLOAT3({ -7.8f,0.2f,8.0f   }) };			
+
+	//ドアの角度変更値
+	std::array <float, 4> moveDoorAngle = {-10,10,10,-10};
+
 	//クリスタル取ったか
 	std::array<bool, 15> crystalGetFlag = { false,false,false,false,false,false,false,false,false,false,false,false,false,false,false };
-
-
 };
