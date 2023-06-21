@@ -38,26 +38,26 @@ void MapChip::InitMapObject()
 void MapChip::LoadMap()
 {
 	//マップ読み込み1種類目
-	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");					//左上
-	LoadCSV(mapWallLeftCenter, "Resources/map/a2.csv");				//左中心
-	LoadCSV(mapWallLeftDown, "Resources/map/a3.csv");				//左下
-	LoadCSV(mapWallCenterUp, "Resources/map/a4.csv");				//中心上
-	LoadCSV(mapWallCenterCenter, "Resources/map/a5.csv");			//中心中心
-	LoadCSV(mapWallCenterDown, "Resources/map/a6.csv");				//中心下
-	LoadCSV(mapWallRightUp, "Resources/map/a7.csv");				//右上
-	LoadCSV(mapWallRightCenter, "Resources/map/a8.csv");			//右中心
-	LoadCSV(mapWallRightDown, "Resources/map/a9.csv");				//右下
+	LoadCSV(mapWallLeftUp, "Resources/map/a1.csv");													//左上
+	LoadCSV(mapWallLeftCenter, "Resources/map/a2.csv");												//左中心
+	LoadCSV(mapWallLeftDown, "Resources/map/a3.csv");												//左下
+	LoadCSV(mapWallCenterUp, "Resources/map/a4.csv");												//中心上
+	LoadCSV(mapWallCenterCenter, "Resources/map/a5.csv");											//中心中心
+	LoadCSV(mapWallCenterDown, "Resources/map/a6.csv");												//中心下
+	LoadCSV(mapWallRightUp, "Resources/map/a7.csv");												//右上
+	LoadCSV(mapWallRightCenter, "Resources/map/a8.csv");											//右中心
+	LoadCSV(mapWallRightDown, "Resources/map/a9.csv");												//右下
 
 	//マップ読み込み2種類目
-	LoadCSV(mapWallLeftUp1, "Resources/map/b1.csv");				//左上	
-	LoadCSV(mapWallLeftCenter1, "Resources/map/b2.csv");			//左中心
-	LoadCSV(mapWallLeftDown1, "Resources/map/b3.csv");				//左下
-	LoadCSV(mapWallCenterUp1, "Resources/map/b4.csv");				//中心上
-	LoadCSV(mapWallCenterCenter1, "Resources/map/b5.csv");			//中心中心
-	LoadCSV(mapWallCenterDown1, "Resources/map/b6.csv");			//中心下
-	LoadCSV(mapWallRightUp1, "Resources/map/b7.csv");				//右上
-	LoadCSV(mapWallRightCenter1, "Resources/map/b8.csv");			//右中心
-	LoadCSV(mapWallRightDown1, "Resources/map/b9.csv");				//右下
+	LoadCSV(mapWallLeftUp1, "Resources/map/b1.csv");												//左上	
+	LoadCSV(mapWallLeftCenter1, "Resources/map/b2.csv");											//左中心
+	LoadCSV(mapWallLeftDown1, "Resources/map/b3.csv");												//左下
+	LoadCSV(mapWallCenterUp1, "Resources/map/b4.csv");												//中心上
+	LoadCSV(mapWallCenterCenter1, "Resources/map/b5.csv");											//中心中心
+	LoadCSV(mapWallCenterDown1, "Resources/map/b6.csv");											//中心下
+	LoadCSV(mapWallRightUp1, "Resources/map/b7.csv");												//右上
+	LoadCSV(mapWallRightCenter1, "Resources/map/b8.csv");											//右中心
+	LoadCSV(mapWallRightDown1, "Resources/map/b9.csv");												//右下
 }
 
 void MapChip::LoadModel()
@@ -90,8 +90,7 @@ void MapChip::InitCrystal()
 void MapChip::InitDoor()
 {
 	//ドア初期化
-	for (int i = 0; i < DOORVALUE; i++)
-	{
+	for (int i = 0; i < DOORVALUE; i++){
 		modelDoor[i] = std::unique_ptr<Model>(Model::CreateFromObject("door", false));
 		objMapDoor[i] = std::unique_ptr<Object3d>(Object3d::Create(modelDoor[i].get()));
 		objMapDoor[i]->SetRotation(XMFLOAT3({ 0.0f,doorAngle[i],0.0f }));
@@ -178,12 +177,8 @@ void MapChip::MapRandam(int mapArea[AREAVALUE][AREAVALUE], int mapArea2[AREAVALU
 	//マップの割り当て
 	for (int z = 0; z < MAPVALUE / MAXAREA; z++){
 		for (int x = 0; x < MAPVALUE / MAXAREA; x++){
-			if (num == 0){
-				mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea2[z][x];
-			}
-			else if (num == 1){
-				mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea[z][x];
-			}
+			if (num == 0){mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea2[z][x];}//マップの種類１
+			else if (num == 1){mapWall[z + (MAPAREAVALUE * Z)][x + (MAPAREAVALUE * X)] = mapArea[z][x];}//マップの種類２
 		}
 	}
 }
@@ -452,13 +447,9 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 	}
 	
 	//数字
-	const int MAXNUMUBER = 9;
-	const int MAXNUMUBERTENNUM = 10;
-	const int MAXNUMUBERNUM = 11;
 	for (int i = 0; i < MAXNUMUBER; i++){
 		if (number == i + 1){
 			spriteNumberNum1[number - 1]->Draw(1.0f);
-
 		}
 		if (number == MAXNUMUBERTENNUM) {
 			spriteNumberNum10[i]->Draw(1.0f);
@@ -466,21 +457,38 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 	}
 	
 	//スポットフォント
-	if (spotSprieteTime < 80 && displayFlag){	
+	if (AlphaFlag(spotSprieteTime ,displayFlag)){
 		spotSprieteTime++;
 		spriteEnemySpot->Draw(spotAlpha);
 	}
 	
 	//ストップフォント
-	if (stopSprieteTime < 80 && stopFlag){
+	if (AlphaFlag(stopSprieteTime ,stopFlag)){
 		stopSprieteTime++;
 		spriteEnemyStop->Draw(stopAlpha);
 	}
 	
 	//ゲート開くフラグ
-	if (gateOpenFlag == false && mapX == 10 && mapY == 9){
+	if (GateOpen(mapY,mapX)){
 		spriteDoorOpen->Draw(1.0f);
 	}
+}
+
+bool MapChip::AlphaFlag(float time, bool flag)
+{
+	if (time < MAXALPHATIME && flag) {
+		return true;
+	}
+	return false;
+}
+
+bool MapChip::GateOpen(int mapX, int mapY)
+{
+	if (gateOpenFlag == false && mapX == 10 && mapY == 9)
+	{
+		return true;
+	}
+	return false;
 }
 
 void MapChip::TimeStop()
@@ -497,12 +505,12 @@ void MapChip::TimeStop()
 	}
 	
 	//ストップフォント関連
-	if (stopSprieteTime > 60 && stopSprieteTime < 80 && stopFlag){
-		stopAlpha -= 0.05f;
+	if (FontAlphaCalculation(stopSprieteTime,stopFlag)){
+		stopAlpha -= ALPHAMINUSVALUE;
 	}
-	if (stopSprieteTime < 60 && stopFontSize.x > 1200 && stopFlag){
-		stopFontSize.x -= 1200;
-		stopFontSize.y -= 200;
+	if (FontSizeCalculation(stopSprieteTime, stopFontSize, stopFlag)) {
+		stopFontSize.x -= MAXFONTMINUSX;
+		stopFontSize.y -= MAXFONTMINUSY;
 		spriteEnemyStop->SetSize(stopFontSize);
 	}
 }
@@ -516,26 +524,41 @@ void MapChip::EnemyDisplay()
 	if (displayFlag){
 		displayTime++;
 	}
-	if (displayTime > 600){
+	if (displayTime > MAXSPOTTIME){
 		displayFlag = false;
 	}
 
 	//スポットフォント関連
-	if (spotSprieteTime > 60 && spotSprieteTime < 80 && displayFlag){
-		spotAlpha -= 0.05f;
+	if (FontAlphaCalculation(spotSprieteTime ,displayFlag)){
+		spotAlpha -= ALPHAMINUSVALUE;
 	}
-	if (spotSprieteTime < 60 && spotFontSize.x > 1200 && displayFlag){
-		spotFontSize.x -= 1200;
-		spotFontSize.y -= 200;
+	if (FontSizeCalculation(spotSprieteTime,spotFontSize,displayFlag)){
+		spotFontSize.x -= MAXFONTMINUSX;
+		spotFontSize.y -= MAXFONTMINUSY;
 		spriteEnemySpot->SetSize(spotFontSize);
 	}
+}
+
+bool MapChip::FontAlphaCalculation(float time, bool flag)
+{
+	if (time > 60 && time < 80 && flag) {
+		return true;
+	}
+	return false;
+}
+
+bool MapChip::FontSizeCalculation(float time, XMFLOAT2 size, bool flag)
+{
+	if (time < 60 && size.x > 1200 && flag){
+		return true;
+	}
+	return false;
 }
 
 bool MapChip::LightAction()
 {
 	//ライトの点滅をしない
-	if (!lightAction)
-	{
+	if (!lightAction){
 		return true;
 	}
 
@@ -546,8 +569,7 @@ bool MapChip::LightAction()
 	}
 
 	//ライトの点滅
-	int MaxActionCount = 5;
-	for (int i = 1; i < MaxActionCount; i++){
+	for (int i = 1; i < MAXACTIONCOUNT; i++){
 		if (lightCount > lightDelayTime * i){
 			if (i % 2 == 0){
 				return true;
@@ -557,6 +579,5 @@ bool MapChip::LightAction()
 			}
 		}
 	}
-
 	return true;
 }

@@ -30,6 +30,14 @@ private: // エイリアス
 	const int MAXNUMBER = 10;															//ナンバー最大
 	const int MAXSTOPTAIME = 300;														//マックスストップタイム
 	const int MAXSPOTTIME = 600;														//マックススポットタイム
+	const int MAXNUMUBER = 9;															//ナンバー最大
+	const int MAXNUMUBERTENNUM = 10;													//ナンバー最大
+	const int MAXNUMUBERNUM = 11;														//ナンバー最大
+	const int MAXACTIONCOUNT = 5;														//アクションの最大
+	const int MAXALPHATIME = 80;														//アルファ時間の最大
+	const float MAXFONTMINUSX = 1200;													//フォントが小さくなる際の値X
+	const float MAXFONTMINUSY = 200;													//フォントが小さくなる際の値Y
+	const float ALPHAMINUSVALUE = 0.05f;												//アルファのマイナス値
 public:
 	//
 	~MapChip();
@@ -100,11 +108,23 @@ public:
 	//スプライト描画
 	void DrawSprite(XMFLOAT3 pos);
 
+	//アルファの時間
+	bool AlphaFlag(float time, bool flag);
+
+	//ゲートオープン
+	bool GateOpen(int mapX,int mapY);
+
 	//時間停止
 	void TimeStop();
 
 	//敵スポット
 	void EnemyDisplay();
+
+	//フォントを表示する計算
+	bool FontAlphaCalculation(float time,bool flag);
+
+	//フォントを表示する計算
+	bool FontSizeCalculation(float time, XMFLOAT2 size,bool flag);
 
 	//マップチップの情報取得
 	int GetArrayValue(int x, int z) { return mapWall[z][x]; }			
