@@ -79,8 +79,8 @@ void MapChip::InitCrystal()
 	//クリスタル初期化
 	for (int i = 0; i < CRYSTALVALUE; i++) {
 		objCrystal[i] = std::unique_ptr<Object3d>(Object3d::Create(modelCrystal.get()));
-		if(i == 3){ objCrystal[3] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get())); }
-		if (i == 5) { objCrystal[5] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal2.get())); }
+		if(i == SPOTCRYSTALNUM){ objCrystal[SPOTCRYSTALNUM] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get())); }
+		if (i == STOPCRYSTALNUM) { objCrystal[STOPCRYSTALNUM] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal2.get())); }
 		objCrystal[i]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
 		crystalGetFlag[i] = false;
 		objCrystal[i]->SetPosition(crystalPos[i]);
@@ -155,15 +155,15 @@ void MapChip::InitializeValue()
 void MapChip::MapCreate()
 {
 	//マップの生成
-	MapRandam(mapWallLeftUp, mapWallLeftUp1, 0, 0);											//左上
-	MapRandam(mapWallLeftCenter, mapWallLeftCenter1, 0, 1);									//左中心
-	MapRandam(mapWallLeftDown, mapWallLeftDown1, 0, 2);										//左下
-	MapRandam(mapWallCenterUp, mapWallCenterUp1, 1, 0);										//中心上
-	MapRandam(mapWallCenterCenter, mapWallCenterCenter1, 1, 1);								//中心中心
-	MapRandam(mapWallCenterDown, mapWallCenterDown1, 1, 2);									//中心下
-	MapRandam(mapWallRightUp, mapWallRightUp1, 2, 0);										//右上
-	MapRandam(mapWallRightCenter, mapWallRightCenter1, 2, 1);								//右中心
-	MapRandam(mapWallRightDown, mapWallRightDown1, 2, 2);									//右下
+	MapRandam(mapWallLeftUp, mapWallLeftUp1, UpOrLeft, UpOrLeft);											//左上
+	MapRandam(mapWallLeftCenter, mapWallLeftCenter1, UpOrLeft, Center);										//左中心
+	MapRandam(mapWallLeftDown, mapWallLeftDown1, UpOrLeft, DownOrRight);									//左下
+	MapRandam(mapWallCenterUp, mapWallCenterUp1, Center, UpOrLeft);											//中心上
+	MapRandam(mapWallCenterCenter, mapWallCenterCenter1, Center, Center);									//中心中心
+	MapRandam(mapWallCenterDown, mapWallCenterDown1, Center, DownOrRight);									//中心下
+	MapRandam(mapWallRightUp, mapWallRightUp1, 2, UpOrLeft);												//右上
+	MapRandam(mapWallRightCenter, mapWallRightCenter1, DownOrRight, Center);								//右中心
+	MapRandam(mapWallRightDown, mapWallRightDown1, DownOrRight, DownOrRight);								//右下
 }
 
 void MapChip::MapRandam(int mapArea[AREAVALUE][AREAVALUE], int mapArea2[AREAVALUE][AREAVALUE],int X,int Z)
@@ -476,6 +476,7 @@ void MapChip::DrawSprite(XMFLOAT3 pos)
 
 bool MapChip::AlphaFlag(float time, bool flag)
 {
+	//アルファフラグ
 	if (time < MAXALPHATIME && flag) {
 		return true;
 	}
@@ -484,6 +485,7 @@ bool MapChip::AlphaFlag(float time, bool flag)
 
 bool MapChip::GateOpen(int mapX, int mapY)
 {
+	//ゲートを開けるか
 	if (gateOpenFlag == false && mapX == 10 && mapY == 9)
 	{
 		return true;
@@ -541,6 +543,7 @@ void MapChip::EnemyDisplay()
 
 bool MapChip::FontAlphaCalculation(float time, bool flag)
 {
+	//アルファ値変更フラグ
 	if (time > 60 && time < 80 && flag) {
 		return true;
 	}
@@ -549,6 +552,7 @@ bool MapChip::FontAlphaCalculation(float time, bool flag)
 
 bool MapChip::FontSizeCalculation(float time, XMFLOAT2 size, bool flag)
 {
+	//サイズ変更フラグ
 	if (time < 60 && size.x > 1200 && flag){
 		return true;
 	}

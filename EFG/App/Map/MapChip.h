@@ -20,6 +20,12 @@ private: // エイリアス
 	using XMVECTOR = DirectX::XMVECTOR;
 	using XMMATRIX = DirectX::XMMATRIX;
 
+	enum MapAriaNum {			//移動方向
+		UpOrLeft,
+		Center,
+		DownOrRight
+	};
+
 	const float WALLSIZE = 8.0f;														//壁の大きさ
 	const float MAPWALLSIZE = 16.0f;													//ミニマップの壁の大きさ
 	const int MAPVALUE = 21;															//マップの最大サイズ
@@ -38,6 +44,8 @@ private: // エイリアス
 	const float MAXFONTMINUSX = 1200;													//フォントが小さくなる際の値X
 	const float MAXFONTMINUSY = 200;													//フォントが小さくなる際の値Y
 	const float ALPHAMINUSVALUE = 0.05f;												//アルファのマイナス値
+	const float SPOTCRYSTALNUM = 3;														//特殊クリスタルの番号スポット
+	const float STOPCRYSTALNUM = 5;														//特殊クリスタルの番号ストップ
 public:
 	//
 	~MapChip();
