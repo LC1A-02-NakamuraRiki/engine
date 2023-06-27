@@ -1,12 +1,12 @@
 #pragma once
 #include <DirectXMath.h>
 #include "Object3d.h"
-#include "Sprite.h"
 #include"LoadCSV.h"
 #include <memory>
 #include <array>
 #include <map>
 #include "EditLoader.h"
+#include "MapUI.h"
 
 #define AREAVALUE (7) //横の最大枚数
 
@@ -47,7 +47,6 @@ private: // エイリアス
 	const float SPOTCRYSTALNUM = 3;														//特殊クリスタルの番号スポット
 	const float STOPCRYSTALNUM = 5;														//特殊クリスタルの番号ストップ
 public:
-	//
 	~MapChip();
 	
 	//最初の初期化
@@ -68,9 +67,6 @@ public:
 	//ドア初期化
 	void InitDoor();
 
-	//スプライト初期化
-	void InitSprite();
-
 	//タイトル時の初期化
 	void InitializeValue();
 
@@ -82,9 +78,6 @@ public:
 	
 	//全体アップデート
 	void Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);
-
-	//ミニマップ移動
-	void MapUIUpdate(XMFLOAT2 mapPos);
 
 	//ステージアップデート
 	void StageUpdate(XMFLOAT3 pos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3);
@@ -101,9 +94,6 @@ public:
 	//机と絵画アップデート
 	void DeskAndFrameUpdate(XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3, int lightFlag);
 	
-	//ドア開く
-	void DoorOpen(XMFLOAT3 pos);
-	
 	//プレイヤーの位置をマップチップに変換
 	void PlayerPosConvertMap(XMFLOAT3 pos);
 
@@ -113,26 +103,14 @@ public:
 	//描画
 	void Draw();
 
-	//スプライト描画
-	void DrawSprite(XMFLOAT3 pos);
+	//描画
+	void MiniMapDraw();
 
 	//アルファの時間
 	bool AlphaFlag(float time, bool flag);
 
 	//ゲートオープン
 	bool GateOpen(int mapX,int mapY);
-
-	//時間停止
-	void TimeStop();
-
-	//敵スポット
-	void EnemyDisplay();
-
-	//フォントを表示する計算
-	bool FontAlphaCalculation(float time,bool flag);
-
-	//フォントを表示する計算
-	bool FontSizeCalculation(float time, XMFLOAT2 size,bool flag);
 
 	//マップチップの情報取得
 	int GetArrayValue(int x, int z) { return mapWall[z][x]; }			
@@ -153,14 +131,13 @@ public:
 	bool GetCrystalGetFlag(int no) { return crystalGetFlag[no]; }		
 
 	//ゲートが開いたかフラグ取得
-	bool GetGateOpenFlag() { return gateOpenFlag; }						
-
-	//ライト点滅
-	bool LightAction();																	
+	bool GetGateOpenFlag() { return gateOpenFlag; }																					
 
 	//フラグセット
 	bool SetLightAction(bool actionFlag) { return this->lightAction = actionFlag; }		
 private:
+
+	std::unique_ptr <MapUI> mapUI;
 	std::unique_ptr<Model> modelMapWall;												//壁モデル
 	std::unique_ptr<Model> modelCeiling;												//ライトモデル
 	std::unique_ptr<Model> modelFlat;													//天井モデル
@@ -172,7 +149,6 @@ private:
 	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objCeiling;			//ライトオブジェクト
 	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objFloor;				//床のオブジェクト
 	std::array <std::unique_ptr<Object3d>, 15> objCrystal;								//クリスタルオブジェクト
-	std::unique_ptr<Sprite> spriteDoorOpen;												//ドアUI
 	std::array < std::unique_ptr<Model>, 4> modelDoor;									//ドアモデル
 	std::array<float, 4> doorAngle = { 90, 270,90,270 };								//ドア角度
 	std::array < std::unique_ptr<Object3d>, 4> objMapDoor;								//ドアオブジェクト
@@ -183,22 +159,6 @@ private:
 	int stopTime = 0;																	//ストップタイム
 	bool stopFlag = false;																//ストップフラグ
 	int displayTime = 0;																//スポットタイム
-	bool displayFlag = false;															//スポットフラグ
-	std::array < std::array < std::unique_ptr<Sprite>,21>,21> spriteMapWall;			//ミニマップ壁
-	std::unique_ptr<Sprite> spriteMapBack;												//ミニマップの背景
-	std::unique_ptr<Sprite> spriteMapFrame;												//ミニマップのフレーム				
-	std::array <std::unique_ptr<Sprite>,15> spriteCrystal;								//ミニマップのクリスタル
-	std::array <std::unique_ptr<Sprite>,10> spriteNumberNum1;							//ナンバー1のくらい
-	std::array <std::unique_ptr<Sprite>,10> spriteNumberNum10;							//ナンバー10のくらい
-	std::unique_ptr<Sprite> spriteEnemyStop;											//敵停止
-	XMFLOAT2 stopFontSize = { 1200.0f * 10, 200.0f * 10 };								//フォントサイズ
-	int stopSprieteTime = 0;															//時間
-	float stopAlpha = 1.0f;																//アルファ値
-	std::unique_ptr<Sprite> spriteEnemySpot;											//敵スポット
-	XMFLOAT2 spotFontSize = { 1200.0f * 10, 200.0f * 10 };								//フォントサイズ
-	int spotSprieteTime = 0;															//時間
-	float spotAlpha = 1.0f;																//アルファ値
-	std::unique_ptr<Sprite> spriteSpotEffect;											//スポットエフェクト
 	int number = 11;																	//数字
 	std::unique_ptr<Model> modelPictureFrame;											//絵画のモデル
 	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objPictureFrame1;		//絵画オブジェクト
@@ -210,7 +170,7 @@ private:
 	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objDesk2;				//机オブジェクト
 	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objDesk3;				//机オブジェクト
 	std::array < std::array < std::unique_ptr<Object3d>, 21>, 21> objDesk4;				//机オブジェクト
-	bool lightAction = 0;																//ライト点滅フラグ
+	bool lightAction = false;																//ライト点滅フラグ
 	int lightCount = 0;																	//ライト点滅のカウント
 	EditData* editData = nullptr;														//マップのデータ
 	std::map<std::string, Model*> models;												//モデルデータ
@@ -260,12 +220,8 @@ private:
 	XMFLOAT3({ 7 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 7 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }),
 	XMFLOAT3({ 13 * WALLSIZE - (MAPVALUE * WALLSIZE / 2),1.0f, 7 * WALLSIZE - (MAPVALUE * WALLSIZE / 2) }), };
 
-	//クリスタルの位置2D
-	std::array<XMFLOAT2, 15> mapCrystalPos = { XMFLOAT2{100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 1)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 1)},
-	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 1)}, XMFLOAT2{100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 10)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 16)},
-	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 10)},XMFLOAT2{100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 19)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 19)},
-	XMFLOAT2{100 + (MAPWALLSIZE * 1),650 + (MAPWALLSIZE * 19)},XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 7)} ,XMFLOAT2{100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 13)},
-	XMFLOAT2{100 + (MAPWALLSIZE * 13),650 + (MAPWALLSIZE * 13)},XMFLOAT2{100 + (MAPWALLSIZE * 7),650 + (MAPWALLSIZE * 13)}, XMFLOAT2{100 + (MAPWALLSIZE * 13),650 + (MAPWALLSIZE * 7)}, XMFLOAT2{100 + (MAPWALLSIZE * 7),650 + (MAPWALLSIZE * 7)}, };
+	
+	
 
 	//ドアオブジェクトポジション
 	std::array <XMFLOAT3,4> mapDoorPos = { XMFLOAT3({ -0.2f,0.2f,-16.0f }),

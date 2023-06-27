@@ -272,10 +272,14 @@
     <ClCompile Include="engine\input\Mouse.cpp" />
     <ClCompile Include="engine\main.cpp" />
     <ClCompile Include="engine\Sound\Sound.cpp" />
+    <ClCompile Include="MapEffect.cpp" />
+    <ClCompile Include="MapUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\enemy\enemy.h" />
     <ClInclude Include="App\Map\MapChip.h" />
+    <ClInclude Include="App\Map\MapEffect.h" />
+    <ClInclude Include="App\Map\MapUI.h" />
     <ClInclude Include="App\Player\Player.h" />
     <ClInclude Include="App\Player\SoundVector.h" />
     <ClInclude Include="App\Scene\BaseScene.h" />

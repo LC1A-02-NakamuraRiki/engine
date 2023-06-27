@@ -206,6 +206,12 @@
     <ClCompile Include="engine\2d\TextureManager.cpp">
       <Filter>engin\2d</Filter>
     </ClCompile>
+    <ClCompile Include="MapEffect.cpp">
+      <Filter>app\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="MapUI.cpp">
+      <Filter>app\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App\enemy\enemy.h">
@@ -315,6 +321,12 @@
     </ClInclude>
     <ClInclude Include="engine\2d\TextureManager.h">
       <Filter>engin\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Map\MapEffect.h">
+      <Filter>app\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="App\Map\MapUI.h">
+      <Filter>app\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
