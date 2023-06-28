@@ -106,12 +106,6 @@ public:
 	//描画
 	void MiniMapDraw();
 
-	//アルファの時間
-	bool AlphaFlag(float time, bool flag);
-
-	//ゲートオープン
-	bool GateOpen(int mapX,int mapY);
-
 	//マップチップの情報取得
 	int GetArrayValue(int x, int z) { return mapWall[z][x]; }			
 

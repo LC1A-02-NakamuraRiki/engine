@@ -127,13 +127,13 @@ void MapUI::DrawSprite(XMFLOAT3 pos, int mapWall[21][21], bool crystalGetFlag[15
 	}
 
 	//ストップフォント
-	if (stopAlphaFlag) {
+	if (AlphaFlag(stopSprieteTime, stopFlag)) {
 		stopSprieteTime++;
 		spriteEnemyStop->Draw(stopAlpha);
 	}
 
 	//ゲート開くフラグ
-	if (gateOpen) {
+	if (GateOpen(mapX, mapY, gateOpen)) {
 		spriteDoorOpen->Draw(1.0f);
 	}
 }
@@ -199,6 +199,24 @@ bool MapUI::FontSizeCalculation(float time, XMFLOAT2 size, bool flag)
 {
 	//サイズ変更フラグ
 	if (time < 60 && size.x > 1200 && flag) {
+		return true;
+	}
+	return false;
+}
+
+bool MapUI::AlphaFlag(float time, bool flag)
+{
+	//アルファフラグ
+	if (time < MAXALPHATIME && flag) {
+		return true;
+	}
+	return false;
+}
+
+bool MapUI::GateOpen(int mapX, int mapY, bool gateOpenFlag)
+{
+	//ゲートを開けるか
+	if (gateOpenFlag == false && mapX == 10 && mapY == 9){
 		return true;
 	}
 	return false;

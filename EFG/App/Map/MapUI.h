@@ -36,6 +36,12 @@ private:
 	//フォントを表示する計算
 	bool FontSizeCalculation(float time, XMFLOAT2 size, bool flag);
 
+	//アルファの時間
+	bool AlphaFlag(float time, bool flag);
+
+	//ゲートオープン
+	bool GateOpen(int mapX, int mapY, bool gateOpenFlag);
+
 private:
 	const int MAPVALUE = 21;															//マップの最大サイズ
 	const int MAXNUMBER = 10;															//ナンバー最大

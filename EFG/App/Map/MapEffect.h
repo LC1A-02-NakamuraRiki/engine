@@ -12,6 +12,7 @@ private: // エイリアス
 	using XMMATRIX = DirectX::XMMATRIX;
 
 public:
+	//ライトの点滅
 	static bool LightAction(bool lightActionFlag, float lightCount);
 
 	//ドア開く

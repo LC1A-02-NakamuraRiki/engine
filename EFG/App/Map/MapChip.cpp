@@ -313,23 +313,3 @@ void MapChip::MiniMapDraw()
 {
 	mapUI->DrawSprite(pos, mapWall, crystalGetFlag, number, stopFlag, spotAlphaFlag, stopAlphaFlag, gateOpen);
 }
-
-
-bool MapChip::AlphaFlag(float time, bool flag)
-{
-	//アルファフラグ
-	if (time < MAXALPHATIME && flag) {
-		return true;
-	}
-	return false;
-}
-
-bool MapChip::GateOpen(int mapX, int mapY)
-{
-	//ゲートを開けるか
-	if (gateOpenFlag == false && mapX == 10 && mapY == 9)
-	{
-		return true;
-	}
-	return false;
-}
