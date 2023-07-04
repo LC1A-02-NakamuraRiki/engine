@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "FbxLoader.h"
 #include "FbxObject3d.h"
+#include "MapEffect.h"
 
 using namespace DirectX;
 
@@ -54,7 +55,7 @@ void Enemy::ObjectUpdate(Player* player, MapChip* mapChip)
 	FbxUpdate(player, mapChip);
 
 	//ライトの情報を参照
-	bool lightAction = mapChip->LightAction();
+	bool lightAction = MapEffect::LightAction(lightAction, lightCount);
 	objectWalking->Update(lightAction);//アップデート
 	objectAttack->Update(lightAction);//アップデート
 }
@@ -169,22 +170,17 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 
 void Enemy::Move(Player* player, MapChip* mapChip, XMFLOAT2 mapPos)
 {
-	if (mapChip->GetStopFlag() == false)//STOP発動してるか
-	{
-		if (nowMove == static_cast<int>(MoveVector::DOWN))//下に移動
-		{
+	if (mapChip->GetStopFlag() == false){//STOP発動してるか
+		if (nowMove == static_cast<int>(MoveVector::DOWN)){//下に移動
 			MoveValue(45, 360, 0, 1, 0, -1);
 		}
-		else if (nowMove == static_cast<int>(MoveVector::UP))//上に移動
-		{
+		else if (nowMove == static_cast<int>(MoveVector::UP)){//上に移動
 			MoveValue(-135, 180, 0, -1, 0, 1);
 		}
-		else if (nowMove == static_cast<int>(MoveVector::RIGHT))//右に移動
-		{
+		else if (nowMove == static_cast<int>(MoveVector::RIGHT)){//右に移動
 			MoveValue(135, 90, 1, 0, -1, 0);
 		}
-		else if (nowMove == static_cast<int>(MoveVector::LEFT))//左に移動
-		{
+		else if (nowMove == static_cast<int>(MoveVector::LEFT)){//左に移動
 			MoveValue(-45, 270, -1, 0, 1, 0);
 		}
 	}
@@ -226,47 +222,41 @@ bool Enemy::DeathAnimation(Player* player)
 		playerPos = player->GetPos();
 
 		//敵の方向ききった
-		if (player->GetViewAngle() < aXZ + 30 && player->GetViewAngle() > aXZ - 30){
+		if (player->GetViewAngle() < aXZ + ANGLECAL && player->GetViewAngle() > aXZ - ANGLECAL){
 			player->SetViewAngleY2(aXZ);
-			player->SetViewAngleX2(10);
+			player->SetViewAngleX2(DIEANGLEY);
 
 			killTime++;
 		}
-		else if (player->GetViewAngle() < aXZ)//敵の方向いてないとき
-		{
-			player->SetViewAngleY(15);
+		else if (player->GetViewAngle() < aXZ) {//敵の方向いてないとき
+			player->SetViewAngleY(ANGLEVALUE);
 		}
-		else if (player->GetAngle() > aXZ)//敵の方向いてないとき
-		{
-			player->SetViewAngleY(-15);
+		else if (player->GetAngle() > aXZ) {//敵の方向いてないとき	
+			player->SetViewAngleY(-ANGLEVALUE);
 		}
 
 		//モーション終わったか
-		if (killTime > 45){
-			if (killTime > 50)
-			{
+		if (killTime > NOCKTIME){
+			if (killTime > BLOODTIME){
 				player->SetViewAngleX2(70.0f);
 			}
 			//少しづつ上向くのと血の演出
-			else if (killTime > 45)
-			{
+			else if (killTime > NOCKTIME){
 				deadAlphaCountFlag = true;
 				deadView += 9;
 				player->SetViewAngleX2(10.0f + deadView);
 			}
 
 			//倒れる
-			if (deadPos.y >= 0.0f)
-			{
-				deadPos.y -= 0.25f;
+			if (deadPos.y >= 0.0f){
+				deadPos.y -= SINKVALUE;
 			}
 			playerPos.y = deadPos.y;
 			player->SetPos(playerPos);
 		}
 
 		//モーション終わったか
-		if (killTime > 150)
-		{
+		if (killTime > MAXDIETIME){
 			killTime = 0;
 			return true;
 		}
@@ -305,12 +295,10 @@ void Enemy::AiPriority(Player* player, XMFLOAT2 plusValue)
 	vectorZ = playerPos.z + plusValue.y - pos.z;
 
 	//優先度調べ
-	if ((vectorX * vectorX) < (vectorZ * vectorZ))
-	{
+	if ((vectorX * vectorX) < (vectorZ * vectorZ)){
 		vReserveFlag = true;
 	}
-	else if ((vectorX * vectorX) >= (vectorZ * vectorZ))
-	{
+	else if ((vectorX * vectorX) >= (vectorZ * vectorZ)){
 		vReserveFlag = false;
 	}
 }

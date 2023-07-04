@@ -86,40 +86,47 @@ public:
 	int GetStartStopTime() {return startStopTime;}//スタートの硬直時間
 	
 private:
-	float vectorX = 0;
-	float vectorZ = 0;
-	const float WALLSIZE = 8;//壁の大きさ
-	const float MAPWALLSIZE = 16.0f;//ミニマップの壁の大きさ
-	const int MAPVALUE = 21;//マップの最大サイズ
-	std::unique_ptr<FbxModel> modelWalking;//歩きモデル
-	std::unique_ptr<FbxObject3d> objectWalking;//歩きオブジェ
-	std::unique_ptr<FbxModel> modelAttack;//攻撃モデル
-	std::unique_ptr<FbxObject3d> objectAttack;//攻撃オブジェ
+	float vectorX = 0;																//Xの距離
+	float vectorZ = 0;																//Yの距離
+	const float WALLSIZE = 8;														//壁の大きさ
+	const float MAPWALLSIZE = 16.0f;												//ミニマップの壁の大きさ
+	const int MAPVALUE = 21;														//マップの最大サイズ
+	const float ANGLEVALUE = 15;													//振り向く角度の値
+	const float ANGLECAL = 30;														//振り向き終わりの判定の角度
+	const float DIEANGLEY = 10;														//倒された時のY値
+	const int NOCKTIME = 45;														//倒れるタイム
+	const int BLOODTIME = 50;														//血が出るタイム
+	const int SINKVALUE = 0.25f;													//沈む時間
+	const int MAXDIETIME = 150;														//倒れるまでの時間
+	std::unique_ptr<FbxModel> modelWalking;											//歩きモデル
+	std::unique_ptr<FbxObject3d> objectWalking;										//歩きオブジェ
+	std::unique_ptr<FbxModel> modelAttack;											//攻撃モデル
+	std::unique_ptr<FbxObject3d> objectAttack;										//攻撃オブジェ
 	float angle; //向き
-	std::unique_ptr<Sprite> spriteEnemyDot;//ミニマップの敵
-	std::unique_ptr<Sprite> spriteEnemyAngle;//ミニマップの敵の向き
-	std::unique_ptr<Sprite> spriteDeadEffect;//ミニマップの敵の向き
-	XMFLOAT2 miniMapPos = { 100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 14) };//ミニマップのドット座標
-	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };//位置
-	float speed = 2.0f;//スピード
-	int nowMove = static_cast<int>(MoveVector::UP);//どの動きをしているか
-	float adjustValueX = 0;//位置調整用変数X
-	float adjustValueZ = 0;//位置調整用変数Z
-	bool vReserveFlag = false;//縦優先
-	bool wallHitFlag = false;//先読みの座標が壁に当たっているか
-	int adjustmentTime = 0;//位置調整の時間
-	int maxAdjustmentTime = 0;//位置調整の最大時間
-	bool adjustmentFlag = false;//位置調整フラグ
+	std::unique_ptr<Sprite> spriteEnemyDot;											//ミニマップの敵
+	std::unique_ptr<Sprite> spriteEnemyAngle;										//ミニマップの敵の向き
+	std::unique_ptr<Sprite> spriteDeadEffect;										//ミニマップの敵の向き
+	XMFLOAT2 miniMapPos = { 100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 14) };	//ミニマップのドット座標
+	XMFLOAT3 pos = { -8.0f,0.0f,+56.0f };											//位置
+	float speed = 2.0f;																//スピード
+	int nowMove = static_cast<int>(MoveVector::UP);									//どの動きをしているか
+	float adjustValueX = 0;															//位置調整用変数X
+	float adjustValueZ = 0;															//位置調整用変数Z
+	bool vReserveFlag = false;														//縦優先
+	bool wallHitFlag = false;														//先読みの座標が壁に当たっているか
+	int adjustmentTime = 0;															//位置調整の時間
+	int maxAdjustmentTime = 0;														//位置調整の最大時間
+	bool adjustmentFlag = false;													//位置調整フラグ
 
-	int killTime = 0;//殴りモーションの時間
-	int startStopTime = 0;//スタートまでの硬直時間
+	int killTime = 0;																//殴りモーションの時間
+	int startStopTime = 0;															//スタートまでの硬直時間
 
-	int mapX = int((pos.x / WALLSIZE) + ((MAPVALUE + 1) / 2));//マップチップの座標X
-	int mapZ = int((pos.z / WALLSIZE) + ((MAPVALUE + 1) / 2));//マップチップの座標Z
+	int mapX = int((pos.x / WALLSIZE) + ((MAPVALUE + 1) / 2));						//マップチップの座標X
+	int mapZ = int((pos.z / WALLSIZE) + ((MAPVALUE + 1) / 2));						//マップチップの座標Z
 
-	XMFLOAT3 deadPos = { 0.0f,2.5f,0.0f };//捕獲時のポジション
-	float deadView = 0.0f;//捕獲時の視点
-	float deadAlpha = 0.0f;//捕獲時のアルファ
-	bool deadAlphaCountFlag = false;//捕獲時のアルファのフラグ
+	XMFLOAT3 deadPos = { 0.0f,2.5f,0.0f };											//捕獲時のポジション
+	float deadView = 0.0f;															//捕獲時の視点
+	float deadAlpha = 0.0f;															//捕獲時のアルファ
+	bool deadAlphaCountFlag = false;												//捕獲時のアルファのフラグ
 };
 

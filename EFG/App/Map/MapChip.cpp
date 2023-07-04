@@ -7,7 +7,6 @@
 #include <sstream>
 #include <iomanip>
 #include "MapEffect.h"
-#include "MapUI.h"
 
 MapChip::~MapChip()
 {
@@ -79,6 +78,7 @@ void MapChip::LoadModel()
 
 void MapChip::InitCrystal()
 {
+
 	//クリスタル初期化
 	for (int i = 0; i < CRYSTALVALUE; i++) {
 		objCrystal[i] = std::unique_ptr<Object3d>(Object3d::Create(modelCrystal.get()));
@@ -92,9 +92,11 @@ void MapChip::InitCrystal()
 
 void MapChip::InitDoor()
 {
+	for (auto& model : modelDoor) {
+		model = std::unique_ptr<Model>(Model::CreateFromObject("door", false));
+	}
 	//ドア初期化
 	for (int i = 0; i < DOORVALUE; i++){
-		modelDoor[i] = std::unique_ptr<Model>(Model::CreateFromObject("door", false));
 		objMapDoor[i] = std::unique_ptr<Object3d>(Object3d::Create(modelDoor[i].get()));
 		objMapDoor[i]->SetRotation(XMFLOAT3({ 0.0f,doorAngle[i],0.0f }));
 		objMapDoor[i]->SetScale(XMFLOAT3({ 1.0f,1.5f,2.0f }));
@@ -152,12 +154,6 @@ void MapChip::Update(XMFLOAT3 pos, XMFLOAT2 mapPos, XMFLOAT3 enemyPos1, XMFLOAT3
 
 	//クリスタル関連
 	CrystalUpdate(pos);
-
-	//敵停止
-	mapUI->TimeStop();
-
-	//スポット
-	mapUI->EnemyDisplay();
 }
 
 void MapChip::StageUpdate(XMFLOAT3 pos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, XMFLOAT3 enemyPos3)
@@ -166,13 +162,13 @@ void MapChip::StageUpdate(XMFLOAT3 pos, XMFLOAT3 enemyPos1, XMFLOAT3 enemyPos2, 
 	lightSilen = MapEffect::LightAction(lightAction, lightCount);
 
 	//ドアのアップデート
-	for (int i = 0; i < DOORVALUE; i++){
-		objMapDoor[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
+	for (auto& door : objMapDoor) {
+		door->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
 	}
 
 	//クリスタルのアップデート
-	for (int i = 0; i < CRYSTALVALUE; i++){
-		objCrystal[i]->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
+	for (auto& crystal : objCrystal) {
+		crystal->Update(enemyPos1, enemyPos2, enemyPos3, XMFLOAT3(0.0f, 0.0f, 0.0f), lightSilen, 1);
 	}
 
 	//マップのオブジェクトのアップデート

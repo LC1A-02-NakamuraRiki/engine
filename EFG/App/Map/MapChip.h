@@ -131,7 +131,7 @@ public:
 	bool SetLightAction(bool actionFlag) { return this->lightAction = actionFlag; }		
 private:
 
-	std::unique_ptr <MapUI> mapUI;
+	std::unique_ptr<MapUI> mapUI;
 	std::unique_ptr<Model> modelMapWall;												//壁モデル
 	std::unique_ptr<Model> modelCeiling;												//ライトモデル
 	std::unique_ptr<Model> modelFlat;													//天井モデル

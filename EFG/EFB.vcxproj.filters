@@ -206,10 +206,10 @@
     <ClCompile Include="engine\2d\TextureManager.cpp">
       <Filter>engin\2d</Filter>
     </ClCompile>
-    <ClCompile Include="MapEffect.cpp">
+    <ClCompile Include="App\Map\MapEffect.cpp">
       <Filter>app\Map</Filter>
     </ClCompile>
-    <ClCompile Include="MapUI.cpp">
+    <ClCompile Include="App\Map\MapUI.cpp">
       <Filter>app\Map</Filter>
     </ClCompile>
   </ItemGroup>
