@@ -78,12 +78,11 @@ public:
 private:
 	std::unique_ptr<Sprite> spriteRule;//ルール
 
-	std::array<int, 3> soundTimer = { 0, 0 ,0 };//足音の歩行レートのタイマー
-	bool stopFlag;//停止フラグ
-	bool tutrialFlag = true;//チュートリアルの表示
-	float alartValue = 0.0f;
-	bool ACTIONFLAG = false;
-	const float MAXDISTANCE = 32.0f;
-
+	std::array<int, 3> soundTimer = { 0, 0 ,0 };								//足音の歩行レートのタイマー
+	bool stopFlag;																//停止フラグ
+	bool tutrialFlag = true;													//チュートリアルの表示
+	float alartValue = 0.0f;													//点滅の値
+	bool ACTIONFLAG = false;													//ライトのアクションフラグ
+	const float MAXDISTANCE = 32.0f;											//ライトが点滅する範囲
 };
 

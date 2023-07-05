@@ -121,6 +121,7 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 	//距離調べ
 	float vectorX = playerPos.x + plusValue.x - pos.x;
 	float vectorZ = playerPos.z + plusValue.y - pos.z;
+	
 	//優先度調べ
 	if ((vectorX * vectorX) < (vectorZ * vectorZ)){
 		vReserveFlag = true;
@@ -128,11 +129,11 @@ void Enemy::AI(Player* player, MapChip* mapChip, XMFLOAT2 plusValue)
 	else if ((vectorX * vectorX) >= (vectorZ * vectorZ)){
 		vReserveFlag = false;
 	}
+
 	//位置調整フラグ
 	if (adjustmentFlag){
 		adjustmentTime++;
-		if (adjustmentTime >= maxAdjustmentTime)
-		{
+		if (adjustmentTime >= maxAdjustmentTime){
 			adjustmentTime = 0;
 			adjustmentFlag = false;
 		}

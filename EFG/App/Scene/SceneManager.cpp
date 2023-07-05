@@ -33,8 +33,6 @@ void SceneManager::Initialize(DirectXCommon* dxCommon)
 	// テクスチャ読み込み
 	TextureManager::LoadTexture();
 
-	
-
 	//FBXの初期化
 	InitializeFBX();
 	
@@ -57,10 +55,8 @@ void SceneManager::Initialize(DirectXCommon* dxCommon)
 void SceneManager::Update()
 {
 	//次のシーンの予約があるなら
-	if (nextScene)
-	{
-		if (nowScene)
-		{
+	if (nextScene){
+		if (nowScene){
 			nowScene->Finalize();
 			delete nowScene;
 		}

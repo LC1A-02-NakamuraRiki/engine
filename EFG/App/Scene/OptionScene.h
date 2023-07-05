@@ -68,8 +68,8 @@ public:
 	bool GetTitleScene() { return titleFlag; }
 	void SetTitleScene() { titleFlag = false; }
 private:
-	std::array < std::unique_ptr<Sprite>, 3> spriteOption;//オプション
-	int optionButtonNo = 0;//オプションの選択
-	bool titleFlag = false;
+	std::array < std::unique_ptr<Sprite>, 3> spriteOption;		//オプション
+	int optionButtonNo = 0;										//オプションの選択
+	bool titleFlag = false;										//タイトル移行フラグ
 };
 

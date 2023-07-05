@@ -81,9 +81,9 @@ void MapChip::InitCrystal()
 
 	//クリスタル初期化
 	for (int i = 0; i < CRYSTALVALUE; i++) {
-		objCrystal[i] = std::unique_ptr<Object3d>(Object3d::Create(modelCrystal.get()));
-		if(i == SPOTCRYSTALNUM){ objCrystal[SPOTCRYSTALNUM] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get())); }
-		if (i == STOPCRYSTALNUM) { objCrystal[STOPCRYSTALNUM] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal2.get())); }
+		objCrystal[i] = std::unique_ptr<Object3d>(Object3d::Create(modelCrystal.get()));												//紫色クリスタル
+		if(i == SPOTCRYSTALNUM){ objCrystal[SPOTCRYSTALNUM] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal.get())); }	//黄色クリスタル
+		if(i == STOPCRYSTALNUM) { objCrystal[STOPCRYSTALNUM] = std::unique_ptr<Object3d>(Object3d::Create(modelItemCrystal2.get())); }	//白色クリスタル
 		objCrystal[i]->SetScale(XMFLOAT3({ 0.5f, 0.5f, 0.5f }));
 		crystalGetFlag[i] = false;
 		objCrystal[i]->SetPosition(crystalPos[i]);
@@ -92,6 +92,7 @@ void MapChip::InitCrystal()
 
 void MapChip::InitDoor()
 {
+	//ドアのオブジェ
 	for (auto& model : modelDoor) {
 		model = std::unique_ptr<Model>(Model::CreateFromObject("door", false));
 	}
@@ -107,7 +108,8 @@ void MapChip::InitDoor()
 
 void MapChip::InitializeValue()
 {
-	MapCreate();													//マップ生成
+	//マップ生成
+	MapCreate();
 }
 
 void MapChip::MapCreate()
@@ -307,5 +309,6 @@ void MapChip::Draw()
 
 void MapChip::MiniMapDraw()
 {
+	//UIの描画
 	mapUI->DrawSprite(pos, mapWall, crystalGetFlag, number, stopFlag, spotAlphaFlag, stopAlphaFlag, gateOpen);
 }

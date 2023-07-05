@@ -6,22 +6,22 @@
 class Player
 {
 	enum class CollisionDirection{			//移動方向
-		FRONT,
-		BACK,
-		RIGHT,
-		LEFT
+		FRONT,								//前
+		BACK,								//後
+		RIGHT,								//右
+		LEFT								//左
 	};
 
 	enum class VerticalOrHorizontal{		//移動方向
-		VERTICAL,
-		HORIZONTAL
+		VERTICAL,							//縦
+		HORIZONTAL							//横
 	};
 
 	enum class CHECKVECTOR{					//移動方向
-		ZPLUS,
-		ZMINUS,
-		XPLUS,
-		XMINUS,
+		ZPLUS,								//Z軸プラス
+		ZMINUS,								//Z軸マイナス
+		XPLUS,								//X軸プラス
+		XMINUS,								//X軸マイナス
 	};
 private: // エイリアス
 	// DirectX::を省略
@@ -171,13 +171,18 @@ private:
 	const float MAPWALLSIZE = 16.0f;											//ミニマップの壁の大きさ
 	const int MAPVALUE = 21;													//マップの最大サイズ
 	const float MOVESPEED = 0.18f;												//歩きの速度
-	const float PI = 3.141592f;
-	const float INVERSEVECTOR = 180;
+	const float PI = 3.141592f;													//円周率
+	const float INVERSEVECTOR = 180;											//角度の逆
 	const float R = 0.5f;														//半径
 	const float CORNER = 0.35f;													//角までの距離
-	const int ALARTMAXSEARCH = 5;
-	const int PLAYER = 1;
-	const int WALL = 1;
+	const int ALARTMAXSEARCH = 5;												//点滅の範囲
+	const int WALL = 1;															//壁
+	const float VIEWFRONT = 0;													//見ている方向
+	const float VIEWBACKPLUS = 180;													//見ている方向
+	const float VIEWBACKMINUS = -180;													//見ている方向
+	const float VIEWRIGHT = 90;													//見ている方向
+	const float VIEWLEFT = -90;													//見ている方向
+	const float VIEWARIA = 45;
 	std::unique_ptr<Sprite> spritePlayerDot;									//ミニマップのドット
 	std::unique_ptr<Sprite> spritePlayerAngle;									//ミニマップの見ている位置
 	std::unique_ptr<Sprite> spriteMoveUI;										//移動のUI
@@ -196,9 +201,7 @@ private:
 	int walkShakingTime = 0;													//歩きの揺れのタイム
 	float angleX = 0;															//カメラX軸
 	float angleY = 0;															//カメラY軸
-
 	bool shakeFlag = true;														//シェイクのON/OFF
-
 	float moveTutorial = 1.0f;													//移動チュートリアルアルファ
 	bool moveTutorialFlag = false;												//移動チュートリアルフラグ
 	float viewTutorial = 1.0f;													//視点チュートリアルアルファ

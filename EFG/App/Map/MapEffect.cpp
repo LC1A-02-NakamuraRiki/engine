@@ -40,9 +40,9 @@ float MapEffect::DoorOpen(XMFLOAT3 pos ,bool gateOpenFlag,float doorAngle)
 	int mapY = int((playerPos.z / 8) + ((MAPVALUE + 1) / 2));
 	int mapX = int((playerPos.x / 8) + ((MAPVALUE + 1) / 2));
 
-	//ドア関連
+	//ドアを動かす
 	if (gateOpenFlag == true && doorAngle> 0) {
-		return moveDoorAngle[i];
+		return doorAngle;
 	}
 
 	//ゲートオープン

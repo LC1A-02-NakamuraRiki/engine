@@ -176,6 +176,7 @@ void Player::PushBack(VerticalOrHorizontal VerOrHor ,float vec)
 		pos.z += sin(((angle.y + vec + INVERSEVECTOR) * PI) / -INVERSEVECTOR) * MOVESPEED;      // z座標を更新
 		mapPosValue.y += sin(((angle.y + vec) * PI) / -INVERSEVECTOR) * (MOVESPEED * 2);
 	}
+
 	//押し戻し横
 	else if (VerOrHor == VerticalOrHorizontal::HORIZONTAL)
 	{
@@ -220,9 +221,7 @@ void Player::ShaikingMove()
 }
 
 void Player::View(bool tutrialFlag, bool catchFlag, bool catchFlag2, bool catchFlag3)
-{
-	const float INVERSEVECTOR = 180;
-	
+{	
 	//位置座標と注視点座標の計算
 	ViewCalculation();
 
@@ -237,13 +236,13 @@ void Player::View(bool tutrialFlag, bool catchFlag, bool catchFlag2, bool catchF
 	//視点の移動
 	angleY += Input::GetInstance()->GetMouseMove().lX * mouseViewSpeed;
 	angleX -= Input::GetInstance()->GetMouseMove().lY * mouseViewSpeed;
-
 }
 
 void Player::ViewCalculation()
 {
 	//視点計算
 	XMVECTOR v0 = { 0,0,-10, 0 };
+
 	//angleラジアンだけy軸まわりに回転。半径は-100
 	XMMATRIX  rotM = XMMatrixIdentity();
 	rotM *= XMMatrixRotationX(XMConvertToRadians(angleX));
@@ -373,12 +372,12 @@ int Player::ShortCutFlag(MapChip* mapChip, XMFLOAT3 enemyPos, int X, int Z)
 			return i;
 		}	
 	}
-
 	return 0;
 }
 
 bool Player::SarchWall(MapChip* mapChip, int mapX, int mapY, int X, int Z, int count)
 {
+	//壁の位置
 	if (mapChip->GetArrayValue(mapX + (count * X), mapY + (count * Z)) == WALL) {
 		return true;
 	}
@@ -387,6 +386,7 @@ bool Player::SarchWall(MapChip* mapChip, int mapX, int mapY, int X, int Z, int c
 
 bool Player::SarchEnemy(MapChip* mapChip, int mapX, int mapY, int X, int Z, int count)
 {
+	//敵の位置
 	if (mapChip->GetArrayValue(mapX + (count * X), mapY + (count * Z)) != WALL && mapChip->GetPlayerArrayValue(mapX + (count * X), mapY + (count * Z)) == WALL) {
 		return true;
 	}
@@ -402,6 +402,7 @@ XMFLOAT2 Player::ShortCutValue(MapChip* mapChip, XMFLOAT3 enemyPos, float X, flo
 	const int ALARTMAXSEARCH = 5;
 	const int WALL = 1;
 
+	//どれだけ先を見るかの判定
 	for (int i = 1; i < ALARTMAXSEARCH + 1; i++){
 		if (mapChip->ArrayValue(pos.x + (WALLSIZE * (i * X)), pos.z + (WALLSIZE * (i * Z))) == WALL || i == ALARTMAXSEARCH){
 			if (vector == CHECKVECTOR::ZMINUS){
@@ -431,7 +432,6 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	int mapX = int((enemyPos.x / 8) + ((MAPVALUE + 1) / 2));
 	int mapY = int((enemyPos.z / 8) + ((MAPVALUE + 1) / 2));
 	const int ALARTMAXSEARCH = 5;
-	const int PLAYER = 1;
 	const int WALL = 1;
 
 	//近くに壁があるか
@@ -445,16 +445,16 @@ XMFLOAT2 Player::GetShortCut(MapChip* mapChip, XMFLOAT3 enemyPos)
 	XMFLOAT2 plusValue = { 0,0 };
 	float vectorX = pos.x - enemyPos.x;
 	float vectorZ = pos.z - enemyPos.z;
-	if (-45 < angleY && angleY < 45){
+	if (VIEWFRONT - VIEWARIA < angleY && angleY < VIEWFRONT + VIEWARIA){
 		plusValue = ShortCutValue(mapChip, enemyPos, 1.0f, -1.0f, CHECKVECTOR::ZMINUS);
 	}
-	else if (135 < angleY || angleY < -135){
+	else if (VIEWBACKPLUS - VIEWARIA < angleY || angleY < VIEWBACKMINUS + VIEWARIA){
 		plusValue = ShortCutValue(mapChip, enemyPos, 1.0f, 1.0f, CHECKVECTOR::ZPLUS);
 	}
-	else if (-135 < angleY && angleY < -45){
+	else if (VIEWLEFT - VIEWARIA < angleY && angleY < VIEWLEFT + VIEWARIA){
 		plusValue = ShortCutValue(mapChip, enemyPos, 1.0f, 1.0f, CHECKVECTOR::XPLUS);
 	}
-	else if (45 < angleY && angleY < 135){
+	else if (VIEWRIGHT - VIEWARIA < angleY && angleY < VIEWRIGHT + VIEWARIA){
 		plusValue = ShortCutValue(mapChip, enemyPos, -1.0f, 1.0f, CHECKVECTOR::XMINUS);
 	}
 	return plusValue;

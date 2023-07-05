@@ -70,24 +70,17 @@ private: // メンバ変数
 	Sound* audio = nullptr;
 	std::unique_ptr<LightGroop> light;
 
-	
-
-	/// <summary>
-	/// ゲームシーン用
-	/// </summary>
-	std::unique_ptr <DebugCamera> camera;
-	std::array <std::unique_ptr<Sprite>,3> spriteTitle;//タイトル
-
-	std::unique_ptr<Player> player = nullptr;//プレイヤー
-	std::array <std::unique_ptr<Enemy>,3> enemy = { nullptr,nullptr,nullptr };//エネミー
-	std::unique_ptr<MapChip> map = nullptr;//マップ
-	int scene = 0;//シーン
-	bool stopFlag;//停止フラグ
-	int buttonNo = 0;//タイトルの選択
-	
-	int titleTime;//タイトル遅延
-
-	float alartValue = 0;
+	// ゲームシーン用
+	std::unique_ptr <DebugCamera> camera;											//カメラ
+	std::array <std::unique_ptr<Sprite>, 3> spriteTitle;							//タイトル
+	std::unique_ptr<Player> player = nullptr;										//プレイヤー
+	std::array <std::unique_ptr<Enemy>, 3> enemy = { nullptr,nullptr,nullptr };		//エネミー
+	std::unique_ptr<MapChip> map = nullptr;											//マップ
+	int scene = 0;																	//シーン
+	bool stopFlag;																	//停止フラグ
+	int buttonNo = 0;																//タイトルの選択
+	int titleTime;																	//タイトル遅延
+	float alartValue = 0;															//点滅の値
 
 	//シーン
 	BaseScene* nowScene = nullptr;

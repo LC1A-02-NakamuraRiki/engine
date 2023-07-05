@@ -68,11 +68,10 @@ protected:
 	SceneManager* sceneManager_ = nullptr;						//シーン
 	DebugText debugText;										//デバッグテキスト
 	bool tutrialFlag;											//チュートリアル
-
 	std::array<std::unique_ptr<Sprite>, 8> spriteGrain;			//グレイン
 	std::array<std::unique_ptr<Sprite>, 8> spriteAlartGrain1;	//グレイン
 	std::array<std::unique_ptr<Sprite>, 8> spriteAlartGrain2;	//グレイン
 	std::array<int, 3>grainCount = { 0,3,6 };					//グレインのカウント
-	bool grainFlag = false;
-	bool alartGrainFlag = false;
+	bool grainFlag = false;										//グレインフラグ
+	bool alartGrainFlag = false;								//アラートグレインフラグ
 };

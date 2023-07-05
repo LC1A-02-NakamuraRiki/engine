@@ -73,8 +73,8 @@ public:
 	void InitializeEnemyStatus(Player* player, MapChip* map, Enemy* enemy1, Enemy* enemy2, Enemy* enemy3);
 
 private: // メンバ変数
-	std::array <std::unique_ptr<Sprite>, 3> spriteTitle;//タイトル
-	int titleTime;//タイトル遅延
-	int buttonNo = 0;//タイトルの選択
+	std::array <std::unique_ptr<Sprite>, 3> spriteTitle;	//タイトル
+	int titleTime;											//タイトル遅延
+	int buttonNo = 0;										//タイトルの選択
 };
 
