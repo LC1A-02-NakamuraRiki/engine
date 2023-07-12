@@ -472,71 +472,54 @@ void Enemy::FourWayJudge(float vecValueX, float vecValueZ)
 	}
 }
 
-//鬼ごとの初期化
-void Enemy::InitializeValue()
+void Enemy::InitializeNormal()
 {
 	objectWalking->AnimationReset();
 	objectAttack->AnimationReset();
+	//鬼ごとの初期化
+	adjustValueX = 0;													//調整値X
+	adjustValueZ = 0;													//調整値Z
+	vReserveFlag = false;												//優先度
+	wallHitFlag = false;												//先読みの座標が壁に当たっているか
+	adjustmentFlag = false;												//位置調整フラグ
+	killTime = 0;														//殴りモーションの時間
+	startStopTime = 0;													//スタートまでの硬直時間
+	deadPos = { 0.0f,2.5f,0.0f };										//倒された時の座標
+	deadView = 0.0f;													//倒された時の視点
+	deadAlpha = 0.0f;													//倒された時のアルファ
+}
 
+//鬼ごとの初期化
+void Enemy::InitializeValue()
+{
+	InitializeNormal();
 	//鬼ごとの初期化
 	pos = { -4.0f,3.0f,-28.0f };										//位置
 	angle = 360;														//向き
 	nowMove = static_cast<int>(MoveVector::UP);							//進む向き
-	adjustValueX = 0;													//調整値X
-	adjustValueZ = 0;													//調整値Z
 	speed = 0.2f;														//スピード
-	vReserveFlag = false;												//優先度
 	miniMapPos = { 100 + (MAPWALLSIZE * 10),650 + (MAPWALLSIZE * 7) };	//ミニマップ位置
 	maxAdjustmentTime = 40;												//調整タイム
-	wallHitFlag = false;												//先読みの座標が壁に当たっているか
-	adjustmentFlag = false;												//位置調整フラグ
-	killTime = 0;														//殴りモーションの時間
-	startStopTime = 0;													//スタートまでの硬直時間
-	deadPos = { 0.0f,2.5f,0.0f };										//倒された時の座標
-	deadView = 0.0f;													//倒された時の視点
-	deadAlpha = 0.0f;													//倒された時のアルファ
 }
 
 void Enemy::InitializeValue2()
 {
-	objectWalking->AnimationReset();
-	objectAttack->AnimationReset();
+	InitializeNormal();
 	//鬼ごとの初期化
 	pos = { 4.0f,3.0f,68.0f };											//位置
 	nowMove = static_cast<int>(MoveVector::LEFT);						//進む向き
-	adjustValueX = 0;													//調整値X
-	adjustValueZ = 0;													//調整値Z
 	speed = 0.16f;														//スピード
-	vReserveFlag = false;												//優先度
 	miniMapPos = { 100 + (MAPWALLSIZE * 9),650 + (MAPWALLSIZE * 19) };	//ミニマップ位置
 	maxAdjustmentTime = 49;												//調整タイム
-	wallHitFlag = false;												//先読みの座標が壁に当たっているか
-	adjustmentFlag = false;												//位置調整フラグ
-	killTime = 0;														//殴りモーションの時間
-	startStopTime = 0;													//スタートまでの硬直時間
-	deadPos = { 0.0f,2.5f,0.0f };										//倒された時の座標
-	deadView = 0.0f;													//倒された時の視点
-	deadAlpha = 0.0f;													//倒された時のアルファ
 }
 
 void Enemy::InitializeValue3()
 {
-	objectWalking->AnimationReset();
-	objectAttack->AnimationReset();
+	InitializeNormal();
 	//鬼ごとの初期化
 	pos = { -76.0f,3.0f,-12.0f };										//位置
 	nowMove = static_cast<int>(MoveVector::UP);							//進む向き
-	adjustValueX = 0;													//調整値X
-	adjustValueZ = 0;													//調整値Z
 	speed = 0.16f;														//スピード
-	vReserveFlag = false;												//優先度
 	miniMapPos = { 100 + (MAPWALLSIZE * 19),650 + (MAPWALLSIZE * 9) };	//ミニマップ位置
 	maxAdjustmentTime = 49;												//調整タイム
-	wallHitFlag = false;												//先読みの座標が壁に当たっているか
-	adjustmentFlag = false;												//位置調整フラグ
-	killTime = 0;														//殴りモーションの時間
-	startStopTime = 0;													//スタートまでの硬直時間
-	deadPos = { 0.0f,2.5f,0.0f };										//倒された時の座標
-	deadView = 0.0f;													//倒された時の視点
-	deadAlpha = 0.0f;													//倒された時のアルファ
 }

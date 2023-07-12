@@ -77,6 +77,7 @@ public:
 	void ThreeWayJudgeHorizontal(float vecValueX, float vecValueZ, AriaValue ariaNo);
 	void FourWayJudge(float vecValueX, float vecValueZ);
 
+	void InitializeNormal();
 	void InitializeValue();//タイトル時の初期化
 	void InitializeValue2();//タイトル時の初期化
 	void InitializeValue3();//タイトル時の初期化
